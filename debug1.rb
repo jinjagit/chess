@@ -41,6 +41,44 @@ Board.draw_board
 posn = Position.get_posn('start')
 Board.set_up_posn(all_pieces, posn, piece_codes, first_run = true)
 
+piece_lift = false
+posn_pc = ""
+start_square = nil
+
+on :mouse_down do |event|
+  location = Board.mouse_square(event.x, event.y)
+  posn_pc = posn[location]
+  if posn_pc != "---"
+    piece_lift = true
+    start_square = location
+  end
+end
+
+on :mouse_move do |event|
+  if piece_lift == true
+    location = Board.mouse_square(event.x, event.y)
+    piece = all_pieces.detect {|e| e.name == posn_pc}
+    piece.set_posn(event.x - 40, event.y - 40)
+    piece.set_layer(10)
+  end
+end
+
+on :mouse_up do |event|
+  piece_lift = false
+  location = Board.mouse_square(event.x, event.y)
+  if location != "off_board"
+    x_pos, y_pos = Board.square_origin(location)
+    posn[location] = posn_pc
+    posn[start_square] = "---" # crashes, while piece taking not enabled
+  else
+    x_pos, y_pos = Board.square_origin(start_square)
+  end
+  piece = all_pieces.detect {|e| e.name == posn_pc}
+  piece.set_posn(x_pos, y_pos)
+  piece.set_layer(3)
+
+end
+
 on :key_down do |e|
   # All keyboard interaction
   case e.key
