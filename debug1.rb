@@ -3,9 +3,25 @@
 # potential moves == all legal moves when not constrained by other pieces
 # nor the effects of other pieces (check, pins, etc.)
 
+require 'ruby2d'
 require './pieces'
 require './position'
+require './board'
 
+set title: "debug1"
+set width: 1280
+set height: 720
+set resizable: true
+
+canvas = Rectangle.new(
+  x: 0, y: 0,
+  width: 1280,
+  height: 720,
+  color: '#000000', # true black
+  z: 0
+)
+
+Board.draw_board
 
 layout = Position.get_posn('start')
 
@@ -41,6 +57,9 @@ puts
 end
 
 puts
+
+
+show
 
 # 'spare' pieces (12 = 1 of each class / color) have @name ending in 'x' and
 # their icons are (will be) used as ghost pieces (on original square) when player
