@@ -1,14 +1,8 @@
 require './pieces'
+require './position'
 
-# layout of new game start:
-layout = ['br', 'bn', 'bb', 'bq', 'bk', 'bb', 'bn', 'br',
-          'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp',
-          '--', '--', '--', '--', '--', '--', '--', '--',
-          '--', '--', '--', '--', '--', '--', '--', '--',
-          '--', '--', '--', '--', '--', '--', '--', '--',
-          '--', '--', '--', '--', '--', '--', '--', '--',
-          'wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp',
-          'wr', 'wn', 'wb', 'wq', 'wk', 'wb', 'wn', 'wr']
+
+layout = Position.get_posn('start')
 
 all_pieces = []
 piece_codes = {'p' => Pawn, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
@@ -28,7 +22,7 @@ layout.each_with_index do |e, i|
     all_pieces << piece_codes[e[1]].new("#{e}#{n}", color)
     layout[i] = "#{e}#{n}"
   else
-    layout[i] = "---"
+    layout[i] = "---" # just to make print look nicer ;-)
   end
 end
 
@@ -42,3 +36,7 @@ puts
 end
 
 puts
+
+# 'spare' pieces (12 = 1 of each class / color) have @name ending in 'x' and
+# their icons are (will be) used as ghost pieces (on original square) when player
+# attempts to move a piece, and as icons on promotion menu (if pawn promoted)
