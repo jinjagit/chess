@@ -21,7 +21,7 @@ def print_all_pieces(all_pieces)
   puts
 end
 
-set title: "debug1"
+set title: "chess sandbox"
 set width: 1280
 set height: 720
 set resizable: true
@@ -44,11 +44,13 @@ Board.set_up_posn(all_pieces, posn, piece_codes, first_run = true)
 piece_lift = false
 posn_pc = ""
 start_square = nil
+piece = nil
 
 on :mouse_down do |event|
   location = Board.mouse_square(event.x, event.y)
   posn_pc = posn[location]
   if posn_pc != "---"
+    piece = all_pieces.detect {|e| e.name == posn_pc}
     piece_lift = true
     start_square = location
   end
@@ -57,7 +59,6 @@ end
 on :mouse_move do |event|
   if piece_lift == true
     location = Board.mouse_square(event.x, event.y)
-    piece = all_pieces.detect {|e| e.name == posn_pc}
     piece.set_posn(event.x - 40, event.y - 40)
     piece.set_layer(10)
   end
@@ -73,7 +74,7 @@ on :mouse_up do |event|
   else
     x_pos, y_pos = Board.square_origin(start_square)
   end
-  piece = all_pieces.detect {|e| e.name == posn_pc}
+
   piece.set_posn(x_pos, y_pos)
   piece.set_layer(3)
 
@@ -87,11 +88,11 @@ on :key_down do |e|
     when '2'
       new_posn = 'two_pawns'
     when '3'
-      new_posn = 'two_knights'
+      new_posn = 'four_rooks'
     when '4'
-      new_posn = 'two_bishops'
+      new_posn = 'four_knights'
     when '5'
-      new_posn = 'two_rooks'
+      new_posn = 'four_bishops'
     when '6'
       new_posn = 'two_queens'
     when '7'
