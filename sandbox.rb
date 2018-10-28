@@ -70,7 +70,7 @@ on :mouse_up do |event|
   if location != "off_board"
     x_pos, y_pos = Board.square_origin(location)
     posn[location] = posn_pc
-    posn[start_square] = "---" # crashes, while piece taking not enabled
+    posn[start_square] = "---" # can crash, while piece taking not enabled
   else
     x_pos, y_pos = Board.square_origin(start_square)
   end
@@ -81,7 +81,7 @@ on :mouse_up do |event|
 end
 
 on :key_down do |e|
-  # All keyboard interaction
+  # Select sandbox position(s)
   case e.key
     when '1'
       new_posn = 'start'

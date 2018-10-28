@@ -45,12 +45,12 @@ module Board
             piece.class == piece_codes[posn_pc[1]] && piece.color[0] == posn_pc[0]
           end
           name = "#{posn_pc}#{n}"
-            if name[0] == "w"
-              color = "white"
-            else
-              color = "black"
-            end
-            all_pieces << piece_codes[posn_pc[1]].new(name, color)
+          if name[0] == "w"
+            color = "white"
+          else
+            color = "black"
+          end
+          all_pieces << piece_codes[posn_pc[1]].new(name, color)
           posn[square] = name
           x_pos, y_pos = square_origin(square)
           all_pieces[-1].set_posn(x_pos, y_pos)
