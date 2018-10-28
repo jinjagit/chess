@@ -1,27 +1,20 @@
 class Piece
   attr_reader :color
-  attr_reader :z
   attr_reader :name
   attr_accessor :icon
 
   def initialize(name, color)
     @name = name
     @color = color
-    @x = 0
-    @y = 0
-    @z = -1
   end
 
   def set_posn(x, y)
-    @x = x
-    @y = y
-    @icon.x = @x + 5
-    @icon.y = @y + 5
+    @icon.x = x + 5
+    @icon.y = y + 5
   end
 
   def set_layer(z)
-    @z = z
-    @icon.z = @z
+    @icon.z = z
   end
 end
 
