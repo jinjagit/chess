@@ -1,6 +1,10 @@
 class Piece
-  def initialize(name)
+  attr_reader :color
+  attr_reader :z
+
+  def initialize(name, color)
     @name = name
+    @color = color
     @x = 0
     @y = 0
     @z = -1
@@ -17,14 +21,13 @@ class Piece
 end
 
 class Pawn < Piece
-  def initialize(name)
+  def initialize(name, color)
     super
   end
 end
 
-a = Pawn.new('wp0')
-puts a.inspect
-
-a.set_posn(100,200)
-a.set_layer(3)
-puts a.inspect
+class Knight < Piece
+  def initialize(name, color)
+    super
+  end
+end
