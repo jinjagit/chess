@@ -69,7 +69,7 @@ on :mouse_up do |event|
   if piece_lift == true
     piece_lift = false
     location = Board.mouse_square(event.x, event.y)
-    if location != "off_board"
+    if location != "off_board" && location != start_square
       x_pos, y_pos = Board.square_origin(location)
       posn[location] = posn_pc
       posn[start_square] = "---" # can crash, while piece taking not enabled
@@ -80,7 +80,6 @@ on :mouse_up do |event|
     piece.set_posn(x_pos, y_pos)
     piece.set_layer(3)
   end
-
 end
 
 on :key_down do |e|
