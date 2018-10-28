@@ -1,5 +1,14 @@
 module Board
 
+  def self.mouse_square(x, y)
+    square = nil
+    if x < 320 || y < 40 || x > 960 || y > 680
+      "off_board"
+    else
+      square = ((((y - 40) / 80).floor) * 8) + ((x - 320) / 80.floor)
+    end
+  end
+
   def self.square_origin(index)
     x_offset = 320
     y_offset = 40
@@ -26,7 +35,7 @@ module Board
         x: x_posn, y: y_posn,
         size: 80,
         color: square_color,
-        z: 5
+        z: 1
       )
 
       i += 1

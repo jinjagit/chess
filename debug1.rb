@@ -22,28 +22,30 @@ canvas = Rectangle.new(
 )
 
 Board.draw_board
-
-layout = Position.get_posn('start')
-
+posn = Position.get_posn('start')
 all_pieces = []
 piece_codes = {'p' => Pawn, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
               'q' => Queen, 'k' => King}
 
-
-layout.each_with_index do |e, i|
-  if e != "--"
-    n = all_pieces.count do |elem|
-      elem.class == piece_codes[e[1]] && elem.color[0] == e[0]
+# set up position
+posn.each_with_index do |posn_pc, square|
+  if posn_pc != "--"
+    n = all_pieces.count do |piece|
+      piece.class == piece_codes[posn_pc[1]] && piece.color[0] == posn_pc[0]
     end
-    if e[0] == "w"
+    name = "#{posn_pc}#{n}"
+    if name[0] == "w"
       color = "white"
     else
       color = "black"
     end
-    all_pieces << piece_codes[e[1]].new("#{e}#{n}", color)
-    layout[i] = "#{e}#{n}"
+    all_pieces << piece_codes[posn_pc[1]].new(name, color)
+    posn[square] = name
+    x_pos, y_pos = Board.square_origin(square)
+    all_pieces[-1].set_posn(x_pos, y_pos)
+    all_pieces[-1].set_layer(3)
   else
-    layout[i] = "---" # just to make print look nicer ;-)
+    posn[square] = "---" # just to make print look nicer ;-)
   end
 end
 
@@ -52,7 +54,7 @@ all_pieces.each {|e| puts e.inspect}
 puts
 
 8.times do |i|
-  8.times {|j| print "#{layout[8 * i + j]} "}
+  8.times {|j| print "#{posn[8 * i + j]} "}
   print "\n"
 end
 
@@ -63,4 +65,4 @@ show
 
 # 'spare' pieces (12 = 1 of each class / color) have @name ending in 'x' and
 # their icons are (will be) used as ghost pieces (on original square) when player
-# attempts to move a piece, and as icons on promotion menu (if pawn promoted)
+# attempts to move a posn_pc, and as icons on promotion menu (if pawn promoted)
