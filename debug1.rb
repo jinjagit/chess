@@ -8,6 +8,19 @@ require './pieces'
 require './position'
 require './board'
 
+def print_posn(posn)
+  8.times do |i|
+    8.times {|j| print "#{posn[8 * i + j]} "}
+    print "\n"
+  end
+  puts
+end
+
+def print_all_pieces(all_pieces)
+  all_pieces.each {|e| puts e.inspect}
+  puts
+end
+
 set title: "debug1"
 set width: 1280
 set height: 720
@@ -18,48 +31,45 @@ canvas = Rectangle.new(
   width: 1280,
   height: 720,
   color: '#000000', # true black
-  z: 0
-)
+  z: 0)
 
-Board.draw_board
-posn = Position.get_posn('start')
+
 all_pieces = []
 piece_codes = {'p' => Pawn, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
               'q' => Queen, 'k' => King}
 
-# set up position
-posn.each_with_index do |posn_pc, square|
-  if posn_pc != "--"
-    n = all_pieces.count do |piece|
-      piece.class == piece_codes[posn_pc[1]] && piece.color[0] == posn_pc[0]
-    end
-    name = "#{posn_pc}#{n}"
-    if name[0] == "w"
-      color = "white"
-    else
-      color = "black"
-    end
-    all_pieces << piece_codes[posn_pc[1]].new(name, color)
-    posn[square] = name
-    x_pos, y_pos = Board.square_origin(square)
-    all_pieces[-1].set_posn(x_pos, y_pos)
-    all_pieces[-1].set_layer(3)
-  else
-    posn[square] = "---" # just to make print look nicer ;-)
+Board.draw_board
+posn = Position.get_posn('start')
+Board.set_up_posn(all_pieces, posn, piece_codes)
+
+on :key_down do |e|
+  # All keyboard interaction
+  case e.key
+    when '1'
+      new_posn = 'start'
+    when '2'
+      new_posn = 'two_pawns'
+    when '3'
+      new_posn = 'two_knights'
+    when '4'
+      new_posn = 'two_bishops'
+    when '5'
+      new_posn = 'two_rooks'
+    when '6'
+      new_posn = 'two_queens'
+    when '7'
+      new_posn = 'two_kings'
+  end
+  if e.key.to_i > 0 && e.key.to_i < 8
+    Board.clear_pieces(all_pieces)
+    posn = Position.get_posn(new_posn)
+    Board.reset_posn(all_pieces, posn, piece_codes)
+    print_posn(posn)
   end
 end
 
 puts
-all_pieces.each {|e| puts e.inspect}
-puts
-
-8.times do |i|
-  8.times {|j| print "#{posn[8 * i + j]} "}
-  print "\n"
-end
-
-puts
-
+print_posn(posn)
 
 show
 

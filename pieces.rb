@@ -1,6 +1,8 @@
 class Piece
   attr_reader :color
   attr_reader :z
+  attr_reader :name
+  attr_accessor :icon
 
   def initialize(name, color)
     @name = name
@@ -22,7 +24,6 @@ class Piece
     @icon.z = @z
   end
 end
-
 
 
 class Pawn < Piece
