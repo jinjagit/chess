@@ -33,14 +33,13 @@ canvas = Rectangle.new(
   color: '#000000', # true black
   z: 0)
 
-
 all_pieces = []
 piece_codes = {'p' => Pawn, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
               'q' => Queen, 'k' => King}
 
 Board.draw_board
 posn = Position.get_posn('start')
-Board.set_up_posn(all_pieces, posn, piece_codes)
+Board.set_up_posn(all_pieces, posn, piece_codes, first_run = true)
 
 on :key_down do |e|
   # All keyboard interaction
@@ -63,7 +62,7 @@ on :key_down do |e|
   if e.key.to_i > 0 && e.key.to_i < 8
     Board.clear_pieces(all_pieces)
     posn = Position.get_posn(new_posn)
-    Board.reset_posn(all_pieces, posn, piece_codes)
+    Board.set_up_posn(all_pieces, posn, piece_codes)
     print_posn(posn)
   end
 end

@@ -2,7 +2,6 @@ require 'ruby2d'
 require './pieces'
 
 module Board
-
   def self.mouse_square(x, y)
     square = nil
     if x < 320 || y < 40 || x > 960 || y > 680
@@ -45,43 +44,36 @@ module Board
     end
   end
 
-  def self.set_up_posn(all_pieces, posn, piece_codes)
+  def self.set_up_posn(all_pieces, posn, piece_codes, first_run = false)
     posn.each_with_index do |posn_pc, square|
       if posn_pc != "--"
-        n = all_pieces.count do |piece|
-          piece.class == piece_codes[posn_pc[1]] && piece.color[0] == posn_pc[0]
-        end
-        name = "#{posn_pc}#{n}"
-          if name[0] == "w"
-            color = "white"
-          else
-            color = "black"
+        if first_run == true
+          n = all_pieces.count do |piece|
+            piece.class == piece_codes[posn_pc[1]] && piece.color[0] == posn_pc[0]
           end
-          all_pieces << piece_codes[posn_pc[1]].new(name, color)
-        posn[square] = name
-        x_pos, y_pos = square_origin(square)
-        all_pieces[-1].set_posn(x_pos, y_pos)
-        all_pieces[-1].set_layer(3)
+          name = "#{posn_pc}#{n}"
+            if name[0] == "w"
+              color = "white"
+            else
+              color = "black"
+            end
+            all_pieces << piece_codes[posn_pc[1]].new(name, color)
+          posn[square] = name
+          x_pos, y_pos = square_origin(square)
+          all_pieces[-1].set_posn(x_pos, y_pos)
+          all_pieces[-1].set_layer(3)
+        else # not first run = full, basic piece (instances) set exists
+          piece = all_pieces.detect {|e| e.name.include?(posn_pc) && e.z < 0}
+          posn[square] = piece.name
+          x_pos, y_pos = square_origin(square)
+          piece.set_posn(x_pos, y_pos)
+          piece.set_layer(3)
+        end
       else
         posn[square] = "---" # just to make array look neater ;-)
       end
     end
-  end
 
-  # reset_posn should be used to set up empty board, if set_up_posn already run
-  # once, as will avoid creating new piece instances.
-  def self.reset_posn(all_pieces, posn, piece_codes)
-    posn.each_with_index do |posn_pc, square|
-      if posn_pc != "--"
-        piece = all_pieces.detect {|e| e.name.include?(posn_pc) && e.z < 0}
-        posn[square] = piece.name
-        x_pos, y_pos = square_origin(square)
-        piece.set_posn(x_pos, y_pos)
-        piece.set_layer(3)
-      else
-        posn[square] = "---" # just to make array look neater ;-)
-      end
-    end
   end
 
   def self.clear_pieces(all_pieces) # clears all pieces (incl. spares / hidden)
