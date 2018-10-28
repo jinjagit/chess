@@ -1,5 +1,5 @@
-# debug1.rb
-# for testing / developing 'potential' moves of pieces
+# sandbox.rb
+# for testing / developing 'potential' & 'legal' moves of pieces
 # potential moves == all legal moves when not constrained by other pieces
 # nor the effects of other pieces (check, pins, etc.)
 
@@ -45,6 +45,7 @@ piece_lift = false
 posn_pc = ""
 start_square = nil
 piece = nil
+full_screen = false
 
 on :mouse_down do |event|
   location = Board.mouse_square(event.x, event.y)
@@ -65,18 +66,20 @@ on :mouse_move do |event|
 end
 
 on :mouse_up do |event|
-  piece_lift = false
-  location = Board.mouse_square(event.x, event.y)
-  if location != "off_board"
-    x_pos, y_pos = Board.square_origin(location)
-    posn[location] = posn_pc
-    posn[start_square] = "---" # can crash, while piece taking not enabled
-  else
-    x_pos, y_pos = Board.square_origin(start_square)
-  end
+  if piece_lift == true
+    piece_lift = false
+    location = Board.mouse_square(event.x, event.y)
+    if location != "off_board"
+      x_pos, y_pos = Board.square_origin(location)
+      posn[location] = posn_pc
+      posn[start_square] = "---" # can crash, while piece taking not enabled
+    else
+      x_pos, y_pos = Board.square_origin(start_square)
+    end
 
-  piece.set_posn(x_pos, y_pos)
-  piece.set_layer(3)
+    piece.set_posn(x_pos, y_pos)
+    piece.set_layer(3)
+  end
 
 end
 
