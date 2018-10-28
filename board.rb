@@ -74,11 +74,26 @@ module Board
       end
     end
 
+     # list_piece_instance_vars(all_pieces) # debug list
   end
 
   def self.clear_pieces(all_pieces) # clears all pieces (incl. spares / hidden)
     all_pieces.each {|e| e.set_layer(-1)}
     puts "all_pieces.length = #{all_pieces.length}"
+    puts
+  end
+
+  def self.list_piece_instance_vars(all_pieces) # for debug
+    all_pieces.each do |e|
+      print "name: #{e.name}  color: #{e.color}  "
+      print "z: #{e.z}  icon: #{e.icon}"
+      print "\n"
+    end
+    puts
   end
 
 end
+
+# 'spare' pieces (12 = 1 of each class / color) have @name ending in 'x' and
+# their icons are (will be) used as ghost pieces (on original square) when player
+# attempts to move a posn_pc, and as icons on promotion menu (if pawn promoted)

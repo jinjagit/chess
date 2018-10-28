@@ -71,7 +71,3 @@ puts
 print_posn(posn)
 
 show
-
-# 'spare' pieces (12 = 1 of each class / color) have @name ending in 'x' and
-# their icons are (will be) used as ghost pieces (on original square) when player
-# attempts to move a posn_pc, and as icons on promotion menu (if pawn promoted)
