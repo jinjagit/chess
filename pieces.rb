@@ -26,7 +26,31 @@ class Pawn < Piece
   end
 end
 
+class Rook < Piece
+  def initialize(name, color)
+    super
+  end
+end
+
 class Knight < Piece
+  def initialize(name, color)
+    super
+  end
+end
+
+class Bishop < Piece
+  def initialize(name, color)
+    super
+  end
+end
+
+class Queen < Piece
+  def initialize(name, color)
+    super
+  end
+end
+
+class King < Piece
   def initialize(name, color)
     super
   end
