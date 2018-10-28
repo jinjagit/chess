@@ -55,7 +55,7 @@ module Board
           x_pos, y_pos = square_origin(square)
           all_pieces[-1].set_posn(x_pos, y_pos)
           all_pieces[-1].set_layer(3)
-        else # not first run = full, basic piece (instances) set already exists
+        else # == not first run; basic set of piece instances already exists
           piece = all_pieces.detect {|e| e.name.include?(posn_pc) && e.icon.z < 0}
           posn[square] = piece.name
           x_pos, y_pos = square_origin(square)
