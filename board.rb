@@ -24,6 +24,10 @@ module Board
     list.each {|sq| (highlight_sqs.detect {|e| e.square == sq}).icon.z = 5}
   end
 
+  def self.unhighlight_squares(list, highlight_sqs)
+    list.each {|sq| (highlight_sqs.detect {|e| e.square == sq}).icon.z = -1}
+  end
+
   def self.mouse_square(x, y)
     square = nil
     if x < 320 || y < 40 || x > 960 || y > 680
@@ -87,6 +91,7 @@ module Board
           x_pos, y_pos = square_origin(square)
           piece.set_posn(x_pos, y_pos)
           piece.set_layer(3)
+          piece.square = square
         end
       else
         posn[square] = "---" # just to make array look neater ;-)

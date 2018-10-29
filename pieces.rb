@@ -56,6 +56,7 @@ class Rook < Piece
   end
 
   def find_moves
+    @legal_moves = []
     directions = ['N', 'S', 'E', 'W']
     directions.each do |direction|
       square = @square
