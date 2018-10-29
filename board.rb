@@ -20,10 +20,8 @@ module Board
     end
   end
 
-  def self.list_highlight_squares
-    list = []
-    ObjectSpace.each_object(HighLight_Sq) {|sq| list << sq }
-    list
+  def self.highlight_squares(list, highlight_sqs)
+    list.each {|sq| (highlight_sqs.detect {|e| e.square == sq}).icon.z = 5}
   end
 
   def self.mouse_square(x, y)

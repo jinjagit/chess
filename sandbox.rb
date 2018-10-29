@@ -40,6 +40,8 @@ piece_codes = {'p' => Pawn, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
 highlight_sqs = Board.draw_board
 posn = Position.get_posn('start')
 Board.set_up_posn(all_pieces, posn, piece_codes, first_run = true)
+Board.highlight_squares([5, 28], highlight_sqs)
+highlight_sqs.each_with_index {|e, index| print "#{index} "}
 
 piece_lift = false
 posn_pc = ""
