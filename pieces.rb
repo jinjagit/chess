@@ -31,18 +31,44 @@ class Piece
     end
   end
 
-  def orthogonal_step(square, direction)
+  def beyond_edge(square, direction)
     if direction == 'N' && (square - 8) >= 0
-      square - 8
+      false
     elsif direction == 'S' && (square + 8) < 64
-      square + 8
+      false
     elsif direction == 'E' && (square + 1) % 8 != 0
-      square + 1
+      false
     elsif direction == 'W' &&  (square - 1) % 8 != 7
+      false
+    else
+      true
+    end
+  end
+
+  def orthogonal_step(square, direction)
+    off_board = beyond_edge(square, direction)
+    if direction == 'N' && off_board == false
+      square - 8
+    elsif direction == 'S' && off_board == false
+      square + 8
+    elsif direction == 'E' && off_board == false
+      square + 1
+    elsif direction == 'W' && off_board == false
       square - 1
     else
-      square
+      square = nil
     end
+  end
+
+  def diagonal_step
+    quadrants = ['W', 'N', 'N', 'N', 'N', 'N', 'N', 'N',
+                 'W', 'W', 'N', 'N', 'N', 'N', 'N', 'E',
+                 'W', 'W', 'W', 'N', 'N', 'N', 'E', 'E',
+                 'W', 'W', 'W', 'W', 'N', 'E', 'E', 'E',
+                 'W', 'W', 'W', 'S', 'E', 'E', 'E', 'E',
+                 'W', 'W', 'S', 'S', 'S', 'E', 'E', 'E',
+                 'W', 'S', 'S', 'S', 'S', 'S', 'E', 'E',
+                 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'E']
   end
 
 end
@@ -56,6 +82,7 @@ class Pawn < Piece
     @moved = false
   end
 end
+
 
 class Rook < Piece
   attr_accessor :moved
@@ -72,7 +99,7 @@ class Rook < Piece
       square = @square
       loop do
         new_square = orthogonal_step(square, direction)
-        if new_square == square
+        if new_square == nil
           break
         end
         if posn[new_square] != "---"
@@ -91,6 +118,7 @@ class Rook < Piece
     p @legal_moves
   end
 end
+
 
 class Knight < Piece
   def initialize(name, color, square)
