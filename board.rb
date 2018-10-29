@@ -12,7 +12,7 @@ module Board
               x: x, y: y,
               size: 80,
               color: [0.0, 1.0, 0.0, 0.35], # transparent green
-              z: 5)
+              z: -1)
     end
 
     def set_layer(z)
@@ -107,6 +107,9 @@ module Board
   def self.list_piece_instance_vars(all_pieces) # for debug
     all_pieces.each do |e|
       print "name: #{e.name}  color: #{e.color}  square: #{e.square}   "
+      if defined? e.moved
+        print "moved: #{e.moved}  "
+      end
       print "icon: x: #{e.icon.x}  y: #{e.icon.y}  z: #{e.icon.z}"
       print "\n"
     end

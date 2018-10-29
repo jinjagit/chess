@@ -54,6 +54,8 @@ on :mouse_down do |event|
     piece = all_pieces.detect {|e| e.name == posn_pc}
     piece_lift = true
     start_square = location
+    piece.find_moves
+    puts piece.legal_moves
   end
 end
 
