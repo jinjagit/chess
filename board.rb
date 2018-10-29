@@ -12,11 +12,18 @@ module Board
               x: x, y: y,
               size: 80,
               color: [0.0, 1.0, 0.0, 0.35], # transparent green
-              z: 1)
-      @icon.x = x
-      @icon.y = y
-      @icon.z = 10
+              z: 5)
     end
+
+    def set_layer(z)
+      @icon.z = z
+    end
+  end
+
+  def self.list_highlight_squares
+    list = []
+    ObjectSpace.each_object(HighLight_Sq) {|sq| list << sq }
+    list
   end
 
   def self.mouse_square(x, y)
@@ -37,6 +44,7 @@ module Board
   end
 
   def self.draw_board
+    highlight_sqs = []
     64.times do |i|
       if (i + (i / 8.floor)) % 2 == 0
         square_color = '#e5d4b0' # light square
@@ -52,8 +60,9 @@ module Board
         color: square_color,
         z: 1)
 
-      HighLight_Sq.new(i, x_posn, y_posn)
+      highlight_sqs << HighLight_Sq.new(i, x_posn, y_posn)
     end
+    highlight_sqs
   end
 
   def self.set_up_posn(all_pieces, posn, piece_codes, first_run = false)

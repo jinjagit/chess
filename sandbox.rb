@@ -37,7 +37,7 @@ all_pieces = []
 piece_codes = {'p' => Pawn, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
               'q' => Queen, 'k' => King}
 
-Board.draw_board
+highlight_sqs = Board.draw_board
 posn = Position.get_posn('start')
 Board.set_up_posn(all_pieces, posn, piece_codes, first_run = true)
 
