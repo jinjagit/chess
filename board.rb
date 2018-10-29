@@ -2,6 +2,23 @@ require 'ruby2d'
 require './pieces'
 
 module Board
+  class HighLight_Sq
+    attr_accessor :icon
+    attr_accessor :square
+
+    def initialize(square, x, y)
+      @square = square
+      @icon = Square.new(
+              x: x, y: y,
+              size: 80,
+              color: [0.0, 1.0, 0.0, 0.35], # transparent green
+              z: 1)
+      @icon.x = x
+      @icon.y = y
+      @icon.z = 10
+    end
+  end
+
   def self.mouse_square(x, y)
     square = nil
     if x < 320 || y < 40 || x > 960 || y > 680
@@ -34,6 +51,8 @@ module Board
         size: 80,
         color: square_color,
         z: 1)
+
+      HighLight_Sq.new(i, x_posn, y_posn)
     end
   end
 
@@ -50,7 +69,7 @@ module Board
           else
             color = "black"
           end
-          all_pieces << piece_codes[posn_pc[1]].new(name, color)
+          all_pieces << piece_codes[posn_pc[1]].new(name, color, square)
           posn[square] = name
           x_pos, y_pos = square_origin(square)
           all_pieces[-1].set_posn(x_pos, y_pos)
@@ -67,7 +86,7 @@ module Board
       end
     end
 
-     # list_piece_instance_vars(all_pieces) # debug list
+      # list_piece_instance_vars(all_pieces) # debug list
   end
 
   def self.clear_pieces(all_pieces) # clears all pieces (incl. spares / hidden)
@@ -78,12 +97,13 @@ module Board
 
   def self.list_piece_instance_vars(all_pieces) # for debug
     all_pieces.each do |e|
-      print "name: #{e.name}  color: #{e.color}  "
-      print "z: #{e.z}  icon: #{e.icon}"
+      print "name: #{e.name}  color: #{e.color}  square: #{e.square}   "
+      print "icon: x: #{e.icon.x}  y: #{e.icon.y}  z: #{e.icon.z}"
       print "\n"
     end
     puts
   end
+
 
 end
 
