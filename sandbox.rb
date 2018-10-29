@@ -55,7 +55,7 @@ on :mouse_down do |event|
     piece = all_pieces.detect {|e| e.name == posn_pc}
     piece_lift = true
     start_square = location
-    piece.find_moves
+    piece.find_moves(posn)
     highlight_list = piece.legal_moves
     Board.highlight_squares(highlight_list, highlight_sqs)
   end

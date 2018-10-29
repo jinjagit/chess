@@ -21,6 +21,16 @@ class Piece
     @icon.z = z
   end
 
+  def get_other_piece_info(piece)
+    if piece[0] == @color[0]
+      result = "own"
+    elsif piece[1] == "k"
+      result = "enemy_king"
+    else
+      result = "enemy"
+    end
+  end
+
   def orthogonal_step(square, direction)
     if direction == 'N' && (square - 8) >= 0
       square - 8
@@ -55,7 +65,7 @@ class Rook < Piece
     @moved = false
   end
 
-  def find_moves
+  def find_moves(posn)
     @legal_moves = []
     directions = ['N', 'S', 'E', 'W']
     directions.each do |direction|
@@ -64,6 +74,15 @@ class Rook < Piece
         new_square = orthogonal_step(square, direction)
         if new_square == square
           break
+        end
+        if posn[new_square] != "---"
+          piece_type = get_other_piece_info(posn[new_square])
+          if piece_type == "own" || piece_type == "enemy_king"
+            break
+          else
+            @legal_moves << (new_square)
+            break
+          end
         end
         @legal_moves << (new_square)
         square = new_square
