@@ -76,6 +76,11 @@ on :mouse_up do |event|
     piece_lift = false
     location = Board.mouse_square(event.x, event.y)
     if location != "off_board" && legal_list.include?(location) == true
+      if posn[location] != '---' # 'taking piece' => hide it behind canvas
+        piece_to_take = posn[location]
+        piece_to_take = all_pieces.detect {|e| e.name == piece_to_take}
+        piece_to_take.set_layer(-1)
+      end
       x_pos, y_pos = Board.square_origin(location)
       posn[location] = posn_pc
       posn[start_square] = "---" # can crash, while piece taking not enabled
