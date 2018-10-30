@@ -50,14 +50,17 @@ highlight_list = []
 
 on :mouse_down do |event|
   location = Board.mouse_square(event.x, event.y)
-  posn_pc = posn[location]
-  if posn_pc != "---"
-    piece = all_pieces.detect {|e| e.name == posn_pc}
-    piece_lift = true
-    start_square = location
-    piece.find_moves(posn)
-    highlight_list = piece.legal_moves
-    Board.highlight_squares(highlight_list, highlight_sqs)
+  if location != "off_board"
+    posn_pc = posn[location]
+    if posn_pc != "---"
+      piece = all_pieces.detect {|e| e.name == posn_pc}
+      piece_lift = true
+      start_square = location
+      piece.find_moves(posn)
+      highlight_list = piece.legal_moves
+      Board.highlight_squares(highlight_list, highlight_sqs)
+      piece.diagonal_step
+    end
   end
 end
 

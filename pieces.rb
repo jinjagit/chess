@@ -69,6 +69,8 @@ class Piece
                  'W', 'W', 'S', 'S', 'S', 'E', 'E', 'E',
                  'W', 'S', 'S', 'S', 'S', 'S', 'E', 'E',
                  'S', 'S', 'S', 'S', 'S', 'S', 'S', 'E']
+                 
+    puts "hello, from diagonal_step def"
   end
 
 end
