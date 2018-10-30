@@ -19,10 +19,6 @@ class Piece
     @icon.y = y + 5
   end
 
-  def set_layer(z)
-    @icon.z = z
-  end
-
   def get_other_piece_info(piece)
     if piece[0] == @color[0]
       result = "own"
@@ -170,7 +166,6 @@ class Rook < Piece
   def find_moves(posn)
     @legal_moves = find_sliding_paths(posn, 'orthogonal')
   end
-
 end
 
 
@@ -201,9 +196,7 @@ class Knight < Piece
           end
         end
       end
-
   end
-
 end
 
 class Bishop < Piece
@@ -262,5 +255,4 @@ class King < Piece
       end
     end
   end
-
 end

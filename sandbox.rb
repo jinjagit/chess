@@ -67,7 +67,7 @@ on :mouse_move do |event|
   if piece_lift == true
     location = Board.mouse_square(event.x, event.y)
     piece.set_posn(event.x - 40, event.y - 40)
-    piece.set_layer(10)
+    piece.icon.z = 10
   end
 end
 
@@ -79,7 +79,7 @@ on :mouse_up do |event|
       if posn[location] != '---' # 'taking piece' => hide it behind canvas
         piece_to_take = posn[location]
         piece_to_take = all_pieces.detect {|e| e.name == piece_to_take}
-        piece_to_take.set_layer(-1)
+        piece_to_take.icon.z = -1
       end
       x_pos, y_pos = Board.square_origin(location)
       posn[location] = posn_pc
@@ -92,7 +92,7 @@ on :mouse_up do |event|
 
     Board.unhighlight_squares(legal_list, highlight_sqs)
     piece.set_posn(x_pos, y_pos)
-    piece.set_layer(3)
+    piece.icon.z = 3
   end
 end
 

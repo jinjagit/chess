@@ -14,10 +14,6 @@ module Board
               color: [0.0, 1.0, 0.0, 0.35], # transparent green
               z: -1)
     end
-
-    def set_layer(z)
-      @icon.z = z
-    end
   end
 
   def self.highlight_squares(list, highlight_sqs)
@@ -84,13 +80,13 @@ module Board
           posn[square] = name
           x_pos, y_pos = square_origin(square)
           all_pieces[-1].set_posn(x_pos, y_pos)
-          all_pieces[-1].set_layer(3)
+          all_pieces[-1].icon.z = 3
         else # == not first run; basic set of piece instances already exists
           piece = all_pieces.detect {|e| e.name.include?(posn_pc) && e.icon.z < 0}
           posn[square] = piece.name
           x_pos, y_pos = square_origin(square)
           piece.set_posn(x_pos, y_pos)
-          piece.set_layer(3)
+          piece.icon.z = 3
           piece.square = square
         end
       else
@@ -100,12 +96,12 @@ module Board
     # need to load state for piece.moved? for rooks, kings & pawns if loading
     # a 'real' saved game (which means this needs saving or calculating on load)
     all_pieces.each {|piece| piece.moved = false}
-    
+
       # list_piece_instance_vars(all_pieces) # debug list
   end
 
   def self.clear_pieces(all_pieces) # clears all pieces (incl. spares / hidden)
-    all_pieces.each {|e| e.set_layer(-1)}
+    all_pieces.each {|e| e.icon.z = -1}
     puts "all_pieces.length = #{all_pieces.length}"
     puts
   end
