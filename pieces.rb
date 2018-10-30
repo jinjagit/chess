@@ -38,7 +38,7 @@ class Piece
       edge = 'S'
     elsif square % 8 == 0
       edge = 'W'
-    elsif (square + 1) % 8 ==0
+    elsif (square + 1) % 8 == 0
       edge = 'E'
     else
       edge = 'none'
@@ -46,28 +46,32 @@ class Piece
   end
 
   def orthogonal_step(square, direction)
-    edge = on_edge(square)
-    if direction == 'N' && edge != 'N'
-      square - 8
-    elsif direction == 'S' && edge != 'S'
-      square + 8
-    elsif direction == 'E' && edge != 'E'
-      square + 1
-    elsif direction == 'W' && edge != 'W'
-      square - 1
-    else
+    corners = {0 => 'NW', 7 => 'NE', 56 => 'SW', 63 => 'SE'}
+    if corners.key?(square) == true && (direction == corners[square][0] || direction == corners[square][1])
       square = nil
+    else
+      edge = on_edge(square)
+      if direction == 'N' && edge != 'N'
+        square -= 8
+      elsif direction == 'S' && edge != 'S'
+        square += 8
+      elsif direction == 'E' && edge != 'E'
+        square += 1
+      elsif direction == 'W' && edge != 'W'
+        square -= 1
+      else
+        square = nil
+      end
     end
+    square
   end
 
   def diagonal_step(square, direction)
     corners = {0 => 'SE', 7 => 'SW', 56 => 'NE', 63 => 'NW'}
-    if corners.key? square == true && direction != corners[square]
+    if corners.key?(square) == true && direction != corners[square]
       square = nil
-      puts "corner"
     else
-      edge = on_edge(square) # -----------------------------------
-      puts edge
+      edge = on_edge(square)
       if direction == 'NE' && edge != 'N' && edge != 'E'
         square -= 7
       elsif direction == 'SE' && edge != 'S' && edge != 'E'
@@ -169,6 +173,13 @@ class Queen < Piece
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_queen.png", height: 70, width: 70)
+  end
+
+  def find_moves(posn)
+    orthogonal_moves = find_sliding_paths(posn, 'orthogonal')
+    diagonal_moves = find_sliding_paths(posn, 'diagonal')
+    @legal_moves = orthogonal_moves + diagonal_moves
+    puts "queen: #{@legal_moves}"
   end
 end
 
