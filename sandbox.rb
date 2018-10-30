@@ -1,7 +1,7 @@
 # sandbox.rb
 # for testing / developing 'potential' & 'legal' moves of pieces
-# potential moves == all legal moves when not constrained by other pieces
-# nor the effects of other pieces (check, pins, etc.)
+# potential moves == all legal moves, including constraints of other pieces,
+# but not yet including the effects of other pieces (check, pins, etc.)
 
 require 'ruby2d'
 require './pieces'
