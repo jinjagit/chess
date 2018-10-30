@@ -135,8 +135,30 @@ class Pawn < Piece
   end
 
   def find_moves(posn)
-    # to do
+    @legal_moves = []
+    if @color = 'white'
+      directions = ['N', 'NE', 'NW']
+    else
+      directions = ['S', 'SE', 'SW']
+    end
+    new_square = @square
+    new_square = orthogonal_step(new_square, directions[0])
+    @legal_moves << (new_square) if posn[new_square] == '---'
+    if @moved == false && @legal_moves.length > 0
+      new_square = orthogonal_step(new_square, directions[0])
+      @legal_moves << (new_square) if posn[new_square] == '---'
+    end
+    2.times do |i|
+      new_square = diagonal_step(@square, directions[i + 1])
+      if new_square != nil && posn[new_square] != '---'
+        piece_type = get_other_piece_info(posn[new_square])
+        if piece_type != "own" && piece_type != "enemy_king"
+          @legal_moves << (new_square)
+        end
+      end
+    end
   end
+
 end
 
 
@@ -172,9 +194,7 @@ class Knight < Piece
         if new_square != nil
           if posn[new_square] != "---"
             piece_type = get_other_piece_info(posn[new_square])
-            if piece_type == "own" || piece_type == "enemy_king"
-              break
-            else
+            if piece_type != "own" && piece_type != "enemy_king"
               @legal_moves << (new_square)
             end
           else
