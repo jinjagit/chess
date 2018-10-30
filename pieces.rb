@@ -233,9 +233,7 @@ class King < Piece
         if new_square != nil
           if posn[new_square] != "---"
             piece_type = get_other_piece_info(posn[new_square])
-            if piece_type == "own" || piece_type == "enemy_king"
-              break
-            else
+            if piece_type != "own" && piece_type != "enemy_king"
               @legal_moves << (new_square)
             end
           else
