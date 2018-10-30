@@ -8,6 +8,7 @@ require './pieces'
 require './position'
 require './board'
 
+# ---------------- print routines for debugging --------------------
 def print_posn(posn)
   8.times do |i|
     8.times {|j| print "#{posn[8 * i + j]} "}
@@ -20,6 +21,7 @@ def print_all_pieces(all_pieces)
   all_pieces.each {|e| puts e.inspect}
   puts
 end
+# ------------------------------------------------------------------
 
 set title: "chess sandbox"
 set width: 1280
@@ -125,6 +127,6 @@ on :key_down do |e|
 end
 
 puts
-print_posn(posn)
+print_posn(posn) # debug output
 
 show

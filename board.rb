@@ -106,7 +106,7 @@ module Board
     puts
   end
 
-  def self.list_piece_instance_vars(all_pieces) # for debug
+  def self.list_piece_instance_vars(all_pieces) # for debug output
     all_pieces.each do |e|
       print "name: #{e.name}  color: #{e.color}  square: #{e.square}   "
       if defined? e.moved
@@ -118,9 +118,8 @@ module Board
     puts
   end
 
-
 end
 
-# 'spare' pieces (12 = 1 of each class / color) have @name ending in 'x' and
-# their icons are (will be) used as ghost pieces (on original square) when player
+# 'spare' pieces (12 = 1 of each class/color) will have @name ending in 'x' and
+# their icons will be used as ghost pieces (on original square) when player
 # attempts to move a posn_pc, and as icons on promotion menu (if pawn promoted)
