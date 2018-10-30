@@ -34,6 +34,8 @@ class Piece
   end
 
   def on_edge(square)
+    # note: corners squares have 2 'edges', but this def only returns one edge
+    # hence corners considered as separate cases
     if square < 8
       edge = 'N'
     elsif square > 55
@@ -158,8 +160,31 @@ class Knight < Piece
   end
 
   def find_moves(posn)
-    # to do
+    @legal_moves = []
+    directions = ['NE', 'NW', 'EN', 'ES', 'SE', 'SW', 'WN', 'WS']
+
+      directions.each do |direction|
+        square = @square
+        new_square = nil
+        new_square = orthogonal_step(square, direction[0])
+        new_square = orthogonal_step(new_square, direction[0]) if new_square != nil
+        new_square = orthogonal_step(new_square, direction[1]) if new_square != nil
+        if new_square != nil
+          if posn[new_square] != "---"
+            piece_type = get_other_piece_info(posn[new_square])
+            if piece_type == "own" || piece_type == "enemy_king"
+              break
+            else
+              @legal_moves << (new_square)
+            end
+          else
+            @legal_moves << (new_square)
+          end
+        end
+      end
+
   end
+
 end
 
 class Bishop < Piece
