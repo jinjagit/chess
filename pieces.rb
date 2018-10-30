@@ -42,21 +42,17 @@ class Piece
 
   def orthogonal_step(square, direction)
     corners = {0 => 'NW', 7 => 'NE', 56 => 'SW', 63 => 'SE'}
-    if corners.key?(square) == true && (direction == corners[square][0] || direction == corners[square][1])
+    if corners.key?(square) == true &&
+      (direction == corners[square][0] || direction == corners[square][1])
       square = nil
     else
       edge = on_edge(square)
-      if direction == 'N' && edge != 'N'
-        square -= 8
-      elsif direction == 'S' && edge != 'S'
-        square += 8
-      elsif direction == 'E' && edge != 'E'
-        square += 1
-      elsif direction == 'W' && edge != 'W'
-        square -= 1
-      else
-        square = nil
-      end
+      start_square = square
+      square -= 8 if direction == 'N' && edge != 'N'
+      square += 8 if direction == 'S' && edge != 'S'
+      square += 1 if direction == 'E' && edge != 'E'
+      square -= 1 if direction == 'W' && edge != 'W'
+      square = nil if square == start_square
     end
     square
   end
