@@ -31,20 +31,6 @@ class Piece
     end
   end
 
-  def beyond_edge(square, direction)
-    if direction == 'N' && (square - 8) >= 0
-      false
-    elsif direction == 'S' && (square + 8) < 64
-      false
-    elsif direction == 'E' && (square + 1) % 8 != 0
-      false
-    elsif direction == 'W' &&  (square - 1) % 8 != 7
-      false
-    else
-      true
-    end
-  end
-
   def on_edge(square)
     if square < 8
       edge = 'N'
@@ -60,7 +46,6 @@ class Piece
   end
 
   def orthogonal_step(square, direction)
-    off_board = beyond_edge(square, direction)
     edge = on_edge(square)
     if direction == 'N' && edge != 'N'
       square - 8
@@ -76,29 +61,61 @@ class Piece
   end
 
   def diagonal_step(square, direction)
-    quadrants = ['W', 'N', 'N', 'N', 'N', 'N', 'N', 'N',
-                 'W', 'W', 'N', 'N', 'N', 'N', 'N', 'E',
-                 'W', 'W', 'W', 'N', 'N', 'N', 'E', 'E',
-                 'W', 'W', 'W', 'W', 'N', 'E', 'E', 'E',
-                 'W', 'W', 'W', 'S', 'E', 'E', 'E', 'E',
-                 'W', 'W', 'S', 'S', 'S', 'E', 'E', 'E',
-                 'W', 'S', 'S', 'S', 'S', 'S', 'E', 'E',
-                 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'E']
-    directions = ['NE', 'SE', 'SW', 'NW']
-    quadrant = quadrants[square]
-    edges = {}
-    directions.each do |e|
-      if e.include? quadrant
-        edges[e] = quadrant
-        directions -= [e]
+    corners = {0 => 'SE', 7 => 'SW', 56 => 'NE', 63 => 'NW'}
+    if corners.key? square == true && direction != corners[square]
+      square = nil
+      puts "corner"
+    else
+      edge = on_edge(square) # -----------------------------------
+      puts edge
+      if direction == 'NE' && edge != 'N' && edge != 'E'
+        square -= 7
+      elsif direction == 'SE' && edge != 'S' && edge != 'E'
+        square += 9
+      elsif direction == 'SW' && edge != 'S' && edge != 'W'
+        square += 7
+      elsif direction == 'NW' && edge != 'N' && edge != 'W'
+        square -= 9
+      else
+        square = nil
       end
     end
-    char = 0
-    char = 1 if directions[0][0] == directions[1][0]
-    edges[directions[0]] = directions[0][char]
-    edges[directions[1]] = directions[1][char]
+    square
+  end
 
-    p edges
+  def find_sliding_paths(posn, path_type)
+    moves = []
+    if path_type == 'orthogonal'
+      directions = ['N', 'S', 'E', 'W']
+    else
+      directions = ['NE', 'SE', 'SW', 'NW']
+    end
+    directions.each do |direction|
+      square = @square
+      loop do
+        if path_type == 'orthogonal'
+          new_square = orthogonal_step(square, direction)
+        else
+          new_square = diagonal_step(square, direction)
+        end
+        if new_square == nil
+          break
+        end
+        if posn[new_square] != "---"
+          piece_type = get_other_piece_info(posn[new_square])
+          if piece_type == "own" || piece_type == "enemy_king"
+            break
+          else
+            moves << (new_square)
+            break
+          end
+        end
+        moves << (new_square)
+        square = new_square
+      end
+    end
+    p moves
+    moves
   end
 
 end
@@ -123,30 +140,9 @@ class Rook < Piece
   end
 
   def find_moves(posn)
-    @legal_moves = []
-    directions = ['N', 'S', 'E', 'W']
-    directions.each do |direction|
-      square = @square
-      loop do
-        new_square = orthogonal_step(square, direction)
-        if new_square == nil
-          break
-        end
-        if posn[new_square] != "---"
-          piece_type = get_other_piece_info(posn[new_square])
-          if piece_type == "own" || piece_type == "enemy_king"
-            break
-          else
-            @legal_moves << (new_square)
-            break
-          end
-        end
-        @legal_moves << (new_square)
-        square = new_square
-      end
-    end
-    p @legal_moves
+    @legal_moves = find_sliding_paths(posn, 'orthogonal')
   end
+
 end
 
 
@@ -164,10 +160,9 @@ class Bishop < Piece
   end
 
   def find_moves(posn)
-    square = @square
-    direction = 'NE'
-    diagonal_step(square, direction)
+    @legal_moves = find_sliding_paths(posn, 'diagonal')
   end
+
 end
 
 class Queen < Piece
