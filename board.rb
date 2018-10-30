@@ -97,7 +97,10 @@ module Board
         posn[square] = "---" # just to make array look neater ;-)
       end
     end
-
+    # need to load state for piece.moved? for rooks, kings & pawns if loading
+    # a 'real' saved game (which means this needs saving or calculating on load)
+    all_pieces.each {|piece| piece.moved = false}
+    
       # list_piece_instance_vars(all_pieces) # debug list
   end
 
