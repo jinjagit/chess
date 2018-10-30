@@ -4,12 +4,14 @@ class Piece
   attr_accessor :icon
   attr_accessor :square
   attr_accessor :legal_moves
+  attr_accessor :moved
 
   def initialize(name, color, square)
     @name = name
     @color = color
     @square = square
     @legal_moves = []
+    @moved = false
   end
 
   def set_posn(x, y)
@@ -127,11 +129,9 @@ end
 
 
 class Pawn < Piece
-  attr_accessor :moved
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_pawn.png", height: 70, width: 70)
-    @moved = false
   end
 
   def find_moves(posn)
@@ -141,11 +141,9 @@ end
 
 
 class Rook < Piece
-  attr_accessor :moved
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_rook.png", height: 70, width: 70)
-    @moved = false
   end
 
   def find_moves(posn)
@@ -193,11 +191,9 @@ class Queen < Piece
 end
 
 class King < Piece
-  attr_accessor :moved
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_king.png", height: 70, width: 70)
-    @moved = false
   end
 
   def find_moves(posn)

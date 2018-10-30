@@ -83,8 +83,9 @@ on :mouse_up do |event|
       end
       x_pos, y_pos = Board.square_origin(location)
       posn[location] = posn_pc
-      posn[start_square] = "---" # can crash, while piece taking not enabled
+      posn[start_square] = "---" # can crash, if piece taking not enabled
       piece.square = location
+      piece.moved ||= true
     else
       x_pos, y_pos = Board.square_origin(start_square)
     end
