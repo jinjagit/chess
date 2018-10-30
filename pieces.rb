@@ -32,17 +32,12 @@ class Piece
   end
 
   def on_edge(square)
-    if square < 8
-      edge = 'N'
-    elsif square > 55
-      edge = 'S'
-    elsif square % 8 == 0
-      edge = 'W'
-    elsif (square + 1) % 8 == 0
-      edge = 'E'
-    else
-      edge = 'none'
-    end
+    edge = 'none'
+    edge = 'N' if square < 8
+    edge = 'S' if square > 55
+    edge = 'W' if square % 8 == 0
+    edge = 'E' if (square + 1) % 8 == 0
+    edge
   end
 
   def orthogonal_step(square, direction)
