@@ -119,7 +119,7 @@ class Piece
         square = new_square
       end
     end
-    p moves
+    # p moves # for debugging
     moves
   end
 
@@ -132,6 +132,10 @@ class Pawn < Piece
     super
     @icon = Image.new("img/#{@color[0]}_pawn.png", height: 70, width: 70)
     @moved = false
+  end
+
+  def find_moves(posn)
+    # to do
   end
 end
 
@@ -155,6 +159,10 @@ class Knight < Piece
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_knight.png", height: 70, width: 70)
+  end
+
+  def find_moves(posn)
+    # to do
   end
 end
 
@@ -190,5 +198,9 @@ class King < Piece
     super
     @icon = Image.new("img/#{@color[0]}_king.png", height: 70, width: 70)
     @moved = false
+  end
+
+  def find_moves(posn)
+    # to do
   end
 end
