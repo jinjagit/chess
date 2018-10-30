@@ -45,22 +45,37 @@ class Piece
     end
   end
 
+  def on_edge(square)
+    if square < 8
+      edge = 'N'
+    elsif square > 55
+      edge = 'S'
+    elsif square % 8 == 0
+      edge = 'W'
+    elsif (square + 1) % 8 ==0
+      edge = 'E'
+    else
+      edge = 'none'
+    end
+  end
+
   def orthogonal_step(square, direction)
     off_board = beyond_edge(square, direction)
-    if direction == 'N' && off_board == false
+    edge = on_edge(square)
+    if direction == 'N' && edge != 'N'
       square - 8
-    elsif direction == 'S' && off_board == false
+    elsif direction == 'S' && edge != 'S'
       square + 8
-    elsif direction == 'E' && off_board == false
+    elsif direction == 'E' && edge != 'E'
       square + 1
-    elsif direction == 'W' && off_board == false
+    elsif direction == 'W' && edge != 'W'
       square - 1
     else
       square = nil
     end
   end
 
-  def diagonal_step
+  def diagonal_step(square, direction)
     quadrants = ['W', 'N', 'N', 'N', 'N', 'N', 'N', 'N',
                  'W', 'W', 'N', 'N', 'N', 'N', 'N', 'E',
                  'W', 'W', 'W', 'N', 'N', 'N', 'E', 'E',
@@ -69,8 +84,21 @@ class Piece
                  'W', 'W', 'S', 'S', 'S', 'E', 'E', 'E',
                  'W', 'S', 'S', 'S', 'S', 'S', 'E', 'E',
                  'S', 'S', 'S', 'S', 'S', 'S', 'S', 'E']
-                 
-    puts "hello, from diagonal_step def"
+    directions = ['NE', 'SE', 'SW', 'NW']
+    quadrant = quadrants[square]
+    edges = {}
+    directions.each do |e|
+      if e.include? quadrant
+        edges[e] = quadrant
+        directions -= [e]
+      end
+    end
+    char = 0
+    char = 1 if directions[0][0] == directions[1][0]
+    edges[directions[0]] = directions[0][char]
+    edges[directions[1]] = directions[1][char]
+
+    p edges
   end
 
 end
@@ -133,6 +161,12 @@ class Bishop < Piece
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_bishop.png", height: 70, width: 70)
+  end
+
+  def find_moves(posn)
+    square = @square
+    direction = 'NE'
+    diagonal_step(square, direction)
   end
 end
 

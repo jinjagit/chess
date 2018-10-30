@@ -59,7 +59,6 @@ on :mouse_down do |event|
       piece.find_moves(posn)
       highlight_list = piece.legal_moves
       Board.highlight_squares(highlight_list, highlight_sqs)
-      piece.diagonal_step
     end
   end
 end
