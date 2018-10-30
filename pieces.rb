@@ -47,12 +47,17 @@ class Piece
       square = nil
     else
       edge = on_edge(square)
-      start_square = square
-      square -= 8 if direction == 'N' && edge != 'N'
-      square += 8 if direction == 'S' && edge != 'S'
-      square += 1 if direction == 'E' && edge != 'E'
-      square -= 1 if direction == 'W' && edge != 'W'
-      square = nil if square == start_square
+      if direction == 'N' && edge != 'N'
+        square -= 8
+      elsif direction == 'S' && edge != 'S'
+        square += 8
+      elsif direction == 'E' && edge != 'E'
+        square += 1
+      elsif direction == 'W' && edge != 'W'
+        square -= 1
+      else
+        square = nil
+      end
     end
     square
   end
