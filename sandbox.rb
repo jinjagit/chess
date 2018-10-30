@@ -46,7 +46,7 @@ posn_pc = ""
 start_square = nil
 piece = nil
 full_screen = false
-highlight_list = []
+legal_list = []
 
 on :mouse_down do |event|
   location = Board.mouse_square(event.x, event.y)
@@ -57,8 +57,8 @@ on :mouse_down do |event|
       piece_lift = true
       start_square = location
       piece.find_moves(posn)
-      highlight_list = piece.legal_moves
-      Board.highlight_squares(highlight_list, highlight_sqs)
+      legal_list = piece.legal_moves
+      Board.highlight_squares(legal_list, highlight_sqs)
     end
   end
 end
@@ -75,7 +75,7 @@ on :mouse_up do |event|
   if piece_lift == true
     piece_lift = false
     location = Board.mouse_square(event.x, event.y)
-    if location != "off_board" && location != start_square
+    if location != "off_board" && legal_list.include?(location) == true
       x_pos, y_pos = Board.square_origin(location)
       posn[location] = posn_pc
       posn[start_square] = "---" # can crash, while piece taking not enabled
@@ -84,7 +84,7 @@ on :mouse_up do |event|
       x_pos, y_pos = Board.square_origin(start_square)
     end
 
-    Board.unhighlight_squares(highlight_list, highlight_sqs)
+    Board.unhighlight_squares(legal_list, highlight_sqs)
     piece.set_posn(x_pos, y_pos)
     piece.set_layer(3)
   end
