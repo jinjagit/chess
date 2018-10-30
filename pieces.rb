@@ -105,9 +105,7 @@ class Piece
         else
           new_square = diagonal_step(square, direction)
         end
-        if new_square == nil
-          break
-        end
+        break if new_square == nil
         if posn[new_square] != "---"
           piece_type = get_other_piece_info(posn[new_square])
           if piece_type == "own" || piece_type == "enemy_king"
@@ -186,7 +184,6 @@ class Queen < Piece
     orthogonal_moves = find_sliding_paths(posn, 'orthogonal')
     diagonal_moves = find_sliding_paths(posn, 'diagonal')
     @legal_moves = orthogonal_moves + diagonal_moves
-    puts "queen: #{@legal_moves}"
   end
 end
 
@@ -197,6 +194,31 @@ class King < Piece
   end
 
   def find_moves(posn)
-    # to do
+    @legal_moves = []
+    directions = [['N', 'S', 'E', 'W'], ['NE', 'SE', 'SW', 'NW']]
+    2.times do |i|
+      directions[i].each do |direction|
+        square = @square
+        new_square = nil
+        if i == 0
+          new_square = orthogonal_step(square, direction)
+        else
+          new_square = diagonal_step(square, direction)
+        end
+        if new_square != nil
+          if posn[new_square] != "---"
+            piece_type = get_other_piece_info(posn[new_square])
+            if piece_type == "own" || piece_type == "enemy_king"
+              break
+            else
+              @legal_moves << (new_square)
+            end
+          else
+            @legal_moves << (new_square)
+          end
+        end
+      end
+    end
   end
+
 end
