@@ -113,8 +113,10 @@ on :key_down do |e|
       new_posn = 'two_queens'
     when '7'
       new_posn = 'two_kings'
+    when '8'
+      new_posn = 'game'
   end
-  if e.key.to_i > 0 && e.key.to_i < 8
+  if e.key.to_i > 0 && e.key.to_i < 9
     Board.clear_pieces(all_pieces)
     posn = Position.get_posn(new_posn)
     Board.set_up_posn(all_pieces, posn, piece_codes)

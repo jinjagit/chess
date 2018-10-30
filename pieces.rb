@@ -136,7 +136,7 @@ class Pawn < Piece
 
   def find_moves(posn)
     @legal_moves = []
-    if @color = 'white'
+    if @color == 'white'
       directions = ['N', 'NE', 'NW']
     else
       directions = ['S', 'SE', 'SW']
@@ -158,7 +158,6 @@ class Pawn < Piece
       end
     end
   end
-
 end
 
 
