@@ -110,9 +110,9 @@ module Board
     posn.each_with_index do |posn_pc, square|
       if posn_pc != "--"
         if first_run == true
-          add_piece(game_pieces, posn, square)
+          piece = add_piece(game_pieces, posn, square)
         else # == not first run; basic set of piece instances already exists
-          if game_pieces.detect {|e| e.name.include?(posn_pc)} == true
+          if game_pieces.detect {|e| e.name.include?(posn_pc) && e.icon.z < 0}
             piece = game_pieces.detect {|e| e.name.include?(posn_pc) && e.icon.z < 0}
           else
             piece = add_piece(game_pieces, posn, square)
@@ -130,6 +130,9 @@ module Board
     # need to load state for piece.moved? for rooks, kings & pawns if loading
     # a 'real' saved game (which means this needs saving or calculating on load)
     game_pieces.each {|piece| piece.moved = false}
+    game_pieces.each {|e| print "#{e.name} "}
+    2.times {puts}
+    game_pieces
 
       # list_piece_instance_vars(game_pieces) # debug list
   end
@@ -138,6 +141,7 @@ module Board
     game_pieces.each {|e| e.icon.z = -1}
     puts "game_pieces.length = #{game_pieces.length}"
     puts
+    game_pieces
   end
 
   def self.list_piece_instance_vars(game_pieces) # for debug output

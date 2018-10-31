@@ -128,7 +128,7 @@ on :key_down do |e|
     game.status.remove
     game = Game.new
     posn = Position.get_posn(new_posn)
-    Board.set_up_posn(game_pieces, posn)
+    Board.set_up_posn(game_pieces, posn, first_run = false)
     print_posn(posn)
   end
 end
