@@ -17,8 +17,8 @@ def print_posn(posn)
   puts
 end
 
-def print_all_pieces(all_pieces)
-  all_pieces.each {|e| puts e.inspect}
+def print_game_pieces(game_pieces)
+  game_pieces.each {|e| puts e.inspect}
   puts
 end
 # ------------------------------------------------------------------
@@ -35,13 +35,13 @@ canvas = Rectangle.new(
   color: '#000000', # true black
   z: 0)
 
-all_pieces = []
+game_pieces = []
 piece_codes = {'p' => Pawn, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
               'q' => Queen, 'k' => King}
 
 highlight_sqs = Board.draw_board
 posn = Position.get_posn('start')
-Board.set_up_posn(all_pieces, posn, piece_codes, first_run = true)
+Board.set_up_posn(game_pieces, posn, piece_codes, first_run = true)
 
 piece_lift = false
 posn_pc = ""
@@ -55,7 +55,7 @@ on :mouse_down do |event|
   if location != "off_board"
     posn_pc = posn[location]
     if posn_pc != "---"
-      piece = all_pieces.detect {|e| e.name == posn_pc}
+      piece = game_pieces.detect {|e| e.name == posn_pc}
       piece_lift = true
       start_square = location
       piece.find_moves(posn)
@@ -80,7 +80,7 @@ on :mouse_up do |event|
     if location != "off_board" && legal_list.include?(location) == true
       if posn[location] != '---' # 'taking piece' => hide it behind canvas
         piece_to_take = posn[location]
-        piece_to_take = all_pieces.detect {|e| e.name == piece_to_take}
+        piece_to_take = game_pieces.detect {|e| e.name == piece_to_take}
         piece_to_take.icon.z = -1
       end
       x_pos, y_pos = Board.square_origin(location)
@@ -119,9 +119,9 @@ on :key_down do |e|
       new_posn = 'game'
   end
   if e.key.to_i > 0 && e.key.to_i < 9
-    Board.clear_pieces(all_pieces)
+    Board.clear_pieces(game_pieces)
     posn = Position.get_posn(new_posn)
-    Board.set_up_posn(all_pieces, posn, piece_codes)
+    Board.set_up_posn(game_pieces, posn, piece_codes)
     print_posn(posn)
   end
 end

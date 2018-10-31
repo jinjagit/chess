@@ -63,11 +63,11 @@ module Board
     highlight_sqs
   end
 
-  def self.set_up_posn(all_pieces, posn, piece_codes, first_run = false)
+  def self.set_up_posn(game_pieces, posn, piece_codes, first_run = false)
     posn.each_with_index do |posn_pc, square|
       if posn_pc != "--"
         if first_run == true
-          n = all_pieces.count do |piece|
+          n = game_pieces.count do |piece|
             piece.class == piece_codes[posn_pc[1]] && piece.color[0] == posn_pc[0]
           end
           name = "#{posn_pc}#{n}"
@@ -76,13 +76,13 @@ module Board
           else
             color = "black"
           end
-          all_pieces << piece_codes[posn_pc[1]].new(name, color, square)
+          game_pieces << piece_codes[posn_pc[1]].new(name, color, square)
           posn[square] = name
           x_pos, y_pos = square_origin(square)
-          all_pieces[-1].set_posn(x_pos, y_pos)
-          all_pieces[-1].icon.z = 3
+          game_pieces[-1].set_posn(x_pos, y_pos)
+          game_pieces[-1].icon.z = 3
         else # == not first run; basic set of piece instances already exists
-          piece = all_pieces.detect {|e| e.name.include?(posn_pc) && e.icon.z < 0}
+          piece = game_pieces.detect {|e| e.name.include?(posn_pc) && e.icon.z < 0}
           posn[square] = piece.name
           x_pos, y_pos = square_origin(square)
           piece.set_posn(x_pos, y_pos)
@@ -95,19 +95,19 @@ module Board
     end
     # need to load state for piece.moved? for rooks, kings & pawns if loading
     # a 'real' saved game (which means this needs saving or calculating on load)
-    all_pieces.each {|piece| piece.moved = false}
+    game_pieces.each {|piece| piece.moved = false}
 
-      # list_piece_instance_vars(all_pieces) # debug list
+      # list_piece_instance_vars(game_pieces) # debug list
   end
 
-  def self.clear_pieces(all_pieces) # clears all pieces (incl. spares / hidden)
-    all_pieces.each {|e| e.icon.z = -1}
-    puts "all_pieces.length = #{all_pieces.length}"
+  def self.clear_pieces(game_pieces) # clears all pieces (incl. spares / hidden)
+    game_pieces.each {|e| e.icon.z = -1}
+    puts "game_pieces.length = #{game_pieces.length}"
     puts
   end
 
-  def self.list_piece_instance_vars(all_pieces) # for debug output
-    all_pieces.each do |e|
+  def self.list_piece_instance_vars(game_pieces) # for debug output
+    game_pieces.each do |e|
       print "name: #{e.name}  color: #{e.color}  square: #{e.square}   "
       if defined? e.moved
         print "moved: #{e.moved}  "

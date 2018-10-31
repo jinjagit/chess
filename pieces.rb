@@ -120,7 +120,6 @@ class Piece
     # p moves # for debugging
     moves
   end
-
 end
 
 
@@ -178,7 +177,6 @@ class Knight < Piece
   def find_moves(posn)
     @legal_moves = []
     directions = ['NE', 'NW', 'EN', 'ES', 'SE', 'SW', 'WN', 'WS']
-
       directions.each do |direction|
         square = @square
         new_square = nil
