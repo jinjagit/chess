@@ -88,50 +88,19 @@ class Piece
     square
   end
 
-  def find_sliding_paths(posn, path_type)
-    moves = []
-    if path_type == 'orthogonal'
-      directions = ['N', 'S', 'E', 'W']
-    else
-      directions = ['NE', 'SE', 'SW', 'NW']
-    end
-    directions.each do |direction|
-      square = @square
-      loop do
-        if path_type == 'orthogonal'
-          new_square = orthogonal_step(square, direction)
-        else
-          new_square = diagonal_step(square, direction)
-        end
-        break if new_square == nil
-        if posn[new_square] != "---"
-          piece_type = get_other_piece_info(posn[new_square])
-          if piece_type == "own" || piece_type == "enemy_king"
-            break
-          else
-            moves << (new_square)
-            break
-          end
-        end
-        moves << (new_square)
-        square = new_square
-      end
-    end
-    # p moves # for debugging
-    moves
-  end
 end
 
 class Sliding_Piece < Piece
   def find_sliding_paths(posn, path_type)
     moves = []
+    @disambiguate = []
     if path_type == 'orthogonal'
       directions = ['N', 'S', 'E', 'W']
     else
       directions = ['NE', 'SE', 'SW', 'NW']
     end
     directions.each do |direction|
-      square = @square
+      square, start_square = @square, @square
       loop do
         if path_type == 'orthogonal'
           new_square = orthogonal_step(square, direction)
@@ -142,6 +111,9 @@ class Sliding_Piece < Piece
         if posn[new_square] != "---"
           piece_type = get_other_piece_info(posn[new_square])
           if piece_type == "own" || piece_type == "enemy_king"
+            if piece_type == "own" && posn[new_square][1] == posn[start_square][1]
+              @disambiguate << new_square
+            end
             break
           else
             moves << (new_square)
@@ -191,9 +163,12 @@ end
 
 
 class Rook < Sliding_Piece
+  attr_reader :disambiguate
+
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_rook.png", height: 70, width: 70)
+    @disambiguate = []
   end
 
   def find_moves(posn)
@@ -238,9 +213,12 @@ class Knight < Piece
 end
 
 class Bishop < Sliding_Piece
+  attr_reader :disambiguate
+
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_bishop.png", height: 70, width: 70)
+    @disambiguate = []
   end
 
   def find_moves(posn)
@@ -250,14 +228,21 @@ class Bishop < Sliding_Piece
 end
 
 class Queen < Sliding_Piece
+  attr_reader :disambiguate
+
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_queen.png", height: 70, width: 70)
+    @disambiguate = []
   end
 
   def find_moves(posn)
+    dis_list = []
     orthogonal_moves = find_sliding_paths(posn, 'orthogonal')
+    dis_list = @disambiguate
     diagonal_moves = find_sliding_paths(posn, 'diagonal')
+    dis_list += @disambiguate
+    @disambiguate = dis_list
     @legal_moves = orthogonal_moves + diagonal_moves
   end
 end
