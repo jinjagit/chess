@@ -1,5 +1,3 @@
-
-
 class UI
   attr_accessor :coords
   attr_accessor :flipped

@@ -8,6 +8,7 @@ require './ui'
 require './pieces'
 require './position'
 require './board'
+require './game'
 
 # ---------------- print routines for debugging --------------------
 def print_posn(posn)
@@ -38,6 +39,7 @@ canvas = Rectangle.new(
 
 game_pieces = []
 ui = UI.new
+game = Game.new
 highlight_sqs = Board.draw_board(ui.coords)
 posn = Position.get_posn('start')
 Board.set_up_posn(game_pieces, posn, first_run = true)
@@ -54,11 +56,13 @@ on :mouse_down do |event|
     posn_pc = posn[location]
     if posn_pc != "---"
       piece = game_pieces.detect {|e| e.name == posn_pc}
-      piece_lift = true
-      start_square = location
-      piece.find_moves(posn)
-      legal_list = piece.legal_moves
-      Board.highlight_squares(legal_list, highlight_sqs)
+      if game.to_move == piece.color
+        piece_lift = true
+        start_square = location
+        piece.find_moves(posn)
+        legal_list = piece.legal_moves
+        Board.highlight_squares(legal_list, highlight_sqs)
+      end
     end
   end
 end
@@ -75,7 +79,9 @@ on :mouse_up do |event|
   if piece_lift == true
     piece_lift = false
     location = Board.mouse_square(event.x, event.y)
+    Board.unhighlight_squares(legal_list, highlight_sqs)
     if location != "off_board" && legal_list.include?(location) == true
+      game.move_made
       if posn[location] != '---' # 'taking piece' => hide it behind canvas
         piece_to_take = posn[location]
         piece_to_take = game_pieces.detect {|e| e.name == piece_to_take}
@@ -90,7 +96,6 @@ on :mouse_up do |event|
       x_pos, y_pos = Board.square_origin(start_square)
     end
 
-    Board.unhighlight_squares(legal_list, highlight_sqs)
     piece.set_posn(x_pos, y_pos)
     piece.icon.z = 3
   end

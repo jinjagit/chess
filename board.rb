@@ -83,8 +83,8 @@ module Board
 
       highlight_sqs << HighLight_Sq.new(i, x_posn, y_posn)
     end
-    highlight_sqs
     draw_coords(coords)
+    highlight_sqs
   end
 
   def self.set_up_posn(game_pieces, posn, first_run = false)
