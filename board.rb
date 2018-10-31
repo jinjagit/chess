@@ -2,6 +2,9 @@ require 'ruby2d'
 require './pieces'
 
 module Board
+  Piece_Codes = {'p' => Pawn, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
+                'q' => Queen, 'k' => King}
+
   class HighLight_Sq
     attr_accessor :icon
     attr_accessor :square
@@ -63,12 +66,12 @@ module Board
     highlight_sqs
   end
 
-  def self.set_up_posn(game_pieces, posn, piece_codes, first_run = false)
+  def self.set_up_posn(game_pieces, posn, first_run = false)
     posn.each_with_index do |posn_pc, square|
       if posn_pc != "--"
         if first_run == true
           n = game_pieces.count do |piece|
-            piece.class == piece_codes[posn_pc[1]] && piece.color[0] == posn_pc[0]
+            piece.class == Piece_Codes[posn_pc[1]] && piece.color[0] == posn_pc[0]
           end
           name = "#{posn_pc}#{n}"
           if name[0] == "w"
@@ -76,7 +79,7 @@ module Board
           else
             color = "black"
           end
-          game_pieces << piece_codes[posn_pc[1]].new(name, color, square)
+          game_pieces << Piece_Codes[posn_pc[1]].new(name, color, square)
           posn[square] = name
           x_pos, y_pos = square_origin(square)
           game_pieces[-1].set_posn(x_pos, y_pos)

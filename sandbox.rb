@@ -36,12 +36,10 @@ canvas = Rectangle.new(
   z: 0)
 
 game_pieces = []
-piece_codes = {'p' => Pawn, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
-              'q' => Queen, 'k' => King}
 
 highlight_sqs = Board.draw_board
 posn = Position.get_posn('start')
-Board.set_up_posn(game_pieces, posn, piece_codes, first_run = true)
+Board.set_up_posn(game_pieces, posn, first_run = true)
 
 piece_lift = false
 posn_pc = ""
@@ -121,7 +119,7 @@ on :key_down do |e|
   if e.key.to_i > 0 && e.key.to_i < 9
     Board.clear_pieces(game_pieces)
     posn = Position.get_posn(new_posn)
-    Board.set_up_posn(game_pieces, posn, piece_codes)
+    Board.set_up_posn(game_pieces, posn)
     print_posn(posn)
   end
 end
