@@ -169,12 +169,16 @@ end
 
 
 class Knight < Piece
+  attr_reader :disambiguate
+
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_knight.png", height: 70, width: 70)
+    @disambiguate = []
   end
 
   def find_moves(posn)
+    @disambiguate = []
     @legal_moves = []
     directions = ['NE', 'NW', 'EN', 'ES', 'SE', 'SW', 'WN', 'WS']
       directions.each do |direction|
@@ -188,6 +192,8 @@ class Knight < Piece
             piece_type = get_other_piece_info(posn[new_square])
             if piece_type != "own" && piece_type != "enemy_king"
               @legal_moves << (new_square)
+            elsif piece_type == "own" && posn[new_square][1] == 'n'
+              @disambiguate << new_square
             end
           else
             @legal_moves << (new_square)

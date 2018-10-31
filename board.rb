@@ -87,26 +87,36 @@ module Board
     highlight_sqs
   end
 
+  def self.add_piece(game_pieces, posn, square)
+    posn_pc = posn[square]
+    n = game_pieces.count do |piece|
+      piece.class == Piece_Codes[posn_pc[1]] && piece.color[0] == posn_pc[0]
+    end
+    name = "#{posn_pc}#{n}"
+    if name[0] == "w"
+      color = "white"
+    else
+      color = "black"
+    end
+    game_pieces << Piece_Codes[posn_pc[1]].new(name, color, square)
+    posn[square] = name
+    x_pos, y_pos = square_origin(square)
+    game_pieces[-1].set_posn(x_pos, y_pos)
+    game_pieces[-1].icon.z = 3
+    return game_pieces[-1]
+  end
+
   def self.set_up_posn(game_pieces, posn, first_run = false)
     posn.each_with_index do |posn_pc, square|
       if posn_pc != "--"
         if first_run == true
-          n = game_pieces.count do |piece|
-            piece.class == Piece_Codes[posn_pc[1]] && piece.color[0] == posn_pc[0]
-          end
-          name = "#{posn_pc}#{n}"
-          if name[0] == "w"
-            color = "white"
-          else
-            color = "black"
-          end
-          game_pieces << Piece_Codes[posn_pc[1]].new(name, color, square)
-          posn[square] = name
-          x_pos, y_pos = square_origin(square)
-          game_pieces[-1].set_posn(x_pos, y_pos)
-          game_pieces[-1].icon.z = 3
+          add_piece(game_pieces, posn, square)
         else # == not first run; basic set of piece instances already exists
-          piece = game_pieces.detect {|e| e.name.include?(posn_pc) && e.icon.z < 0}
+          if game_pieces.detect {|e| e.name.include?(posn_pc)} == true
+            piece = game_pieces.detect {|e| e.name.include?(posn_pc) && e.icon.z < 0}
+          else
+            piece = add_piece(game_pieces, posn, square)
+          end
           posn[square] = piece.name
           x_pos, y_pos = square_origin(square)
           piece.set_posn(x_pos, y_pos)

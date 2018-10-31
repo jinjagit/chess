@@ -93,7 +93,7 @@ on :mouse_up do |event|
       posn[start_square] = "---" # can crash, if piece taking not enabled
       piece.square = location
       piece.moved ||= true
-      game.move_made(piece.name[0..1], start_square, location, details)
+      game.move_made(posn, piece, start_square, location, details)
     else
       x_pos, y_pos = Board.square_origin(start_square)
     end
@@ -113,7 +113,7 @@ on :key_down do |e|
     when '3'
       new_posn = 'four_rooks'
     when '4'
-      new_posn = 'four_knights'
+      new_posn = 'knights'
     when '5'
       new_posn = 'four_bishops'
     when '6'

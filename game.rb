@@ -1,4 +1,5 @@
 require './board'
+require './pieces'
 
 class Game
   attr_accessor :ply
@@ -21,14 +22,35 @@ class Game
     pgn_square = file + rank
   end
 
-  def png_move(piece, start_square, end_square, details)
+  def pgn_move(posn, piece, start_square, end_square, details)
+    name = piece.name
     if @to_move == 'black'
       n = "#{(@ply + 2) / 2}. "
     else
       n = ""
     end
-    if piece[1] != 'p'
-      pc = piece[1].upcase + details
+    if name[1] != 'p'
+      pc = name[1].upcase + details
+      if pc == 'N'
+        piece.find_moves(posn)
+        if piece.disambiguate != []
+          dis_list = [pgn_square(start_square)]
+          piece.disambiguate.each {|e| dis_list << pgn_square(e)}
+          same_file = false
+          same_rank = false
+          dis_list.each do |elem|
+            same_file = dis_list.count {|e| e[0] == elem[0]}
+            same_rank = dis_list.count {|e| e[1] == elem[1]}
+          end
+          if same_file > 1 && same_rank > 1
+            pc = pc + dis_list[0]
+          elsif same_file > 1
+            pc = pc + dis_list[0][1]
+          else
+            pc = pc + dis_list[0][0]
+          end
+        end
+      end
     else
       if details == 'x'
         pc = pgn_square(start_square)[0] + 'x'
@@ -40,15 +62,16 @@ class Game
     @pgn = @pgn + "#{n}#{pc}#{sq} "
   end
 
-  def move_made(piece, start_square, end_square, details = '')
+  def move_made(posn, piece, start_square, end_square, details = '')
+    name = piece.name
     @ply += 1
     if @ply % 2 == 0
       @to_move = 'white'
     else
       @to_move = 'black'
     end
-    @moves << [piece, start_square, end_square, details]
-    png_move(piece, start_square, end_square, details)
+    @moves << [name[0..1], start_square, end_square, details]
+    pgn_move(posn, piece, start_square, end_square, details)
     @status.remove
     to_m = @to_move.capitalize
     @status = Text.new(
@@ -56,6 +79,8 @@ class Game
        x: 400, y: 8, font: 'fonts/UbuntuMono-R.ttf', size: 24,
        color: '#ffffff', z: 3)
     p @pgn
+
+    # p @moves
   end
 
 end
