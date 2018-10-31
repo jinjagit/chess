@@ -31,7 +31,7 @@ class Game
     end
     if name[1] != 'p'
       pc = name[1].upcase + details
-      if pc[0] != 'P' && pc[0] != 'K'
+      if pc[0] != 'K' ## == R, B, N, or Q
         piece.find_moves(posn)
         if piece.disambiguate != []
           dis_list = [pgn_square(start_square)]

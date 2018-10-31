@@ -30,7 +30,7 @@ class Piece
   end
 
   def on_edge(square)
-    # note: corners squares have 2 'edges', but this def only returns one edge
+    # note: corners squares have 2 'edges', but this def only returns one edge,
     # hence corners considered as separate cases
     if square < 8
       edge = 'N'
@@ -38,7 +38,7 @@ class Piece
       edge = 'S'
     elsif square % 8 == 0
       edge = 'W'
-    elsif (square + 1) % 8 ==0
+    elsif (square + 1) % 8 == 0
       edge = 'E'
     else
       edge = 'none'
