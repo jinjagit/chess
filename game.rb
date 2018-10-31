@@ -36,14 +36,11 @@ class Game
         if piece.disambiguate != []
           dis_list = [pgn_square(start_square)]
           piece.disambiguate.each {|e| dis_list << pgn_square(e)}
-          p dis_list
           same_file, same_rank = false, false
           dis_list.each do |elem|
             same_file = true if dis_list.count {|e| e[0] == elem[0]} > 1
             same_rank = true if dis_list.count {|e| e[1] == elem[1]} > 1
           end
-          p same_file
-          p same_rank
           if same_file == true && same_rank == true
             pc = pc + dis_list[0]
           elsif same_file == true
