@@ -1,9 +1,13 @@
 require 'ruby2d'
 require './pieces'
+require './ui'
+
 
 module Board
   Piece_Codes = {'p' => Pawn, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
                 'q' => Queen, 'k' => King}
+  Coords = [['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+            ['1', '2', '3', '4', '5', '6', '7', '8']]
 
   class HighLight_Sq
     attr_accessor :icon
@@ -11,11 +15,27 @@ module Board
 
     def initialize(square, x, y)
       @square = square
-      @icon = Square.new(
-              x: x, y: y,
-              size: 80,
-              color: [0.0, 1.0, 0.0, 0.35], # transparent green
+      @icon = Square.new(x: x, y: y,  size: 80, color: [0.0, 1.0, 0.0, 0.35],
               z: -1)
+    end
+  end
+
+  def self.draw_coords(coords)
+    file = [354, 690]
+    rank = [290, 628]
+    color = '#ffffff'
+    if coords == true
+      layer = 3
+    else
+      layer = -1
+    end
+    8.times do |i|
+      Text.new(Coords[0][i], x: file[0] + (i * 80), y: file[1],
+      font: 'fonts/UbuntuMono-R.ttf', size: 24, color: color, z: layer)
+    end
+    8.times do |i|
+      Text.new(Coords[1][i], x: rank[0], y: rank[1] - (i * 80),
+      font: 'fonts/UbuntuMono-R.ttf', size: 24, color: color, z: layer)
     end
   end
 
@@ -44,7 +64,7 @@ module Board
     return x_posn, y_posn
   end
 
-  def self.draw_board
+  def self.draw_board(coords = true)
     highlight_sqs = []
     64.times do |i|
       if (i + (i / 8.floor)) % 2 == 0
@@ -64,6 +84,7 @@ module Board
       highlight_sqs << HighLight_Sq.new(i, x_posn, y_posn)
     end
     highlight_sqs
+    draw_coords(coords)
   end
 
   def self.set_up_posn(game_pieces, posn, first_run = false)

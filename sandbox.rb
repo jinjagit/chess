@@ -4,6 +4,7 @@
 # but not yet including the effects of other pieces (check, pins, etc.)
 
 require 'ruby2d'
+require './ui'
 require './pieces'
 require './position'
 require './board'
@@ -36,8 +37,8 @@ canvas = Rectangle.new(
   z: 0)
 
 game_pieces = []
-
-highlight_sqs = Board.draw_board
+ui = UI.new
+highlight_sqs = Board.draw_board(ui.coords)
 posn = Position.get_posn('start')
 Board.set_up_posn(game_pieces, posn, first_run = true)
 
@@ -45,7 +46,6 @@ piece_lift = false
 posn_pc = ""
 start_square = nil
 piece = nil
-full_screen = false
 legal_list = []
 
 on :mouse_down do |event|
