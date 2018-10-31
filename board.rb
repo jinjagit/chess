@@ -130,8 +130,6 @@ module Board
     # need to load state for piece.moved? for rooks, kings & pawns if loading
     # a 'real' saved game (which means this needs saving or calculating on load)
     game_pieces.each {|piece| piece.moved = false}
-    game_pieces.each {|e| print "#{e.name} "}
-    2.times {puts}
     game_pieces
 
       # list_piece_instance_vars(game_pieces) # debug list
