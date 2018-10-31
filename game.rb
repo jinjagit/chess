@@ -36,8 +36,7 @@ class Game
         if piece.disambiguate != []
           dis_list = [pgn_square(start_square)]
           piece.disambiguate.each {|e| dis_list << pgn_square(e)}
-          same_file = false
-          same_rank = false
+          same_file, same_rank = 0
           dis_list.each do |elem|
             same_file = dis_list.count {|e| e[0] == elem[0]}
             same_rank = dis_list.count {|e| e[1] == elem[1]}

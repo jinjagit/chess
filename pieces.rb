@@ -122,6 +122,40 @@ class Piece
   end
 end
 
+class Sliding_Piece < Piece
+  def find_sliding_paths(posn, path_type)
+    moves = []
+    if path_type == 'orthogonal'
+      directions = ['N', 'S', 'E', 'W']
+    else
+      directions = ['NE', 'SE', 'SW', 'NW']
+    end
+    directions.each do |direction|
+      square = @square
+      loop do
+        if path_type == 'orthogonal'
+          new_square = orthogonal_step(square, direction)
+        else
+          new_square = diagonal_step(square, direction)
+        end
+        break if new_square == nil
+        if posn[new_square] != "---"
+          piece_type = get_other_piece_info(posn[new_square])
+          if piece_type == "own" || piece_type == "enemy_king"
+            break
+          else
+            moves << (new_square)
+            break
+          end
+        end
+        moves << (new_square)
+        square = new_square
+      end
+    end
+    # p moves # for debugging
+    moves
+  end
+end
 
 class Pawn < Piece
   def initialize(name, color, square)
@@ -156,7 +190,7 @@ class Pawn < Piece
 end
 
 
-class Rook < Piece
+class Rook < Sliding_Piece
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_rook.png", height: 70, width: 70)
@@ -203,7 +237,7 @@ class Knight < Piece
   end
 end
 
-class Bishop < Piece
+class Bishop < Sliding_Piece
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_bishop.png", height: 70, width: 70)
@@ -215,7 +249,7 @@ class Bishop < Piece
 
 end
 
-class Queen < Piece
+class Queen < Sliding_Piece
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_queen.png", height: 70, width: 70)
