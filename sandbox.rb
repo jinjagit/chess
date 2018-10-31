@@ -123,6 +123,8 @@ on :key_down do |e|
   end
   if e.key.to_i > 0 && e.key.to_i < 9
     Board.clear_pieces(game_pieces)
+    game.status.remove
+    game = Game.new
     posn = Position.get_posn(new_posn)
     Board.set_up_posn(game_pieces, posn)
     print_posn(posn)

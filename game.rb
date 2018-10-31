@@ -1,6 +1,7 @@
 class Game
   attr_accessor :ply
   attr_reader :to_move
+  attr_accessor :status
 
   def initialize
     @ply = 0
