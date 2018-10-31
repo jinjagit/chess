@@ -81,17 +81,19 @@ on :mouse_up do |event|
     location = Board.mouse_square(event.x, event.y)
     Board.unhighlight_squares(legal_list, highlight_sqs)
     if location != "off_board" && legal_list.include?(location) == true
-      game.move_made
+    details = ''
       if posn[location] != '---' # 'taking piece' => hide it behind canvas
         piece_to_take = posn[location]
         piece_to_take = game_pieces.detect {|e| e.name == piece_to_take}
         piece_to_take.icon.z = -1
+        details = 'x'
       end
       x_pos, y_pos = Board.square_origin(location)
       posn[location] = posn_pc
       posn[start_square] = "---" # can crash, if piece taking not enabled
       piece.square = location
       piece.moved ||= true
+      game.move_made(piece.name[0..1], start_square, location, details)
     else
       x_pos, y_pos = Board.square_origin(start_square)
     end
