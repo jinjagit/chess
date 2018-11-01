@@ -16,6 +16,14 @@ class Game
     @pgn = ''
   end
 
+  def set_side_to_move
+    if @ply % 2 == 0
+      @to_move = 'white'
+    else
+      @to_move = 'black'
+    end
+  end
+
   def pgn_square(square)
     file = Board::Coords[0][square % 8]
     rank = Board::Coords[1][(63 - square) / 8.floor]
@@ -91,15 +99,11 @@ class Game
     piece.moved ||= true
 
     # 2. update side to move var
-    name = piece.name
     @ply += 1
-    if @ply % 2 == 0
-      @to_move = 'white'
-    else
-      @to_move = 'black'
-    end
+    set_side_to_move
 
     # 3. add move to move list(s):
+    name = piece.name
     @moves << [name[0..1], start_square, end_square, details]
     pgn_move(posn, piece, start_square, end_square, details)
 
