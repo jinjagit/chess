@@ -62,6 +62,8 @@ class Game
   end
 
   def move(game_pieces, posn, piece, start_square, end_square, details = '')
+    # 1. update posn array, x,y of moved piece icon, hide icon of piece taken
+    # (if any), and set @moved = true for moved piece
     posn_pc = posn[start_square]
     if (piece.name[1] == 'p' && piece.ep_square == end_square) ||
       posn[end_square] != '---' # piece taken, including en-passant
@@ -88,6 +90,7 @@ class Game
     piece.square = end_square
     piece.moved ||= true
 
+    # 2. update side to move var
     name = piece.name
     @ply += 1
     if @ply % 2 == 0
@@ -96,11 +99,11 @@ class Game
       @to_move = 'black'
     end
 
-    # add to move list(s):
+    # 3. add move to move list(s):
     @moves << [name[0..1], start_square, end_square, details]
     pgn_move(posn, piece, start_square, end_square, details)
 
-    # update status header
+    # 4. update status header
     @status.remove
     to_m = @to_move.capitalize
     @status = Text.new(
@@ -111,6 +114,7 @@ class Game
     p @pgn # debug (and later, for display)
     # p @moves
     puts
+
     return x_pos, y_pos, @moves, posn
   end
 
