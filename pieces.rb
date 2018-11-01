@@ -185,10 +185,6 @@ class Pawn < Piece
         end
       end
     end
-
-
-
-
   end
 end
 
