@@ -83,11 +83,24 @@ on :mouse_up do |event|
     Board.unhighlight_squares(legal_list, highlight_sqs)
     if location != "off_board" && legal_list.include?(location) == true
     details = ''
-      if posn[location] != '---' # 'taking piece' => hide it behind canvas
-        piece_to_take = posn[location]
+      if (piece.name[1] == 'p' && piece.ep_square == location) ||
+        posn[location] != '---' # piece taken, including en-passant
+        if piece.name[1] == 'p' && piece.ep_square == location
+          if piece.color == 'white' # piece take en-passant
+            piece_to_take = posn[location + 8]
+            posn[location + 8] = '---'
+          else
+            piece_to_take = posn[location - 8]
+            posn[location - 8] = '---'
+          end
+          piece.ep_square = -1
+          details = 'xep'
+        else # == piece taken, not en-passant
+          piece_to_take = posn[location]
+          details = 'x'
+        end
         piece_to_take = game_pieces.detect {|e| e.name == piece_to_take}
         piece_to_take.icon.z = -1
-        details = 'x'
       end
       x_pos, y_pos = Board.square_origin(location)
       posn[location] = posn_pc
@@ -102,6 +115,7 @@ on :mouse_up do |event|
     piece.set_posn(x_pos, y_pos)
     piece.icon.z = 3
   end
+  print_posn(posn)
 end
 
 on :key_down do |e|

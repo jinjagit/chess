@@ -51,7 +51,7 @@ class Game
         end
       end
     else
-      if details == 'x'
+      if details.include? 'x'
         pc = pgn_square(start_square)[0] + 'x'
       else
         pc = ''
@@ -69,17 +69,22 @@ class Game
     else
       @to_move = 'black'
     end
+
     # add to move list(s):
     @moves << [name[0..1], start_square, end_square, details]
     pgn_move(posn, piece, start_square, end_square, details)
+
+    # update status header
     @status.remove
     to_m = @to_move.capitalize
     @status = Text.new(
       "Game in progress - move #{(@ply + 2) / 2}: #{to_m} to move",
        x: 400, y: 8, font: 'fonts/UbuntuMono-R.ttf', size: 24,
        color: '#ffffff', z: 3)
-    # p @pgn # debug (and later, for display)
-    p @moves
+
+    p @pgn # debug (and later, for display)
+    # p @moves
+    puts
     @moves
   end
 

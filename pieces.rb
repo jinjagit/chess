@@ -129,9 +129,12 @@ class Sliding_Piece < Piece
 end
 
 class Pawn < Piece
+  attr_accessor :ep_square
+
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_pawn.png", height: 70, width: 70)
+    @ep_square = -1 # >= 0, if valid en-passant capture square exists
   end
 
   def find_moves(posn, moves = [])
@@ -172,21 +175,18 @@ class Pawn < Piece
         if new_square != nil && (moves[-1][1] - moves[-1][2]).abs == 16
           if posn[new_square][0..1] == opp_pawn
             if @color == 'white'
-              @legal_moves << (new_square - 8)
+              @ep_square = new_square - 8
+              @legal_moves << @ep_square
             else
-              @legal_moves << (new_square + 8)
+              @ep_square = new_square + 8
+              @legal_moves << @ep_square
             end
           end
         end
       end
     end
 
-    # if new_square != nil && posn[new_square][0..1] == opp_pawn
-    # see if either of above squares are new_sq of last move
-      # if yes, then is sq occupied by opp color pawn?
-        # if yes, did that pawn move 2 sqs in last move?
-          # if yes == en-p & can take (needs new routine in move part)
-    #end
+
 
 
   end
