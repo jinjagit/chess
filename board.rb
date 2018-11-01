@@ -114,6 +114,8 @@ module Board
         else # == not first run; basic set of piece instances already exists
           if game_pieces.detect {|e| e.name.include?(posn_pc) && e.icon.z < 0}
             piece = game_pieces.detect {|e| e.name.include?(posn_pc) && e.icon.z < 0}
+            piece.moved = false # **needs more finesse when loading saved game
+                                # (**see notes, at end of this file)
           else
             piece = add_piece(game_pieces, posn, square)
           end
@@ -127,8 +129,7 @@ module Board
         posn[square] = "---" # just to make array look neater ;-)
       end
     end
-    # need to load state for piece.moved? for rooks, kings & pawns if loading
-    # a 'real' saved game (which means this needs saving or calculating on load)
+    # **needs more finesse when loading saved game (**see notes, below)
     game_pieces.each {|piece| piece.moved = false}
     game_pieces
 
@@ -156,6 +157,12 @@ module Board
   end
 
 end
+
+# **note: pieces loaded from saved game, or from PGN file, may need their
+# instance vars set to non-default values (e.g. @ep_square).
+# This could be made easier for native saved files (by saving the relevant
+# instance vars with reference to the relevant pieces), but can only be
+# calculated for PGN files (by stepping through the game moves, from the start)
 
 # 'spare' pieces (12 = 1 of each class/color) will have @name ending in 'x' and
 # their icons will be used as ghost pieces (on original square) when player

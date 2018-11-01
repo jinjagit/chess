@@ -115,7 +115,6 @@ on :mouse_up do |event|
     piece.set_posn(x_pos, y_pos)
     piece.icon.z = 3
   end
-  print_posn(posn)
 end
 
 on :key_down do |e|
