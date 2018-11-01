@@ -9,7 +9,7 @@ Current state (01/11/18): Pieces constrained to legal moves (including taking mo
 
 White / Black alternation of moves is enforced, and a move list (both native and PGN format) is created as the 'game' progresses. The piece that moved is disambiguated in PGN format, when needed (e.g. 'Nbd7', rather than simply 'Nd7').
 
-Note: At the moment, to run this (after downloading this repository), you'll need Ruby installed. Then navigate to the root folder of the downloaded repository and enter; <code>ruby sandbox.rb</code>
+Note: At the moment, to run this (after downloading this repository), you'll need Ruby installed. Then, open a terminal, navigate to the root folder of the downloaded repository and enter; <code>ruby sandbox.rb</code>
 
 ### Interesting issues to address:
   * Detecting 3-fold repetition (store and scan checksums on hashes of positions?)
