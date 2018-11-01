@@ -137,6 +137,7 @@ module Board
 
   def self.clear_pieces(game_pieces) # clears all pieces (incl. spares / hidden)
     game_pieces.each {|e| e.icon.z = -1}
+    puts
     puts "game_pieces.length = #{game_pieces.length}"
     puts
     game_pieces
