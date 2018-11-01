@@ -12,10 +12,12 @@ module Board
   class HighLight_Sq
     attr_accessor :icon
     attr_accessor :square
+    attr_accessor :color
 
-    def initialize(square, x, y)
+    def initialize(square, x, y, color = [0.0, 1.0, 0.0, 0.35])
       @square = square
-      @icon = Square.new(x: x, y: y,  size: 80, color: [0.0, 1.0, 0.0, 0.35],
+      @color = color
+      @icon = Square.new(x: x, y: y,  size: 80, color: @color,
               z: -1)
     end
   end
