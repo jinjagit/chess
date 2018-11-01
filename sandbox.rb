@@ -52,6 +52,7 @@ piece = nil
 legal_list = []
 
 on :mouse_down do |event|
+  startTime = Time.now # debug: monitor responsiveness
   location = Board.mouse_square(event.x, event.y)
   if location != "off_board"
     posn_pc = posn[location]
@@ -66,6 +67,8 @@ on :mouse_down do |event|
       end
     end
   end
+  puts "time to find legal squares: #{(duration = Time.now - startTime).to_s} s"
+  puts
 end
 
 on :mouse_move do |event|
@@ -92,7 +95,7 @@ on :mouse_up do |event|
     piece.icon.z = 3
   end
 
-  print_posn(posn) # debug output
+  # print_posn(posn) # debug output
 end
 
 on :key_down do |e|
