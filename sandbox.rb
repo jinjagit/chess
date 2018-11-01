@@ -83,38 +83,16 @@ on :mouse_up do |event|
     Board.unhighlight_squares(legal_list, highlight_sqs)
     if location != "off_board" && legal_list.include?(location) == true
     details = ''
-      if (piece.name[1] == 'p' && piece.ep_square == location) ||
-        posn[location] != '---' # piece taken, including en-passant
-        if piece.name[1] == 'p' && piece.ep_square == location
-          if piece.color == 'white' # piece take en-passant
-            piece_to_take = posn[location + 8]
-            posn[location + 8] = '---'
-          else
-            piece_to_take = posn[location - 8]
-            posn[location - 8] = '---'
-          end
-          piece.ep_square = -1
-          details = 'xep'
-        else # == piece taken, not en-passant
-          piece_to_take = posn[location]
-          details = 'x'
-        end
-        piece_to_take = game_pieces.detect {|e| e.name == piece_to_take}
-        piece_to_take.icon.z = -1
-      end
-      x_pos, y_pos = Board.square_origin(location)
-      posn[location] = posn_pc
-      posn[start_square] = "---" # can crash, if piece taking not enabled
-      piece.square = location
-      piece.moved ||= true
-      moves = game.move_made(posn, piece, start_square, location, details)
-    else
+      x_pos, y_pos, moves, posn = game.move(game_pieces, posn, piece, start_square, location, details)
+    else # == illegal move (reject)
       x_pos, y_pos = Board.square_origin(start_square)
     end
 
     piece.set_posn(x_pos, y_pos)
     piece.icon.z = 3
   end
+
+  print_posn(posn) # debug output
 end
 
 on :key_down do |e|

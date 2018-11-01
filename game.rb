@@ -61,7 +61,33 @@ class Game
     @pgn = @pgn + "#{n}#{pc}#{sq} "
   end
 
-  def move_made(posn, piece, start_square, end_square, details = '')
+  def move(game_pieces, posn, piece, start_square, end_square, details = '')
+    posn_pc = posn[start_square]
+    if (piece.name[1] == 'p' && piece.ep_square == end_square) ||
+      posn[end_square] != '---' # piece taken, including en-passant
+      if piece.name[1] == 'p' && piece.ep_square == end_square
+        if piece.color == 'white' # piece take en-passant
+          piece_to_take = posn[end_square + 8]
+          posn[end_square + 8] = '---'
+        else
+          piece_to_take = posn[end_square - 8]
+          posn[end_square - 8] = '---'
+        end
+        piece.ep_square = -1
+        details = 'xep'
+      else # == piece taken, not en-passant
+        piece_to_take = posn[end_square]
+        details = 'x'
+      end
+      piece_to_take = game_pieces.detect {|e| e.name == piece_to_take}
+      piece_to_take.icon.z = -1
+    end
+    x_pos, y_pos = Board.square_origin(end_square)
+    posn[end_square] = posn_pc
+    posn[start_square] = "---" # can crash, if piece taking not enabled
+    piece.square = end_square
+    piece.moved ||= true
+
     name = piece.name
     @ply += 1
     if @ply % 2 == 0
@@ -85,7 +111,7 @@ class Game
     p @pgn # debug (and later, for display)
     # p @moves
     puts
-    @moves
+    return x_pos, y_pos, @moves, posn
   end
 
 end
