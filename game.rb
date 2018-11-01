@@ -98,13 +98,13 @@ class Game
     piece.square = end_square
     piece.moved ||= true
 
-    # 2. update side to move var
+    # 2. update ply number & side to move next (@to_move)
     @ply += 1
     set_side_to_move
 
     # 3. add move to move list(s):
-    name = piece.name
-    @moves << [name[0..1], start_square, end_square, details]
+    #name = piece.name
+    @moves << [piece.name[0..1], start_square, end_square, details]
     pgn_move(posn, piece, start_square, end_square, details)
 
     # 4. update status header
@@ -115,8 +115,8 @@ class Game
        x: 400, y: 8, font: 'fonts/UbuntuMono-R.ttf', size: 24,
        color: '#ffffff', z: 3)
 
-    p @pgn # debug (and later, for display)
-    # p @moves
+    #p @pgn # debug (and later, for display)
+    p @moves
     puts
 
     return x_pos, y_pos, @moves, posn
