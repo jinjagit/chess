@@ -166,13 +166,17 @@ class Pawn < Piece
     end
     if opp_pawn != ''
       # get number(s) of E & W squares (if not off-board)
-      new_square = orthogonal_step(@square, 'E')
-      if new_square != nil && (moves[-1][1] - moves[-1][2]).abs == 16
-        if posn[new_square][0..1] == opp_pawn
-        puts "YES!!!"
-        else
-          puts "NOOOOOO"
-
+      directions = ['E', 'W']
+      directions.each do |e|
+        new_square = orthogonal_step(@square, e)
+        if new_square != nil && (moves[-1][1] - moves[-1][2]).abs == 16
+          if posn[new_square][0..1] == opp_pawn
+            if @color == 'white'
+              @legal_moves << (new_square - 8)
+            else
+              @legal_moves << (new_square + 8)
+            end
+          end
         end
       end
     end
