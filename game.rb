@@ -78,8 +78,9 @@ class Game
       "Game in progress - move #{(@ply + 2) / 2}: #{to_m} to move",
        x: 400, y: 8, font: 'fonts/UbuntuMono-R.ttf', size: 24,
        color: '#ffffff', z: 3)
-    p @pgn # debug (and later, for display)
-    # update
+    # p @pgn # debug (and later, for display)
+    p @moves
+    @moves
   end
 
 end

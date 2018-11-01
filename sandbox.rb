@@ -38,6 +38,7 @@ canvas = Rectangle.new(
   z: 0)
 
 game_pieces = []
+moves = []
 ui = UI.new
 game = Game.new
 highlight_sqs = Board.draw_board(ui.coords)
@@ -59,7 +60,7 @@ on :mouse_down do |event|
       if game.to_move == piece.color
         piece_lift = true
         start_square = location
-        piece.find_moves(posn)
+        piece.find_moves(posn, moves)
         legal_list = piece.legal_moves
         Board.highlight_squares(legal_list, highlight_sqs)
       end
@@ -93,7 +94,7 @@ on :mouse_up do |event|
       posn[start_square] = "---" # can crash, if piece taking not enabled
       piece.square = location
       piece.moved ||= true
-      game.move_made(posn, piece, start_square, location, details)
+      moves = game.move_made(posn, piece, start_square, location, details)
     else
       x_pos, y_pos = Board.square_origin(start_square)
     end

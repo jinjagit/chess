@@ -87,7 +87,6 @@ class Piece
     end
     square
   end
-
 end
 
 class Sliding_Piece < Piece
@@ -135,7 +134,7 @@ class Pawn < Piece
     @icon = Image.new("img/#{@color[0]}_pawn.png", height: 70, width: 70)
   end
 
-  def find_moves(posn)
+  def find_moves(posn, moves)
     @legal_moves = []
     if @color == 'white'
       directions = ['N', 'NE', 'NW']
@@ -158,6 +157,33 @@ class Pawn < Piece
         end
       end
     end
+    # look for en-passant opportunities (only when on 5th rank)
+    opp_pawn = ''
+    if @color == 'white' && @square / 8.floor == 3
+      opp_pawn = 'bp'
+    elsif @color == 'black' && @square / 8.floor == 4
+      opp_pawn = 'wp'
+    end
+    if opp_pawn != ''
+      # get number(s) of E & W squares (if not off-board)
+      new_square = orthogonal_step(@square, 'E')
+      if new_square != nil && (moves[-1][1] - moves[-1][2]).abs == 16
+        if posn[new_square][0..1] == opp_pawn
+        puts "YES!!!"
+        else
+          puts "NOOOOOO"
+        end
+      end
+    end
+
+    # if new_square != nil && posn[new_square][0..1] == opp_pawn
+    # see if either of above squares are new_sq of last move
+      # if yes, then is sq occupied by opp color pawn?
+        # if yes, did that pawn move 2 sqs in last move?
+          # if yes == en-p & can take (needs new routine in move part)
+    #end
+
+
   end
 end
 
@@ -171,7 +197,7 @@ class Rook < Sliding_Piece
     @disambiguate = []
   end
 
-  def find_moves(posn)
+  def find_moves(posn, moves)
     @legal_moves = find_sliding_paths(posn, 'orthogonal')
   end
 end
@@ -186,7 +212,7 @@ class Knight < Piece
     @disambiguate = []
   end
 
-  def find_moves(posn)
+  def find_moves(posn, moves)
     @disambiguate = []
     @legal_moves = []
     directions = ['NE', 'NW', 'EN', 'ES', 'SE', 'SW', 'WN', 'WS']
@@ -221,7 +247,7 @@ class Bishop < Sliding_Piece
     @disambiguate = []
   end
 
-  def find_moves(posn)
+  def find_moves(posn, moves)
     @legal_moves = find_sliding_paths(posn, 'diagonal')
   end
 
@@ -236,7 +262,7 @@ class Queen < Sliding_Piece
     @disambiguate = []
   end
 
-  def find_moves(posn)
+  def find_moves(posn, moves)
     dis_list = []
     orthogonal_moves = find_sliding_paths(posn, 'orthogonal')
     dis_list = @disambiguate
@@ -253,7 +279,7 @@ class King < Piece
     @icon = Image.new("img/#{@color[0]}_king.png", height: 70, width: 70)
   end
 
-  def find_moves(posn)
+  def find_moves(posn, moves)
     @legal_moves = []
     directions = [['N', 'S', 'E', 'W'], ['NE', 'SE', 'SW', 'NW']]
     2.times do |i|
