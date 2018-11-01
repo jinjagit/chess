@@ -7,7 +7,7 @@ I chose not to produce a command line app, but instead went for a more graphical
 
 Current state (31/10/18): Pieces constrained to legal moves (including taking), except for; not constrained by check (kinda important issue) and en-passant not yet implemented. Detecting check will hopefully lead to detection of pins (and, of course, checkmate), and then a working game will be possible, though I expect it will take some work to optimize / make efficient.
 
-Alternate player moves are enforced, and a move list (both native and PGN format) is created as the 'game' progresses. The piece that moved is disambiguated in PGN format, when needed (e.g. 'Nbd7', rather than simply 'Nd7').
+White / Black alternation of moves is enforced, and a move list (both native and PGN format) is created as the 'game' progresses. The piece that moved is disambiguated in PGN format, when needed (e.g. 'Nbd7', rather than simply 'Nd7').
 
 Note: At the moment, to run this (after downloading this repository), you'll need Ruby installed. Then navigate to the root folder of the downloaded repository and enter <code>'ruby sandbox.rb'</code>
 
