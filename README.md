@@ -21,6 +21,6 @@ Current state (31/10/18): Pieces constrained to legal moves (including taking), 
 
 ### Resources used:
 
-    * Chess Mérida: Freeware. True Type Font by Armando H. Marroquin for diagrams and figurine notation. [source](https://marcelk.net/chess/pieces/merida/320/)
-    * ruby2D gem: Tom Black: This entire project is open source under the MIT license. [web page](http://www.ruby2d.com/learn/get-started/)
-    * Ubuntu Fonts: The licence allows the licensed fonts to be used, studied, modified and redistributed freely (providing certain conditions are met).
+  * Chess Mérida: Freeware. True Type Font by Armando H. Marroquin for diagrams and figurine notation. [source](https://marcelk.net/chess/pieces/merida/320/)
+  * ruby2D gem: Tom Black: This entire project is open source under the MIT license. [web page](http://www.ruby2d.com/learn/get-started/)
+  * Ubuntu Fonts: The licence allows the licensed fonts to be used, studied, modified and redistributed freely (providing certain conditions are met).
