@@ -20,6 +20,10 @@ module Board
       @icon = Square.new(x: x, y: y,  size: 80, color: @color,
               z: -1)
     end
+
+    def set_origin(square)
+      @icon.x, @icon.y = Board.square_origin(square)
+    end
   end
 
   def self.draw_coords(coords)
@@ -64,6 +68,18 @@ module Board
     x_posn = ((index % 8) * 80) + x_offset
     y_posn = ((index / 8.floor) * 80) + y_offset
     return x_posn, y_posn
+  end
+
+  def self.show_home_piece(piece, square, spare_pieces)
+    home_piece = spare_pieces.detect {|e| e.name.include?(piece[0..1])}
+    x_posn, y_posn = square_origin(square)
+    home_piece.set_posn(x_posn, y_posn)
+    home_piece.icon.z = 2
+  end
+
+  def self.hide_home_piece(piece, spare_pieces)
+    home_piece = spare_pieces.detect {|e| e.name.include?(piece[0..1])}
+    home_piece.icon.z = -1
   end
 
   def self.draw_board(coords = true)

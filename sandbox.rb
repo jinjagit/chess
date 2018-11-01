@@ -62,6 +62,9 @@ on :mouse_down do |event|
       piece = game_pieces.detect {|e| e.name == posn_pc}
       if game.to_move == piece.color
         piece_lift = true
+        home_square.set_origin(location)
+        home_square.icon.z = 5
+        Board.show_home_piece(posn_pc, location, spare_pieces)
         start_square = location
         piece.find_moves(posn, moves)
         legal_list = piece.legal_moves
@@ -93,6 +96,8 @@ on :mouse_up do |event|
       x_pos, y_pos = Board.square_origin(start_square)
     end
 
+    Board.hide_home_piece(posn_pc, spare_pieces)
+    home_square.icon.z = -1
     piece.set_posn(x_pos, y_pos)
     piece.icon.z = 3
   end
