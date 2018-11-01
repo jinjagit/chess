@@ -46,7 +46,7 @@ module Board
   end
 
   def self.highlight_squares(list, highlight_sqs)
-    list.each {|sq| (highlight_sqs.detect {|e| e.square == sq}).icon.z = 5}
+    list.each {|sq| (highlight_sqs.detect {|e| e.square == sq}).icon.z = 2}
   end
 
   def self.unhighlight_squares(list, highlight_sqs)
