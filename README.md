@@ -13,7 +13,7 @@ Note: At the moment, to run this (after downloading this repository), you'll nee
 
 ### Interesting issues to address:
   * Detecting 3-fold repetition (store and scan checksums on hashes of positions?)
-  * Brute force calculation of legal moves only when player lifts piece, or by continually updating a list of all legal moves for each side (and working out how to minimize the updating process by calculating how every/any move does / might _not_ affect some other pieces)?
+  * Brute force calculation of legal moves only when player lifts piece, or by continually updating a list of all legal moves for each side (and working out how to minimize the updating process by calculating how every/any move does / might _not_ affect some other pieces)? EDIT (1/11/18): After some measurements of time taken to calculate 'legal' moves, the brute force approach is looking like it is probably adequate.
   * 50-move draw rule
 
 ### Features I want to add:
