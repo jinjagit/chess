@@ -98,16 +98,13 @@ class Game
     piece.square = end_square
     piece.moved ||= true
 
-    # 2. update ply number & side to move next (@to_move)
+    # 2. update ply number, side to move next (@to_move) & move list(s)
     @ply += 1
     set_side_to_move
-
-    # 3. add move to move list(s):
-    #name = piece.name
     @moves << [piece.name[0..1], start_square, end_square, details]
     pgn_move(posn, piece, start_square, end_square, details)
 
-    # 4. update status header
+    # 3. update status header
     @status.remove
     to_m = @to_move.capitalize
     @status = Text.new(
@@ -115,8 +112,8 @@ class Game
        x: 400, y: 8, font: 'fonts/UbuntuMono-R.ttf', size: 24,
        color: '#ffffff', z: 3)
 
-    #p @pgn # debug (and later, for display)
-    p @moves
+    p @pgn # debug (and later, for display)
+    # p @moves
     puts
 
     return x_pos, y_pos, @moves, posn
