@@ -7,6 +7,8 @@ I chose not to produce a command line app, but instead went for a more graphical
 
 Current state (31/10/18): Pieces constrained to legal moves (including taking), except for; not constrained by check (kinda important issue) and en-passant not yet implemented. Detecting check will hopefully lead to detection of pins (and, of course, checkmate), and then a working game will be possible, though I expect it will take some work to optimize / make efficient.
 
+Note: At the moment, to run this (after downloading this repository), you'll need Ruby installed. Then navigate to the root folder of the downloaded repository and enter <code>'ruby sandbox.rb'</code>
+
 ### Interesting issues to address:
   * Detecting 3-fold repetition (store and scan checksums on hashes of positions?)
   * Brute force calculation of legal moves only when player lifts piece, or by continually updating a list of all legal moves for each side (and working out how to minimize the updating process by calculating how every/any move does / might _not_ affect some other pieces)?
