@@ -134,6 +134,7 @@ class Pawn < Piece
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_pawn.png", height: 70, width: 70)
+    @icon.z = -1
     @ep_square = -1 # >= 0, if valid en-passant capture square exists
   end
 
@@ -195,6 +196,7 @@ class Rook < Sliding_Piece
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_rook.png", height: 70, width: 70)
+    @icon.z = -1
     @disambiguate = []
   end
 
@@ -210,6 +212,7 @@ class Knight < Piece
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_knight.png", height: 70, width: 70)
+    @icon.z = -1
     @disambiguate = []
   end
 
@@ -245,6 +248,7 @@ class Bishop < Sliding_Piece
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_bishop.png", height: 70, width: 70)
+    @icon.z = -1
     @disambiguate = []
   end
 
@@ -260,6 +264,7 @@ class Queen < Sliding_Piece
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_queen.png", height: 70, width: 70)
+    @icon.z = -1
     @disambiguate = []
   end
 
@@ -278,6 +283,7 @@ class King < Piece
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_king.png", height: 70, width: 70)
+    @icon.z = -1
   end
 
   def find_moves(posn, moves = [])

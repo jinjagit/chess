@@ -39,6 +39,7 @@ canvas = Rectangle.new(
 
 game_pieces = []
 moves = []
+spare_pieces = Board.create_spare_pieces
 ui = UI.new
 game = Game.new
 highlight_sqs = Board.draw_board(ui.coords)

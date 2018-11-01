@@ -87,17 +87,34 @@ module Board
     highlight_sqs
   end
 
+  def self.create_spare_pieces
+    names = ['wpx', 'wrx', 'wnx', 'wbx', 'wqx', 'wkx',
+             'bpx', 'brx', 'bnx', 'bbx', 'bqx', 'bkx']
+    spare_pieces = []
+
+    names.each do |name|
+      color = name[0]
+      piece = Piece_Codes[name[1]].new(name, color, -1)
+      spare_pieces << piece
+    end
+
+    spare_pieces
+  end
+
   def self.add_piece(game_pieces, posn, square)
     posn_pc = posn[square]
+
     n = game_pieces.count do |piece|
       piece.class == Piece_Codes[posn_pc[1]] && piece.color[0] == posn_pc[0]
     end
+
     name = "#{posn_pc}#{n}"
     if name[0] == "w"
       color = "white"
     else
       color = "black"
     end
+
     game_pieces << Piece_Codes[posn_pc[1]].new(name, color, square)
     posn[square] = name
     x_pos, y_pos = square_origin(square)
