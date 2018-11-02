@@ -341,7 +341,7 @@ class King < Piece
 
     directions = ['N', 'S', 'E', 'W', 'NE', 'SE', 'SW', 'NW']
 
-    4.times do |i|
+    8.times do |i|
       path = []
       square = @square
       pc1 = nil
@@ -349,13 +349,20 @@ class King < Piece
       count = 0
 
       loop do
-        square = orthogonal_step(square, directions[i])
+        if i < 4
+          square = orthogonal_step(square, directions[i])
+        else
+          square = diagonal_step(square, directions[i])
+        end
         path << square if square != nil
         break if square == nil
 
         if posn[square] != '---'
           piece = posn[square][0..1]
-          if pc1 == nil && (piece == "#{enemy}r" || piece == "#{enemy}q")
+          if (pc1 == nil && i < 4 &&
+            (piece == "#{enemy}r" || piece == "#{enemy}q")) ||
+            (pc1 == nil && i > 3 &&
+            (piece == "#{enemy}b" || piece == "#{enemy}q"))
             n_of_checks += 1
             path[0..-2].each {|e| check_blocks << e} if count > 0
             break
@@ -365,7 +372,8 @@ class King < Piece
             pc1 = piece
           elsif pc1 != nil && piece[0] != enemy
             break
-          elsif piece == "#{enemy}r" || piece == "#{enemy}q"
+          elsif i < 4 && (piece == "#{enemy}r" || piece == "#{enemy}q") ||
+                i > 3 && (piece == "#{enemy}b" || piece == "#{enemy}q")
             pinned["#{pc1}"] = []
             path[0...count].each {|e| pinned["#{pc1}"] << e}
             break
