@@ -17,7 +17,7 @@ Note: At the moment, to run this (after downloading this repository), you'll nee
   * 50-move draw rule
 
 ### Features I want to add:
-  * file ui, for saving a loading of both unfinished and finished games, in both app native and PGN formats.
+  * file ui, for saving / loading of both unfinished and finished games, in both app native and PGN formats.
   * step back / fwd through game (in progress, or completed)
   * ui niceties (e.g. coordinates on/off, piece points count, highlight King when in check, verbose mode, etc.)
   * Try doing more than just an 'AI' that plays a random move (as suggested in the 'Optional Extension'), but instead use a brute force look-ahead of a few ply (will still be an awful opponent!).
