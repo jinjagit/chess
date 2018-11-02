@@ -106,11 +106,14 @@ class Game
     piece.square = end_square
     piece.moved ||= true
 
-    # 2. update ply number, side to move next (@to_move) & move list(s)
+    # 2. update ply number, side to move next (@to_move)
     @ply += 1
     set_side_to_move
+
+    # ----- this needs to move to AFTER posn assessed, to include check(mate)
     @moves << [piece.name[0..1], start_square, end_square, details]
     pgn_move(posn, piece, start_square, end_square, details)
+    # -----------------------------------------------------------------------
 
     # 3. update status header
     @status.remove
