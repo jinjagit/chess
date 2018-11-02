@@ -6,6 +6,8 @@ class Game
   attr_reader :to_move
   attr_accessor :status
   attr_accessor :moves
+  attr_accessor :check
+  attr_accessor :dbl_check
 
   def initialize
     @ply = 0
@@ -14,6 +16,8 @@ class Game
       y: 8, font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
     @moves = [] # [['piece', start_square, end_square, 'x?+?#?']]
     @pgn = ''
+    @check = false
+    @dbl_check = false
   end
 
   def set_side_to_move
