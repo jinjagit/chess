@@ -128,7 +128,13 @@ class Game
   end
 
   def assess_posn(game_pieces, posn)
-
+    if @to_move == 'white'
+      king = game_pieces.detect {|e| e.name == 'wk0'}
+    else
+      king = game_pieces.detect {|e| e.name == 'bk0'}
+    end
+    a = king.checks_n_pins
+    puts a
   end
 
 end

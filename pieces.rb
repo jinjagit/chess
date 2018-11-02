@@ -311,4 +311,8 @@ class King < Piece
       end
     end
   end
+
+  def checks_n_pins
+    return "hello from checks_n_pins def!"
+  end
 end
