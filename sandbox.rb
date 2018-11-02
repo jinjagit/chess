@@ -118,7 +118,7 @@ on :key_down do |e|
     when '2'
       new_posn = 'dbl_checks'
     when '3'
-      new_posn = 'rooks'
+      new_posn = 'ep_case'
     when '4'
       new_posn = 'knights'
     when '5'
