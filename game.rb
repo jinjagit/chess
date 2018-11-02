@@ -123,11 +123,19 @@ class Game
        x: 400, y: 8, font: 'fonts/UbuntuMono-R.ttf', size: 24,
        color: '#ffffff', z: 3)
 
-    p @pgn # debug (and later, for display)
+    # p @pgn # debug (and later, for display)
     # p @moves
-    puts
+    # puts
 
     return x_pos, y_pos, @moves, posn
+  end
+
+  def common(array_a, array_b)
+    common = []
+    array_a.each do |a|
+      common << a if array_b.any? {|b| b == a}
+    end
+    common
   end
 
   def assess_posn(game_pieces, posn)
@@ -136,6 +144,7 @@ class Game
     else
       king = game_pieces.detect {|e| e.name == 'bk0'}
     end
+    check_blocks = @check_blocks
     king.checks_n_pins(game_pieces, posn)
   end
 

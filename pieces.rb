@@ -312,9 +312,11 @@ class King < Piece
     end
   end
 
+
   def checks_n_pins(game_pieces, posn)
     n_of_checks = 0
     king_sq = posn.find_index("#{@color[0]}k0")
+    check_blocks = []
 
     if @color == 'white'
       enemy = 'b'
@@ -327,9 +329,17 @@ class King < Piece
       sq_store = knight.square
       knight.square = king_sq
       knight.find_moves(posn)
-      puts knight.disambiguate
+      if knight.disambiguate != []
+        n_of_checks = 1
+        check_blocks << knight.disambiguate[0]
+      end
       knight.square = sq_store
     end
+
+
+    print "checks: #{n_of_checks} "
+    print "#{check_blocks}" if check_blocks !=[]
+    puts
   end
 
 
