@@ -89,6 +89,14 @@ class Piece
     end
     square
   end
+
+  def common(array_a, array_b)
+    common = []
+    array_a.each do |a|
+      common << a if array_b.any? {|b| b == a}
+    end
+    common
+  end
 end
 
 class Sliding_Piece < Piece

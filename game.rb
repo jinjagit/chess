@@ -136,14 +136,6 @@ class Game
     return x_pos, y_pos, @moves, posn
   end
 
-  def common(array_a, array_b)
-    common = []
-    array_a.each do |a|
-      common << a if array_b.any? {|b| b == a}
-    end
-    common
-  end
-
   def assess_posn(game_pieces, posn)
     if @to_move == 'white'
       king = game_pieces.detect {|e| e.name == 'wk0'}
