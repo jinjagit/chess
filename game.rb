@@ -6,8 +6,7 @@ class Game
   attr_reader :to_move
   attr_accessor :status
   attr_accessor :moves
-  attr_accessor :check
-  attr_accessor :dbl_check
+  attr_accessor :checks
   attr_reader :check_blocks
   attr_reader :pins
   attr_accessor :game_over
@@ -19,8 +18,7 @@ class Game
       y: 8, font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
     @moves = [] # [['piece', start_square, end_square, 'x?+?#?']]
     @pgn = ''
-    @check = false
-    @dbl_check = false
+    @checks = 0
     @check_blocks = []
     @pinned = {}
     @game_over = ''
@@ -108,6 +106,12 @@ class Game
     piece.square = end_square
     piece.moved ||= true
 
+    if piece.dbl_check == true # set back to false, as cannot be true if move made
+      game_pieces.each do |piece|
+        piece.dbl_check = false if piece.name[0] == @to_move[0]
+      end
+    end
+
     # 2. update ply number, side to move next (@to_move)
     @ply += 1
     set_side_to_move
@@ -146,8 +150,28 @@ class Game
     else
       king = game_pieces.detect {|e| e.name == 'bk0'}
     end
-    check_blocks = @check_blocks
-    king.checks_n_pins(game_pieces, posn)
+    @checks, @check_blocks, @pinned = king.checks_n_pins(game_pieces, posn)
+
+    puts "checks: #{@checks}  block_sqs: #{@check_blocks}  pinned: #{@pinned}"
+
+    if @checks > 1
+      puts "double check!"
+      king.find_moves(game_pieces, posn)
+      king_moves = king.legal_moves
+      if king_moves.length == 0
+        @game_over = 'checkmate!'
+      else
+        game_pieces.each do |piece|
+          piece.dbl_check = true if piece.name[0] == @to_move[0]
+        end
+      end
+      # set all pieces of @to_move[1] to dbl_check, then all piece find moves
+      # give @legal_moves = [], except king's, which does nothing (as already run)
+      #N.B set all pieces dbl_check = false after move made (before change sdie to move)
+
+    end
+
+    puts "#{@game_over}"
   end
 
 end

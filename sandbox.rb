@@ -55,7 +55,7 @@ legal_list = []
 
 on :mouse_down do |event|
   location = Board.mouse_square(event.x, event.y)
-  if location != "off_board"
+  if location != "off_board" && game.game_over == ''
     #startTime = Time.now # debug: monitor responsiveness
     posn_pc = posn[location]
     if posn_pc != "---"
@@ -66,7 +66,11 @@ on :mouse_down do |event|
         home_square.icon.z = 5
         Board.show_home_piece(posn_pc, location, spare_pieces)
         start_square = location
-        piece.find_moves(posn, moves)
+        if posn_pc[1] == 'k'
+          piece.find_moves(game_pieces, posn, moves)
+        else
+          piece.find_moves(posn, moves)
+        end
         legal_list = piece.legal_moves
         Board.highlight_squares(legal_list, highlight_sqs)
       end
