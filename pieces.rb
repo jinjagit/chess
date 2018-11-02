@@ -6,6 +6,7 @@ class Piece
   attr_accessor :legal_moves
   attr_accessor :moved
   attr_accessor :checks
+  attr_accessor :check_blocks
 
   def initialize(name, color, square)
     @name = name
@@ -14,6 +15,7 @@ class Piece
     @legal_moves = []
     @moved = false
     @checks = 0
+    @check_blocks = []
   end
 
   def set_posn(x, y)
@@ -199,8 +201,12 @@ class Pawn < Piece
           end
         end
       end
+      if @check_blocks != []
+        @legal_moves = common(@legal_moves, @check_blocks)
+      end
     end
   end
+
 end
 
 
@@ -219,6 +225,9 @@ class Rook < Sliding_Piece
       @legal_moves = []
     else
       @legal_moves = find_sliding_paths(posn, 'orthogonal')
+      if @check_blocks != []
+        @legal_moves = common(@legal_moves, @check_blocks)
+      end
     end
   end
 end
@@ -260,6 +269,9 @@ class Knight < Piece
             end
           end
         end
+        if @check_blocks != []
+          @legal_moves = common(@legal_moves, @check_blocks)
+        end
       end
     end
 end
@@ -279,6 +291,9 @@ class Bishop < Sliding_Piece
       @legal_moves = []
     else
       @legal_moves = find_sliding_paths(posn, 'diagonal')
+      if @check_blocks != []
+        @legal_moves = common(@legal_moves, @check_blocks)
+      end
     end
   end
 
@@ -305,6 +320,9 @@ class Queen < Sliding_Piece
       dis_list += @disambiguate
       @disambiguate = dis_list
       @legal_moves = orthogonal_moves + diagonal_moves
+      if @check_blocks != []
+        @legal_moves = common(@legal_moves, @check_blocks)
+      end
     end
   end
 end

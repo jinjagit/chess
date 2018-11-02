@@ -106,9 +106,12 @@ class Game
     piece.square = end_square
     piece.moved ||= true
 
-    if piece.checks > 0 # set back to zero, if move made (else checkmate already)
+    if piece.checks > 0 # reset check vars, if move made (else checkmate already)
       game_pieces.each do |piece|
-        piece.checks = 0 if piece.name[0] == @to_move[0]
+        if piece.name[0] == @to_move[0]
+          piece.checks = 0
+          piece.check_blocks = []
+        end
       end
     end
 
@@ -146,20 +149,34 @@ class Game
 
     puts "checks: #{@checks}  block_sqs: #{@check_blocks}  pinned: #{@pinned}"
 
-    if @checks > 1
-      puts "double check!"
+    if @checks > 0
       king.find_moves(game_pieces, posn)
       king_moves = king.legal_moves
-      if king_moves.length == 0
-        @game_over = 'checkmate!'
-      else
-        game_pieces.each do |piece|
-          piece.checks = 2 if piece.name[0] == @to_move[0]
+      if checks > 1
+        puts "double check!" # DEBUG output
+        if king_moves.length == 0
+          @game_over = 'checkmate!'
+        else
+          game_pieces.each do |piece|
+            piece.checks = @checks if piece.name[0] == @to_move[0]
+          end
         end
       end
-      # set all pieces of @to_move[1] to dbl_check, then all piece find moves
-      # give @legal_moves = [], except king's, which does nothing (as already run)
-      #N.B set all pieces dbl_check = false after move made (before change sdie to move)
+      if @checks == 1
+        game_pieces.each do |piece|
+          if piece.name[0] == @to_move[0]
+            piece.checks = @checks
+            piece.check_blocks = @check_blocks
+          end
+      end
+        # if king_moves.length == 0, then...
+          # call find_moves on every other piece of checked color, one at a time;
+          # assess if legal_moves == 0
+            # break loop if != 0
+            # call checkmate if all == 0
+
+
+      end
 
     end
 
