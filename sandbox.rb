@@ -123,7 +123,7 @@ on :key_down do |e|
     when '7'
       new_posn = 'two_kings'
     when '8'
-      new_posn = 'check'
+      new_posn = 'checks'
     when '9'
       new_posn = 'pins'
   end
