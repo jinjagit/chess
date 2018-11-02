@@ -112,7 +112,7 @@ on :key_down do |e|
     when '1'
       new_posn = 'start'
     when '2'
-      new_posn = 'pawns'
+      new_posn = 'dbl_checks'
     when '3'
       new_posn = 'rooks'
     when '4'
