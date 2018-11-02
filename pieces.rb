@@ -362,9 +362,11 @@ class King < Piece
           if (pc1 == nil && i < 4 &&
             (piece == "#{enemy}r" || piece == "#{enemy}q")) ||
             (pc1 == nil && i > 3 &&
-            (piece == "#{enemy}b" || piece == "#{enemy}q"))
+            (piece == "#{enemy}b" || piece == "#{enemy}q" ||
+            (piece == "#{enemy}p" && count == 0 &&
+            pawn_dirs.any? {|e| e == directions[i]})))
             n_of_checks += 1
-            path[0..-2].each {|e| check_blocks << e} if count > 0
+            path[0..-1].each {|e| check_blocks << e}
             break
           elsif pc1 == nil && piece[0] == enemy
             break
