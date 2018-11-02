@@ -10,6 +10,7 @@ class Game
   attr_accessor :dbl_check
   attr_reader :check_blocks
   attr_reader :pins
+  attr_accessor :game_over
 
   def initialize
     @ply = 0
@@ -22,6 +23,7 @@ class Game
     @dbl_check = false
     @check_blocks = []
     @pinned = {}
+    @game_over = ''
   end
 
   def set_side_to_move

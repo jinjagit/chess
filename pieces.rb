@@ -317,11 +317,14 @@ class King < Piece
     n_of_checks = 0
     king_sq = posn.find_index("#{@color[0]}k0")
     check_blocks = []
+    pinned = {}
 
     if @color == 'white'
       enemy = 'b'
+      pawn_dirs = ['NE', 'NW']
     else
       enemy = 'w'
+      pawn_dirs = ['SE', 'SW']
     end
 
     if posn.any? {|e| e.include?("#{enemy}n")}
@@ -336,9 +339,55 @@ class King < Piece
       knight.square = sq_store
     end
 
+    directions = ['N', 'S', 'E', 'W', 'NE', 'SE', 'SW', 'NW']
+
+    4.times do |i|
+      path = []
+      square = @square
+      pc1 = nil
+      pc2 = ''
+      count = 0
+
+      loop do
+        square = orthogonal_step(square, directions[i])
+        path << square if square != nil
+        break if square == nil
+
+        if posn[square] != '---'
+          piece = posn[square][0..1]
+          if pc1 == nil && (piece == "#{enemy}r" || piece == "#{enemy}q")
+            n_of_checks += 1
+            path[0..-2].each {|e| check_blocks << e} if count > 0
+            break
+          elsif pc1 == nil && piece[0] == enemy
+            break
+          elsif pc1 == nil # could be pinned piece
+            pc1 = piece
+          elsif pc1 != nil && piece[0] != enemy
+            break
+          elsif piece == "#{enemy}r" || piece == "#{enemy}q"
+            pinned["#{pc1}"] = []
+            path[0...count].each {|e| pinned["#{pc1}"] << e}
+            break
+          else
+            break
+          end
+
+        end
+
+        count += 1
+      end
+
+      # break if n_of_checks > 1, etc...
+
+      # puts "path: #{path}"
+    end
+
+
 
     print "checks: #{n_of_checks} "
-    print "#{check_blocks}" if check_blocks !=[]
+    print "#{check_blocks} " if check_blocks != []
+    print "pinned: #{pinned}" # if pinned != {}
     puts
   end
 
