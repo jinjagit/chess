@@ -8,6 +8,8 @@ class Game
   attr_accessor :moves
   attr_accessor :check
   attr_accessor :dbl_check
+  attr_reader :check_blocks
+  attr_reader :pins
 
   def initialize
     @ply = 0
@@ -18,6 +20,8 @@ class Game
     @pgn = ''
     @check = false
     @dbl_check = false
+    @check_blocks = []
+    @pinned = {}
   end
 
   def set_side_to_move
@@ -121,6 +125,10 @@ class Game
     puts
 
     return x_pos, y_pos, @moves, posn
+  end
+
+  def assess_posn(game_pieces, posn)
+
   end
 
 end

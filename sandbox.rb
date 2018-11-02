@@ -100,6 +100,7 @@ on :mouse_up do |event|
     home_square.icon.z = -1
     piece.set_posn(x_pos, y_pos)
     piece.icon.z = 3
+    game.assess_posn(game_pieces, posn)
   end
 
   # print_posn(posn) # debug output
