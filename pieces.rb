@@ -142,12 +142,14 @@ end
 
 class Pawn < Piece
   attr_accessor :ep_square
+  attr_accessor :ep_take_sq
 
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_pawn.png", height: 70, width: 70)
     @icon.z = -1
-    @ep_square = -1 # >= 0, if valid en-passant capture square exists
+    @ep_square = -1 # >= 0, == valid en-passant move square
+    @ep_take_sq = -1 # >= 0, == valid en-passant capture square
   end
 
   def find_moves(posn, moves = [])
@@ -190,6 +192,7 @@ class Pawn < Piece
           new_square = orthogonal_step(@square, e)
           if new_square != nil && (moves[-1][1] - moves[-1][2]).abs == 16
             if posn[new_square][0..1] == opp_pawn
+              @ep_take_sq = new_square
               if @color == 'white'
                 @ep_square = new_square - 8
                 @legal_moves << @ep_square
@@ -202,7 +205,11 @@ class Pawn < Piece
         end
       end
       if @check_blocks != []
-        @legal_moves = common(@legal_moves, @check_blocks)
+        if @check_blocks[0] == @ep_take_sq
+          @legal_moves = [@ep_square]
+        else
+          @legal_moves = common(@legal_moves, @check_blocks)
+        end
       end
     end
   end
@@ -230,6 +237,7 @@ class Rook < Sliding_Piece
       end
     end
   end
+
 end
 
 
@@ -274,6 +282,7 @@ class Knight < Piece
         end
       end
     end
+
 end
 
 class Bishop < Sliding_Piece

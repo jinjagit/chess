@@ -115,6 +115,8 @@ class Game
       end
     end
 
+    piece.ep_take_sq = -1 if piece.name[1] == 'p' && piece.ep_take_sq >= 0
+
     # 2. update ply number, side to move next (@to_move)
     @ply += 1
     set_side_to_move
