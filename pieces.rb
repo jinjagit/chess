@@ -312,7 +312,25 @@ class King < Piece
     end
   end
 
-  def checks_n_pins
-    return "hello from checks_n_pins def!"
+  def checks_n_pins(game_pieces, posn)
+    n_of_checks = 0
+    king_sq = posn.find_index("#{@color[0]}k0")
+
+    if @color == 'white'
+      enemy = 'b'
+    else
+      enemy = 'w'
+    end
+
+    if posn.any? {|e| e.include?("#{enemy}n")}
+      knight = game_pieces.detect {|e| e.name == "#{enemy}n0"}
+      sq_store = knight.square
+      knight.square = king_sq
+      knight.find_moves(posn)
+      puts knight.disambiguate
+      knight.square = sq_store
+    end
   end
+
+
 end

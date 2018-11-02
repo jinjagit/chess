@@ -133,8 +133,7 @@ class Game
     else
       king = game_pieces.detect {|e| e.name == 'bk0'}
     end
-    a = king.checks_n_pins
-    puts a
+    king.checks_n_pins(game_pieces, posn)
   end
 
 end
