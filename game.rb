@@ -132,7 +132,7 @@ class Game
        x: 400, y: 8, font: 'fonts/UbuntuMono-R.ttf', size: 24,
        color: '#ffffff', z: 3)
 
-    # p @pgn # debug (and later, for display)
+    p @pgn # debug (and later, for display)
     # p @moves
     # puts
 
@@ -152,7 +152,7 @@ class Game
     if @checks > 0
       king.find_moves(game_pieces, posn)
       king_moves = king.legal_moves
-      if checks > 1
+      if @checks > 1
         puts "double check!" # DEBUG output
         if king_moves.length == 0
           @game_over = 'checkmate!'
@@ -162,22 +162,26 @@ class Game
           end
         end
       end
+
       if @checks == 1
         game_pieces.each do |piece|
           if piece.name[0] == @to_move[0]
             piece.checks = @checks
             piece.check_blocks = @check_blocks
           end
+        end
+        if king_moves.length == 0
+          mate = true
+          game_pieces.each do |piece|
+            if piece.name[0] == @to_move[0] && piece.name[1] != 'k'
+              piece.find_moves(posn)
+              mate = false if piece.legal_moves != []
+            end
+            break if mate == false
+          end
+        end
+        @game_over = 'checkmate!' if mate == true
       end
-        # if king_moves.length == 0, then...
-          # call find_moves on every other piece of checked color, one at a time;
-          # assess if legal_moves == 0
-            # break loop if != 0
-            # call checkmate if all == 0
-
-
-      end
-
     end
 
     puts "#{@game_over}"
