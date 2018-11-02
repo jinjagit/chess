@@ -106,9 +106,9 @@ class Game
     piece.square = end_square
     piece.moved ||= true
 
-    if piece.dbl_check == true # set back to false, as cannot be true if move made
+    if piece.checks > 0 # set back to zero, if move made (else checkmate already)
       game_pieces.each do |piece|
-        piece.dbl_check = false if piece.name[0] == @to_move[0]
+        piece.checks = 0 if piece.name[0] == @to_move[0]
       end
     end
 
@@ -154,7 +154,7 @@ class Game
         @game_over = 'checkmate!'
       else
         game_pieces.each do |piece|
-          piece.dbl_check = true if piece.name[0] == @to_move[0]
+          piece.checks = 2 if piece.name[0] == @to_move[0]
         end
       end
       # set all pieces of @to_move[1] to dbl_check, then all piece find moves

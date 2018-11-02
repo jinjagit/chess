@@ -5,7 +5,7 @@ class Piece
   attr_accessor :square
   attr_accessor :legal_moves
   attr_accessor :moved
-  attr_accessor :dbl_check
+  attr_accessor :checks
 
   def initialize(name, color, square)
     @name = name
@@ -13,7 +13,7 @@ class Piece
     @square = square
     @legal_moves = []
     @moved = false
-    @dbl_check = false
+    @checks = 0
   end
 
   def set_posn(x, y)
@@ -150,7 +150,7 @@ class Pawn < Piece
 
   def find_moves(posn, moves = [])
     @legal_moves = []
-    if @dbl_check == true
+    if @checks > 1
       @legal_moves
     else
       if @color == 'white'
@@ -215,7 +215,7 @@ class Rook < Sliding_Piece
   end
 
   def find_moves(posn, moves = [])
-    if @dbl_check == true
+    if @checks > 1
       @legal_moves = []
     else
       @legal_moves = find_sliding_paths(posn, 'orthogonal')
@@ -235,7 +235,7 @@ class Knight < Piece
   end
 
   def find_moves(posn, moves = [])
-    if @dbl_check == true
+    if @checks > 1
       @legal_moves = []
     else
       @disambiguate = []
@@ -275,7 +275,7 @@ class Bishop < Sliding_Piece
   end
 
   def find_moves(posn, moves = [])
-    if @dbl_check == true
+    if @checks > 1
       @legal_moves = []
     else
       @legal_moves = find_sliding_paths(posn, 'diagonal')
@@ -295,7 +295,7 @@ class Queen < Sliding_Piece
   end
 
   def find_moves(posn, moves = [])
-    if @dbl_check == true
+    if @checks > 1
       @legal_moves = []
     else
       dis_list = []
@@ -317,7 +317,7 @@ class King < Piece
   end
 
   def find_moves(game_pieces, posn, moves = [])
-    if @dbl_check == false # def already run before @dbl_check set true
+    if @checks < 2 # def already run before @dbl_check set true
       @legal_moves = []
       directions = [['N', 'S', 'E', 'W'], ['NE', 'SE', 'SW', 'NW']]
       2.times do |i|
