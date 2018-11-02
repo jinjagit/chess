@@ -123,9 +123,11 @@ on :key_down do |e|
     when '7'
       new_posn = 'two_kings'
     when '8'
-      new_posn = 'game'
+      new_posn = 'check'
+    when '9'
+      new_posn = 'pins'
   end
-  if e.key.to_i > 0 && e.key.to_i < 9
+  if e.key.to_i > 0 && e.key.to_i < 10
     Board.clear_pieces(game_pieces)
     game.status.remove
     game = Game.new
