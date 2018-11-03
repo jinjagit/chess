@@ -117,6 +117,14 @@ class Game
 
     piece.ep_take_sq = -1 if piece.name[1] == 'p' && piece.ep_take_sq >= 0
 
+    if @pinned != {}
+      game_pieces.each do |piece|
+        if @pinned.key?(piece.name)
+          piece.pinned = {}
+        end
+      end
+    end
+
     # 2. update ply number, side to move next (@to_move)
     @ply += 1
     set_side_to_move
@@ -164,7 +172,6 @@ class Game
           end
         end
       end
-
       if @checks == 1
         game_pieces.each do |piece|
           if piece.name[0] == @to_move[0]
@@ -183,6 +190,14 @@ class Game
           end
         end
         @game_over = 'checkmate!' if mate == true
+      end
+    end
+
+    if @pinned != {}
+      game_pieces.each do |piece|
+        if @pinned.key?(piece.name)
+          piece.pinned = @pinned
+        end
       end
     end
 

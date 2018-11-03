@@ -7,6 +7,7 @@ class Piece
   attr_accessor :moved
   attr_accessor :checks
   attr_accessor :check_blocks
+  attr_accessor :pinned
 
   def initialize(name, color, square)
     @name = name
@@ -16,6 +17,7 @@ class Piece
     @moved = false
     @checks = 0
     @check_blocks = []
+    @pinned = {}
   end
 
   def set_posn(x, y)
@@ -211,6 +213,10 @@ class Pawn < Piece
           @legal_moves = common(@legal_moves, @check_blocks)
         end
       end
+      if @pinned != {}
+        pin_moves = @pinned[@name]
+        @legal_moves = common(@legal_moves, pin_moves)
+      end
     end
   end
 
@@ -234,6 +240,10 @@ class Rook < Sliding_Piece
       @legal_moves = find_sliding_paths(posn, 'orthogonal')
       if @check_blocks != []
         @legal_moves = common(@legal_moves, @check_blocks)
+      end
+      if @pinned != {}
+        pin_moves = @pinned[@name]
+        @legal_moves = common(@legal_moves, pin_moves)
       end
     end
   end
@@ -280,6 +290,10 @@ class Knight < Piece
         if @check_blocks != []
           @legal_moves = common(@legal_moves, @check_blocks)
         end
+        if @pinned != {}
+          pin_moves = @pinned[@name]
+          @legal_moves = common(@legal_moves, pin_moves)
+        end
       end
     end
 
@@ -302,6 +316,10 @@ class Bishop < Sliding_Piece
       @legal_moves = find_sliding_paths(posn, 'diagonal')
       if @check_blocks != []
         @legal_moves = common(@legal_moves, @check_blocks)
+      end
+      if @pinned != {}
+        pin_moves = @pinned[@name]
+        @legal_moves = common(@legal_moves, pin_moves)
       end
     end
   end
@@ -331,6 +349,10 @@ class Queen < Sliding_Piece
       @legal_moves = orthogonal_moves + diagonal_moves
       if @check_blocks != []
         @legal_moves = common(@legal_moves, @check_blocks)
+      end
+      if @pinned != {}
+        pin_moves = @pinned[@name]
+        @legal_moves = common(@legal_moves, pin_moves)
       end
     end
   end
@@ -427,12 +449,12 @@ class King < Piece
         break if square == nil
 
         if posn[square] != '---'
-          piece = posn[square][0..1]
+          piece = posn[square]
           if (pc1 == nil && i < 4 &&
-              (piece == "#{enemy}r" || piece == "#{enemy}q")) ||
+              (piece[0..1] == "#{enemy}r" || piece[0..1] == "#{enemy}q")) ||
               (pc1 == nil && i > 3 &&
-              (piece == "#{enemy}b" || piece == "#{enemy}q" ||
-              (piece == "#{enemy}p" && count == 0 &&
+              (piece[0..1] == "#{enemy}b" || piece[0..1] == "#{enemy}q" ||
+              (piece[0..1] == "#{enemy}p" && count == 0 &&
               pawn_dirs.any? {|e| e == directions[i]})))
             n_of_checks += 1
             path[0..-1].each {|e| check_blocks << e}
@@ -443,8 +465,8 @@ class King < Piece
             pc1 = piece
           elsif pc1 != nil && piece[0] != enemy
             break
-          elsif i < 4 && (piece == "#{enemy}r" || piece == "#{enemy}q") ||
-                i > 3 && (piece == "#{enemy}b" || piece == "#{enemy}q")
+          elsif i < 4 && (piece[0..1] == "#{enemy}r" || piece[0..1] == "#{enemy}q") ||
+                i > 3 && (piece[0..1] == "#{enemy}b" || piece[0..1] == "#{enemy}q")
             pinned["#{pc1}"] = []
             path[0...count].each {|e| pinned["#{pc1}"] << e}
             break
