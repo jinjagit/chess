@@ -144,9 +144,6 @@ class Game
       piece.moved = true
     end
 
-    @ply += 1
-    set_side_to_move
-
     if piece.checks > 0 # reset check vars, if move made (else checkmate already)
       @red_square.icon.z = -1
       game_pieces.each do |piece|
@@ -156,6 +153,9 @@ class Game
         end
       end
     end
+
+    @ply += 1
+    set_side_to_move
 
     piece.ep_take_sq = -1 if piece.name[1] == 'p' && piece.ep_take_sq >= 0
 

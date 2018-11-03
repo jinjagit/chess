@@ -220,7 +220,8 @@ class Pawn < Piece
         else
           @legal_moves = common(@legal_moves, @check_blocks)
         end
-      elsif @pinned != {} && @checks == 0
+      end
+      if @pinned != {}
         pin_moves = @pinned[@name]
         @legal_moves = common(@legal_moves, pin_moves)
       end
@@ -247,7 +248,8 @@ class Rook < Sliding_Piece
       @legal_moves = find_sliding_paths(posn, 'orthogonal')
       if @check_blocks != []
         @legal_moves = common(@legal_moves, @check_blocks)
-      elsif @pinned != {} && @checks == 0
+      end
+      if @pinned != {}
         pin_moves = @pinned[@name]
         @legal_moves = common(@legal_moves, pin_moves)
       end
@@ -295,7 +297,8 @@ class Knight < Piece
         end
         if @check_blocks != []
           @legal_moves = common(@legal_moves, @check_blocks)
-        elsif @pinned != {} && @checks == 0
+        end
+        if @pinned != {}
           pin_moves = @pinned[@name]
           @legal_moves = common(@legal_moves, pin_moves)
         end
@@ -321,7 +324,8 @@ class Bishop < Sliding_Piece
       @legal_moves = find_sliding_paths(posn, 'diagonal')
       if @check_blocks != []
         @legal_moves = common(@legal_moves, @check_blocks)
-      elsif @pinned != {} && @checks == 0
+      end
+      if @pinned != {}
         pin_moves = @pinned[@name]
         @legal_moves = common(@legal_moves, pin_moves)
       end
@@ -353,7 +357,8 @@ class Queen < Sliding_Piece
       @legal_moves = orthogonal_moves + diagonal_moves
       if @check_blocks != []
         @legal_moves = common(@legal_moves, @check_blocks)
-      elsif @pinned != {} && @checks == 0
+      end
+      if @pinned != {}
         pin_moves = @pinned[@name]
         @legal_moves = common(@legal_moves, pin_moves)
       end
