@@ -40,9 +40,8 @@ class Game
     pgn_square = file + rank
   end
 
-  def pgn_move(posn, piece, start_square, end_square, details)
+  def pgn_move(posn, piece, start_square, end_square, details = '')
     name = piece.name
-    puts "details: #{details}"
     if details.include?('+') || details.include?('#')
       check_sym = details[-1]
       details = details[0..-2]
@@ -200,11 +199,36 @@ class Game
       details = 'x'
       @pc_taken = false
     end
+
     if @checks > 0 && @game_over != 'checkmate!'
-      details += '+'
+        details += '+'
     elsif @game_over == 'checkmate!'
-      details += '#'
+        details += '#'
     end
+
+    # ------- Castling: update, by removing option(s), if appropriate --------
+
+    if @checks == 0
+      if @to_move == 'white'
+        king = game_pieces.detect {|e| e.name == 'wk0'}
+      else
+        king = game_pieces.detect {|e| e.name == 'bk0'}
+      end
+
+      if king.moved == false
+        if @to_move == 'white'
+          long_rook = game_pieces.detect {|e| e.name == 'wr0'}
+          short_rook = game_pieces.detect {|e| e.name == 'wr1'}
+        else
+          long_rook = game_pieces.detect {|e| e.name == 'br0'}
+          short_rook = game_pieces.detect {|e| e.name == 'br1'}
+        end
+        king.long = false if long_rook.moved == true || long_rook.icon.z < 0
+        king.short = false if short_rook.moved == true || short_rook.icon.z < 0
+      end
+    end
+
+    # ------------------------------------------------------------------------
 
     @moves[-1][3] = details
     pgn_move(posn, piece, start_square, end_square, details)
@@ -218,7 +242,7 @@ class Game
        color: '#ffffff', z: 3)
 
     puts @pgn # debug (and later, for display)
-    p @moves
+    # p @moves
     # puts
 
     puts "#{@game_over}"

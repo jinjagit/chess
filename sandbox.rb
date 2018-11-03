@@ -97,6 +97,7 @@ on :mouse_up do |event|
     if location != "off_board" && legal_list.include?(location) == true
     details = ''
       x_pos, y_pos, moves, posn = game.move(game_pieces, posn, piece, start_square, location, details)
+      game.assess_posn(game_pieces, posn, piece, start_square, location, details)
     else # == illegal move (reject)
       x_pos, y_pos = Board.square_origin(start_square)
     end
@@ -105,7 +106,6 @@ on :mouse_up do |event|
     home_square.icon.z = -1
     piece.set_posn(x_pos, y_pos)
     piece.icon.z = 3
-    game.assess_posn(game_pieces, posn, piece, start_square, location, details)
   end
 
   # print_posn(posn) # debug output

@@ -152,6 +152,8 @@ class Pawn < Piece
     @icon.z = -1
     @ep_square = -1 # >= 0, == valid en-passant move square
     @ep_take_sq = -1 # >= 0, == valid en-passant capture square
+    @long = true
+    @short = true
   end
 
   def find_moves(posn, moves = [])
@@ -392,6 +394,13 @@ class King < Piece
       checks, check_blocks, pinned = checks_n_pins(game_pieces, posn, move)
       @legal_moves = @legal_moves - [move] if checks > 0
     end
+
+    if @checks == 0 && @moved == false
+      puts "#{@color} can maybe castle"
+    else
+      puts "#{@color} CANNOT castle"
+    end
+
   end
 
 
