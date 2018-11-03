@@ -212,8 +212,7 @@ class Pawn < Piece
         else
           @legal_moves = common(@legal_moves, @check_blocks)
         end
-      end
-      if @pinned != {}
+      elsif @pinned != {} && @checks == 0
         pin_moves = @pinned[@name]
         @legal_moves = common(@legal_moves, pin_moves)
       end
@@ -240,8 +239,7 @@ class Rook < Sliding_Piece
       @legal_moves = find_sliding_paths(posn, 'orthogonal')
       if @check_blocks != []
         @legal_moves = common(@legal_moves, @check_blocks)
-      end
-      if @pinned != {}
+      elsif @pinned != {} && @checks == 0
         pin_moves = @pinned[@name]
         @legal_moves = common(@legal_moves, pin_moves)
       end
@@ -289,8 +287,7 @@ class Knight < Piece
         end
         if @check_blocks != []
           @legal_moves = common(@legal_moves, @check_blocks)
-        end
-        if @pinned != {}
+        elsif @pinned != {} && @checks == 0
           pin_moves = @pinned[@name]
           @legal_moves = common(@legal_moves, pin_moves)
         end
@@ -316,8 +313,7 @@ class Bishop < Sliding_Piece
       @legal_moves = find_sliding_paths(posn, 'diagonal')
       if @check_blocks != []
         @legal_moves = common(@legal_moves, @check_blocks)
-      end
-      if @pinned != {}
+      elsif @pinned != {} && @checks == 0
         pin_moves = @pinned[@name]
         @legal_moves = common(@legal_moves, pin_moves)
       end
@@ -349,8 +345,7 @@ class Queen < Sliding_Piece
       @legal_moves = orthogonal_moves + diagonal_moves
       if @check_blocks != []
         @legal_moves = common(@legal_moves, @check_blocks)
-      end
-      if @pinned != {}
+      elsif @pinned != {} && @checks == 0
         pin_moves = @pinned[@name]
         @legal_moves = common(@legal_moves, pin_moves)
       end
@@ -397,7 +392,7 @@ class King < Piece
       checks, check_blocks, pinned = checks_n_pins(game_pieces, posn, move)
       @legal_moves = @legal_moves - [move] if checks > 0
     end
-    @legal_moves
+    puts @legal_moves
   end
 
 
@@ -448,7 +443,7 @@ class King < Piece
         path << square if square != nil
         break if square == nil
 
-        if posn[square] != '---'
+        if posn[square] != '---' && posn[square] != @name
           piece = posn[square]
           if (pc1 == nil && i < 4 &&
               (piece[0..1] == "#{enemy}r" || piece[0..1] == "#{enemy}q")) ||

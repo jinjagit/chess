@@ -84,7 +84,7 @@ class Game
     if (piece.name[1] == 'p' && piece.ep_square == end_square) ||
       posn[end_square] != '---' # piece taken, including en-passant
       if piece.name[1] == 'p' && piece.ep_square == end_square
-        if piece.color == 'white' # piece take en-passant
+        if piece.color == 'white' # piece taken en-passant
           piece_to_take = posn[end_square + 8]
           posn[end_square + 8] = '---'
         else
@@ -182,9 +182,10 @@ class Game
         if king_moves.length == 0
           mate = true
           game_pieces.each do |piece|
-            if piece.name[0] == @to_move[0] && piece.name[1] != 'k'
+            if piece.name[0] == @to_move[0] && piece.name[1] != 'k' && piece.icon.z > 0
               piece.find_moves(posn)
               mate = false if piece.legal_moves != []
+              puts "piece #{piece.name} legal: #{piece.legal_moves}" if piece.legal_moves != []
             end
             break if mate == false
           end
