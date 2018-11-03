@@ -90,6 +90,7 @@ class Game
     posn_pc = posn[start_square]
     if (piece.name[1] == 'p' && piece.ep_square == end_square) ||
       posn[end_square] != '---' # piece taken, including en-passant
+      @pc_taken = true
       if piece.name[1] == 'p' && piece.ep_square == end_square
         if piece.color == 'white' # piece taken en-passant
           piece_to_take = posn[end_square + 8]
@@ -102,7 +103,6 @@ class Game
         details = 'xep'
       else # == piece taken, not en-passant
         piece_to_take = posn[end_square]
-        @pc_taken = true
       end
       piece_to_take = game_pieces.detect {|e| e.name == piece_to_take}
       piece_to_take.icon.z = -1
