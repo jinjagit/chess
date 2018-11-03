@@ -142,9 +142,9 @@ class Game
        x: 400, y: 8, font: 'fonts/UbuntuMono-R.ttf', size: 24,
        color: '#ffffff', z: 3)
 
-    p @pgn # debug (and later, for display)
+    puts @pgn # debug (and later, for display)
     # p @moves
-    # puts
+    puts
 
     return x_pos, y_pos, @moves, posn
   end
@@ -183,7 +183,7 @@ class Game
           mate = true
           game_pieces.each do |piece|
             if piece.name[0] == @to_move[0] && piece.name[1] != 'k' && piece.icon.z > 0
-              puts "piece #{piece.name} legal: #{piece.legal_moves}"
+              # puts "piece #{piece.name} legal: #{piece.legal_moves}" DEBUG output
               piece.find_moves(posn, @moves)
               mate = false if piece.legal_moves != []
             end

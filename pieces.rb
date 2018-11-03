@@ -191,7 +191,6 @@ class Pawn < Piece
         # get number(s) of E & W squares (if not off-board)
         directions = ['E', 'W']
         directions.each do |e|
-          puts "moves: #{moves}"
           new_square = orthogonal_step(@square, e)
           if new_square != nil && (moves[-1][1] - moves[-1][2]).abs == 16
             if posn[new_square][0..1] == opp_pawn
@@ -245,6 +244,7 @@ class Rook < Sliding_Piece
         @legal_moves = common(@legal_moves, pin_moves)
       end
     end
+    puts "rook legal: #{@legal_moves}"
   end
 
 end
@@ -463,7 +463,7 @@ class King < Piece
           elsif i < 4 && (piece[0..1] == "#{enemy}r" || piece[0..1] == "#{enemy}q") ||
                 i > 3 && (piece[0..1] == "#{enemy}b" || piece[0..1] == "#{enemy}q")
             pinned["#{pc1}"] = []
-            path[0...count].each {|e| pinned["#{pc1}"] << e}
+            path[0..count].each {|e| pinned["#{pc1}"] << e}
             break
           else
             break
