@@ -23,6 +23,7 @@ class Game
     @pinned = {}
     @game_over = ''
     @red_square = Board::HighLight_Sq.new(-1, 500, 500, [1.0, 0.0, 0.0, 0.7])
+    @pc_taken = false
   end
 
   def set_side_to_move
@@ -41,6 +42,11 @@ class Game
 
   def pgn_move(posn, piece, start_square, end_square, details)
     name = piece.name
+    puts "details: #{details}"
+    if details.include?('+') || details.include?('#')
+      check_sym = details[-1]
+      details = details[0..-2]
+    end
     if @to_move == 'black'
       n = "#{(@ply + 2) / 2}. "
     else
@@ -75,7 +81,7 @@ class Game
       end
     end
     sq = pgn_square(end_square)
-    @pgn = @pgn + "#{n}#{pc}#{sq} "
+    @pgn = @pgn + "#{n}#{pc}#{sq}#{check_sym} "
   end
 
   def move(game_pieces, posn, piece, start_square, end_square, details = '')
@@ -96,7 +102,7 @@ class Game
         details = 'xep'
       else # == piece taken, not en-passant
         piece_to_take = posn[end_square]
-        details = 'x'
+        @pc_taken = true
       end
       piece_to_take = game_pieces.detect {|e| e.name == piece_to_take}
       piece_to_take.icon.z = -1
@@ -106,6 +112,9 @@ class Game
     posn[start_square] = "---" # can crash, if piece taking not enabled
     piece.square = end_square
     piece.moved ||= true
+
+    @ply += 1
+    set_side_to_move
 
     if piece.checks > 0 # reset check vars, if move made (else checkmate already)
       @red_square.icon.z = -1
@@ -127,31 +136,11 @@ class Game
       end
     end
 
-    # 2. update ply number, side to move next (@to_move)
-    @ply += 1
-    set_side_to_move
-
-    # ----- this needs to move to AFTER posn assessed, to include check(mate)
-    @moves << [piece.name[0..1], start_square, end_square, details]
-    pgn_move(posn, piece, start_square, end_square, details)
-    # -----------------------------------------------------------------------
-
-    # 3. update status header
-    @status.remove
-    to_m = @to_move.capitalize
-    @status = Text.new(
-      "Game in progress - move #{(@ply + 2) / 2}: #{to_m} to move",
-       x: 400, y: 8, font: 'fonts/UbuntuMono-R.ttf', size: 24,
-       color: '#ffffff', z: 3)
-
-    puts @pgn # debug (and later, for display)
-    # p @moves
-    puts
-
     return x_pos, y_pos, @moves, posn
   end
 
-  def assess_posn(game_pieces, posn)
+  def assess_posn(game_pieces, posn, piece, start_square, end_square, details)
+    @moves << [piece.name[0..1], start_square, end_square, details]
     if @to_move == 'white'
       king = game_pieces.detect {|e| e.name == 'wk0'}
     else
@@ -160,6 +149,7 @@ class Game
     @checks, @check_blocks, @pinned = king.checks_n_pins(game_pieces, posn)
 
     puts "checks: #{@checks}  block_sqs: #{@check_blocks}  pinned: #{@pinned}"
+    puts
 
     if @checks > 0
       @red_square.set_origin(king.square)
@@ -205,6 +195,31 @@ class Game
         end
       end
     end
+
+    if @pc_taken == true
+      details = 'x'
+      @pc_taken = false
+    end
+    if @checks > 0 && @game_over != 'checkmate!'
+      details += '+'
+    elsif @game_over == 'checkmate!'
+      details += '#'
+    end
+
+    @moves[-1][3] = details
+    pgn_move(posn, piece, start_square, end_square, details)
+
+    # update status header
+    @status.remove
+    to_m = @to_move.capitalize
+    @status = Text.new(
+      "Game in progress - move #{(@ply + 2) / 2}: #{to_m} to move",
+       x: 400, y: 8, font: 'fonts/UbuntuMono-R.ttf', size: 24,
+       color: '#ffffff', z: 3)
+
+    puts @pgn # debug (and later, for display)
+    p @moves
+    # puts
 
     puts "#{@game_over}"
   end

@@ -244,7 +244,6 @@ class Rook < Sliding_Piece
         @legal_moves = common(@legal_moves, pin_moves)
       end
     end
-    puts "rook legal: #{@legal_moves}"
   end
 
 end
