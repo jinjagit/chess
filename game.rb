@@ -84,7 +84,15 @@ class Game
   end
 
   def move(game_pieces, posn, piece, start_square, end_square, details = '')
-    # 1. update posn array, x,y of moved piece icon, hide icon of piece taken
+    def castle_move(start_sq, end_sq, name, game_pieces, posn)
+      posn[start_sq] = '---'
+      posn[end_sq] = name
+      rook = game_pieces.detect {|e| e.name == name}
+      rook.square = end_sq
+      rook.move_to_square(end_sq)
+    end
+
+    # Update posn array, x,y of moved piece icon, hide icon of piece taken
     # (if any), and set @moved = true for moved piece
     posn_pc = posn[start_square]
     if (piece.name[1] == 'p' && piece.ep_square == end_square) ||
@@ -111,6 +119,22 @@ class Game
     posn[start_square] = "---" # can crash, if piece taking not enabled
     piece.square = end_square
     piece.moved ||= true
+
+    # --- Castling: make Rook move and set King @moved = true
+    if piece.name[1] == 'k'
+      if (start_square - end_square).abs == 2
+        if end_square == 62
+          castle_move(63, 61, 'wr1', game_pieces, posn)
+        elsif end_square == 58
+          castle_move(56, 59, 'wr0', game_pieces, posn)
+        elsif end_square == 6
+          castle_move(7, 5, 'br1', game_pieces, posn)
+        elsif end_square == 2
+          castle_move(0, 3, 'br0', game_pieces, posn)
+        end
+      end
+      piece.moved = true
+    end
 
     @ply += 1
     set_side_to_move
