@@ -191,6 +191,7 @@ class Pawn < Piece
         # get number(s) of E & W squares (if not off-board)
         directions = ['E', 'W']
         directions.each do |e|
+          puts "moves: #{moves}"
           new_square = orthogonal_step(@square, e)
           if new_square != nil && (moves[-1][1] - moves[-1][2]).abs == 16
             if posn[new_square][0..1] == opp_pawn
@@ -392,7 +393,6 @@ class King < Piece
       checks, check_blocks, pinned = checks_n_pins(game_pieces, posn, move)
       @legal_moves = @legal_moves - [move] if checks > 0
     end
-    puts @legal_moves
   end
 
 

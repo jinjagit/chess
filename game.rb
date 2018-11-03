@@ -183,9 +183,9 @@ class Game
           mate = true
           game_pieces.each do |piece|
             if piece.name[0] == @to_move[0] && piece.name[1] != 'k' && piece.icon.z > 0
-              piece.find_moves(posn)
+              puts "piece #{piece.name} legal: #{piece.legal_moves}"
+              piece.find_moves(posn, @moves)
               mate = false if piece.legal_moves != []
-              puts "piece #{piece.name} legal: #{piece.legal_moves}" if piece.legal_moves != []
             end
             break if mate == false
           end
