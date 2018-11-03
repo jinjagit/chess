@@ -120,7 +120,7 @@ on :key_down do |e|
     when '3'
       new_posn = 'ep_case'
     when '4'
-      new_posn = 'knights'
+      new_posn = 'crash'
     when '5'
       new_posn = 'bishops'
     when '6'
