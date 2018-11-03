@@ -11,6 +11,7 @@ A move list (both native and PGN format) is created as the 'game' progresses. Th
 
 ###To do next:
   * stalemate
+  * pawn promotion
   * draw by 3-fold-repetition
   * flippable board
 
