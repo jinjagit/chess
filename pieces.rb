@@ -366,6 +366,13 @@ class King < Piece
   end
 
   def find_moves(game_pieces, posn, moves = [])
+    def castling_square(near_sq, castle_sq, game_pieces, posn)
+      if @legal_moves.any? {|e| e == near_sq} && posn[castle_sq] == '---'
+        @legal_moves << castle_sq if is_in_check(game_pieces, posn, castle_sq) == false
+      end
+      @legal_moves
+    end
+
     if @checks < 2 # def already run before @dbl_check set true
       @legal_moves = []
       directions = [['N', 'S', 'E', 'W'], ['NE', 'SE', 'SW', 'NW']]
@@ -394,21 +401,38 @@ class King < Piece
 
     @legal_moves.each do |move|
       checks = 0
-      checks, check_blocks, pinned = checks_n_pins(game_pieces, posn, move)
-      @legal_moves = @legal_moves - [move] if checks > 0
+      is_check = is_in_check(game_pieces, posn, move)
+      @legal_moves = @legal_moves - [move] if is_check == true
     end
 
-    if @checks == 0 && @moved == false
+    if @checks == 0 && @moved == false # castling logic ...
       if @long == true
-        puts "#{@color} can castle long"
+        if @color == 'white'
+          castling_square(59, 58, game_pieces, posn)
+        else
+          castling_square(3, 2, game_pieces, posn)
+        end
       end
       if @short == true
-        puts "#{@color} can castle short"
+        if @color == 'white'
+          castling_square(61, 62, game_pieces, posn)
+        else
+          castling_square(5, 6, game_pieces, posn)
+        end
       end
     end
-
   end
 
+  # @legal_moves = castle(nr_sq, cl_sq, game_pieces, posn)
+
+  def is_in_check(game_pieces, posn, move)
+    checks, check_blocks, pinned = checks_n_pins(game_pieces, posn, move)
+    if checks == 0
+      false
+    else
+      true
+    end
+  end
 
   def checks_n_pins(game_pieces, posn, square = -1)
     n_of_checks = 0
