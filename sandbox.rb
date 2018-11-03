@@ -63,7 +63,7 @@ on :mouse_down do |event|
       if game.to_move == piece.color
         piece_lift = true
         home_square.set_origin(location)
-        home_square.icon.z = 5
+        home_square.icon.z = 2
         Board.show_home_piece(posn_pc, location, spare_pieces)
         start_square = location
         if posn_pc[1] == 'k'
@@ -83,6 +83,7 @@ end
 on :mouse_move do |event|
   if piece_lift == true
     location = Board.mouse_square(event.x, event.y)
+    home_square.icon.z = 4
     piece.set_posn(event.x - 40, event.y - 40)
     piece.icon.z = 10
   end

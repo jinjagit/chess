@@ -22,6 +22,7 @@ class Game
     @check_blocks = []
     @pinned = {}
     @game_over = ''
+    @red_square = Board::HighLight_Sq.new(-1, 500, 500, [1.0, 0.0, 0.0, 0.45])
   end
 
   def set_side_to_move
