@@ -22,7 +22,7 @@ class Game
     @check_blocks = []
     @pinned = {}
     @game_over = ''
-    @red_square = Board::HighLight_Sq.new(-1, 500, 500, [1.0, 0.0, 0.0, 0.45])
+    @red_square = Board::HighLight_Sq.new(-1, 500, 500, [1.0, 0.0, 0.0, 0.7])
   end
 
   def set_side_to_move
@@ -108,6 +108,7 @@ class Game
     piece.moved ||= true
 
     if piece.checks > 0 # reset check vars, if move made (else checkmate already)
+      @red_square.icon.z = -1
       game_pieces.each do |piece|
         if piece.name[0] == @to_move[0]
           piece.checks = 0
@@ -161,6 +162,8 @@ class Game
     puts "checks: #{@checks}  block_sqs: #{@check_blocks}  pinned: #{@pinned}"
 
     if @checks > 0
+      @red_square.set_origin(king.square)
+      @red_square.icon.z = 2
       king.find_moves(game_pieces, posn)
       king_moves = king.legal_moves
       if @checks > 1
