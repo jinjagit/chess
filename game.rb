@@ -23,6 +23,8 @@ class Game
     @pinned = {}
     @game_over = ''
     @red_square = Board::HighLight_Sq.new(-1, 500, 500, [1.0, 0.0, 0.0, 0.7])
+    @start_square = Board::HighLight_Sq.new(-1, 500, 500, [0.95, 0.95, 0.258, 0.35])
+    @end_square = Board::HighLight_Sq.new(-1, 500, 500, [0.95, 0.95, 0.258, 0.35])
     @pc_taken = false
   end
 
@@ -119,6 +121,12 @@ class Game
     posn[start_square] = "---" # can crash, if piece taking not enabled
     piece.square = end_square
     piece.moved ||= true
+    if @ply == 0
+      @start_square.icon.z = 2
+      @end_square.icon.z = 2
+    end
+    @start_square.set_origin(start_square)
+    @end_square.set_origin(end_square)
 
     # --- Castling: make Rook move and set King @moved = true
     if piece.name[1] == 'k'

@@ -5,9 +5,14 @@ The instructions, in a nutshell, are to build a "... command line chess game whe
 
 I chose not to produce a command line app, but instead went for a more graphical approach, using the ruby2D gem. While this gem is still a little rough around the edges (at only v 0.7), it is way more pleasant to look at than anything I could produce in the terminal, and enables a much more user-friendly interface (with a little more work). So far, I have been very impressed with the ease-of-use of this gem.
 
-Current state (02/11/18): Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). En-passant is a valid move, including when a pawn giving check can be taken en-passant. Checkmate is correctly detected (and the game halted when found). Castling is not yet implemented (but soon will be, after I have refactored some copy-paste repetition of my code in the piece class instances).
+Current state (03/11/18): Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling and en_passant. Checkmate is correctly detected (and the game halted when found).
 
-White / Black alternation of moves is enforced, and a move list (both native and PGN format) is created as the 'game' progresses. The piece that moved is disambiguated in PGN format, when needed (e.g. 'Nbd7', rather than simply 'Nd7').
+A move list (both native and PGN format) is created as the 'game' progresses. The piece that moved is disambiguated in PGN format, when needed (e.g. 'Nbd7', rather than simply 'Nd7').
+
+###To do next:
+  * stalemate
+  * draw by 3-fold-repetition
+  * flippable board
 
 Note: At the moment, to run this (after downloading this repository), you'll need Ruby installed. Then, open a terminal, navigate to the root folder of the downloaded repository, and enter; <code>ruby sandbox.rb</code>
 
