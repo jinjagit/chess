@@ -152,8 +152,6 @@ class Pawn < Piece
     @icon.z = -1
     @ep_square = -1 # >= 0, == valid en-passant move square
     @ep_take_sq = -1 # >= 0, == valid en-passant capture square
-    @long = true
-    @short = true
   end
 
   def find_moves(posn, moves = [])
@@ -356,10 +354,15 @@ class Queen < Sliding_Piece
 end
 
 class King < Piece
+  attr_accessor :long
+  attr_accessor :short
+
   def initialize(name, color, square)
     super
     @icon = Image.new("img/#{@color[0]}_king.png", height: 70, width: 70)
     @icon.z = -1
+    @long = true
+    @short = true
   end
 
   def find_moves(game_pieces, posn, moves = [])
@@ -396,9 +399,12 @@ class King < Piece
     end
 
     if @checks == 0 && @moved == false
-      puts "#{@color} can maybe castle"
-    else
-      puts "#{@color} CANNOT castle"
+      if @long == true
+        puts "#{@color} can castle long"
+      end
+      if @short == true
+        puts "#{@color} can castle short"
+      end
     end
 
   end
