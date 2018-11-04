@@ -82,6 +82,8 @@ class Game
       end
     end
     sq = pgn_square(end_square)
+    sq = '' if details.include? 'O'
+    pc = details if details.include? 'O'
     @pgn = @pgn + "#{n}#{pc}#{sq}#{check_sym} "
   end
 
