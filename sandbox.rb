@@ -43,7 +43,7 @@ spare_pieces = Board.create_spare_pieces
 ui = UI.new
 game = Game.new
 highlight_sqs = Board.draw_board(ui.coords)
-home_square = Board::HighLight_Sq.new(-1, 500, 500, [0.5, 0.5, 0.5, 0.65])
+home_square = Board::HighLight_Sq.new(-1, 0, 0, [0.5, 0.5, 0.5, 0.65])
 posn = Position.get_posn('start')
 Board.set_up_posn(game_pieces, posn, first_run = true)
 
