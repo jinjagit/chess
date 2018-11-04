@@ -1,5 +1,6 @@
 require './board'
 require './pieces'
+#require './sandbox'
 
 class Game
   attr_accessor :ply
@@ -10,8 +11,9 @@ class Game
   attr_reader :check_blocks
   attr_reader :pins
   attr_accessor :game_over
+  attr_accessor :game_pieces
 
-  def initialize
+  def initialize(game_pieces)
     @ply = 0
     @to_move = 'white'
     @status = Text.new('Game in progress - move 1: White to move', x: 400,
@@ -22,10 +24,9 @@ class Game
     @check_blocks = []
     @pinned = {}
     @game_over = ''
-    @red_square = Board::HighLight_Sq.new(-1, 0, 0, [1.0, 0.0, 0.0, 0.7])
-    @start_square = Board::HighLight_Sq.new(-1, 0, 0, [0.95, 0.95, 0.258, 0.35])
-    @end_square = Board::HighLight_Sq.new(-1, 0, 0, [0.95, 0.95, 0.258, 0.35])
     @pc_taken = false
+    @game_pieces = game_pieces
+    @red_square = HighLight_Sq.new(-1, 0, 0, [1.0, 0.0, 0.0, 0.7])
   end
 
   def set_side_to_move
@@ -37,8 +38,8 @@ class Game
   end
 
   def pgn_square(square)
-    file = Board::Coords[0][square % 8]
-    rank = Board::Coords[1][(63 - square) / 8.floor]
+    file = Tools::Coords[0][square % 8]
+    rank = Tools::Coords[1][(63 - square) / 8.floor]
     pgn_square = file + rank
   end
 
@@ -93,18 +94,18 @@ class Game
     @pgn = @pgn + "#{n}#{pc}#{sq}#{suffix} "
   end
 
-  def move(game_pieces, posn, piece, start_square, end_square, details = '')
-    def castle_move(start_sq, end_sq, name, game_pieces, posn)
+  def move(posn, piece, start_square, end_square, details = '')
+    def castle_move(start_sq, end_sq, name, posn)
       posn[start_sq] = '---'
       posn[end_sq] = name
-      rook = game_pieces.detect {|e| e.name == name}
+      rook = @game_pieces.detect {|e| e.name == name}
       rook.square = end_sq
       rook.move_to_square(end_sq)
     end
 
-    def no_moves(game_pieces, posn)
+    def no_moves(posn)
       result = true
-      game_pieces.each do |piece|
+      @game_pieces.each do |piece|
         if piece.name[0] == @to_move[0] && piece.name[1] != 'k' && piece.icon.z > 0
           # puts "piece #{piece.name} legal: #{piece.legal_moves}" DEBUG output
           piece.find_moves(posn, @moves)
@@ -134,20 +135,14 @@ class Game
       else # == piece taken, not en-passant
         piece_to_take = posn[end_square]
       end
-      piece_to_take = game_pieces.detect {|e| e.name == piece_to_take}
+      piece_to_take = @game_pieces.detect {|e| e.name == piece_to_take}
       piece_to_take.icon.z = -1
     end
-    x_pos, y_pos = Board.square_origin(end_square)
+    x_pos, y_pos = Tools.square_origin(end_square)
     posn[end_square] = posn_pc
     posn[start_square] = "---" # can crash, if piece taking not enabled
     piece.square = end_square
     piece.moved ||= true
-    if @ply == 0
-      @start_square.icon.z = 2
-      @end_square.icon.z = 2
-    end
-    @start_square.set_origin(start_square)
-    @end_square.set_origin(end_square)
 
     # --- Pawn promotion -----------------------------
 
@@ -159,13 +154,13 @@ class Game
     if piece.name[1] == 'k'
       if (start_square - end_square).abs == 2
         if end_square == 62
-          castle_move(63, 61, 'wr1', game_pieces, posn)
+          castle_move(63, 61, 'wr1', posn)
         elsif end_square == 58
-          castle_move(56, 59, 'wr0', game_pieces, posn)
+          castle_move(56, 59, 'wr0', posn)
         elsif end_square == 6
-          castle_move(7, 5, 'br1', game_pieces, posn)
+          castle_move(7, 5, 'br1', posn)
         elsif end_square == 2
-          castle_move(0, 3, 'br0', game_pieces, posn)
+          castle_move(0, 3, 'br0', posn)
         end
         details += 'O-O' if (end_square == 6 || end_square == 62)
         details += 'O-O-O' if (end_square == 2 || end_square == 58)
@@ -175,7 +170,7 @@ class Game
 
     if piece.checks > 0 # reset check vars, if move made (else checkmate already)
       @red_square.icon.z = -1
-      game_pieces.each do |piece|
+      @game_pieces.each do |piece|
         if piece.name[0] == @to_move[0]
           piece.checks = 0
           piece.check_blocks = []
@@ -189,7 +184,7 @@ class Game
     piece.ep_take_sq = -1 if piece.name[1] == 'p' && piece.ep_take_sq >= 0
 
     if @pinned != {}
-      game_pieces.each do |piece|
+      @game_pieces.each do |piece|
         if @pinned.key?(piece.name)
           piece.pinned = {}
         end
@@ -200,20 +195,20 @@ class Game
 
     # Now, assess position (== all of remaining code in this def)...
     if @to_move == 'white'
-      king = game_pieces.detect {|e| e.name == 'wk0'}
+      king = @game_pieces.detect {|e| e.name == 'wk0'}
     else
-      king = game_pieces.detect {|e| e.name == 'bk0'}
+      king = @game_pieces.detect {|e| e.name == 'bk0'}
     end
-    @checks, @check_blocks, @pinned = king.checks_n_pins(game_pieces, posn)
+    @checks, @check_blocks, @pinned = king.checks_n_pins(@game_pieces, posn)
 
     # puts "checks: #{@checks}  block_sqs: #{@check_blocks}  pinned: #{@pinned}"
     # puts # DEBUG output -----------
 
-    king.find_moves(game_pieces, posn)
+    king.find_moves(@game_pieces, posn)
     king_moves = king.legal_moves
 
     if checks == 0 && king_moves.length == 0
-      @game_over = 'stalemate!' if no_moves(game_pieces, posn) == true
+      @game_over = 'stalemate!' if no_moves(posn) == true
     end
 
     if @checks > 0
@@ -224,26 +219,26 @@ class Game
         if king_moves.length == 0
           @game_over = 'checkmate!'
         else
-          game_pieces.each do |piece|
+          @game_pieces.each do |piece|
             piece.checks = @checks if piece.name[0] == @to_move[0]
           end
         end
       end
       if @checks == 1
-        game_pieces.each do |piece|
+        @game_pieces.each do |piece|
           if piece.name[0] == @to_move[0]
             piece.checks = @checks
             piece.check_blocks = @check_blocks
           end
         end
         if king_moves.length == 0
-          @game_over = 'checkmate!' if no_moves(game_pieces, posn) == true
+          @game_over = 'checkmate!' if no_moves(posn) == true
         end
       end
     end
 
     if @pinned != {}
-      game_pieces.each do |piece|
+      @game_pieces.each do |piece|
         if @pinned.key?(piece.name)
           piece.pinned = @pinned
         end
@@ -270,17 +265,17 @@ class Game
     # update castling options, if appropriate
     if @checks == 0
       if @to_move == 'white'
-        king = game_pieces.detect {|e| e.name == 'wk0'}
+        king = @game_pieces.detect {|e| e.name == 'wk0'}
       else
-        king = game_pieces.detect {|e| e.name == 'bk0'}
+        king = @game_pieces.detect {|e| e.name == 'bk0'}
       end
       if king.moved == false
         if @to_move == 'white'
-          long_rook = game_pieces.detect {|e| e.name == 'wr0'}
-          short_rook = game_pieces.detect {|e| e.name == 'wr1'}
+          long_rook = @game_pieces.detect {|e| e.name == 'wr0'}
+          short_rook = @game_pieces.detect {|e| e.name == 'wr1'}
         else
-          long_rook = game_pieces.detect {|e| e.name == 'br0'}
-          short_rook = game_pieces.detect {|e| e.name == 'br1'}
+          long_rook = @game_pieces.detect {|e| e.name == 'br0'}
+          short_rook = @game_pieces.detect {|e| e.name == 'br1'}
         end
         king.long = false if long_rook.moved == true || long_rook.icon.z < 0
         king.short = false if short_rook.moved == true || short_rook.icon.z < 0

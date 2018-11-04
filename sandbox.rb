@@ -37,15 +37,11 @@ canvas = Rectangle.new(
   color: '#000000', # true black
   z: 0)
 
-game_pieces = []
 moves = []
-spare_pieces = Board.create_spare_pieces
 ui = UI.new
-game = Game.new
-highlight_sqs = Board.draw_board(ui.coords)
-home_square = Board::HighLight_Sq.new(-1, 0, 0, [0.5, 0.5, 0.5, 0.65])
-posn = Position.get_posn('start')
-Board.set_up_posn(game_pieces, posn, first_run = true)
+board = Board.new
+game = Game.new(board.game_pieces)
+posn = board.posn
 
 piece_lift = false
 posn_pc = ""
@@ -54,17 +50,16 @@ piece = nil
 legal_list = []
 
 on :mouse_down do |event|
-  location = Board.mouse_square(event.x, event.y)
+  location = board.mouse_square(event.x, event.y)
   if location != "off_board" && game.game_over == ''
     #startTime = Time.now # debug: monitor responsiveness
     posn_pc = posn[location]
     if posn_pc != "---"
+      game_pieces = board.game_pieces
       piece = game_pieces.detect {|e| e.name == posn_pc}
       if game.to_move == piece.color
         piece_lift = true
-        home_square.set_origin(location)
-        home_square.icon.z = 2
-        Board.show_home_piece(posn_pc, location, spare_pieces)
+        board.show_home_piece(posn_pc, location)
         start_square = location
         if posn_pc[1] == 'k'
           piece.find_moves(game_pieces, posn, moves)
@@ -72,7 +67,7 @@ on :mouse_down do |event|
           piece.find_moves(posn, moves)
         end
         legal_list = piece.legal_moves
-        Board.highlight_squares(legal_list, highlight_sqs)
+        board.highlight_squares(legal_list)
       end
     end
     #puts "time to find legal squares: #{(duration = Time.now - startTime).to_s} s"
@@ -82,8 +77,8 @@ end
 
 on :mouse_move do |event|
   if piece_lift == true
-    location = Board.mouse_square(event.x, event.y)
-    home_square.icon.z = 4
+    location = board.mouse_square(event.x, event.y)
+    board.home_square.icon.z = 4
     piece.set_posn(event.x - 40, event.y - 40)
     piece.icon.z = 10
   end
@@ -93,19 +88,19 @@ on :mouse_up do |event|
   if piece_lift == true
     # startTime = Time.now # debug: monitor responsiveness
     piece_lift = false
-    location = Board.mouse_square(event.x, event.y)
-    Board.unhighlight_squares(legal_list, highlight_sqs)
+    location = board.mouse_square(event.x, event.y)
+    board.unhighlight_squares(legal_list)
     if location != "off_board" && legal_list.include?(location) == true
     details = ''
-      x_pos, y_pos, moves, posn = game.move(game_pieces, posn, piece, start_square, location, details)
+      x_pos, y_pos, moves, posn = game.move(posn, piece, start_square, location, details)
+      board.start_end_squares(start_square, location)
       # puts "time to evaluate position: #{(duration = Time.now - startTime).to_s} s"
       # puts
     else # == illegal move (reject)
-      x_pos, y_pos = Board.square_origin(start_square)
+      x_pos, y_pos = Tools.square_origin(start_square)
     end
 
-    Board.hide_home_piece(posn_pc, spare_pieces)
-    home_square.icon.z = -1
+    board.hide_home_piece(posn_pc)
     piece.set_posn(x_pos, y_pos)
     piece.icon.z = 3
   end
@@ -136,11 +131,11 @@ on :key_down do |e|
       new_posn = 'promote'
   end
   if e.key.to_i > 0 && e.key.to_i < 10
-    Board.clear_pieces(game_pieces)
+    board.clear_pieces
     game.status.remove
-    game = Game.new
     posn = Position.get_posn(new_posn)
-    Board.set_up_posn(game_pieces, posn, first_run = false)
+    board = Board.new(posn)
+    game = Game.new(board.game_pieces)
     print_posn(posn)
   end
 end

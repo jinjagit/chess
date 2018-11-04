@@ -1,66 +1,11 @@
 require 'ruby2d'
 require './pieces'
 require './ui'
+require './position'
 
-
-module Board
-  Piece_Codes = {'p' => Pawn, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
-                'q' => Queen, 'k' => King}
+module Tools
   Coords = [['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
             ['1', '2', '3', '4', '5', '6', '7', '8']]
-
-  class HighLight_Sq
-    attr_accessor :icon
-    attr_accessor :square
-    attr_accessor :color
-
-    def initialize(square, x, y, color = [0.0, 1.0, 0.0, 0.35])
-      @square = square
-      @color = color
-      @icon = Square.new(x: x, y: y,  size: 80, color: @color,
-              z: -1)
-    end
-
-    def set_origin(square)
-      @icon.x, @icon.y = Board.square_origin(square)
-    end
-  end
-
-  def self.draw_coords(coords)
-    file = [354, 690]
-    rank = [290, 628]
-    color = '#ffffff'
-    if coords == true
-      layer = 3
-    else
-      layer = -1
-    end
-    8.times do |i|
-      Text.new(Coords[0][i], x: file[0] + (i * 80), y: file[1],
-      font: 'fonts/UbuntuMono-R.ttf', size: 24, color: color, z: layer)
-    end
-    8.times do |i|
-      Text.new(Coords[1][i], x: rank[0], y: rank[1] - (i * 80),
-      font: 'fonts/UbuntuMono-R.ttf', size: 24, color: color, z: layer)
-    end
-  end
-
-  def self.highlight_squares(list, highlight_sqs)
-    list.each {|sq| (highlight_sqs.detect {|e| e.square == sq}).icon.z = 2}
-  end
-
-  def self.unhighlight_squares(list, highlight_sqs)
-    list.each {|sq| (highlight_sqs.detect {|e| e.square == sq}).icon.z = -1}
-  end
-
-  def self.mouse_square(x, y)
-    square = nil
-    if x < 320 || y < 40 || x > 960 || y > 680
-      "off_board"
-    else
-      square = ((((y - 40) / 80).floor) * 8) + ((x - 320) / 80.floor)
-    end
-  end
 
   def self.square_origin(index)
     x_offset = 320
@@ -69,21 +14,114 @@ module Board
     y_posn = ((index / 8.floor) * 80) + y_offset
     return x_posn, y_posn
   end
+end
 
-  def self.show_home_piece(piece, square, spare_pieces)
-    home_piece = spare_pieces.detect {|e| e.name.include?(piece[0..1])}
-    x_posn, y_posn = square_origin(square)
+class HighLight_Sq
+  attr_accessor :icon
+  attr_accessor :square
+  attr_accessor :color
+
+  def initialize(square, x, y, color = [0.0, 1.0, 0.0, 0.35])
+    @square = square
+    @color = color
+    @icon = Square.new(x: x, y: y,  size: 80, color: @color,
+            z: -1)
+  end
+
+  def set_origin(square)
+    @icon.x, @icon.y = Tools.square_origin(square)
+  end
+end
+
+class Board
+  attr_accessor :game_pieces
+  attr_accessor :spare_pieces
+  attr_accessor :highlight_squares
+  attr_accessor :posn
+  attr_accessor :home_square
+
+  def initialize(posn = Position.get_posn('start'))
+    @piece_codes = {'p' => Pawn, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
+                  'q' => Queen, 'k' => King}
+    @coords = Tools::Coords
+    @coords_on = true
+    @highlight_sqs = []
+    @spare_pieces = []
+    @game_pieces = []
+    @posn = posn
+    @start_square = HighLight_Sq.new(-1, 0, 0, [0.95, 0.95, 0.258, 0.35])
+    @end_square = HighLight_Sq.new(-1, 0, 0, [0.95, 0.95, 0.258, 0.35])
+    @home_square = HighLight_Sq.new(-1, 0, 0, [0.5, 0.5, 0.5, 0.65])
+
+    draw_board
+    create_spare_pieces
+    set_up_posn
+  end
+
+  def draw_coords
+    file = [354, 690]
+    rank = [290, 628]
+    color = '#ffffff'
+    if @coords_on == true
+      layer = 3
+    else
+      layer = -1
+    end
+    8.times do |i|
+      Text.new(@coords[0][i], x: file[0] + (i * 80), y: file[1],
+      font: 'fonts/UbuntuMono-R.ttf', size: 24, color: color, z: layer)
+    end
+    8.times do |i|
+      Text.new(@coords[1][i], x: rank[0], y: rank[1] - (i * 80),
+      font: 'fonts/UbuntuMono-R.ttf', size: 24, color: color, z: layer)
+    end
+  end
+
+  def start_end_squares(start_sq, end_sq)
+    @start_square.icon.z = 2
+    @end_square.icon.z = 2
+    @start_square.set_origin(start_sq)
+    @end_square.set_origin(end_sq)
+  end
+
+
+  def highlight_squares(list)
+    list.each {|sq| (@highlight_sqs.detect {|e| e.square == sq}).icon.z = 2}
+  end
+
+  def unhighlight_squares(list)
+    list.each {|sq| (@highlight_sqs.detect {|e| e.square == sq}).icon.z = -1}
+  end
+
+  def mouse_square(x, y)
+    square = nil
+    if x < 320 || y < 40 || x > 960 || y > 680
+      "off_board"
+    else
+      square = ((((y - 40) / 80).floor) * 8) + ((x - 320) / 80.floor)
+    end
+  end
+
+  def show_home_piece(piece, square)
+    home_piece = @spare_pieces.detect {|e| e.name.include?(piece[0..1])}
+    x_posn, y_posn = Tools.square_origin(square)
     home_piece.set_posn(x_posn, y_posn)
     home_piece.icon.z = 2
+    @home_square.set_origin(square)
+    @home_square.icon.z = 2
   end
 
-  def self.hide_home_piece(piece, spare_pieces)
-    home_piece = spare_pieces.detect {|e| e.name.include?(piece[0..1])}
+  def hide_home_piece(piece)
+    home_piece = @spare_pieces.detect {|e| e.name.include?(piece[0..1])}
     home_piece.icon.z = -1
+    @home_square.icon.z = -1
   end
 
-  def self.draw_board(coords = true)
-    highlight_sqs = []
+  def create_promo_squares
+
+  end
+
+  def draw_board
     64.times do |i|
       if (i + (i / 8.floor)) % 2 == 0
         square_color = '#e5d4b0' # light square
@@ -91,7 +129,7 @@ module Board
         square_color = '#ba8f64' # dark square
       end
 
-      x_posn, y_posn = square_origin(i)
+      x_posn, y_posn = Tools.square_origin(i)
 
       Square.new(
         x: x_posn, y: y_posn,
@@ -99,31 +137,27 @@ module Board
         color: square_color,
         z: 1)
 
-      highlight_sqs << HighLight_Sq.new(i, x_posn, y_posn)
+      @highlight_sqs << HighLight_Sq.new(i, x_posn, y_posn)
     end
-    draw_coords(coords)
-    highlight_sqs
   end
 
-  def self.create_spare_pieces
+  def create_spare_pieces
     names = ['wpx', 'wrx', 'wnx', 'wbx', 'wqx', 'wkx',
              'bpx', 'brx', 'bnx', 'bbx', 'bqx', 'bkx']
-    spare_pieces = []
+    @spare_pieces = []
 
     names.each do |name|
       color = name[0]
-      piece = Piece_Codes[name[1]].new(name, color, -1)
-      spare_pieces << piece
+      piece = @piece_codes[name[1]].new(name, color, -1)
+      @spare_pieces << piece
     end
-
-    spare_pieces
   end
 
-  def self.add_piece(game_pieces, posn, square)
-    posn_pc = posn[square]
+  def add_piece(square)
+    posn_pc = @posn[square]
 
     n = game_pieces.count do |piece|
-      piece.class == Piece_Codes[posn_pc[1]] && piece.color[0] == posn_pc[0]
+      piece.class == @piece_codes[posn_pc[1]] && piece.color[0] == posn_pc[0]
     end
 
     name = "#{posn_pc}#{n}"
@@ -133,54 +167,52 @@ module Board
       color = "black"
     end
 
-    game_pieces << Piece_Codes[posn_pc[1]].new(name, color, square)
-    posn[square] = name
-    x_pos, y_pos = square_origin(square)
-    game_pieces[-1].set_posn(x_pos, y_pos)
-    game_pieces[-1].icon.z = 3
-    return game_pieces[-1]
+    @game_pieces << @piece_codes[posn_pc[1]].new(name, color, square)
+    @posn[square] = name
+    x_pos, y_pos = Tools.square_origin(square)
+    @game_pieces[-1].set_posn(x_pos, y_pos)
+    @game_pieces[-1].icon.z = 3
+    return @game_pieces[-1]
   end
 
-  def self.set_up_posn(game_pieces, posn, first_run = false)
-    posn.each_with_index do |posn_pc, square|
+  def set_up_posn(first_run = true)
+    @posn.each_with_index do |posn_pc, square|
       if posn_pc != "--"
         if first_run == true
-          piece = add_piece(game_pieces, posn, square)
+          piece = add_piece(square)
         else # == not first run; basic set of piece instances already exists
-          if game_pieces.detect {|e| e.name.include?(posn_pc) && e.icon.z < 0}
-            piece = game_pieces.detect {|e| e.name.include?(posn_pc) && e.icon.z < 0}
+          if @game_pieces.detect {|e| e.name.include?(posn_pc) && e.icon.z < 0}
+            piece = @game_pieces.detect {|e| e.name.include?(posn_pc) && e.icon.z < 0}
             piece.moved = false # **needs more finesse when loading saved game
                                 # (**see notes, at end of this file)
           else
-            piece = add_piece(game_pieces, posn, square)
+            piece = add_piece(square)
           end
-          posn[square] = piece.name
-          x_pos, y_pos = square_origin(square)
+          @posn[square] = piece.name
+          x_pos, y_pos = Tools.square_origin(square)
           piece.set_posn(x_pos, y_pos)
           piece.icon.z = 3
           piece.square = square
         end
       else
-        posn[square] = "---" # just to make array look neater ;-)
+        @posn[square] = "---" # just to make array look neater ;-)
       end
     end
     # **needs more finesse when loading saved game (**see notes, below)
-    game_pieces.each {|piece| piece.moved = false}
-    game_pieces
+    @game_pieces.each {|piece| piece.moved = false}
 
-      # list_piece_instance_vars(game_pieces) # debug list
+    # list_piece_instance_vars # debug list
   end
 
-  def self.clear_pieces(game_pieces) # clears all pieces (incl. spares / hidden)
-    game_pieces.each {|e| e.icon.z = -1}
+  def clear_pieces # clears all pieces (incl. spares / hidden)
+    @game_pieces.each {|e| e.icon.z = -1}
     puts
     puts "game_pieces.length = #{game_pieces.length}"
     puts
-    game_pieces
   end
 
-  def self.list_piece_instance_vars(game_pieces) # for debug output
-    game_pieces.each do |e|
+  def list_piece_instance_vars # for debug output
+    @game_pieces.each do |e|
       print "name: #{e.name}  color: #{e.color}  square: #{e.square}   "
       if defined? e.moved
         print "moved: #{e.moved}  "
