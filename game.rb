@@ -50,6 +50,9 @@ class Game
     elsif details.include?('#')
       suffix = '# ' + details[-3..-1]
       details = details[0..-5]
+    elsif details.include?('1/2-1/2')
+      suffix = ' 1/2-1/2'
+      details = details[0..-8]
     end
     if @to_move == 'black'
       n = "#{(@ply + 2) / 2}. "
@@ -252,6 +255,8 @@ class Game
       else
         details += '#1-0'
       end
+    elsif @game_over == 'stalemate!'
+      details += '1/2-1/2'
     end
 
     # update castling options, if appropriate
@@ -285,7 +290,7 @@ class Game
        color: '#ffffff', z: 3)
 
     puts @pgn # debug (and later, for display)
-    # p @moves
+    p @moves
     # puts
 
     puts "#{@game_over}"
