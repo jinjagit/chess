@@ -200,8 +200,8 @@ class Game
     end
     @checks, @check_blocks, @pinned = king.checks_n_pins(game_pieces, posn)
 
-    puts "checks: #{@checks}  block_sqs: #{@check_blocks}  pinned: #{@pinned}"
-    puts # DEBUG output -----------
+    # puts "checks: #{@checks}  block_sqs: #{@check_blocks}  pinned: #{@pinned}"
+    # puts # DEBUG output -----------
 
     king.find_moves(game_pieces, posn)
     king_moves = king.legal_moves
@@ -293,9 +293,9 @@ class Game
 
     puts @pgn # debug (and later, for display)
     # p @moves
-    # puts
+    puts
 
-    puts "#{@game_over}"
+    # puts "#{@game_over}"
 
     return x_pos, y_pos, @moves, posn
   end

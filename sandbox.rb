@@ -133,7 +133,7 @@ on :key_down do |e|
     when '8'
       new_posn = 'checks'
     when '9'
-      new_posn = 'pins'
+      new_posn = 'promote'
   end
   if e.key.to_i > 0 && e.key.to_i < 10
     Board.clear_pieces(game_pieces)
