@@ -91,6 +91,7 @@ end
 
 on :mouse_up do |event|
   if piece_lift == true
+    startTime = Time.now # debug: monitor responsiveness
     piece_lift = false
     location = Board.mouse_square(event.x, event.y)
     Board.unhighlight_squares(legal_list, highlight_sqs)
@@ -98,6 +99,8 @@ on :mouse_up do |event|
     details = ''
       x_pos, y_pos, moves, posn = game.move(game_pieces, posn, piece, start_square, location, details)
       game.assess_posn(game_pieces, posn, piece, start_square, location, details)
+      puts "time to evaluate position: #{(duration = Time.now - startTime).to_s} s"
+      puts
     else # == illegal move (reject)
       x_pos, y_pos = Board.square_origin(start_square)
     end
