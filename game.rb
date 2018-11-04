@@ -203,6 +203,8 @@ class Game
     king.find_moves(game_pieces, posn)
     king_moves = king.legal_moves
 
+    @game_over = 'stalemate!' if checks == 0 && king_moves.length == 0
+
     if @checks > 0
       @red_square.set_origin(king.square)
       @red_square.icon.z = 2
