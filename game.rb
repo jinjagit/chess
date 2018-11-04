@@ -169,10 +169,9 @@ class Game
       end
     end
 
-
-
     @moves << [piece.name[0..1], start_square, end_square, details]
-    # Now, assess position ...
+
+    # Now, assess position (== all of remaining code in this def)...
     if @to_move == 'white'
       king = game_pieces.detect {|e| e.name == 'wk0'}
     else

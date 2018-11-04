@@ -98,7 +98,6 @@ on :mouse_up do |event|
     if location != "off_board" && legal_list.include?(location) == true
     details = ''
       x_pos, y_pos, moves, posn = game.move(game_pieces, posn, piece, start_square, location, details)
-      # game.assess_posn(game_pieces, posn, piece, start_square, location, details)
       puts "time to evaluate position: #{(duration = Time.now - startTime).to_s} s"
       puts
     else # == illegal move (reject)
@@ -122,7 +121,7 @@ on :key_down do |e|
     when '2'
       new_posn = 'dbl_checks'
     when '3'
-      new_posn = 'ep_case'
+      new_posn = 'castling'
     when '4'
       new_posn = 'crash'
     when '5'
