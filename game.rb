@@ -149,6 +149,12 @@ class Game
     @start_square.set_origin(start_square)
     @end_square.set_origin(end_square)
 
+    # --- Pawn promotion -----------------------------
+
+    if piece.name[1] == 'p' && (end_square < 8 || end_square > 55)
+      puts "Pawn promotion!"
+    end
+
     # --- Castling: make Rook move, set King @moved = true, update move details
     if piece.name[1] == 'k'
       if (start_square - end_square).abs == 2
