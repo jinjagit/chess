@@ -206,7 +206,9 @@ class Game
     king.find_moves(game_pieces, posn)
     king_moves = king.legal_moves
 
-    @game_over = 'stalemate!' if checks == 0 && king_moves.length == 0
+    if checks == 0 && king_moves.length == 0
+      @game_over = 'stalemate!' if no_moves(game_pieces, posn) == true
+    end
 
     if @checks > 0
       @red_square.set_origin(king.square)
@@ -290,7 +292,7 @@ class Game
        color: '#ffffff', z: 3)
 
     puts @pgn # debug (and later, for display)
-    p @moves
+    # p @moves
     # puts
 
     puts "#{@game_over}"
