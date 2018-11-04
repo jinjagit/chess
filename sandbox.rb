@@ -129,7 +129,7 @@ on :key_down do |e|
     when '6'
       new_posn = 'queens'
     when '7'
-      new_posn = 'two_kings'
+      new_posn = 'stalemate'
     when '8'
       new_posn = 'checks'
     when '9'

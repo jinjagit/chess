@@ -99,6 +99,19 @@ class Game
       rook.move_to_square(end_sq)
     end
 
+    def no_moves(game_pieces, posn)
+      result = true
+      game_pieces.each do |piece|
+        if piece.name[0] == @to_move[0] && piece.name[1] != 'k' && piece.icon.z > 0
+          # puts "piece #{piece.name} legal: #{piece.legal_moves}" DEBUG output
+          piece.find_moves(posn, @moves)
+          result = false if piece.legal_moves != []
+        end
+        break if result == false
+      end
+      result
+    end
+
     # Update posn array, x,y of moved piece icon, hide icon of piece taken
     # (if any), and set @moved = true for moved piece
     posn_pc = posn[start_square]
@@ -187,11 +200,12 @@ class Game
     puts "checks: #{@checks}  block_sqs: #{@check_blocks}  pinned: #{@pinned}"
     puts # DEBUG output -----------
 
+    king.find_moves(game_pieces, posn)
+    king_moves = king.legal_moves
+
     if @checks > 0
       @red_square.set_origin(king.square)
       @red_square.icon.z = 2
-      king.find_moves(game_pieces, posn)
-      king_moves = king.legal_moves
       if @checks > 1
         puts "double check!" # DEBUG output
         if king_moves.length == 0
@@ -210,17 +224,8 @@ class Game
           end
         end
         if king_moves.length == 0
-          mate = true
-          game_pieces.each do |piece|
-            if piece.name[0] == @to_move[0] && piece.name[1] != 'k' && piece.icon.z > 0
-              # puts "piece #{piece.name} legal: #{piece.legal_moves}" DEBUG output
-              piece.find_moves(posn, @moves)
-              mate = false if piece.legal_moves != []
-            end
-            break if mate == false
-          end
+          @game_over = 'checkmate!' if no_moves(game_pieces, posn) == true
         end
-        @game_over = 'checkmate!' if mate == true
       end
     end
 
