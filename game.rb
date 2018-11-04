@@ -278,7 +278,7 @@ class Game
        color: '#ffffff', z: 3)
 
     puts @pgn # debug (and later, for display)
-    p @moves
+    # p @moves
     # puts
 
     puts "#{@game_over}"
