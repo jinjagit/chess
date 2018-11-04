@@ -44,9 +44,12 @@ class Game
 
   def pgn_move(posn, piece, start_square, end_square, details = '')
     name = piece.name
-    if details.include?('+') || details.include?('#')
-      check_sym = details[-1]
+    if details.include?('+')
+      suffix = details[-1]
       details = details[0..-2]
+    elsif details.include?('#')
+      suffix = '# ' + details[-3..-1]
+      details = details[0..-5]
     end
     if @to_move == 'black'
       n = "#{(@ply + 2) / 2}. "
@@ -84,7 +87,7 @@ class Game
     sq = pgn_square(end_square)
     sq = '' if details.include? 'O'
     pc = details if details.include? 'O'
-    @pgn = @pgn + "#{n}#{pc}#{sq}#{check_sym} "
+    @pgn = @pgn + "#{n}#{pc}#{sq}#{suffix} "
   end
 
   def move(game_pieces, posn, piece, start_square, end_square, details = '')
@@ -237,7 +240,11 @@ class Game
     if @checks > 0 && @game_over != 'checkmate!'
         details += '+'
     elsif @game_over == 'checkmate!'
-        details += '#'
+      if @to_move == 'white'
+        details += '#0-1'
+      else
+        details += '#1-0'
+      end
     end
 
     # update castling options, if appropriate
