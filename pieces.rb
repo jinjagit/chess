@@ -382,12 +382,12 @@ class King < Piece
       @legal_moves
     end
 
-    if @checks < 2 # def already run before @dbl_check set true
-      @legal_moves = []
+    def neighbor_squares(posn, square, type)
       directions = [['N', 'S', 'E', 'W'], ['NE', 'SE', 'SW', 'NW']]
+      ok_squares = []
+      found = false
       2.times do |i|
         directions[i].each do |direction|
-          square = @square
           new_square = nil
           if i == 0
             new_square = orthogonal_step(square, direction)
@@ -397,14 +397,27 @@ class King < Piece
           if new_square != nil
             if posn[new_square] != "---"
               piece_type = get_other_piece_info(posn[new_square])
-              if piece_type != "own" && piece_type != "enemy_king"
-                @legal_moves << (new_square)
+              if piece_type != type
+                ok_squares << (new_square)
+              elsif piece_type == type
+                found = true
               end
             else
-              @legal_moves << (new_square)
+              ok_squares << (new_square)
             end
           end
         end
+      end
+      return ok_squares, found
+    end
+
+    if @checks < 2 # def already run before @dbl_check set true
+      @legal_moves = []
+      @legal_moves, found = neighbor_squares(posn, @square, 'own')
+      enemy_king = []
+      @legal_moves.each do |square|
+        enemy_king, found = neighbor_squares(posn, square, 'enemy_king')
+        @legal_moves -= [square] if found == true
       end
     end
 
