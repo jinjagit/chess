@@ -10,7 +10,6 @@ Current state (03/11/18): Pieces constrained to legal moves, including the effec
 A move list (both native and PGN format) is created as the 'game' progresses. The piece that moved is disambiguated in PGN format, when needed (e.g. 'Nbd7', rather than simply 'Nd7').
 
 ### To do next:
-  * add castling notation to move list(s)
   * add win by checkmate notation to move list(s)
   * stalemate
   * pawn promotion
