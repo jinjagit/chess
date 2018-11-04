@@ -22,9 +22,9 @@ class Game
     @check_blocks = []
     @pinned = {}
     @game_over = ''
-    @red_square = Board::HighLight_Sq.new(-1, 500, 500, [1.0, 0.0, 0.0, 0.7])
-    @start_square = Board::HighLight_Sq.new(-1, 500, 500, [0.95, 0.95, 0.258, 0.35])
-    @end_square = Board::HighLight_Sq.new(-1, 500, 500, [0.95, 0.95, 0.258, 0.35])
+    @red_square = Board::HighLight_Sq.new(-1, 0, 0, [1.0, 0.0, 0.0, 0.7])
+    @start_square = Board::HighLight_Sq.new(-1, 0, 0, [0.95, 0.95, 0.258, 0.35])
+    @end_square = Board::HighLight_Sq.new(-1, 0, 0, [0.95, 0.95, 0.258, 0.35])
     @pc_taken = false
   end
 
@@ -128,7 +128,7 @@ class Game
     @start_square.set_origin(start_square)
     @end_square.set_origin(end_square)
 
-    # --- Castling: make Rook move and set King @moved = true
+    # --- Castling: make Rook move, set King @moved = true, update move details
     if piece.name[1] == 'k'
       if (start_square - end_square).abs == 2
         if end_square == 62
@@ -140,6 +140,8 @@ class Game
         elsif end_square == 2
           castle_move(0, 3, 'br0', game_pieces, posn)
         end
+        details += 'O-O' if (end_square == 6 || end_square == 62)
+        details += 'O-O-O' if (end_square == 2 || end_square == 58)
       end
       piece.moved = true
     end
@@ -167,11 +169,10 @@ class Game
       end
     end
 
-    return x_pos, y_pos, @moves, posn
-  end
 
-  def assess_posn(game_pieces, posn, piece, start_square, end_square, details)
+
     @moves << [piece.name[0..1], start_square, end_square, details]
+    # Now, assess position ...
     if @to_move == 'white'
       king = game_pieces.detect {|e| e.name == 'wk0'}
     else
@@ -180,7 +181,7 @@ class Game
     @checks, @check_blocks, @pinned = king.checks_n_pins(game_pieces, posn)
 
     puts "checks: #{@checks}  block_sqs: #{@check_blocks}  pinned: #{@pinned}"
-    puts
+    puts # DEBUG output -----------
 
     if @checks > 0
       @red_square.set_origin(king.square)
@@ -238,15 +239,13 @@ class Game
         details += '#'
     end
 
-    # ------- Castling: update, by removing option(s), if appropriate --------
-
+    # update castling options, if appropriate
     if @checks == 0
       if @to_move == 'white'
         king = game_pieces.detect {|e| e.name == 'wk0'}
       else
         king = game_pieces.detect {|e| e.name == 'bk0'}
       end
-
       if king.moved == false
         if @to_move == 'white'
           long_rook = game_pieces.detect {|e| e.name == 'wr0'}
@@ -260,12 +259,9 @@ class Game
       end
     end
 
-    # ------------------------------------------------------------------------
-
     @moves[-1][3] = details
     pgn_move(posn, piece, start_square, end_square, details)
 
-    # update status header
     @status.remove
     to_m = @to_move.capitalize
     @status = Text.new(
@@ -274,10 +270,11 @@ class Game
        color: '#ffffff', z: 3)
 
     puts @pgn # debug (and later, for display)
-    # p @moves
+    p @moves
     # puts
 
     puts "#{@game_over}"
-  end
 
+    return x_pos, y_pos, @moves, posn
+  end
 end

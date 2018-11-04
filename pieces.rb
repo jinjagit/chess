@@ -227,7 +227,6 @@ class Pawn < Piece
       end
     end
   end
-
 end
 
 
@@ -255,7 +254,6 @@ class Rook < Sliding_Piece
       end
     end
   end
-
 end
 
 
@@ -304,7 +302,6 @@ class Knight < Piece
         end
       end
     end
-
 end
 
 class Bishop < Sliding_Piece
@@ -331,7 +328,6 @@ class Bishop < Sliding_Piece
       end
     end
   end
-
 end
 
 class Queen < Sliding_Piece
@@ -436,8 +432,6 @@ class King < Piece
     end
   end
 
-  # @legal_moves = castle(nr_sq, cl_sq, game_pieces, posn)
-
   def is_in_check(game_pieces, posn, move)
     checks, check_blocks, pinned = checks_n_pins(game_pieces, posn, move)
     if checks == 0
@@ -527,6 +521,4 @@ class King < Piece
 
     return n_of_checks, check_blocks, pinned
   end
-
-
 end
