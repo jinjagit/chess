@@ -111,8 +111,7 @@ class Board
 
   def show_home_piece(piece, square)
     home_piece = @spare_pieces.detect {|e| e.name.include?(piece[0..1])}
-    x_posn, y_posn = Utilities.square_origin(square)
-    home_piece.set_posn(x_posn, y_posn)
+    home_piece.move_to_square(square)
     home_piece.icon.z = 2
     @home_square.set_origin(square)
     @home_square.image.z = 2
@@ -131,13 +130,21 @@ class Board
   end
 
   def show_promo_pieces(square)
+    promo_pcs = ['wqx', 'wrx', 'wnx', 'wbx', 'bqx', 'brx', 'bnx', 'bbx']
+    promo_sq = 0
     4.times do |i|
       if square < 8
-        @promo_sqs[i].set_origin(square + (i * 8))
+        promo_sq = square + (i * 8)
+        @promo_sqs[i].set_origin(promo_sq)
+        promo_pc = @spare_pieces.detect {|e| e.name == promo_pcs[i]}
       else
-        @promo_sqs[i].set_origin(square - (i * 8))
+        promo_sq = square - (i * 8)
+        @promo_sqs[i].set_origin(promo_sq)
+        promo_pc = @spare_pieces.detect {|e| e.name == promo_pcs[i + 4]}
       end
       @promo_sqs[i].image.z = 9
+      promo_pc.move_to_square(promo_sq)
+      promo_pc.icon.z = 10
     end
   end
 
