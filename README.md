@@ -17,7 +17,7 @@ A move list (both native and PGN format) is created as a game progresses. The pi
   * flippable board
   * 50-move draw rule (if no captures, pawn advances, etc.)
 
-Note: At the moment, to run this (after downloading this repository), you'll need Ruby installed. Then, open a terminal, navigate to the root folder of the downloaded repository, and enter; <code>ruby sandbox.rb</code>
+Note: At the moment, to run this (after downloading this repository), you'll need Ruby installed. Then, open a terminal, navigate to the root folder of the downloaded repository, and enter; <code>ruby chess.rb</code>
 
 ### Features I want to add:
   * file ui, for saving / loading of both unfinished and finished games, in both app native and PGN formats.
