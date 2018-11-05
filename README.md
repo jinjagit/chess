@@ -11,6 +11,8 @@ Current state (05/11/18): Pieces constrained to legal moves, including the effec
 
 A move list (both native and PGN format) is created as a game progresses. The piece that moved is disambiguated in PGN format, when needed (e.g. 'Nbd7', rather than simply 'Nd7'). Checks, checkmate, stalemate, en-passant and pawn promotion are all correctly formatted in the PGN record.
 
+Legal moves, if any, are highlighted (green squares) when a piece is 'lifted'. A 'ghost' piece remains on the originating square while a piece is 'lifted'. The king's square is highlighted (red) if in check (or checkmate). The last move originating and final squares are highlighted (yellow).
+
 ### To do next:
   * draw by insufficient material
   * draw by 3-fold-repetition
@@ -22,7 +24,7 @@ Note: At the moment, to run this (after downloading this repository), you'll nee
 ### Features I want to add:
   * file ui, for saving / loading of both unfinished and finished games, in both app native and PGN formats.
   * step back / fwd through game (in progress, or completed)
-  * ui niceties (e.g. coordinates on/off, piece points count, highlight King when in check, verbose mode, etc.)
+  * ui niceties (e.g. coordinates on/off, piece points count, etc.)
   * Try doing more than just an 'AI' that plays a random move (as suggested in the 'Optional Extension'), but instead use a brute force look-ahead of a few ply (will still be an awful opponent!).
   * distributable executable (at least for Linux and OSX)
 
