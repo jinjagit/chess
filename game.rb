@@ -149,9 +149,12 @@ class Game
 
     # --- Pawn promotion -----------------------------
 
-    if piece.name[1] == 'p' && (end_square < 8 || end_square > 55)
+    if details.include?('=')
       puts "Pawn promotion (in Game instance)!"
+      posn[end_square] = piece.name
+
       # note: details contents should flag IS promotion and what to! ;-)
+      # N.B. update game_pieces!
     end
 
     # --- Castling: make Rook move, set King @moved = true, update move details

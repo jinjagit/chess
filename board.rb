@@ -173,21 +173,31 @@ class Board
     end
   end
 
-  def select_promo_pc(square)
-    if @promote.include?(square)
-      4.times do |i|
-        @promo_sqs[i].image.z = -1
-        if square < 32
-          promo_pc = @spare_pieces.detect {|e| e.name == @promo_pcs[i]}
-        else
-          promo_pc = @spare_pieces.detect {|e| e.name == @promo_pcs[i + 4]}
-        end
-        promo_pc.icon.z = -1
-      end
+  def select_promo_pc(square, posn, start_square)
 
+    4.times do |i|
+      @promo_sqs[i].image.z = -1
+      if square < 32
+        promo_pc = @spare_pieces.detect {|e| e.name == @promo_pcs[i]}
+      else
+        promo_pc = @spare_pieces.detect {|e| e.name == @promo_pcs[i + 4]}
+      end
+      promo_pc.icon.z = -1
     end
 
-    new_piece = 'something'
+    selected = @promote.find_index {|e| e == square}
+    if square < 32
+      new_piece = @promo_pcs[selected - 1]
+    else
+      new_piece = @promo_pcs[selected + 3]
+    end
+
+    new_piece = new_piece[0..-2]
+    posn[start_square] = new_piece
+    new_piece = add_piece(start_square)
+    # new_piece = new_piece.name
+
+    return new_piece, location = @promote[1]
   end
 
   def draw_board
