@@ -129,7 +129,31 @@ class Game
       result
     end
 
-    # Update posn array, x,y of moved piece icon, hide icon of piece taken
+    def update_status_msg
+      @status.remove
+      to_m = @to_move.capitalize
+      if @game_over == ''
+        @status = Text.new(
+          "Game in progress - move #{(@ply + 2) / 2}: #{to_m} to move",
+           x: 400, y: 8, font: 'fonts/UbuntuMono-R.ttf', size: 24,
+           color: '#ffffff', z: 3)
+       elsif @game_over == 'checkmate!'
+         if to_m == 'White'
+           to_m = 'Black'
+         else
+           to_m = 'White'
+         end
+         @status = Text.new(
+           "  Game over - #{to_m} wins by checkmate", x: 400, y: 8,
+           font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
+       elsif @game_over == 'stalemate!'
+         @status = Text.new(
+           "        Game drawn by stalemate", x: 400, y: 8,
+           font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
+       end
+    end
+
+    # Update posn array, square of moved piece icon, hide icon of piece taken
     # (if any), and set @moved = true for moved piece
     posn_pc = posn[start_square]
     if (piece.name[1] == 'p' && piece.ep_square == end_square) ||
@@ -289,13 +313,7 @@ class Game
 
     @moves[-1][3] = details
     pgn_move(posn, piece, start_square, end_square, details)
-
-    @status.remove
-    to_m = @to_move.capitalize
-    @status = Text.new(
-      "Game in progress - move #{(@ply + 2) / 2}: #{to_m} to move",
-       x: 400, y: 8, font: 'fonts/UbuntuMono-R.ttf', size: 24,
-       color: '#ffffff', z: 3)
+    update_status_msg
 
     puts @pgn # debug (and later, for display)
     # p @moves

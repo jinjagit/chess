@@ -10,6 +10,7 @@ Current state (05/11/18): Pieces constrained to legal moves, including the effec
 A move list (both native and PGN format) is created as a game progresses. The piece that moved is disambiguated in PGN format, when needed (e.g. 'Nbd7', rather than simply 'Nd7'). Checks, checkmate, stalemate, en_passant and pawn promotion are all correctly formatted in the PGN record.
 
 ### To do next:
+  * draw by insufficient material
   * draw by 3-fold-repetition
   * flippable board
   * 50-move draw rule (if no captures, pawn advances, etc.)
