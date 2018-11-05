@@ -92,9 +92,9 @@ on :mouse_up do |event|
   if promote != []
     puts "pawn promotion end"
     location = promote[1]
+
     details = '=somepiece'
     end_sq, moves, posn = game.move(posn, piece, start_square, location, details)
-    board.start_end_squares(start_square, location)
     promote = []
     # check promote for chosen piece, set piece, promote = []
     # set new details
@@ -108,16 +108,16 @@ on :mouse_up do |event|
     board.unhighlight_squares(legal_list)
     if location != "off_board" && legal_list.include?(location) == true
       if piece.name[1] == 'p' && (location < 8 || location > 55)
-        puts "pawn promotion start"
         promote = ['on', location]
         end_sq = location
+        board.show_promo_pieces(location)
       else
         details = ''
         end_sq, moves, posn = game.move(posn, piece, start_square, location, details)
-        board.start_end_squares(start_square, location)
         # puts "time to evaluate position: #{(duration = Time.now - startTime).to_s} s"
         # puts
       end
+    board.start_end_squares(start_square, location)
     else # == illegal move (reject)
     end_sq = start_square
     end

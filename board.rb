@@ -52,10 +52,12 @@ class Board
     @start_square = HighLight_Sq.new(-1, 0, 0, [0.95, 0.95, 0.258, 0.35])
     @end_square = HighLight_Sq.new(-1, 0, 0, [0.95, 0.95, 0.258, 0.35])
     @home_square = HighLight_Sq.new(-1, 0, 0, [0.5, 0.5, 0.5, 0.65])
+    @promo_sqs = []
 
     draw_board
     draw_coords
     create_spare_pieces
+    create_promo_squares
     set_up_posn
   end
 
@@ -123,7 +125,20 @@ class Board
   end
 
   def create_promo_squares
+    4.times do
+      @promo_sqs << HighLight_Sq.new(-1, 0, 0, [0.62, 0.26, 0.957, 1.0])
+    end
+  end
 
+  def show_promo_pieces(square)
+    4.times do |i|
+      if square < 8
+        @promo_sqs[i].set_origin(square + (i * 8))
+      else
+        @promo_sqs[i].set_origin(square - (i * 8))
+      end
+      @promo_sqs[i].image.z = 9
+    end
   end
 
   def draw_board
