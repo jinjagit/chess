@@ -3,7 +3,7 @@ require './pieces'
 require './ui'
 require './position'
 
-module Tools
+module Utilities
   Coords = [['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
             ['1', '2', '3', '4', '5', '6', '7', '8']]
 
@@ -17,19 +17,19 @@ module Tools
 end
 
 class HighLight_Sq
-  attr_accessor :icon
+  attr_accessor :image
   attr_accessor :square
   attr_accessor :color
 
   def initialize(square, x, y, color = [0.0, 1.0, 0.0, 0.35])
     @square = square
     @color = color
-    @icon = Square.new(x: x, y: y,  size: 80, color: @color,
+    @image = Square.new(x: x, y: y,  size: 80, color: @color,
             z: -1)
   end
 
   def set_origin(square)
-    @icon.x, @icon.y = Tools.square_origin(square)
+    @image.x, @image.y = Utilities.square_origin(square)
   end
 end
 
@@ -43,7 +43,7 @@ class Board
   def initialize(posn = Position.get_posn('start'))
     @piece_codes = {'p' => Pawn, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
                   'q' => Queen, 'k' => King}
-    @coords = Tools::Coords
+    @coords = Utilities::Coords
     @coords_on = true
     @highlight_sqs = []
     @spare_pieces = []
@@ -78,19 +78,23 @@ class Board
   end
 
   def start_end_squares(start_sq, end_sq)
-    @start_square.icon.z = 2
-    @end_square.icon.z = 2
+    @start_square.image.z = 2
+    @end_square.image.z = 2
     @start_square.set_origin(start_sq)
     @end_square.set_origin(end_sq)
   end
 
+  def hide_start_end
+    @start_square.image.z = -1
+    @end_square.image.z = -1
+  end
 
   def highlight_squares(list)
-    list.each {|sq| (@highlight_sqs.detect {|e| e.square == sq}).icon.z = 2}
+    list.each {|sq| (@highlight_sqs.detect {|e| e.square == sq}).image.z = 2}
   end
 
   def unhighlight_squares(list)
-    list.each {|sq| (@highlight_sqs.detect {|e| e.square == sq}).icon.z = -1}
+    list.each {|sq| (@highlight_sqs.detect {|e| e.square == sq}).image.z = -1}
   end
 
   def mouse_square(x, y)
@@ -104,17 +108,17 @@ class Board
 
   def show_home_piece(piece, square)
     home_piece = @spare_pieces.detect {|e| e.name.include?(piece[0..1])}
-    x_posn, y_posn = Tools.square_origin(square)
+    x_posn, y_posn = Utilities.square_origin(square)
     home_piece.set_posn(x_posn, y_posn)
     home_piece.icon.z = 2
     @home_square.set_origin(square)
-    @home_square.icon.z = 2
+    @home_square.image.z = 2
   end
 
   def hide_home_piece(piece)
     home_piece = @spare_pieces.detect {|e| e.name.include?(piece[0..1])}
     home_piece.icon.z = -1
-    @home_square.icon.z = -1
+    @home_square.image.z = -1
   end
 
   def create_promo_squares
@@ -129,7 +133,7 @@ class Board
         square_color = '#ba8f64' # dark square
       end
 
-      x_posn, y_posn = Tools.square_origin(i)
+      x_posn, y_posn = Utilities.square_origin(i)
 
       Square.new(
         x: x_posn, y: y_posn,
@@ -169,7 +173,7 @@ class Board
 
     @game_pieces << @piece_codes[posn_pc[1]].new(name, color, square)
     @posn[square] = name
-    x_pos, y_pos = Tools.square_origin(square)
+    x_pos, y_pos = Utilities.square_origin(square)
     @game_pieces[-1].set_posn(x_pos, y_pos)
     @game_pieces[-1].icon.z = 3
     return @game_pieces[-1]
@@ -189,7 +193,7 @@ class Board
             piece = add_piece(square)
           end
           @posn[square] = piece.name
-          x_pos, y_pos = Tools.square_origin(square)
+          x_pos, y_pos = Utilities.square_origin(square)
           piece.set_posn(x_pos, y_pos)
           piece.icon.z = 3
           piece.square = square

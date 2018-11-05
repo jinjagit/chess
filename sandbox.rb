@@ -37,11 +37,11 @@ canvas = Rectangle.new(
   color: '#000000', # true black
   z: 0)
 
-moves = []
 ui = UI.new
 board = Board.new
 game = Game.new(board.game_pieces)
 posn = board.posn
+moves = []
 
 piece_lift = false
 posn_pc = ""
@@ -78,7 +78,7 @@ end
 on :mouse_move do |event|
   if piece_lift == true
     location = board.mouse_square(event.x, event.y)
-    board.home_square.icon.z = 4
+    board.home_square.image.z = 4
     piece.set_posn(event.x - 40, event.y - 40)
     piece.icon.z = 10
   end
@@ -91,17 +91,17 @@ on :mouse_up do |event|
     location = board.mouse_square(event.x, event.y)
     board.unhighlight_squares(legal_list)
     if location != "off_board" && legal_list.include?(location) == true
-    details = ''
-      x_pos, y_pos, moves, posn = game.move(posn, piece, start_square, location, details)
+      details = ''
+      end_sq, moves, posn = game.move(posn, piece, start_square, location, details)
       board.start_end_squares(start_square, location)
       # puts "time to evaluate position: #{(duration = Time.now - startTime).to_s} s"
       # puts
     else # == illegal move (reject)
-      x_pos, y_pos = Tools.square_origin(start_square)
+    end_sq = start_square
     end
 
     board.hide_home_piece(posn_pc)
-    piece.set_posn(x_pos, y_pos)
+    piece.move_to_square(end_sq)
     piece.icon.z = 3
   end
 
@@ -134,7 +134,10 @@ on :key_down do |e|
     board.clear_pieces
     game.status.remove
     posn = Position.get_posn(new_posn)
-    board = Board.new(posn)
+    board.posn = posn
+    board.hide_start_end
+    board.set_up_posn(first_run = false)
+    game.remove_red_sq
     game = Game.new(board.game_pieces)
     print_posn(posn)
   end

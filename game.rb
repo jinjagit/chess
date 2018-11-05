@@ -1,3 +1,4 @@
+require 'ruby2d'
 require './board'
 require './pieces'
 #require './sandbox'
@@ -29,6 +30,10 @@ class Game
     @red_square = HighLight_Sq.new(-1, 0, 0, [1.0, 0.0, 0.0, 0.7])
   end
 
+  def remove_red_sq
+    @red_square.image.remove
+  end
+
   def set_side_to_move
     if @ply % 2 == 0
       @to_move = 'white'
@@ -38,8 +43,8 @@ class Game
   end
 
   def pgn_square(square)
-    file = Tools::Coords[0][square % 8]
-    rank = Tools::Coords[1][(63 - square) / 8.floor]
+    file = Utilities::Coords[0][square % 8]
+    rank = Utilities::Coords[1][(63 - square) / 8.floor]
     pgn_square = file + rank
   end
 
@@ -138,7 +143,6 @@ class Game
       piece_to_take = @game_pieces.detect {|e| e.name == piece_to_take}
       piece_to_take.icon.z = -1
     end
-    x_pos, y_pos = Tools.square_origin(end_square)
     posn[end_square] = posn_pc
     posn[start_square] = "---" # can crash, if piece taking not enabled
     piece.square = end_square
@@ -169,7 +173,7 @@ class Game
     end
 
     if piece.checks > 0 # reset check vars, if move made (else checkmate already)
-      @red_square.icon.z = -1
+      @red_square.image.z = -1
       @game_pieces.each do |piece|
         if piece.name[0] == @to_move[0]
           piece.checks = 0
@@ -213,7 +217,7 @@ class Game
 
     if @checks > 0
       @red_square.set_origin(king.square)
-      @red_square.icon.z = 2
+      @red_square.image.z = 2
       if @checks > 1
         puts "double check!" # DEBUG output
         if king_moves.length == 0
@@ -298,6 +302,6 @@ class Game
 
     # puts "#{@game_over}"
 
-    return x_pos, y_pos, @moves, posn
+    return end_square, @moves, posn
   end
 end
