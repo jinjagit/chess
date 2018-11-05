@@ -148,7 +148,7 @@ class Game
            font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
        elsif @game_over == 'stalemate!'
          @status = Text.new(
-           "        Game drawn by stalemate", x: 400, y: 8,
+           "     Game over - Draw by stalemate", x: 400, y: 8,
            font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
        end
     end
