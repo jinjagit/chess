@@ -174,7 +174,6 @@ class Board
   end
 
   def select_promo_pc(square, posn, start_square)
-
     4.times do |i|
       @promo_sqs[i].image.z = -1
       if square < 32
@@ -195,9 +194,8 @@ class Board
     new_piece = new_piece[0..-2]
     posn[start_square] = new_piece
     new_piece = add_piece(start_square)
-    # new_piece = new_piece.name
-
-    return new_piece, location = @promote[1]
+    details = '=' + new_piece.name[1].upcase
+    return new_piece, details, location = @promote[1]
   end
 
   def draw_board

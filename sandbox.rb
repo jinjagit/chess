@@ -74,22 +74,13 @@ on :mouse_down do |event|
     #puts "time to find legal squares: #{(duration = Time.now - startTime).to_s} s"
     #puts
   elsif promote != [] && board.promote.include?(location)
-    puts "pawn promotion piece selection"
-
-    # do clever stuff
     piece.icon.z = -1
-    new_piece, location = board.select_promo_pc(location, posn, start_square)
+    new_piece, details, location = board.select_promo_pc(location, posn, start_square)
     game.game_pieces = board.game_pieces
-
-    puts "promoted piece = #{new_piece.name}"
-
-
-    details = '=somepiece'
     end_sq, moves, posn = game.move(posn, new_piece, start_square, location, details)
     new_piece.move_to_square(end_sq)
     new_piece.icon.z = 3
     promote = []
-
   end
 end
 
@@ -121,8 +112,6 @@ on :mouse_up do |event|
       else
         details = ''
         end_sq, moves, posn = game.move(posn, piece, start_square, location, details)
-        # puts "time to evaluate position: #{(duration = Time.now - startTime).to_s} s"
-        # puts
       end
     board.start_end_squares(start_square, location)
     else # == illegal move (reject)
@@ -155,7 +144,7 @@ on :key_down do |e|
     when '7'
       new_posn = 'stalemate'
     when '8'
-      new_posn = 'checks'
+      new_posn = 'pro_mate'
     when '9'
       new_posn = 'promote'
   end

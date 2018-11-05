@@ -24,7 +24,6 @@ class Game
     @check_blocks = []
     @pinned = {}
     @game_over = ''
-    @pc_taken = false
     @game_pieces = game_pieces
     @red_square = HighLight_Sq.new(-1, 0, 0, [1.0, 0.0, 0.0, 0.7])
   end
@@ -48,7 +47,17 @@ class Game
   end
 
   def pgn_move(posn, piece, start_square, end_square, details = '')
+    promote = ''
     name = piece.name
+    if details.include?('=')
+      if details.include?('x')
+        promote = details[1..2]
+        details = 'x' + details[3..-1]
+      else
+        promote = details[0..1]
+        details = x + details[2..-1]
+      end
+    end
     if details.include?('+')
       suffix = details[-1]
       details = details[0..-2]
@@ -64,7 +73,7 @@ class Game
     else
       n = ""
     end
-    if name[1] != 'p'
+    if name[1] != 'p' && promote == ''
       pc = name[1].upcase + details
       if pc[0] != 'K' ## == R, B, N, or Q
         piece.find_moves(posn)
@@ -95,7 +104,7 @@ class Game
     sq = pgn_square(end_square)
     sq = '' if details.include? 'O'
     pc = details if details.include? 'O'
-    @pgn = @pgn + "#{n}#{pc}#{sq}#{suffix} "
+    @pgn = @pgn + "#{n}#{pc}#{sq}#{promote}#{suffix} "
   end
 
   def move(posn, piece, start_square, end_square, details = '')
@@ -125,7 +134,7 @@ class Game
     posn_pc = posn[start_square]
     if (piece.name[1] == 'p' && piece.ep_square == end_square) ||
       posn[end_square] != '---' # piece taken, including en-passant
-      @pc_taken = true
+      details = 'x' + details
       if piece.name[1] == 'p' && piece.ep_square == end_square
         if piece.color == 'white' # piece taken en-passant
           piece_to_take = posn[end_square + 8]
@@ -147,14 +156,8 @@ class Game
     piece.square = end_square
     piece.moved ||= true
 
-    # --- Pawn promotion -----------------------------
-
-    if details.include?('=')
-      puts "Pawn promotion (in Game instance)!"
+    if details.include?('=') # pawn was promoted
       posn[end_square] = piece.name
-
-      # note: details contents should flag IS promotion and what to! ;-)
-      # N.B. update game_pieces!
     end
 
     # --- Castling: make Rook move, set King @moved = true, update move details
@@ -250,11 +253,6 @@ class Game
           piece.pinned = @pinned
         end
       end
-    end
-
-    if @pc_taken == true
-      details = 'x'
-      @pc_taken = false
     end
 
     if @checks > 0 && @game_over != 'checkmate!'
