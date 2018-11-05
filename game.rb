@@ -151,6 +151,7 @@ class Game
 
     if piece.name[1] == 'p' && (end_square < 8 || end_square > 55)
       puts "Pawn promotion!"
+      # note: details contents should flag IS promotion and what to! ;-)
     end
 
     # --- Castling: make Rook move, set King @moved = true, update move details

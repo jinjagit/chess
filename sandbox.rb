@@ -84,6 +84,11 @@ on :mouse_move do |event|
     board.home_square.image.z = 4
     piece.set_posn(event.x - 40, event.y - 40)
     piece.icon.z = 10
+  elsif promote != []
+    location = board.mouse_square(event.x, event.y)
+    if board.promote.include?(location)
+      board.promo_hover(location)
+    end
   end
 end
 
@@ -110,7 +115,7 @@ on :mouse_up do |event|
       if piece.name[1] == 'p' && (location < 8 || location > 55)
         promote = ['on', location]
         end_sq = location
-        board.show_promo_pieces(location)
+        board.show_promo_pieces(promote)
       else
         details = ''
         end_sq, moves, posn = game.move(posn, piece, start_square, location, details)

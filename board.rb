@@ -39,6 +39,7 @@ class Board
   attr_accessor :highlight_squares
   attr_accessor :posn
   attr_accessor :home_square
+  attr_accessor :promote
 
   def initialize(posn = Position.get_posn('start'))
     @piece_codes = {'q' => Queen, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
@@ -53,6 +54,10 @@ class Board
     @end_square = HighLight_Sq.new(-1, 0, 0, [0.95, 0.95, 0.258, 0.35])
     @home_square = HighLight_Sq.new(-1, 0, 0, [0.5, 0.5, 0.5, 0.65])
     @promo_sqs = []
+    @promo_col = [0.62, 0.26, 0.957, 1.0]
+    @promo_hov_col = [0.695, 0.431, 0.937, 1.0]
+    @promo_pcs = ['wqx', 'wrx', 'wnx', 'wbx', 'bqx', 'brx', 'bnx', 'bbx']
+    @promote = []
 
     draw_board
     draw_coords
@@ -125,26 +130,46 @@ class Board
 
   def create_promo_squares
     4.times do
-      @promo_sqs << HighLight_Sq.new(-1, 0, 0, [0.62, 0.26, 0.957, 1.0])
+      @promo_sqs << HighLight_Sq.new(-1, 0, 0, @promo_col)
     end
   end
 
-  def show_promo_pieces(square)
-    promo_pcs = ['wqx', 'wrx', 'wnx', 'wbx', 'bqx', 'brx', 'bnx', 'bbx']
+  def show_promo_pieces(promote)
+    @promote = promote
+    square = promote[1]
     promo_sq = 0
     4.times do |i|
       if square < 8
         promo_sq = square + (i * 8)
         @promo_sqs[i].set_origin(promo_sq)
-        promo_pc = @spare_pieces.detect {|e| e.name == promo_pcs[i]}
+        promo_pc = @spare_pieces.detect {|e| e.name == @promo_pcs[i]}
       else
         promo_sq = square - (i * 8)
         @promo_sqs[i].set_origin(promo_sq)
-        promo_pc = @spare_pieces.detect {|e| e.name == promo_pcs[i + 4]}
+        promo_pc = @spare_pieces.detect {|e| e.name == @promo_pcs[i + 4]}
+      end
+      if i == 0
+        @promo_sqs[i].image.color = @promo_hov_col
+      else
+        @promo_sqs[i].image.color = @promo_col
+        @promote << promo_sq
       end
       @promo_sqs[i].image.z = 9
       promo_pc.move_to_square(promo_sq)
       promo_pc.icon.z = 10
+    end
+  end
+
+  def promo_hover(location)
+    if @promote.include?(location)
+      index = @promote.find_index {|e| e == location}
+      4.times do |i|
+        if i + 1 == index
+          @promo_sqs[i].image.color = @promo_hov_col
+        else
+          @promo_sqs[i].image.color = @promo_col
+        end
+      end
     end
   end
 
