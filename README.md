@@ -5,12 +5,11 @@ The instructions, in a nutshell, are to build a "... command line chess game whe
 
 I chose not to produce a command line app, but instead went for a more graphical approach, using the ruby2D gem. While this gem is still a little rough around the edges (at only v 0.7), it is way more pleasant to look at than anything I could produce in the terminal, and enables a much more user-friendly interface (with a little more work). So far, I have been very impressed with the ease-of-use of this gem.
 
-Current state (04/11/18): Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling and en_passant. Checkmate and stalemate are correctly detected (and the game halted when found).
+Current state (05/11/18): Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling, pawn promotion and en_passant. Checkmate and stalemate are correctly detected (and the game halted when found).
 
-A move list (both native and PGN format) is created as the 'game' progresses. The piece that moved is disambiguated in PGN format, when needed (e.g. 'Nbd7', rather than simply 'Nd7').
+A move list (both native and PGN format) is created as the 'game' progresses. The piece that moved is disambiguated in PGN format, when needed (e.g. 'Nbd7', rather than simply 'Nd7'). Checks, checkmate, stalemate, en_passant and pawn promotion are all correctly formatted in the PGN record.
 
 ### To do next:
-  * pawn promotion
   * draw by 3-fold-repetition
   * flippable board
   * 50-move draw rule (if no captures, pawn advances, etc.)
