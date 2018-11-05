@@ -74,7 +74,16 @@ on :mouse_down do |event|
     #puts "time to find legal squares: #{(duration = Time.now - startTime).to_s} s"
     #puts
   elsif promote != []
-    # get square clicked, if promote piece, store as piece 'moved' (in promote?)
+    puts "pawn promotion piece selection"
+
+    # do clever stuff
+    new_piece = board.select_promo_pc(location)
+
+
+    details = '=somepiece'
+    end_sq, moves, posn = game.move(posn, piece, start_square, location, details)
+    promote = []
+
   end
 end
 
@@ -93,19 +102,6 @@ on :mouse_move do |event|
 end
 
 on :mouse_up do |event|
-
-  if promote != []
-    puts "pawn promotion end"
-    location = promote[1]
-
-    details = '=somepiece'
-    end_sq, moves, posn = game.move(posn, piece, start_square, location, details)
-    promote = []
-    # check promote for chosen piece, set piece, promote = []
-    # set new details
-    # game.move & board.start_end_squares
-  end
-
   if piece_lift == true
     # startTime = Time.now # debug: monitor responsiveness
     piece_lift = false

@@ -173,6 +173,23 @@ class Board
     end
   end
 
+  def select_promo_pc(square)
+    if @promote.include?(square)
+      4.times do |i|
+        @promo_sqs[i].image.z = -1
+        if square < 32
+          promo_pc = @spare_pieces.detect {|e| e.name == @promo_pcs[i]}
+        else
+          promo_pc = @spare_pieces.detect {|e| e.name == @promo_pcs[i + 4]}
+        end
+        promo_pc.icon.z = -1
+      end
+
+    end
+
+    new_piece = 'something'
+  end
+
   def draw_board
     64.times do |i|
       if (i + (i / 8.floor)) % 2 == 0

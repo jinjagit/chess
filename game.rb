@@ -150,7 +150,7 @@ class Game
     # --- Pawn promotion -----------------------------
 
     if piece.name[1] == 'p' && (end_square < 8 || end_square > 55)
-      puts "Pawn promotion!"
+      puts "Pawn promotion (in Game instance)!"
       # note: details contents should flag IS promotion and what to! ;-)
     end
 
