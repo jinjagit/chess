@@ -16,11 +16,6 @@ A move list (both native and PGN format) is created as a game progresses. The pi
 
 Note: At the moment, to run this (after downloading this repository), you'll need Ruby installed. Then, open a terminal, navigate to the root folder of the downloaded repository, and enter; <code>ruby sandbox.rb</code>
 
-### Interesting issues to address:
-  * Detecting 3-fold repetition (store and scan checksums on hashes of positions?)
-  * Brute force calculation of legal moves only when player lifts piece, or by continually updating a list of all legal moves for each side (and working out how to minimize the updating process by calculating how every/any move does / might _not_ affect some other pieces)? EDIT (1/11/18): After some measurements of time taken to calculate 'legal' moves, the brute force approach is looking like it is probably adequate.
-  * 50-move draw rule
-
 ### Features I want to add:
   * file ui, for saving / loading of both unfinished and finished games, in both app native and PGN formats.
   * step back / fwd through game (in progress, or completed)
