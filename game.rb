@@ -1,7 +1,6 @@
 require 'ruby2d'
 require './board'
 require './pieces'
-#require './sandbox'
 
 class Game
   attr_accessor :ply

@@ -48,10 +48,11 @@ posn_pc = ""
 start_square = nil
 piece = nil
 legal_list = []
+promote = []
 
 on :mouse_down do |event|
   location = board.mouse_square(event.x, event.y)
-  if location != "off_board" && game.game_over == ''
+  if location != "off_board" && game.game_over == '' && promote == []
     #startTime = Time.now # debug: monitor responsiveness
     posn_pc = posn[location]
     if posn_pc != "---"
@@ -72,11 +73,13 @@ on :mouse_down do |event|
     end
     #puts "time to find legal squares: #{(duration = Time.now - startTime).to_s} s"
     #puts
+  elsif promote != []
+    # get square clicked, if promote piece, store as piece 'moved' (in promote?)
   end
 end
 
 on :mouse_move do |event|
-  if piece_lift == true
+  if piece_lift == true && promote == []
     location = board.mouse_square(event.x, event.y)
     board.home_square.image.z = 4
     piece.set_posn(event.x - 40, event.y - 40)
@@ -85,17 +88,36 @@ on :mouse_move do |event|
 end
 
 on :mouse_up do |event|
+
+  if promote != []
+    puts "pawn promotion end"
+    location = promote[1]
+    details = '=somepiece'
+    end_sq, moves, posn = game.move(posn, piece, start_square, location, details)
+    board.start_end_squares(start_square, location)
+    promote = []
+    # check promote for chosen piece, set piece, promote = []
+    # set new details
+    # game.move & board.start_end_squares
+  end
+
   if piece_lift == true
     # startTime = Time.now # debug: monitor responsiveness
     piece_lift = false
     location = board.mouse_square(event.x, event.y)
     board.unhighlight_squares(legal_list)
     if location != "off_board" && legal_list.include?(location) == true
-      details = ''
-      end_sq, moves, posn = game.move(posn, piece, start_square, location, details)
-      board.start_end_squares(start_square, location)
-      # puts "time to evaluate position: #{(duration = Time.now - startTime).to_s} s"
-      # puts
+      if piece.name[1] == 'p' && (location < 8 || location > 55)
+        puts "pawn promotion start"
+        promote = ['on', location]
+        end_sq = location
+      else
+        details = ''
+        end_sq, moves, posn = game.move(posn, piece, start_square, location, details)
+        board.start_end_squares(start_square, location)
+        # puts "time to evaluate position: #{(duration = Time.now - startTime).to_s} s"
+        # puts
+      end
     else # == illegal move (reject)
     end_sq = start_square
     end

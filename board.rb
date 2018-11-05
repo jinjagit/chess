@@ -41,8 +41,8 @@ class Board
   attr_accessor :home_square
 
   def initialize(posn = Position.get_posn('start'))
-    @piece_codes = {'p' => Pawn, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
-                  'q' => Queen, 'k' => King}
+    @piece_codes = {'q' => Queen, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
+                    'p' => Pawn, 'k' => King}
     @coords = Utilities::Coords
     @coords_on = true
     @highlight_sqs = []
@@ -54,6 +54,7 @@ class Board
     @home_square = HighLight_Sq.new(-1, 0, 0, [0.5, 0.5, 0.5, 0.65])
 
     draw_board
+    draw_coords
     create_spare_pieces
     set_up_posn
   end
