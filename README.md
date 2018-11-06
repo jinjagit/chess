@@ -9,6 +9,8 @@ I chose not to produce a command line app, but instead went for a more graphical
 
 Current state (05/11/18): Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling, pawn promotion and en-passant. Checkmate and stalemate are correctly detected (and the game halted when found).
 
+Draws by 50-move-rule (no captures or pawn moves) are enforced (though officially should be claimed by a player, so I may change this to an advisory message, with an option to claim the draw).
+
 A move list (both native and PGN format) is created as a game progresses. The piece that moved is disambiguated in PGN format, when needed (e.g. 'Nbd7', rather than simply 'Nd7'). Checks, checkmate, stalemate, en-passant and pawn promotion are all correctly formatted in the PGN record.
 
 Legal moves, if any, are highlighted (green squares) when a piece is 'lifted'. A 'ghost' piece remains on the originating square while a piece is 'lifted'. The king's square is highlighted (red) if in check (or checkmate). The last move originating and final squares are highlighted (yellow). On pawn promotion, the player is presented with a choice of Queen, Rook, Bishop, or Knight (click-able).
@@ -17,7 +19,6 @@ Legal moves, if any, are highlighted (green squares) when a piece is 'lifted'. A
   * draw by insufficient material
   * draw by 3-fold-repetition
   * flippable board
-  * 50-move draw rule (if no captures, pawn advances, etc.)
 
 Note: At the moment, to run this (after downloading this repository), you'll need Ruby installed. Then, open a terminal, navigate to the root folder of the downloaded repository, and enter; <code>ruby chess.rb</code>
 
