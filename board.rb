@@ -44,7 +44,6 @@ class Board
   def initialize(posn = Position.get_posn('start'))
     @piece_codes = {'q' => Queen, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
                     'p' => Pawn, 'k' => King}
-    @coords = Utilities::Coords
     @coords_on = true
     @highlight_sqs = []
     @spare_pieces = []
@@ -76,11 +75,11 @@ class Board
       layer = -1
     end
     8.times do |i|
-      Text.new(@coords[0][i], x: file[0] + (i * 80), y: file[1],
+      Text.new(Utilities::Coords[0][i], x: file[0] + (i * 80), y: file[1],
       font: 'fonts/UbuntuMono-R.ttf', size: 24, color: color, z: layer)
     end
     8.times do |i|
-      Text.new(@coords[1][i], x: rank[0], y: rank[1] - (i * 80),
+      Text.new(Utilities::Coords[1][i], x: rank[0], y: rank[1] - (i * 80),
       font: 'fonts/UbuntuMono-R.ttf', size: 24, color: color, z: layer)
     end
   end
