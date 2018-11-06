@@ -28,9 +28,9 @@ class Piece
   def move_to_square(square)
     x_offset = 320
     y_offset = 40
-    x_posn = ((square % 8) * 80) + x_offset
-    y_posn = ((square / 8.floor) * 80) + y_offset
-    set_posn(x_posn, y_posn)
+    x_pos = ((square % 8) * 80) + x_offset
+    y_pos = ((square / 8.floor) * 80) + y_offset
+    set_posn(x_pos, y_pos)
   end
 
   def get_other_piece_info(piece)
