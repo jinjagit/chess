@@ -236,13 +236,13 @@ class Game
     material = {'n' => 0, 'b' => 0, 'other' => 0} # insufficient material?
 
     @game_pieces.each do |e|
-      material['n'] += 1 if e.name[1] == 'n'
-      material['b'] += 1 if e.name[1] == 'b'
+      material['n'] += 1 if e.name[1] == 'n' && e.icon.z > 0
+      material['b'] += 1 if e.name[1] == 'b' && e.icon.z > 0
       material['other'] += 1 if e.name.include?('n') == false &&
-        e.name[1] != 'b' && e.name[1] != 'k'
+        e.name[1] != 'b' && e.name[1] != 'k' && e.icon.z > 0
     end
 
-    @game_over = "insufficient!" if material['n'] == 4 && material['b'] == 0 &&
+    @game_over = "insufficient!" if material['n'] == 1 && material['b'] == 0 &&
       material['other'] == 0
 
 

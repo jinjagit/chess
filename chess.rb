@@ -136,7 +136,7 @@ on :key_down do |e|
     when '3'
       new_posn = 'castling'
     when '4'
-      new_posn = 'crash'
+      new_posn = 'insuf1'
     when '5'
       new_posn = 'bishops'
     when '6'
