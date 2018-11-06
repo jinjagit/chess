@@ -29,6 +29,7 @@ class Game
     @red_square = HighLight_Sq.new(-1, 0, 0, [1.0, 0.0, 0.0, 0.7])
     @checksums = []
     @checksum_dbls = {}
+    @threefold = []
   end
 
   def remove_red_sq
@@ -161,6 +162,10 @@ class Game
          @status = Text.new(
            "   Game over! Draw by 50-move rule", x: 400, y: 8,
            font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
+       elsif @game_over == '3-fold repetition!'
+         @status = Text.new(
+           "  Game over! Draw by 3-fold repetition", x: 400, y: 8,
+           font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
        end
     end
 
@@ -239,8 +244,7 @@ class Game
 
     # --- assess resulting position (most of remaining code in this def) ---
 
-    # assess 50 move rule, and then 3-fold repetition of position
-
+    # assess draw by: 50 move rule or 3-fold repetition of position
     if details.include?('x') || piece.name[1] == 'p'
       @checksums = []
       @checksum_dbls = {}
@@ -251,11 +255,18 @@ class Game
 
     @game_over = "50-move rule!" if @checksums.length >= 100
 
-    #puts "details: #{details}"
-    #puts "name[1]: #{piece.name[1]}"
-    p @checksums
-
-
+    if @ply >= 5 && @checksums.length >= 3
+      if @checksum_dbls.length > 0
+        if @checksum_dbls.key?(@checksums[-1])
+          @game_over = "3-fold repetition!"
+          @threefold = @checksum_dbls["#{@checksums[-1]}"]
+          @threefold << @ply
+        end
+      end
+      @checksums[0...-1].each_with_index do |e, i|
+        @checksum_dbls[@checksums[-1]] = [i, @ply] if e == @checksums[-1]
+      end
+    end
 
     material = {'n' => 0, 'b' => 0, 'other' => 0} # insufficient material?
 
@@ -341,7 +352,7 @@ class Game
         details += '#1-0'
       end
     elsif @game_over == 'stalemate!' || @game_over == 'insufficient!' ||
-          @game_over == '50-move rule!'
+          @game_over == '50-move rule!' || game_over == '3-fold repetition!'
       details += '1/2-1/2'
     end
 
@@ -373,6 +384,7 @@ class Game
     puts
 
     puts "#{@game_over}"
+    puts @ply
 
     return end_square, @moves, posn
   end
