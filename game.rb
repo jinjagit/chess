@@ -18,7 +18,7 @@ class Game
     @to_move = 'white'
     @status = Text.new('Game in progress - move 1: White to move', x: 400,
       y: 8, font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
-    @moves = [] # [['piece', start_square, end_square, 'x?+?#?']]
+    @moves = [] # [['piece', start_square, end_square, 'x,+,#,O-O, etc.']]
     @pgn = ''
     @checks = 0
     @check_blocks = []
@@ -157,10 +157,10 @@ class Game
     # (if any), and set @moved = true for moved piece
     posn_pc = posn[start_square]
     if (piece.name[1] == 'p' && piece.ep_square == end_square) ||
-      posn[end_square] != '---' # piece taken, including en-passant
+      posn[end_square] != '---' # == piece taken
       details = 'x' + details
       if piece.name[1] == 'p' && piece.ep_square == end_square
-        if piece.color == 'white' # piece taken en-passant
+        if piece.color == 'white' # == piece taken en-passant
           piece_to_take = posn[end_square + 8]
           posn[end_square + 8] = '---'
         else
@@ -176,7 +176,7 @@ class Game
       piece_to_take.icon.z = -1
     end
     posn[end_square] = posn_pc
-    posn[start_square] = "---" # can crash, if piece taking not enabled
+    posn[start_square] = "---"
     piece.square = end_square
     piece.moved ||= true
 
@@ -184,8 +184,7 @@ class Game
       posn[end_square] = piece.name
     end
 
-    # --- Castling: make Rook move, set King @moved = true, update move details
-    if piece.name[1] == 'k'
+    if piece.name[1] == 'k' # castling (move the rook), set King to 'has moved'
       if (start_square - end_square).abs == 2
         if end_square == 62
           castle_move(63, 61, 'wr1', posn)
@@ -227,7 +226,7 @@ class Game
 
     @moves << [piece.name[0..1], start_square, end_square, details]
 
-    # Now, assess position (== all of remaining code in this def)...
+    # assess resulting position (most of remaining code in this def)
     if @to_move == 'white'
       king = @game_pieces.detect {|e| e.name == 'wk0'}
     else
@@ -291,8 +290,7 @@ class Game
       details += '1/2-1/2'
     end
 
-    # update castling options, if appropriate
-    if @checks == 0
+    if @checks == 0 # update castling options, if rook moved or was taken
       if @to_move == 'white'
         king = @game_pieces.detect {|e| e.name == 'wk0'}
       else
@@ -311,7 +309,7 @@ class Game
       end
     end
 
-    @moves[-1][3] = details
+    @moves[-1][3] = details # add move details to move list(s)
     pgn_move(posn, piece, start_square, end_square, details)
     update_status_msg
 
