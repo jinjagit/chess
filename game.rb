@@ -1,4 +1,5 @@
 require 'ruby2d'
+require 'digest'
 require './board'
 require './pieces'
 
@@ -26,6 +27,8 @@ class Game
     @game_over = ''
     @game_pieces = game_pieces
     @red_square = HighLight_Sq.new(-1, 0, 0, [1.0, 0.0, 0.0, 0.7])
+    @checksums = []
+    @checksum_dbls = {}
   end
 
   def remove_red_sq
@@ -154,6 +157,10 @@ class Game
          @status = Text.new(
            "Game over! Draw by insufficient material", x: 400, y: 8,
            font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
+       elsif @game_over == '50-move rule!'
+         @status = Text.new(
+           "   Game over! Draw by 50-move rule", x: 400, y: 8,
+           font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
        end
     end
 
@@ -231,6 +238,24 @@ class Game
     @moves << [piece.name[0..1], start_square, end_square, details]
 
     # --- assess resulting position (most of remaining code in this def) ---
+
+    # assess 50 move rule, and then 3-fold repetition of position
+
+    if details.include?('x') || piece.name[1] == 'p'
+      @checksums = []
+      @checksum_dbls = {}
+    else
+      string = posn.join
+      @checksums << Digest::SHA2.hexdigest(string)
+    end
+
+    @game_over = "50-move rule!" if @checksums.length >= 100
+
+    #puts "details: #{details}"
+    #puts "name[1]: #{piece.name[1]}"
+    p @checksums
+
+
 
     material = {'n' => 0, 'b' => 0, 'other' => 0} # insufficient material?
 
@@ -315,7 +340,8 @@ class Game
       else
         details += '#1-0'
       end
-    elsif @game_over == 'stalemate!' || @game_over == 'insufficient!'
+    elsif @game_over == 'stalemate!' || @game_over == 'insufficient!' ||
+          @game_over == '50-move rule!'
       details += '1/2-1/2'
     end
 
@@ -346,7 +372,7 @@ class Game
     # p @moves
     puts
 
-    # puts "#{@game_over}"
+    puts "#{@game_over}"
 
     return end_square, @moves, posn
   end
