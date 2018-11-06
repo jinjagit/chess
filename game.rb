@@ -226,7 +226,29 @@ class Game
 
     @moves << [piece.name[0..1], start_square, end_square, details]
 
-    # assess resulting position (most of remaining code in this def)
+    # --- assess resulting position (most of remaining code in this def) ---
+
+    # first count all 'active' pieces (excluding kings), sorting into
+      # bishops, knights, other pieces
+        # if only 1 knight or only 1 bishop == insufficient
+          # if more than 1 bishop && all on same color == insufficient
+
+    material = {'n' => 0, 'b' => 0, 'other' => 0} # insufficient material?
+
+    @game_pieces.each do |e|
+      material['n'] += 1 if e.name[1] == 'n'
+      material['b'] += 1 if e.name[1] == 'b'
+      material['other'] += 1 if e.name.include?('n') == false &&
+        e.name[1] != 'b' && e.name[1] != 'k'
+    end
+
+    @game_over = "insufficient!" if material['n'] == 4 && material['b'] == 0 &&
+      material['other'] == 0
+
+
+    p material
+
+
     if @to_move == 'white'
       king = @game_pieces.detect {|e| e.name == 'wk0'}
     else
@@ -317,7 +339,7 @@ class Game
     # p @moves
     puts
 
-    # puts "#{@game_over}"
+    puts "#{@game_over}"
 
     return end_square, @moves, posn
   end
