@@ -144,11 +144,15 @@ class Game
            to_m = 'White'
          end
          @status = Text.new(
-           "  Game over - #{to_m} wins by checkmate", x: 400, y: 8,
+           "   Game over! #{to_m} wins by checkmate", x: 400, y: 8,
            font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
        elsif @game_over == 'stalemate!'
          @status = Text.new(
-           "     Game over - Draw by stalemate", x: 400, y: 8,
+           "      Game over! Draw by stalemate", x: 400, y: 8,
+           font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
+       elsif @game_over == 'insufficient!'
+         @status = Text.new(
+           "Game over! Draw by insufficient material", x: 400, y: 8,
            font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
        end
     end
@@ -309,7 +313,7 @@ class Game
       else
         details += '#1-0'
       end
-    elsif @game_over == 'stalemate!'
+    elsif @game_over == 'stalemate!' || @game_over == 'insufficient!'
       details += '1/2-1/2'
     end
 
@@ -340,7 +344,7 @@ class Game
     # p @moves
     puts
 
-    puts "#{@game_over}"
+    # puts "#{@game_over}"
 
     return end_square, @moves, posn
   end
