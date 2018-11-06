@@ -228,28 +228,29 @@ class Game
 
     # --- assess resulting position (most of remaining code in this def) ---
 
-    # first count all 'active' pieces (excluding kings), sorting into
-      # bishops, knights, other pieces
-        # if only 1 knight or only 1 bishop == insufficient
-          # if more than 1 bishop && all on same color == insufficient
-
     material = {'n' => 0, 'b' => 0, 'other' => 0} # insufficient material?
 
     @game_pieces.each do |e|
-      material['n'] += 1 if e.name[1] == 'n' && e.icon.z > 0
-      material['b'] += 1 if e.name[1] == 'b' && e.icon.z > 0
-      material['other'] += 1 if e.name.include?('n') == false &&
-        e.name[1] != 'b' && e.name[1] != 'k' && e.icon.z > 0
+      material['n'] += 1 if e.icon.z > 0 && e.name[1] == 'n'
+      material['b'] += 1 if e.icon.z > 0 && e.name[1] == 'b'
+      material['other'] += 1 if e.icon.z > 0 && e.name[1] != 'n' &&
+        e.name[1] != 'b' && e.name[1] != 'k'
     end
 
     @game_over = "insufficient!" if material['n'] == 1 && material['b'] == 0 &&
       material['other'] == 0
+    @game_over = "insufficient!" if material['b'] == 1 && material['n'] == 0 &&
+      material['other'] == 0
+    if material['b'] > 1 && material['n'] == 0 && material['other'] == 0
+      square_color = []
+      @game_pieces.each do |e|
+         square_color << (((e.square / 8.floor) + e.square) % 2) if e.name[1] == 'b'
+      end
+      @game_over = "insufficient!" if square_color.all? {|e| e == 0}
+      @game_over = "insufficient!" if square_color.all? {|e| e == 1}
+    end
 
-
-    p material
-
-
-    if @to_move == 'white'
+    if @to_move == 'white' # assess checks (including possible blocking & pins)
       king = @game_pieces.detect {|e| e.name == 'wk0'}
     else
       king = @game_pieces.detect {|e| e.name == 'bk0'}
