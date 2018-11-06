@@ -248,11 +248,15 @@ class Game
     if material['b'] > 1 && material['n'] == 0 && material['other'] == 0
       square_color = []
       @game_pieces.each do |e|
-         square_color << (((e.square / 8.floor) + e.square) % 2) if e.name[1] == 'b'
+        if e.icon.z > 0 && e.name[1] == 'b'
+          square_color << (((e.square / 8.floor) + e.square) % 2)
+        end
       end
       @game_over = "insufficient!" if square_color.all? {|e| e == 0}
       @game_over = "insufficient!" if square_color.all? {|e| e == 1}
     end
+
+    p square_color
 
     if @to_move == 'white' # assess checks (including possible blocking & pins)
       king = @game_pieces.detect {|e| e.name == 'wk0'}
