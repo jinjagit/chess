@@ -256,8 +256,6 @@ class Game
       @game_over = "insufficient!" if square_color.all? {|e| e == 1}
     end
 
-    p square_color
-
     if @to_move == 'white' # assess checks (including possible blocking & pins)
       king = @game_pieces.detect {|e| e.name == 'wk0'}
     else

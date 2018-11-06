@@ -410,7 +410,7 @@ class King < Piece
       @legal_moves = @legal_moves - [move] if is_check == true
     end
 
-    if @checks == 0 && @moved == false # check if castling is a legal move
+    if @checks == 0 && @moved == false # add castling square(s) if legal move(s)
       if @long == true
         if @color == 'white'
           castling_square(59, 58, game_pieces, posn)
