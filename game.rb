@@ -379,12 +379,11 @@ class Game
     pgn_move(posn, piece, start_square, end_square, details)
     update_status_msg
 
+    puts
     puts @pgn # debug (and later, for display)
     # p @moves
-    puts
 
-    puts "#{@game_over}"
-    puts @ply
+    # puts "#{@game_over}"
 
     return end_square, @moves, posn
   end

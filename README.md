@@ -16,9 +16,8 @@ A move list (both native and PGN format) is created as a game progresses. The pi
 Legal moves, if any, are highlighted (green squares) when a piece is 'lifted'. A 'ghost' piece remains on the originating square while a piece is 'lifted'. The king's square is highlighted (red) if in check (or checkmate). The last move originating and final squares are highlighted (yellow). On pawn promotion, the player is presented with a choice of Queen, Rook, Bishop, or Knight (click-able).
 
 ### To do next:
-  * draw by insufficient material
-  * draw by 3-fold-repetition
   * flippable board
+  * basic ui elements
 
 Note: At the moment, to run this (after downloading this repository), you'll need Ruby installed. Then, open a terminal, navigate to the root folder of the downloaded repository, and enter; <code>ruby chess.rb</code>
 

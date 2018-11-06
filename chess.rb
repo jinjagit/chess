@@ -100,11 +100,11 @@ end
 
 on :mouse_up do |event|
   if piece_lift == true
-    # startTime = Time.now # debug: monitor responsiveness
     piece_lift = false
     location = board.mouse_square(event.x, event.y)
     board.unhighlight_squares(legal_list)
     if location != "off_board" && legal_list.include?(location) == true
+      # startTime = Time.now # debug: monitor responsiveness
       if piece.name[1] == 'p' && (location < 8 || location > 55)
         promote = ['on', location]
         end_sq = location
@@ -113,9 +113,10 @@ on :mouse_up do |event|
         details = ''
         end_sq, moves, posn = game.move(posn, piece, start_square, location, details)
       end
-    board.start_end_squares(start_square, location)
+      board.start_end_squares(start_square, location)
+      # puts "time to assess position: #{(duration = Time.now - startTime).to_s} s"
     else # == illegal move (reject)
-    end_sq = start_square
+      end_sq = start_square
     end
 
     board.hide_home_piece(posn_pc)
@@ -161,7 +162,7 @@ on :key_down do |e|
   end
 end
 
-puts
-print_posn(posn) # debug output
+# puts
+# print_posn(posn) # debug output
 
 show
