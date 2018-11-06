@@ -107,6 +107,20 @@ class Piece
     end
     common
   end
+
+  def filter_pins
+    if @pinned != {}
+      pin_moves = @pinned[@name]
+      @legal_moves = common(@legal_moves, pin_moves)
+    end
+  end
+
+  def filter_checks_and_pins
+    if @check_blocks != []
+      @legal_moves = common(@legal_moves, @check_blocks)
+    end
+    filter_pins
+  end
 end
 
 class Sliding_Piece < Piece
@@ -143,7 +157,6 @@ class Sliding_Piece < Piece
         square = new_square
       end
     end
-    # p moves # for debugging
     moves
   end
 end
@@ -218,10 +231,7 @@ class Pawn < Piece
           @legal_moves = common(@legal_moves, @check_blocks)
         end
       end
-      if @pinned != {}
-        pin_moves = @pinned[@name]
-        @legal_moves = common(@legal_moves, pin_moves)
-      end
+      filter_pins
     end
   end
 end
@@ -242,13 +252,7 @@ class Rook < Sliding_Piece
       @legal_moves = []
     else
       @legal_moves = find_sliding_paths(posn, 'orthogonal')
-      if @check_blocks != []
-        @legal_moves = common(@legal_moves, @check_blocks)
-      end
-      if @pinned != {}
-        pin_moves = @pinned[@name]
-        @legal_moves = common(@legal_moves, pin_moves)
-      end
+      filter_checks_and_pins
     end
   end
 end
@@ -290,13 +294,7 @@ class Knight < Piece
             end
           end
         end
-        if @check_blocks != []
-          @legal_moves = common(@legal_moves, @check_blocks)
-        end
-        if @pinned != {}
-          pin_moves = @pinned[@name]
-          @legal_moves = common(@legal_moves, pin_moves)
-        end
+        filter_checks_and_pins
       end
     end
 end
@@ -316,13 +314,7 @@ class Bishop < Sliding_Piece
       @legal_moves = []
     else
       @legal_moves = find_sliding_paths(posn, 'diagonal')
-      if @check_blocks != []
-        @legal_moves = common(@legal_moves, @check_blocks)
-      end
-      if @pinned != {}
-        pin_moves = @pinned[@name]
-        @legal_moves = common(@legal_moves, pin_moves)
-      end
+      filter_checks_and_pins
     end
   end
 end
@@ -348,13 +340,7 @@ class Queen < Sliding_Piece
       dis_list += @disambiguate
       @disambiguate = dis_list
       @legal_moves = orthogonal_moves + diagonal_moves
-      if @check_blocks != []
-        @legal_moves = common(@legal_moves, @check_blocks)
-      end
-      if @pinned != {}
-        pin_moves = @pinned[@name]
-        @legal_moves = common(@legal_moves, pin_moves)
-      end
+      filter_checks_and_pins
     end
   end
 end
@@ -443,7 +429,7 @@ class King < Piece
   end
 
   def is_in_check(game_pieces, posn, move)
-    checks, check_blocks, pinned = checks_n_pins(game_pieces, posn, move)
+    checks, check_blocks, pinned = checks_and_pins(game_pieces, posn, move)
     if checks == 0
       false
     else
@@ -451,7 +437,7 @@ class King < Piece
     end
   end
 
-  def checks_n_pins(game_pieces, posn, square = -1)
+  def checks_and_pins(game_pieces, posn, square = -1)
     n_of_checks = 0
     check_blocks = []
     pinned = {}

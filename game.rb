@@ -232,7 +232,7 @@ class Game
     else
       king = @game_pieces.detect {|e| e.name == 'bk0'}
     end
-    @checks, @check_blocks, @pinned = king.checks_n_pins(@game_pieces, posn)
+    @checks, @check_blocks, @pinned = king.checks_and_pins(@game_pieces, posn)
 
     # puts "checks: #{@checks}  block_sqs: #{@check_blocks}  pinned: #{@pinned}"
     # puts # DEBUG output -----------
