@@ -43,9 +43,7 @@ class Piece
     end
   end
 
-  def on_edge(square)
-    # note: corners squares have 2 'edges', but this def only returns one edge,
-    # hence corners considered as separate cases
+  def on_edge(square) # corners considered as separate cases, as have 2 'edges'
     if square < 8
       edge = 'N'
     elsif square > 55
@@ -188,15 +186,14 @@ class Pawn < Piece
           end
         end
       end
-      # look for en-passant opportunities (only when on 5th rank)
-      opp_pawn = ''
+
+      opp_pawn = '' # look for en-passant opportunities (only on 4th/5th rank)
       if @color == 'white' && @square / 8.floor == 3
         opp_pawn = 'bp'
       elsif @color == 'black' && @square / 8.floor == 4
         opp_pawn = 'wp'
       end
-      if opp_pawn != ''
-        # get number(s) of E & W squares (if not off-board)
+      if opp_pawn != '' # get number(s) of E & W squares (if not off-board)
         directions = ['E', 'W']
         directions.each do |e|
           new_square = orthogonal_step(@square, e)
@@ -427,7 +424,7 @@ class King < Piece
       @legal_moves = @legal_moves - [move] if is_check == true
     end
 
-    if @checks == 0 && @moved == false # castling logic ...
+    if @checks == 0 && @moved == false # check if castling is a legal move
       if @long == true
         if @color == 'white'
           castling_square(59, 58, game_pieces, posn)
