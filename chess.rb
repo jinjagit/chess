@@ -40,6 +40,7 @@ canvas = Rectangle.new(
 ui = UI.new
 board = Board.new
 game = Game.new(board.game_pieces)
+ui.place_defaults
 posn = board.posn
 moves = []
 

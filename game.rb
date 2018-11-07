@@ -59,7 +59,7 @@ class Game
         details = 'x' + details[3..-1]
       else
         promote = details[0..1]
-        details = 'x' + details[2..-1]
+        details = details[2..-1]
       end
     end
     if details.include?('+')
