@@ -13,6 +13,7 @@ class Game
   attr_reader :pins
   attr_accessor :game_over
   attr_accessor :game_pieces
+  attr_accessor :ui_data
 
   def initialize(game_pieces)
     @ply = 0
@@ -30,6 +31,7 @@ class Game
     @checksums = []
     @checksum_dbls = {}
     @threefold = []
+    @ui_data = []
   end
 
   def remove_red_sq
@@ -378,6 +380,7 @@ class Game
     @moves[-1][3] = details # add move details to move list(s)
     pgn_move(posn, piece, start_square, end_square, details)
     update_status_msg
+    @ui_data = [@ply, 1]
 
     puts
     puts @pgn # debug (and later, for display)
