@@ -20,7 +20,7 @@ class UI
     font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
     @b_material_text = Text.new("37 (0)", x:1160, y: 71,
     font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
-    @info_box = Image.new("img/ui/info_box.png", height: 160, width: 210, z: 2,
+    @info_box = Image.new("img/ui/info_box.png", height: 160, width: 210, z: 1,
                           x: 1022, y: 280)
     @info_text1 = Text.new(" Game in progress ", x:1036, y: 348, z: 2, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
@@ -58,14 +58,15 @@ class UI
       font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
     end
 
-    update_info(data) if data[3] != ''
+    game_over(data) if data[3] != ''
 
   end
 
-  def update_info(data)
+  def game_over(data)
     @info_text1.remove
 
     if data[3] == 'checkmate!'
+      @to_move_ind.z = -1
       if data[0] % 2 == 0
         winner = 'Black'
       else
