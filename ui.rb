@@ -20,6 +20,7 @@ class UI
     font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
     @b_material_text = Text.new("37 (=)", x:1160, y: 71,
     font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
+    @info_box = Image.new("img/ui/info_box.png", height: 160, width: 210, z: 2, x: 1022, y: 280)
   end
 
   def place_defaults
@@ -55,7 +56,7 @@ class UI
       font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
     end
   end
-  
+
 end
 
 

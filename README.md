@@ -19,7 +19,7 @@ UI: Indicator shows side to move. Total pieces value (and difference) for each s
 
 ### To do next:
   * flippable board
-  * basic ui elements
+  * basic ui elements (in progess)
 
 Note: At the moment, to run this (after downloading this repository), you'll need Ruby installed. Then, open a terminal, navigate to the root folder of the downloaded repository, and enter; <code>ruby chess.rb</code>
 
