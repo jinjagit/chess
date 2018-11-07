@@ -137,7 +137,7 @@ class Game
       result
     end
 
-    def update_material(piece)
+    def subtract_material(piece)
       if piece.name[1] == 'p'
         loss = 1
       elsif piece.name[1] == 'r'
@@ -152,6 +152,22 @@ class Game
         @w_material -= loss
       else
         @b_material -= loss
+      end
+    end
+
+    def add_material(details)
+      if details[-1] == 'Q'
+        gain = 8
+      elsif details[-1] == 'R'
+        gain = 4
+      else
+        gain = 2
+      end
+
+      if @to_move[1] == 'w'
+        @b_material += gain
+      else
+        @w_material += gain
       end
     end
 
@@ -212,7 +228,7 @@ class Game
       end
       piece_to_take = @game_pieces.detect {|e| e.name == piece_to_take}
       piece_to_take.icon.z = -1
-      update_material(piece_to_take)
+      subtract_material(piece_to_take)
     end
     posn[end_square] = posn_pc
     posn[start_square] = "---"
@@ -221,6 +237,7 @@ class Game
 
     if details.include?('=') # pawn was promoted
       posn[end_square] = piece.name
+      add_material(details)
     end
 
     if piece.name[1] == 'k' # castling (move the rook), set King to 'has moved'
