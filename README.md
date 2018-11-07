@@ -15,7 +15,7 @@ A move list (both native and PGN format) is created as a game progresses. The pi
 
 Legal moves, if any, are highlighted (green squares) when a piece is 'lifted'. A 'ghost' piece remains on the originating square while a piece is 'lifted'. The king's square is highlighted (red) if in check (or checkmate). The last move originating and final squares are highlighted (yellow). On pawn promotion, the player is presented with a choice of Queen, Rook, Bishop, or Knight (click-able).
 
-UI: Indicator shows side to move. Total pieces value (and difference) for each side updates when piece taken / pawn promoted.
+UI: Indicator shows side to move. Total pieces value (and difference) for each side updates when piece taken / pawn promoted. Game status info shown in box to right of board.
 
 ### To do next:
   * flippable board
