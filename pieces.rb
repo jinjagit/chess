@@ -310,6 +310,7 @@ class Bishop < Sliding_Piece
   end
 
   def find_moves(posn, moves = [])
+    puts "bishop pinned: #{@pinned}"
     if @checks > 1
       @legal_moves = []
     else

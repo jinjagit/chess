@@ -10,9 +10,9 @@ module Utilities
   def self.square_origin(index)
     x_offset = 320
     y_offset = 40
-    x_posn = ((index % 8) * 80) + x_offset
-    y_posn = ((index / 8.floor) * 80) + y_offset
-    return x_posn, y_posn
+    x_pos = ((index % 8) * 80) + x_offset
+    y_pos = ((index / 8.floor) * 80) + y_offset
+    return x_pos, y_pos
   end
 end
 
@@ -205,15 +205,15 @@ class Board
         square_color = '#ba8f64' # dark square
       end
 
-      x_posn, y_posn = Utilities.square_origin(i)
+      x_pos, y_pos = Utilities.square_origin(i)
 
       Square.new(
-        x: x_posn, y: y_posn,
+        x: x_pos, y: y_pos,
         size: 80,
         color: square_color,
         z: 1)
 
-      @highlight_sqs << HighLight_Sq.new(i, x_posn, y_posn)
+      @highlight_sqs << HighLight_Sq.new(i, x_pos, y_pos)
     end
   end
 
@@ -300,13 +300,3 @@ class Board
   end
 
 end
-
-# **note: pieces loaded from saved game, or from PGN file, may need their
-# instance vars set to non-default values (e.g. @ep_square).
-# This could be made easier for native saved files (by saving the relevant
-# instance vars with reference to the relevant pieces), but can only be
-# calculated for PGN files (by stepping through the game moves, from the start)
-
-# 'spare' pieces (12 = 1 of each class/color) will have @name ending in 'x' and
-# their icons will be used as ghost pieces (on original square) when player
-# attempts to move a posn_pc, and as icons on promotion menu (if pawn promoted)

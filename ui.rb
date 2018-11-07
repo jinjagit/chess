@@ -16,9 +16,9 @@ class UI
     @b_diff = 0
     @title_top = [1020, 60]
     @title_bot = [1020, 617]
-    @w_material_text = Text.new("37 (=)", x:1160, y: 628,
+    @w_material_text = Text.new("37 (0)", x:1160, y: 628,
     font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
-    @b_material_text = Text.new("37 (=)", x:1160, y: 71,
+    @b_material_text = Text.new("37 (0)", x:1160, y: 71,
     font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
     @info_box = Image.new("img/ui/info_box.png", height: 160, width: 210, z: 2,
                           x: 1022, y: 280)
@@ -38,7 +38,6 @@ class UI
     @w_diff = '+' + @w_diff.to_s if @w_diff > 0
     @b_diff = @b_material - @w_material
     @b_diff = '+' + @b_diff.to_s if @b_diff > 0
-    @w_diff, @b_diff = '=', '=' if @w_material - @b_material == 0
   end
 
   def move_update(data)

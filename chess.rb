@@ -25,7 +25,7 @@ def print_game_pieces(game_pieces)
 end
 # ------------------------------------------------------------------
 
-set title: "chess sandbox"
+set title: "Chess - by Simon Tharby"
 set width: 1280
 set height: 720
 set resizable: true

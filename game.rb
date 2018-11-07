@@ -301,8 +301,16 @@ class Game
     end
     @checks, @check_blocks, @pinned = king.checks_and_pins(@game_pieces, posn)
 
-    # puts "checks: #{@checks}  block_sqs: #{@check_blocks}  pinned: #{@pinned}"
-    # puts # DEBUG output -----------
+    if @pinned != {}
+      @game_pieces.each do |piece|
+        if @pinned.key?(piece.name)
+          piece.pinned = @pinned
+        end
+      end
+    end
+
+    puts # DEBUG output -----------
+    puts "checks: #{@checks}  block_sqs: #{@check_blocks}  pinned: #{@pinned}"
 
     king.find_moves(@game_pieces, posn)
     king_moves = king.legal_moves
@@ -333,14 +341,6 @@ class Game
         end
         if king_moves.length == 0
           @game_over = 'checkmate!' if no_moves(posn) == true
-        end
-      end
-    end
-
-    if @pinned != {}
-      @game_pieces.each do |piece|
-        if @pinned.key?(piece.name)
-          piece.pinned = @pinned
         end
       end
     end
