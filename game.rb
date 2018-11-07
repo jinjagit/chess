@@ -31,6 +31,8 @@ class Game
     @checksums = []
     @checksum_dbls = {}
     @threefold = []
+    @w_material = 39
+    @b_material = 39
     @ui_data = []
   end
 
@@ -135,6 +137,24 @@ class Game
       result
     end
 
+    def update_material(piece)
+      if piece.name[1] == 'p'
+        loss = 1
+      elsif piece.name[1] == 'r'
+        loss = 5
+      elsif piece.name[1] == 'q'
+        loss = 9
+      else
+        loss = 3
+      end
+
+      if piece.name[0] == 'w'
+        @w_material -= loss
+      else
+        @b_material -= loss
+      end
+    end
+
     def update_status_msg
       @status.remove
       to_m = @to_move.capitalize
@@ -192,6 +212,7 @@ class Game
       end
       piece_to_take = @game_pieces.detect {|e| e.name == piece_to_take}
       piece_to_take.icon.z = -1
+      update_material(piece_to_take)
     end
     posn[end_square] = posn_pc
     posn[start_square] = "---"
@@ -380,7 +401,7 @@ class Game
     @moves[-1][3] = details # add move details to move list(s)
     pgn_move(posn, piece, start_square, end_square, details)
     update_status_msg
-    @ui_data = [@ply, 1]
+    @ui_data = [@ply, @w_material, @b_material]
 
     puts
     puts @pgn # debug (and later, for display)

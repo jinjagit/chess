@@ -10,8 +10,8 @@ class UI
     @to_move_ind = Image.new("img/ui/to_move_ind.png", height: 46, width: 15, z: 2)
     @to_move_bot = [1002, 619]
     @to_move_top = [1002, 62]
-    @w_material = 37
-    @b_material = 36
+    @w_material = 39
+    @b_material = 39
     @w_diff = 0
     @b_diff = 0
     @title_top = [1020, 60]
@@ -43,8 +43,19 @@ class UI
     else
       @to_move_ind.x, @to_move_ind.y = @to_move_top[0], @to_move_top[1]
     end
-  end
 
+    if data[1] != @w_material || data[2] != @b_material
+      @w_material, @b_material = data[1], data[2]
+      material_diff
+      @w_material_text.remove
+      @b_material_text.remove
+      @w_material_text = Text.new("#{@w_material} (#{@w_diff})", x:1160, y: 628,
+      font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
+      @b_material_text = Text.new("#{@b_material} (#{@b_diff})", x:1160, y: 71,
+      font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
+    end
+  end
+  
 end
 
 
