@@ -20,7 +20,10 @@ class UI
     font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
     @b_material_text = Text.new("37 (=)", x:1160, y: 71,
     font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
-    @info_box = Image.new("img/ui/info_box.png", height: 160, width: 210, z: 2, x: 1022, y: 280)
+    @info_box = Image.new("img/ui/info_box.png", height: 160, width: 210, z: 2,
+                          x: 1022, y: 280)
+    @info_text1 = Text.new(" Game in progress ", x:1036, y: 348, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
   end
 
   def place_defaults
@@ -55,10 +58,81 @@ class UI
       @b_material_text = Text.new("#{@b_material} (#{@b_diff})", x:1160, y: 71,
       font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
     end
+
+    update_info(data) if data[3] != ''
+
   end
 
+  def update_info(data)
+    @info_text1.remove
+
+    if data[3] == 'checkmate!'
+      if data[0] % 2 == 0
+        winner = 'Black'
+      else
+        winner = 'White'
+      end
+      @info_text2 = Text.new("    Game over!    ", x:1036, y: 306, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+      @info_text4 = Text.new("    #{winner} wins", x:1036, y: 358, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+      @info_text5 = Text.new("   by checkmate", x:1036, y: 387, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    elsif data[3] == 'stalemate!'
+      @info_text2 = Text.new("    Game over!", x:1036, y: 306, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+      @info_text4 = Text.new("     Draw by", x:1042, y: 358, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+      @info_text5 = Text.new("    stalemate", x:1042, y: 387, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    elsif data[3] == 'insufficient!'
+      @info_text1 = Text.new("    Game over!", x:1036, y: 294, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+      @info_text3 = Text.new("     Draw by", x:1041, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+      @info_text4 = Text.new("   insufficient", x:1036, y: 375, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+      @info_text5 = Text.new("     material", x:1036, y: 402, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+    elsif data[3] == '50-move rule!'
+      @info_text2 = Text.new("    Game over!", x:1036, y: 306, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+      @info_text4 = Text.new("     Draw by", x:1042, y: 358, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+      @info_text5 = Text.new("   50-move rule", x:1036, y: 387, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    elsif data[3] == '3-fold repetition!'
+      @info_text1 = Text.new("    Game over!", x:1036, y: 294, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+      @info_text3 = Text.new("     Draw by", x:1041, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+      @info_text4 = Text.new("    threefold", x:1041, y: 375, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+      @info_text5 = Text.new("    repetition", x:1036, y: 402, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+    end
+  end
 end
 
 
 # Text.new("#{@b_material} (#{@b_diff})", x:1160, y: 71,
 # font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
+
+=begin
+
+@status = Text.new(
+  "   Game over! #{to_m} wins by checkmate", x: 400, y: 8,
+  font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
+
+@info_text1 = Text.new("xGame in progressx", x:1036, y: 294, z: 2, size: 20,
+                      font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+@info_text2 = Text.new("xGame in progressx", x:1036, y: 321, z: 2, size: 20,
+                      font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+@info_text3 = Text.new("xGame in progressx", x:1036, y: 348, z: 2, size: 20,
+                      font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+@info_text4 = Text.new("xGame in progressx", x:1036, y: 375, z: 2, size: 20,
+                      font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+@info_text5 = Text.new("xGame in progressx", x:1036, y: 402, z: 2, size: 20,
+                      font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+
+=end

@@ -154,7 +154,6 @@ on :key_down do |e|
   end
   if e.key.to_i > 0 && e.key.to_i < 10
     board.clear_pieces
-    game.status.remove
     posn = Position.get_posn(new_posn)
     board.posn = posn
     board.hide_start_end

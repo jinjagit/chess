@@ -18,8 +18,6 @@ class Game
   def initialize(game_pieces)
     @ply = 0
     @to_move = 'white'
-    @status = Text.new('Game in progress - move 1: White to move', x: 400,
-      y: 8, font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
     @moves = [] # [['piece', start_square, end_square, 'x,+,#,O-O, etc.']]
     @pgn = ''
     @checks = 0
@@ -169,42 +167,6 @@ class Game
       else
         @w_material += gain
       end
-    end
-
-    def update_status_msg
-      @status.remove
-      to_m = @to_move.capitalize
-      if @game_over == ''
-        @status = Text.new(
-          "Game in progress - move #{(@ply + 2) / 2}: #{to_m} to move",
-           x: 400, y: 8, font: 'fonts/UbuntuMono-R.ttf', size: 24,
-           color: '#ffffff', z: 3)
-       elsif @game_over == 'checkmate!'
-         if to_m == 'White'
-           to_m = 'Black'
-         else
-           to_m = 'White'
-         end
-         @status = Text.new(
-           "   Game over! #{to_m} wins by checkmate", x: 400, y: 8,
-           font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
-       elsif @game_over == 'stalemate!'
-         @status = Text.new(
-           "      Game over! Draw by stalemate", x: 400, y: 8,
-           font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
-       elsif @game_over == 'insufficient!'
-         @status = Text.new(
-           "Game over! Draw by insufficient material", x: 400, y: 8,
-           font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
-       elsif @game_over == '50-move rule!'
-         @status = Text.new(
-           "   Game over! Draw by 50-move rule", x: 400, y: 8,
-           font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
-       elsif @game_over == '3-fold repetition!'
-         @status = Text.new(
-           "  Game over! Draw by 3-fold repetition", x: 400, y: 8,
-           font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
-       end
     end
 
     # Update posn array, square of moved piece icon, hide icon of piece taken
@@ -417,8 +379,7 @@ class Game
 
     @moves[-1][3] = details # add move details to move list(s)
     pgn_move(posn, piece, start_square, end_square, details)
-    update_status_msg
-    @ui_data = [@ply, @w_material, @b_material]
+    @ui_data = [@ply, @w_material, @b_material, @game_over]
 
     puts
     puts @pgn # debug (and later, for display)
