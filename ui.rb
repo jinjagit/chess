@@ -18,9 +18,9 @@ class UI
     @b_diff = 0
     @title_top = [1020, 60]
     @title_bot = [1020, 617]
-    @w_material_text = Text.new("37 (0)", x:1160, y: 628, z: 2, size: 24,
+    @w_material_text = Text.new("39 (0)", x:1160, y: 628, z: 2, size: 24,
                                 font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @b_material_text = Text.new("37 (0)", x:1160, y: 71, z: 2, size: 24,
+    @b_material_text = Text.new("39 (0)", x:1160, y: 71, z: 2, size: 24,
                                 font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @info_box = Image.new("img/ui/info_box.png", height: 160, width: 210, z: 1,
                           x: 1022, y: 280)
