@@ -7,6 +7,7 @@ class UI
     @coords = true
     @coords_on = true
     @flipped = false
+    @ply = 0
     @title_w = Image.new("img/ui/title_w.png", height: 50, width: 128, z: 2)
     @title_b = Image.new("img/ui/title_b.png", height: 50, width: 128, z: 2)
     @to_move_ind = Image.new("img/ui/to_move_ind.png", height: 46, width: 15, z: 2)
@@ -22,6 +23,8 @@ class UI
                                 font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @b_material_text = Text.new("39 (0)", x:1160, y: 71, z: 2, size: 24,
                                 font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @material_top = [1160, 71]
+    @material_bot = [1160, 628]
     @info_box = Image.new("img/ui/info_box.png", height: 160, width: 210, z: 1,
                           x: 1022, y: 280)
     @info_text1 = Text.new(" Game in progress ", x:1036, y: 348, z: 2, size: 20,
@@ -40,10 +43,19 @@ class UI
   end
 
   def place_defaults
-    @title_w.x, @title_w.y = @title_bot[0], @title_bot[1]
-    @title_b.x, @title_b.y = @title_top[0], @title_top[1]
-
-    @to_move_ind.x, @to_move_ind.y = @to_move_bot[0], @to_move_bot[1]
+    if @flipped == false
+      @title_w.x, @title_w.y = @title_bot[0], @title_bot[1]
+      @title_b.x, @title_b.y = @title_top[0], @title_top[1]
+      @w_material_text.x, @w_material_text.y = @material_bot[0], @material_bot[1]
+      @b_material_text.x, @b_material_text.y = @material_top[0], @material_top[1]
+      update_move_ind
+    else
+      @title_w.x, @title_w.y = @title_top[0], @title_top[1]
+      @title_b.x, @title_b.y = @title_bot[0], @title_bot[1]
+      @w_material_text.x, @w_material_text.y = @material_top[0], @material_top[1]
+      @b_material_text.x, @b_material_text.y = @material_bot[0], @material_bot[1]
+      update_move_ind
+    end
   end
 
   def material_diff
@@ -53,13 +65,25 @@ class UI
     @b_diff = '+' + @b_diff.to_s if @b_diff > 0
   end
 
-  def move_update(data)
-    if data[0] % 2 == 0
-      @to_move_ind.x, @to_move_ind.y = @to_move_bot[0], @to_move_bot[1]
+  def update_move_ind
+    if @ply % 2 == 0
+      if flipped == false
+        @to_move_ind.x, @to_move_ind.y = @to_move_bot[0], @to_move_bot[1]
+      else
+        @to_move_ind.x, @to_move_ind.y = @to_move_top[0], @to_move_top[1]
+      end
     else
-      @to_move_ind.x, @to_move_ind.y = @to_move_top[0], @to_move_top[1]
+      if flipped == false
+        @to_move_ind.x, @to_move_ind.y = @to_move_top[0], @to_move_top[1]
+      else
+        @to_move_ind.x, @to_move_ind.y = @to_move_bot[0], @to_move_bot[1]
+      end
     end
+  end
 
+  def move_update(data)
+    @ply = data[0]
+    update_move_ind
     if data[1] != @w_material || data[2] != @b_material
       @w_material, @b_material = data[1], data[2]
       material_diff
@@ -155,21 +179,24 @@ class UI
         @hover = 'flip'
         show_hover_info
       else # event_type == 'click'
-        if @flipped == false
+        if board.flipped == false
           board.posn = posn.reverse
+          board.flipped = true
+          @flipped = true
+          update_move_ind
           board.clear_pieces
           board.set_up_posn(first_run = false)
-          @flipped = true
+
 
         else
           board.posn = posn
+          board.flipped = false
+          @flipped = false
+          update_move_ind
           board.clear_pieces
           board.set_up_posn(first_run = false)
-          @flipped = false
-
         end
-
-
+        place_defaults
         show_hover_info
       end
 

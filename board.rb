@@ -41,6 +41,7 @@ class Board
   attr_accessor :posn
   attr_accessor :home_square
   attr_accessor :promote
+  attr_accessor :flipped
 
   def initialize(posn = Position.get_posn('start'))
     @piece_codes = {'q' => Queen, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
@@ -59,6 +60,7 @@ class Board
     @promo_hov_col = [0.695, 0.431, 0.937, 1.0]
     @promo_pcs = ['wqx', 'wrx', 'wnx', 'wbx', 'bqx', 'brx', 'bnx', 'bbx']
     @promote = []
+    @flipped = false
 
     draw_board
     draw_coords
@@ -97,6 +99,8 @@ class Board
   end
 
   def start_end_squares(start_sq, end_sq)
+    start_sq = 63 - start_sq if @flipped == true
+    end_sq = 63 - end_sq if @flipped == true
     @start_square.image.z = 2
     @end_square.image.z = 2
     @start_square.set_origin(start_sq)
@@ -108,24 +112,35 @@ class Board
     @end_square.image.z = -1
   end
 
+  def flip_squares(list)
+    flipped_list = []
+    list.each {|e| flipped_list << (63 - e)}
+    list = flipped_list
+  end
+
   def highlight_squares(list)
+    list = flip_squares(list) if @flipped == true
     list.each {|sq| (@highlight_sqs.detect {|e| e.square == sq}).image.z = 2}
   end
 
   def unhighlight_squares(list)
+    list = flip_squares(list) if @flipped == true
     list.each {|sq| (@highlight_sqs.detect {|e| e.square == sq}).image.z = -1}
   end
 
   def mouse_square(x, y)
     square = nil
     if x < 320 || y < 40 || x > 960 || y > 680
-      "off_board"
+      square = "off_board"
     else
       square = ((((y - 40) / 80).floor) * 8) + ((x - 320) / 80.floor)
+      # square = 63 - square if @flipped == true
     end
+    square
   end
 
   def show_home_piece(piece, square)
+    square = 63 - square if @flipped == true
     home_piece = @spare_pieces.detect {|e| e.name.include?(piece[0..1])}
     home_piece.move_to_square(square)
     home_piece.icon.z = 2
@@ -280,7 +295,11 @@ class Board
           x_pos, y_pos = Utilities.square_origin(square)
           piece.set_posn(x_pos, y_pos)
           piece.icon.z = 3
-          piece.square = square
+          if @flipped != true
+            piece.square = square
+          else
+            piece.square = 63 - square
+          end
         end
       else
         @posn[square] = "---" # just to make array look neater ;-)

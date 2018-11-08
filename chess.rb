@@ -54,7 +54,9 @@ promote = []
 on :mouse_down do |event|
   location = board.mouse_square(event.x, event.y)
   if location != "off_board" && game.game_over == '' && promote == []
+    location = 63 - location if board.flipped == true
     #startTime = Time.now # debug: monitor responsiveness
+    puts "location: #{location}"
     posn_pc = posn[location]
     if posn_pc != "---"
       game_pieces = board.game_pieces
@@ -66,9 +68,11 @@ on :mouse_down do |event|
         if posn_pc[1] == 'k'
           piece.find_moves(game_pieces, posn, moves)
         else
+          puts piece.square
           piece.find_moves(posn, moves)
         end
         legal_list = piece.legal_moves
+        #legal_list = legal_list.each {|e| e = 63 - e} if board.flipped == true
         board.highlight_squares(legal_list)
       end
     end
@@ -85,12 +89,14 @@ on :mouse_down do |event|
     promote = []
   elsif location == "off_board"
     ui.event(event.x, event.y, 'click', posn, board)
+    # posn = board.posn
   end
 end
 
 on :mouse_move do |event|
   location = board.mouse_square(event.x, event.y)
   if piece_lift == true && promote == []
+    location = 63 - location if board.flipped == true
     board.home_square.image.z = 4
     piece.set_posn(event.x - 40, event.y - 40)
     piece.icon.z = 10
@@ -105,6 +111,8 @@ on :mouse_up do |event|
   if piece_lift == true
     piece_lift = false
     location = board.mouse_square(event.x, event.y)
+    location = 63 - location if board.flipped == true
+
     board.unhighlight_squares(legal_list)
     if location != "off_board" && legal_list.include?(location) == true
       # startTime = Time.now # debug: monitor responsiveness
@@ -121,9 +129,11 @@ on :mouse_up do |event|
       # puts "time to assess position: #{(duration = Time.now - startTime).to_s} s"
     else # == illegal move (reject)
       end_sq = start_square
+      #end_sq = 63 - end_sq if board.flipped == true
     end
 
     board.hide_home_piece(posn_pc)
+    end_sq = 63 - end_sq if board.flipped == true
     piece.move_to_square(end_sq)
     piece.icon.z = 3
   end
