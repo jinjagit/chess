@@ -115,16 +115,18 @@ class UI
     end
   end
 
-  def filter_event(x, y, event_type = 'click')
+  def event(x, y, event_type = 'click', board = nil)
     if x > 1020 && x < 1050 && y > 245 && y < 275
       if event_type == 'hover'
         @coords_icon.color = '#ffffff'
         @hover = 'coords'
       else # event_type == 'click'
-        if @coords == true
-
+        if board.coords_on == true
+          board.hide_coords
+          board.coords_on = false
         else
-
+          board.show_coords
+          board.coords_on = true
         end
       end
     elsif @hover != '' # unhover icon if in hover state
