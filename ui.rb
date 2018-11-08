@@ -35,6 +35,8 @@ class UI
     @info_temp = []
     @coords_icon = Image.new("img/ui/coords_icon.png", height: 30, width: 30,
                             z: 1, x: 1020, y: 245, color: '#888888')
+    @flip_icon = Image.new("img/ui/flip_icon.png", height: 30, width: 30,
+                            z: 1, x: 1055, y: 245, color: '#888888')
   end
 
   def place_defaults
@@ -147,8 +149,20 @@ class UI
         end
         show_hover_info
       end
+    elsif x > 1055 && x < 1085 && y > 245 && y < 275
+      if event_type == 'hover'
+        @flip_icon.color = '#ffffff'
+        @hover = 'flip'
+        show_hover_info
+      else # event_type == 'click'
+
+        show_hover_info
+      end
+
+
     elsif @hover != '' # unhover icon if in hover state
       @coords_icon.color = '#888888' if @hover == 'coords'
+      @flip_icon.color = '#888888' if @hover == 'flip'
       hide_hover_info
       @hover = ''
     end
@@ -159,12 +173,16 @@ class UI
     if @hover == 'coords'
       @info_text6.remove
       if @coords_on == false
-        @info_text6 = Text.new(" show coordinates ", x:1036, y: 348, z: 2, size: 20,
+        @info_text6 = Text.new(" show coordinates", x:1036, y: 348, z: 2, size: 20,
                                 font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
       else
         @info_text6 = Text.new(" hide coordinates ", x:1036, y: 348, z: 2, size: 20,
                                 font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
       end
+    elsif @hover == 'flip'
+      @info_text6.remove
+      @info_text6 = Text.new("    flip board", x:1036, y: 348, z: 2, size: 20,
+                              font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     end
   end
 
