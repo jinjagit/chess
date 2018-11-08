@@ -87,16 +87,13 @@ on :mouse_down do |event|
 end
 
 on :mouse_move do |event|
+  location = board.mouse_square(event.x, event.y)
   if piece_lift == true && promote == []
-    location = board.mouse_square(event.x, event.y)
     board.home_square.image.z = 4
     piece.set_posn(event.x - 40, event.y - 40)
     piece.icon.z = 10
-  elsif promote != []
-    location = board.mouse_square(event.x, event.y)
-    if board.promote.include?(location)
-      board.promo_hover(location)
-    end
+  elsif promote != [] && board.promote.include?(location)
+    board.promo_hover(location)
   end
 end
 

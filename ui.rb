@@ -24,6 +24,8 @@ class UI
                           x: 1022, y: 280)
     @info_text1 = Text.new(" Game in progress ", x:1036, y: 348, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @coords_icon = Image.new("img/ui/coords_icon.png", height: 30, width: 30,
+                            z: 1, x: 1020, y: 245, color: '#888888')
   end
 
   def place_defaults
