@@ -61,6 +61,7 @@ class Board
     @promo_pcs = ['wqx', 'wrx', 'wnx', 'wbx', 'bqx', 'brx', 'bnx', 'bbx']
     @promote = []
     @flipped = false
+    @start_end = []
 
     draw_board
     draw_coords
@@ -101,10 +102,17 @@ class Board
   def start_end_squares(start_sq, end_sq)
     start_sq = 63 - start_sq if @flipped == true
     end_sq = 63 - end_sq if @flipped == true
+    @start_end = [start_sq, end_sq]
     @start_square.image.z = 2
     @end_square.image.z = 2
     @start_square.set_origin(start_sq)
     @end_square.set_origin(end_sq)
+  end
+
+  def flip_start_end
+    start_end = flip_squares(@start_end)
+    @start_square.set_origin(start_end[0])
+    @end_square.set_origin(start_end[1])
   end
 
   def hide_start_end

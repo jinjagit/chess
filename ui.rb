@@ -186,7 +186,7 @@ class UI
           update_move_ind
           board.clear_pieces
           board.set_up_posn(first_run = false)
-
+          board.flip_start_end
 
         else
           board.posn = posn
@@ -195,6 +195,7 @@ class UI
           update_move_ind
           board.clear_pieces
           board.set_up_posn(first_run = false)
+          board.flip_start_end
         end
         place_defaults
         show_hover_info
