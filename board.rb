@@ -265,13 +265,13 @@ class Board
 
   def set_up_posn(first_run = true)
     @posn.each_with_index do |posn_pc, square|
-      if posn_pc != "--"
+      if posn_pc != "--" && posn_pc != '---'
         if first_run == true
           piece = add_piece(square)
         else # == not first run; basic set of piece instances already exists
           if @game_pieces.detect {|e| e.name.include?(posn_pc) && e.icon.z < 0}
             piece = @game_pieces.detect {|e| e.name.include?(posn_pc) && e.icon.z < 0}
-            piece.moved = false # **needs more finesse when loading saved game
+            # piece.moved = false # **needs more finesse when loading saved game
                                 # (**see notes, at end of this file)
           else
             piece = add_piece(square)
@@ -292,7 +292,7 @@ class Board
     # list_piece_instance_vars # debug list
   end
 
-  def clear_pieces # clears all pieces (incl. spares / hidden)
+  def clear_pieces # clears all board pieces (incl. hidden)
     @game_pieces.each {|e| e.icon.z = -1}
     puts
     puts "game_pieces.length = #{game_pieces.length}"

@@ -131,7 +131,7 @@ class UI
     end
   end
 
-  def event(x, y, event_type = 'click', board = nil)
+  def event(x, y, event_type = 'click', posn = nil, board = nil)
     if x > 1020 && x < 1050 && y > 245 && y < 275
       if event_type == 'hover'
         @coords_icon.color = '#ffffff'
@@ -155,6 +155,20 @@ class UI
         @hover = 'flip'
         show_hover_info
       else # event_type == 'click'
+        if @flipped == false
+          board.posn = posn.reverse
+          board.clear_pieces
+          board.set_up_posn(first_run = false)
+          @flipped = true
+
+        else
+          board.posn = posn
+          board.clear_pieces
+          board.set_up_posn(first_run = false)
+          @flipped = false
+
+        end
+
 
         show_hover_info
       end

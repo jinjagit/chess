@@ -84,7 +84,7 @@ on :mouse_down do |event|
     new_piece.icon.z = 3
     promote = []
   elsif location == "off_board"
-    ui.event(event.x, event.y, 'click', board)
+    ui.event(event.x, event.y, 'click', posn, board)
   end
 end
 
