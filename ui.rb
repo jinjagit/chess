@@ -30,6 +30,7 @@ class UI
     @info_text3 = Text.new('', z: -1)
     @info_text4 = Text.new('', z: -1)
     @info_text5 = Text.new('', z: -1)
+    @basic_info = [@info_text1, @info_text2, @info_text3, @info_text4, @info_text5]
     @info_text6 = Text.new('', z: -1)
     @info_temp = []
     @coords_icon = Image.new("img/ui/coords_icon.png", height: 30, width: 30,
@@ -154,7 +155,7 @@ class UI
   end
 
   def show_hover_info
-    hide_info_text
+    @basic_info.each {|e| e.z = -1}
     if @hover == 'coords'
       @info_text6.remove
       if @coords_on == false
@@ -169,23 +170,7 @@ class UI
 
   def hide_hover_info
     @info_text6.z = -1
-    show_info_text
-  end
-
-  def hide_info_text
-    @info_text1.z = -1
-    @info_text2.z = -1
-    @info_text3.z = -1
-    @info_text4.z = -1
-    @info_text5.z = -1
-  end
-
-  def show_info_text
-    @info_text1.z = 2
-    @info_text2.z = 2
-    @info_text3.z = 2
-    @info_text4.z = 2
-    @info_text5.z = 2
+    @basic_info.each {|e| e.z = 2}
   end
 
 end
