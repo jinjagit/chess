@@ -5,6 +5,7 @@ class UI
   def initialize
     @hover = ''
     @coords = true
+    @coords_on = true
     @flipped = false
     @title_w = Image.new("img/ui/title_w.png", height: 50, width: 128, z: 2)
     @title_b = Image.new("img/ui/title_b.png", height: 50, width: 128, z: 2)
@@ -25,6 +26,12 @@ class UI
                           x: 1022, y: 280)
     @info_text1 = Text.new(" Game in progress ", x:1036, y: 348, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @info_text2 = Text.new('', z: -1)
+    @info_text3 = Text.new('', z: -1)
+    @info_text4 = Text.new('', z: -1)
+    @info_text5 = Text.new('', z: -1)
+    @info_text6 = Text.new('', z: -1)
+    @info_temp = []
     @coords_icon = Image.new("img/ui/coords_icon.png", height: 30, width: 30,
                             z: 1, x: 1020, y: 245, color: '#888888')
   end
@@ -65,8 +72,6 @@ class UI
   end
 
   def game_over(data)
-    @info_text1.remove
-
     if data[3] == 'checkmate!'
       @to_move_ind.z = -1
       if data[0] % 2 == 0
@@ -74,6 +79,8 @@ class UI
       else
         winner = 'White'
       end
+      @info_text1.remove
+      @info_text3.remove
       @info_text2 = Text.new("    Game over!    ", x:1036, y: 306, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
       @info_text4 = Text.new("    #{winner} wins", x:1036, y: 358, z: 2, size: 20,
@@ -81,6 +88,8 @@ class UI
       @info_text5 = Text.new("   by checkmate", x:1036, y: 387, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     elsif data[3] == 'stalemate!'
+      @info_text1.remove
+      @info_text3.remove
       @info_text2 = Text.new("    Game over!", x:1036, y: 306, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
       @info_text4 = Text.new("     Draw by", x:1042, y: 358, z: 2, size: 20,
@@ -88,6 +97,7 @@ class UI
       @info_text5 = Text.new("    stalemate", x:1042, y: 387, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     elsif data[3] == 'insufficient!'
+      @info_text2.remove
       @info_text1 = Text.new("    Game over!", x:1036, y: 294, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
       @info_text3 = Text.new("     Draw by", x:1041, y: 348, z: 2, size: 20,
@@ -97,6 +107,8 @@ class UI
       @info_text5 = Text.new("     material", x:1036, y: 402, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
     elsif data[3] == '50-move rule!'
+      @info_text1.remove
+      @info_text3.remove
       @info_text2 = Text.new("    Game over!", x:1036, y: 306, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
       @info_text4 = Text.new("     Draw by", x:1042, y: 358, z: 2, size: 20,
@@ -104,6 +116,7 @@ class UI
       @info_text5 = Text.new("   50-move rule", x:1036, y: 387, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     elsif data[3] == '3-fold repetition!'
+      @info_text2.remove
       @info_text1 = Text.new("    Game over!", x:1036, y: 294, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
       @info_text3 = Text.new("     Draw by", x:1041, y: 348, z: 2, size: 20,
@@ -120,21 +133,60 @@ class UI
       if event_type == 'hover'
         @coords_icon.color = '#ffffff'
         @hover = 'coords'
+        show_hover_info
       else # event_type == 'click'
         if board.coords_on == true
           board.hide_coords
           board.coords_on = false
+          @coords_on = false
         else
           board.show_coords
           board.coords_on = true
+          @coords_on = true
         end
+        show_hover_info
       end
     elsif @hover != '' # unhover icon if in hover state
       @coords_icon.color = '#888888' if @hover == 'coords'
+      hide_hover_info
       @hover = ''
     end
   end
 
+  def show_hover_info
+    hide_info_text
+    if @hover == 'coords'
+      @info_text6.remove
+      if @coords_on == false
+        @info_text6 = Text.new(" show coordinates ", x:1036, y: 348, z: 2, size: 20,
+                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+      else
+        @info_text6 = Text.new(" hide coordinates ", x:1036, y: 348, z: 2, size: 20,
+                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+      end
+    end
+  end
+
+  def hide_hover_info
+    @info_text6.z = -1
+    show_info_text
+  end
+
+  def hide_info_text
+    @info_text1.z = -1
+    @info_text2.z = -1
+    @info_text3.z = -1
+    @info_text4.z = -1
+    @info_text5.z = -1
+  end
+
+  def show_info_text
+    @info_text1.z = 2
+    @info_text2.z = 2
+    @info_text3.z = 2
+    @info_text4.z = 2
+    @info_text5.z = 2
+  end
 
 end
 
