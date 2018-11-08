@@ -83,6 +83,8 @@ on :mouse_down do |event|
     new_piece.move_to_square(end_sq)
     new_piece.icon.z = 3
     promote = []
+  elsif location == "off_board"
+    ui.event(event.x, event.y, 'click', board)
   end
 end
 
@@ -94,6 +96,8 @@ on :mouse_move do |event|
     piece.icon.z = 10
   elsif promote != [] && board.promote.include?(location)
     board.promo_hover(location)
+  elsif location == "off_board"
+    ui.event(event.x, event.y, 'hover')
   end
 end
 

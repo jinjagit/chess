@@ -84,6 +84,10 @@ class Board
     end
   end
 
+  def hide_coords
+
+  end
+
   def start_end_squares(start_sq, end_sq)
     @start_square.image.z = 2
     @end_square.image.z = 2

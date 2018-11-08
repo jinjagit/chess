@@ -3,6 +3,7 @@ class UI
   attr_accessor :flipped
 
   def initialize
+    @hover = ''
     @coords = true
     @flipped = false
     @title_w = Image.new("img/ui/title_w.png", height: 50, width: 128, z: 2)
@@ -61,7 +62,6 @@ class UI
     end
 
     game_over(data) if data[3] != ''
-
   end
 
   def game_over(data)
@@ -114,6 +114,26 @@ class UI
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
     end
   end
+
+  def filter_event(x, y, event_type = 'click')
+    if x > 1020 && x < 1050 && y > 245 && y < 275
+      if event_type == 'hover'
+        @coords_icon.color = '#ffffff'
+        @hover = 'coords'
+      else # event_type == 'click'
+        if @coords == true
+
+        else
+
+        end
+      end
+    elsif @hover != '' # unhover icon if in hover state
+      @coords_icon.color = '#888888' if @hover == 'coords'
+      @hover = ''
+    end
+  end
+
+
 end
 
 
