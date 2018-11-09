@@ -56,7 +56,6 @@ on :mouse_down do |event|
   if location != "off_board" && game.game_over == '' && promote == []
     location = 63 - location if board.flipped == true
     #startTime = Time.now # debug: monitor responsiveness
-    puts "location: #{location}"
     posn_pc = posn[location]
     if posn_pc != "---"
       game_pieces = board.game_pieces
@@ -68,7 +67,6 @@ on :mouse_down do |event|
         if posn_pc[1] == 'k'
           piece.find_moves(game_pieces, posn, moves)
         else
-          puts piece.square
           piece.find_moves(posn, moves)
         end
         legal_list = piece.legal_moves
@@ -84,6 +82,7 @@ on :mouse_down do |event|
     game.game_pieces = board.game_pieces
     end_sq, moves, posn = game.move(posn, new_piece, start_square, location, details)
     ui.move_update(game.ui_data)
+    end_sq = 63 - end_sq if board.flipped == true
     new_piece.move_to_square(end_sq)
     new_piece.icon.z = 3
     promote = []
@@ -117,7 +116,7 @@ on :mouse_up do |event|
     if location != "off_board" && legal_list.include?(location) == true
       # startTime = Time.now # debug: monitor responsiveness
       if piece.name[1] == 'p' && (location < 8 || location > 55)
-        promote = ['on', location]
+        promote = [piece.name, location]
         end_sq = location
         board.show_promo_pieces(promote)
       else

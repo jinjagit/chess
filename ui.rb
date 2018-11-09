@@ -154,8 +154,8 @@ class UI
     end
   end
 
-  def event(x, y, event_type = 'click', posn = nil, board = nil, game = nil)
-    if x > 1020 && x < 1050 && y > 245 && y < 275
+  def event(x, y, event_type, posn = nil, board = nil, game = nil)
+    if x > 1020 && x < 1050 && y > 245 && y < 275 # coords button
       if event_type == 'hover'
         @coords_icon.color = '#ffffff'
         @hover = 'coords'
@@ -172,7 +172,7 @@ class UI
         end
         show_hover_info
       end
-    elsif x > 1055 && x < 1085 && y > 245 && y < 275
+    elsif x > 1055 && x < 1085 && y > 245 && y < 275 # flip button
       if event_type == 'hover'
         @flip_icon.color = '#ffffff'
         @hover = 'flip'
@@ -201,6 +201,10 @@ class UI
           red_sq = board.mouse_square(game.red_square.image.x, game.red_square.image.y)
           red_sq = 63 - red_sq if @flipped == false
           game.place_red_sq(red_sq)
+        end
+        if board.promote != []
+          board.promote[1] = 63 - board.promote[1] if @flipped == false
+          board.show_promo_pieces
         end
         place_defaults
         show_hover_info

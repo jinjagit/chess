@@ -167,19 +167,28 @@ class Board
     end
   end
 
-  def show_promo_pieces(promote)
-    @promote = promote
-    square = promote[1]
+  def show_promo_pieces(promote = nil)
+    if promote != nil
+      @promote = promote
+    else
+      @promote = @promote.slice(0..1)
+    end
+    @promote[1] = 63 - @promote[1] if flipped == true
+    piece = @game_pieces.detect {|e| e.name == @promote[0]}
+    piece.move_to_square(@promote[1])
+    square = @promote[1]
     promo_sq = 0
+    j = 0
+    j = 4 if @flipped == true
     4.times do |i|
       if square < 8
         promo_sq = square + (i * 8)
         @promo_sqs[i].set_origin(promo_sq)
-        promo_pc = @spare_pieces.detect {|e| e.name == @promo_pcs[i]}
+        promo_pc = @spare_pieces.detect {|e| e.name == @promo_pcs[i + j]}
       else
         promo_sq = square - (i * 8)
         @promo_sqs[i].set_origin(promo_sq)
-        promo_pc = @spare_pieces.detect {|e| e.name == @promo_pcs[i + 4]}
+        promo_pc = @spare_pieces.detect {|e| e.name == @promo_pcs[i + 4 - j]}
       end
       if i == 0
         @promo_sqs[i].image.color = @promo_hov_col
@@ -210,25 +219,31 @@ class Board
     4.times do |i|
       @promo_sqs[i].image.z = -1
       if square < 32
+        i = i + 4 if flipped == true
         promo_pc = @spare_pieces.detect {|e| e.name == @promo_pcs[i]}
       else
+        i = i - 4 if flipped == true
         promo_pc = @spare_pieces.detect {|e| e.name == @promo_pcs[i + 4]}
       end
       promo_pc.icon.z = -1
     end
 
     selected = @promote.find_index {|e| e == square}
-    if square < 32
+
+    if (square < 32 && flipped == false) || (square > 31 && flipped == true)
       new_piece = @promo_pcs[selected - 1]
     else
       new_piece = @promo_pcs[selected + 3]
     end
 
     new_piece = new_piece[0..-2]
-    posn[start_square] = new_piece
+    @posn[start_square] = new_piece
     new_piece = add_piece(start_square)
     details = '=' + new_piece.name[1].upcase
-    return new_piece, details, location = @promote[1]
+    location = @promote[1]
+    location = 63 - location if flipped == true
+    @promote = []
+    return new_piece, details, location
   end
 
   def draw_board
@@ -320,9 +335,6 @@ class Board
 
   def clear_pieces # clears all board pieces (incl. hidden)
     @game_pieces.each {|e| e.icon.z = -1}
-    puts
-    puts "game_pieces.length = #{game_pieces.length}"
-    puts
   end
 
   def list_piece_instance_vars # for debug output
