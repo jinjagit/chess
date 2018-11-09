@@ -211,7 +211,8 @@ class Pawn < Piece
         directions.each do |e|
           new_square = orthogonal_step(@square, e)
           if new_square != nil && (moves[-1][1] - moves[-1][2]).abs == 16
-            if posn[new_square][0..1] == opp_pawn
+            puts "new_square: #{new_square}"
+            if posn[new_square][0..1] == opp_pawn && posn[new_square] == moves[-1][0]
               @ep_take_sq = new_square
               if @color == 'white'
                 @ep_square = new_square - 8

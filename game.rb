@@ -250,7 +250,7 @@ class Game
       end
     end
 
-    @moves << [piece.name[0..1], start_square, end_square, details]
+    @moves << [piece.name, start_square, end_square, details]
 
     # --- assess resulting position (most of remaining code in this def) ---
 
@@ -392,7 +392,7 @@ class Game
 
     puts
     puts @pgn # debug (and later, for display)
-    # p @moves
+    p @moves
 
     # puts "#{@game_over}"
 
