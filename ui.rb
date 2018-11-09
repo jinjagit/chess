@@ -198,13 +198,13 @@ class UI
         show_hover_info
       end
     elsif x > 1055 && x < 1093 && y > 245 && y < 275 # autoflip button
+      @hover = 'autoflip'
       if event_type == 'hover'
         if @autoflip == false
           @autoflip_off.color = '#ffffff'
         else
           @autoflip_on.color = '#ffffff'
         end
-        @hover = 'autoflip'
         show_hover_info
       else # event_type == 'click' (auto-flip board)
         if @autoflip == true
@@ -216,6 +216,7 @@ class UI
           @autoflip_on.z = 1
           @autoflip_off.z = -1
         end
+        show_hover_info
       end
     elsif x > 1093 && x < 1125 && y > 245 && y < 275 # coords button
       if event_type == 'hover'
@@ -262,6 +263,16 @@ class UI
       @info_text6.remove
       @info_text6 = Text.new("    flip board", x:1036, y: 348, z: 2, size: 20,
                               font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    elsif @hover == 'autoflip'
+      if @autoflip == true
+        @info_text6.remove
+        @info_text6 = Text.new(" turn autoflip OFF", x:1034, y: 348, z: 2, size: 20,
+                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+      else
+        @info_text6.remove
+        @info_text6 = Text.new(" turn autoflip ON", x:1034, y: 348, z: 2, size: 20,
+                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+      end
     end
   end
 
