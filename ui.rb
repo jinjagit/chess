@@ -160,96 +160,106 @@ class UI
   end
 
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
-    if x > 1020 && x < 1055 && y > 245 && y < 275 # flip button
-      if event_type == 'hover'
-        @flip_icon.color = '#ffffff'
+    if x > 1020 && x < 1125 && y > 245 && y < 275 # button icons
+      @basic_info.each {|e| e.z = -1}
+      if x > 1020 && x < 1055 && y > 245 && y < 275 # flip button
         @hover = 'flip'
-        show_hover_info
-      else # event_type == 'click' (flip board)
-        if board.flipped == false
-          board.posn = posn.reverse
-          board.flipped = true
-          game.flipped = true
-          @flipped = true
-          update_move_ind
-          board.clear_pieces
-          board.set_up_posn(first_run = false)
-          board.flip_start_end if @ply > 0
-        else
-          board.posn = posn
-          board.flipped = false
-          game.flipped = false
-          @flipped = false
-          update_move_ind
-          board.clear_pieces
-          board.set_up_posn(first_run = false)
-          board.flip_start_end if @ply > 0
+        if event_type == 'hover'
+          clear_hover
+          @flip_icon.color = '#ffffff'
+          show_hover_info
+        else # event_type == 'click' (flip board)
+          if board.flipped == false
+            board.posn = posn.reverse
+            board.flipped = true
+            game.flipped = true
+            @flipped = true
+            update_move_ind
+            board.clear_pieces
+            board.set_up_posn(first_run = false)
+            board.flip_start_end if @ply > 0
+          else
+            board.posn = posn
+            board.flipped = false
+            game.flipped = false
+            @flipped = false
+            update_move_ind
+            board.clear_pieces
+            board.set_up_posn(first_run = false)
+            board.flip_start_end if @ply > 0
+          end
+          if @checks > 0
+            red_sq = board.mouse_square(game.red_square.image.x, game.red_square.image.y)
+            red_sq = 63 - red_sq if @flipped == false
+            game.place_red_sq(red_sq)
+          end
+          if board.promote != []
+            board.promote[1] = 63 - board.promote[1] if @flipped == false
+            board.show_promo_pieces
+          end
+          place_defaults
+          show_hover_info
         end
-        if @checks > 0
-          red_sq = board.mouse_square(game.red_square.image.x, game.red_square.image.y)
-          red_sq = 63 - red_sq if @flipped == false
-          game.place_red_sq(red_sq)
+      elsif x > 1055 && x < 1093 && y > 245 && y < 275 # autoflip button
+        @hover = 'autoflip'
+        if event_type == 'hover'
+          clear_hover
+          if @autoflip == false
+            @autoflip_off.color = '#ffffff'
+          else
+            @autoflip_on.color = '#ffffff'
+          end
+          show_hover_info
+        else # event_type == 'click' (auto-flip board)
+          if @autoflip == true
+            @autoflip = false
+            @autoflip_off.z = 1
+            @autoflip_on.z = -1
+          else
+            @autoflip = true
+            @autoflip_on.z = 1
+            @autoflip_off.z = -1
+          end
+          show_hover_info
         end
-        if board.promote != []
-          board.promote[1] = 63 - board.promote[1] if @flipped == false
-          board.show_promo_pieces
-        end
-        place_defaults
-        show_hover_info
-      end
-    elsif x > 1055 && x < 1093 && y > 245 && y < 275 # autoflip button
-      @hover = 'autoflip'
-      if event_type == 'hover'
-        if @autoflip == false
-          @autoflip_off.color = '#ffffff'
-        else
-          @autoflip_on.color = '#ffffff'
-        end
-        show_hover_info
-      else # event_type == 'click' (auto-flip board)
-        if @autoflip == true
-          @autoflip = false
-          @autoflip_off.z = 1
-          @autoflip_on.z = -1
-        else
-          @autoflip = true
-          @autoflip_on.z = 1
-          @autoflip_off.z = -1
-        end
-        show_hover_info
-      end
-    elsif x > 1093 && x < 1125 && y > 245 && y < 275 # coords button
-      if event_type == 'hover'
-        @coords_icon.color = '#ffffff'
+      elsif x > 1093 && x < 1125 && y > 245 && y < 275 # coords button
         @hover = 'coords'
-        show_hover_info
-      else # event_type == 'click' (toggle coords display)
-        if board.coords_on == true
-          board.hide_coords
-          board.coords_on = false
-          @coords_on = false
-        else
-          board.show_coords
-          board.coords_on = true
-          @coords_on = true
+        if event_type == 'hover'
+          clear_hover
+          @coords_icon.color = '#ffffff'
+          show_hover_info
+        else # event_type == 'click' (toggle coords display)
+          if board.coords_on == true
+            board.hide_coords
+            board.coords_on = false
+            @coords_on = false
+          else
+            board.show_coords
+            board.coords_on = true
+            @coords_on = true
+          end
+          show_hover_info
         end
-        show_hover_info
       end
-    elsif @hover != '' # unhover icon if in hover state
-      @coords_icon.color = '#888888'
-      @flip_icon.color = '#888888'
-      if @autoflip == false
-        @autoflip_off.color = '#888888'
-      else
-        @autoflip_on.color = '#888888'
-      end
-      hide_hover_info
+    else
       @hover = ''
+      clear_hover
+      @info_text6.z = -1
+      @basic_info.each {|e| e.z = 2}
+    end
+  end
+
+  def clear_hover
+    @coords_icon.color = '#888888' unless @hover == 'coords'
+    @flip_icon.color = '#888888' unless @hover == 'flip'
+    if @autoflip == false && @hover != 'autoflip'
+      @autoflip_off.color = '#888888'
+    elsif @autoflip == true && @hover != 'autoflip'
+      @autoflip_on.color = '#888888' unless @hover == 'autoflip'
     end
   end
 
   def show_hover_info
-    @basic_info.each {|e| e.z = -1}
     if @hover == 'coords'
       @info_text6.remove
       if @coords_on == false
@@ -274,11 +284,6 @@ class UI
                                 font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
       end
     end
-  end
-
-  def hide_hover_info
-    @info_text6.z = -1
-    @basic_info.each {|e| e.z = 2}
   end
 
 end
