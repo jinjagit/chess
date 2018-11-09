@@ -142,7 +142,6 @@ class Board
       square = "off_board"
     else
       square = ((((y - 40) / 80).floor) * 8) + ((x - 320) / 80.floor)
-      # square = 63 - square if @flipped == true
     end
     square
   end

@@ -18,7 +18,7 @@ Legal moves, if any, are highlighted (green squares) when a piece is 'lifted'. A
 UI: Indicator shows side to move. Total pieces value (and difference) for each side updates when piece taken / pawn promoted. Game status info shown in box to right of board. Board can be flipped (but promotion not yet integrated to this function)
 
 ### To do next:
-  * bugfix: en-passant taking remains available on pawn that did not move last move when another pawn moves to an en-passant take-able position for same taking pawn.
+  * bugfix: en-passant taking remains available on pawn that did not move last move when another pawn moves to an en-passant take-able position for same taking pawn. basically, need to check _which_ pawn moved last, not just if 'a' pawn moved 2 squares && is neighboring.
   * flippable board (to do: flip promotion functionality with board flip(s))
   * basic ui elements (in progress)
 
