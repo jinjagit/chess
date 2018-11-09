@@ -160,24 +160,7 @@ class UI
   end
 
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
-    if x > 1093 && x < 1125 && y > 245 && y < 275 # coords button
-      if event_type == 'hover'
-        @coords_icon.color = '#ffffff'
-        @hover = 'coords'
-        show_hover_info
-      else # event_type == 'click' (toggle coords display)
-        if board.coords_on == true
-          board.hide_coords
-          board.coords_on = false
-          @coords_on = false
-        else
-          board.show_coords
-          board.coords_on = true
-          @coords_on = true
-        end
-        show_hover_info
-      end
-    elsif x > 1020 && x < 1055 && y > 245 && y < 275 # flip button
+    if x > 1020 && x < 1055 && y > 245 && y < 275 # flip button
       if event_type == 'hover'
         @flip_icon.color = '#ffffff'
         @hover = 'flip'
@@ -234,13 +217,30 @@ class UI
           @autoflip_off.z = -1
         end
       end
+    elsif x > 1093 && x < 1125 && y > 245 && y < 275 # coords button
+      if event_type == 'hover'
+        @coords_icon.color = '#ffffff'
+        @hover = 'coords'
+        show_hover_info
+      else # event_type == 'click' (toggle coords display)
+        if board.coords_on == true
+          board.hide_coords
+          board.coords_on = false
+          @coords_on = false
+        else
+          board.show_coords
+          board.coords_on = true
+          @coords_on = true
+        end
+        show_hover_info
+      end
     elsif @hover != '' # unhover icon if in hover state
-      @coords_icon.color = '#888888' if @hover == 'coords'
-      @flip_icon.color = '#888888' if @hover == 'flip'
+      @coords_icon.color = '#888888'
+      @flip_icon.color = '#888888'
       if @autoflip == false
-        @autoflip_off.color = '#888888' if @hover == 'autoflip'
+        @autoflip_off.color = '#888888'
       else
-        @autoflip_on.color = '#888888' if @hover == 'autoflip'
+        @autoflip_on.color = '#888888'
       end
       hide_hover_info
       @hover = ''
