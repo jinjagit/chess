@@ -109,7 +109,6 @@ class UI
         winner = 'White'
       end
       @info_text1.remove
-      @info_text3.remove
       @info_text2 = Text.new("    Game over!    ", x:1036, y: 306, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
       @info_text4 = Text.new("    #{winner} wins", x:1036, y: 358, z: 2, size: 20,
@@ -118,7 +117,6 @@ class UI
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     elsif data[3] == 'stalemate!'
       @info_text1.remove
-      @info_text3.remove
       @info_text2 = Text.new("    Game over!", x:1036, y: 306, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
       @info_text4 = Text.new("     Draw by", x:1042, y: 358, z: 2, size: 20,
@@ -126,7 +124,7 @@ class UI
       @info_text5 = Text.new("    stalemate", x:1042, y: 387, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     elsif data[3] == 'insufficient!'
-      @info_text2.remove
+      @info_text1.remove
       @info_text1 = Text.new("    Game over!", x:1036, y: 294, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
       @info_text3 = Text.new("     Draw by", x:1041, y: 348, z: 2, size: 20,
@@ -137,7 +135,6 @@ class UI
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
     elsif data[3] == '50-move rule!'
       @info_text1.remove
-      @info_text3.remove
       @info_text2 = Text.new("    Game over!", x:1036, y: 306, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
       @info_text4 = Text.new("     Draw by", x:1042, y: 358, z: 2, size: 20,
@@ -145,7 +142,7 @@ class UI
       @info_text5 = Text.new("   50-move rule", x:1036, y: 387, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     elsif data[3] == '3-fold repetition!'
-      @info_text2.remove
+      @info_text1.remove
       @info_text1 = Text.new("    Game over!", x:1036, y: 294, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
       @info_text3 = Text.new("     Draw by", x:1041, y: 348, z: 2, size: 20,
@@ -163,7 +160,7 @@ class UI
         @coords_icon.color = '#ffffff'
         @hover = 'coords'
         show_hover_info
-      else # event_type == 'click'
+      else # event_type == 'click' (toggle coords display)
         if board.coords_on == true
           board.hide_coords
           board.coords_on = false
@@ -180,7 +177,7 @@ class UI
         @flip_icon.color = '#ffffff'
         @hover = 'flip'
         show_hover_info
-      else # event_type == 'click'
+      else # event_type == 'click' (flip board)
         if board.flipped == false
           board.posn = posn.reverse
           board.flipped = true
