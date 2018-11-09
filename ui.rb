@@ -39,7 +39,7 @@ class UI
     @info_temp = []
     @coords_icon = Image.new("img/ui/coords_icon.png", height: 30, width: 30,
                             z: 1, x: 1020, y: 245, color: '#888888')
-    @flip_icon = Image.new("img/ui/flip_icon.png", height: 30, width: 30,
+    @flip_icon = Image.new("img/ui/flip_icon.png", height: 30, width: 33,
                             z: 1, x: 1055, y: 245, color: '#888888')
   end
 
@@ -172,7 +172,7 @@ class UI
         end
         show_hover_info
       end
-    elsif x > 1055 && x < 1085 && y > 245 && y < 275 # flip button
+    elsif x > 1055 && x < 1088 && y > 245 && y < 275 # flip button
       if event_type == 'hover'
         @flip_icon.color = '#ffffff'
         @hover = 'flip'
