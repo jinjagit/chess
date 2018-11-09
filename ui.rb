@@ -186,7 +186,7 @@ class UI
           update_move_ind
           board.clear_pieces
           board.set_up_posn(first_run = false)
-          board.flip_start_end
+          board.flip_start_end if @ply > 0
         else
           board.posn = posn
           board.flipped = false
@@ -195,7 +195,7 @@ class UI
           update_move_ind
           board.clear_pieces
           board.set_up_posn(first_run = false)
-          board.flip_start_end
+          board.flip_start_end if @ply > 0
         end
         if @checks > 0
           red_sq = board.mouse_square(game.red_square.image.x, game.red_square.image.y)
