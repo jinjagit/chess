@@ -7,7 +7,7 @@ The instructions, in a nutshell, are to build a "... command line chess game whe
 
 I chose not to produce a command line app, but instead went for a more graphical approach, using the ruby2D gem. While this gem is still a little rough around the edges (at only v 0.7), it is way more pleasant to look at than anything I could produce in a terminal, and enables a much more user-friendly interface (with a little more work). So far, I have been very impressed with the ease-of-use of this gem.
 
-Current state (07/11/18): Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling, pawn promotion and en-passant. Checkmate and stalemate are correctly detected (and the game halted when found).
+Current state (08/11/18): Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling, pawn promotion and en-passant. Checkmate and stalemate are correctly detected (and the game halted when found).
 
 Draws by 50-move-rule (no captures or pawn moves) or 3-fold repetition of position are enforced (though officially should be claimed by a player, so I may change this to an advisory message, with an option to claim the draw).
 
@@ -15,11 +15,12 @@ A move list (both native and PGN format) is created as a game progresses. The pi
 
 Legal moves, if any, are highlighted (green squares) when a piece is 'lifted'. A 'ghost' piece remains on the originating square while a piece is 'lifted'. The king's square is highlighted (red) if in check (or checkmate). The last move originating and final squares are highlighted (yellow). On pawn promotion, the player is presented with a choice of Queen, Rook, Bishop, or Knight (click-able).
 
-UI: Indicator shows side to move. Total pieces value (and difference) for each side updates when piece taken / pawn promoted. Game status info shown in box to right of board.
+UI: Indicator shows side to move. Total pieces value (and difference) for each side updates when piece taken / pawn promoted. Game status info shown in box to right of board. Board can be flipped (but promotion not yet integrated to this function)
 
 ### To do next:
-  * flippable board
-  * basic ui elements (in progess)
+  * bugfix: en-passant taking remains available on pawn that did not move last move when another pawn moves to an en-passant take-able position for same taking pawn.
+  * flippable board (to do: flip promotion functionality with board flip(s))
+  * basic ui elements (in progress)
 
 Note: At the moment, to run this (after downloading this repository), you'll need Ruby installed. Then, open a terminal, navigate to the root folder of the downloaded repository, and enter; <code>ruby chess.rb</code>
 
