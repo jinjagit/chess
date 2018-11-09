@@ -8,6 +8,7 @@ class UI
     @coords_on = true
     @flipped = false
     @ply = 0
+    @checks = 0
     @title_w = Image.new("img/ui/title_w.png", height: 50, width: 128, z: 2)
     @title_b = Image.new("img/ui/title_b.png", height: 50, width: 128, z: 2)
     @to_move_ind = Image.new("img/ui/to_move_ind.png", height: 46, width: 15, z: 2)
@@ -83,6 +84,7 @@ class UI
 
   def move_update(data)
     @ply = data[0]
+    @checks = data[4]
     update_move_ind
     if data[1] != @w_material || data[2] != @b_material
       @w_material, @b_material = data[1], data[2]
@@ -155,7 +157,7 @@ class UI
     end
   end
 
-  def event(x, y, event_type = 'click', posn = nil, board = nil)
+  def event(x, y, event_type = 'click', posn = nil, board = nil, game = nil)
     if x > 1020 && x < 1050 && y > 245 && y < 275
       if event_type == 'hover'
         @coords_icon.color = '#ffffff'
@@ -182,20 +184,26 @@ class UI
         if board.flipped == false
           board.posn = posn.reverse
           board.flipped = true
+          game.flipped = true
           @flipped = true
           update_move_ind
           board.clear_pieces
           board.set_up_posn(first_run = false)
           board.flip_start_end
-
         else
           board.posn = posn
           board.flipped = false
+          game.flipped = false
           @flipped = false
           update_move_ind
           board.clear_pieces
           board.set_up_posn(first_run = false)
           board.flip_start_end
+        end
+        if @checks > 0
+          red_sq = board.mouse_square(game.red_square.image.x, game.red_square.image.y)
+          red_sq = 63 - red_sq if @flipped == false
+          game.place_red_sq(red_sq)
         end
         place_defaults
         show_hover_info

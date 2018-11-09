@@ -14,6 +14,8 @@ class Game
   attr_accessor :game_over
   attr_accessor :game_pieces
   attr_accessor :ui_data
+  attr_accessor :flipped
+  attr_accessor :red_square
 
   def initialize(game_pieces)
     @ply = 0
@@ -32,10 +34,16 @@ class Game
     @w_material = 39
     @b_material = 39
     @ui_data = []
+    @flipped = false
   end
 
   def remove_red_sq
     @red_square.image.remove
+  end
+
+  def place_red_sq(square)
+    square = 63 - square if @flipped == true
+    @red_square.set_origin(square)
   end
 
   def set_side_to_move
@@ -320,7 +328,8 @@ class Game
     end
 
     if @checks > 0
-      @red_square.set_origin(king.square)
+      red_sq = king.square
+      place_red_sq(red_sq)
       @red_square.image.z = 2
       if @checks > 1
         puts "double check!" # DEBUG output
@@ -379,7 +388,7 @@ class Game
 
     @moves[-1][3] = details # add move details to move list(s)
     pgn_move(posn, piece, start_square, end_square, details)
-    @ui_data = [@ply, @w_material, @b_material, @game_over]
+    @ui_data = [@ply, @w_material, @b_material, @game_over, @checks]
 
     puts
     puts @pgn # debug (and later, for display)
