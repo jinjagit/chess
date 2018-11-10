@@ -4,12 +4,14 @@ class UI
 
   def initialize
     @hover = ''
+    @last_hover = ''
     @coords = true
     @coords_on = true
     @flipped = false
     @autoflip = false
     @ply = 0
     @checks = 0
+    @game_over = ''
     @title_w = Image.new("img/ui/title_w.png", height: 50, width: 128, z: 2)
     @title_b = Image.new("img/ui/title_b.png", height: 50, width: 128, z: 2)
     @to_move_ind = Image.new("img/ui/to_move_ind.png", height: 46, width: 15, z: 2)
@@ -19,6 +21,7 @@ class UI
     @b_material = 39
     @w_diff = 0
     @b_diff = 0
+    @winner = ''
     @title_top = [1020, 60]
     @title_bot = [1020, 617]
     @w_material_text = Text.new("39 (0)", x:1160, y: 628, z: 2, size: 24,
@@ -29,14 +32,38 @@ class UI
     @material_bot = [1160, 628]
     @info_box = Image.new("img/ui/info_box.png", height: 160, width: 210, z: 1,
                           x: 1022, y: 280)
-    @info_text1 = Text.new(" Game in progress ", x:1036, y: 348, z: 2, size: 20,
+    @prog_txt = Text.new(" Game in progress ", x:1036, y: 348, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @info_text2 = Text.new('', z: -1)
-    @info_text3 = Text.new('', z: -1)
-    @info_text4 = Text.new('', z: -1)
-    @info_text5 = Text.new('', z: -1)
-    @basic_info = [@info_text1, @info_text2, @info_text3, @info_text4, @info_text5]
-    @info_text6 = Text.new('', z: -1)
+    @g_o_txt1 = Text.new("    Game over!", x:1036, y: 294, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+    @g_o_txt2 = Text.new("    #{@winner} wins", x:1036, y: 358, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @g_o_txt3 = Text.new("   by checkmate", x:1036, y: 387, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @g_o_txt4 = Text.new("     Draw by", x:1042, y: 358, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @g_o_txt5 = Text.new("    stalemate", x:1042, y: 387, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @g_o_txt6 = Text.new("   insufficient", x:1036, y: 375, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+    @g_o_txt7 = Text.new("     material", x:1036, y: 402, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+    @g_o_txt8 = Text.new("   50-move rule", x:1036, y: 387, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @g_o_txt9 = Text.new("    threefold", x:1041, y: 375, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+    @g_o_txt10 = Text.new("    repetition", x:1036, y: 402, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+    @tooltip1 = Text.new(" show coordinates", x:1036, y: 348, z: -1, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip2 = Text.new(" hide coordinates ", x:1036, y: 348, z: -1, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip3 = Text.new("    flip board", x:1036, y: 348, z: -1, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip4 = Text.new(" turn autoflip OFF", x:1034, y: 348, z: -1, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip5 = Text.new(" turn autoflip ON", x:1034, y: 348, z: -1, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @info_temp = []
     @flip_icon = Image.new("img/ui/flip_icon.png", height: 30, width: 33,
                             z: 1, x: 1020, y: 245, color: '#888888')
@@ -101,78 +128,58 @@ class UI
       @b_material_text = Text.new("#{@b_material} (#{@b_diff})", x:1160, y: 71,
       font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
     end
-
-    game_over(data) if data[3] != ''
+    if data[3] != ''
+      @game_over = data[3]
+      switch_info
+    end
   end
 
-  def game_over(data)
-    if data[3] == 'checkmate!'
+  def game_over
+    if @game_over == 'checkmate!'
       @to_move_ind.z = -1
-      if data[0] % 2 == 0
-        winner = 'Black'
+      if @ply == 0
+        @winner = 'Black'
       else
-        winner = 'White'
+        @winner = 'White'
       end
-      @info_text1.remove
-      @info_text2 = Text.new("    Game over!    ", x:1036, y: 306, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-      @info_text4 = Text.new("    #{winner} wins", x:1036, y: 358, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-      @info_text5 = Text.new("   by checkmate", x:1036, y: 387, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    elsif data[3] == 'stalemate!'
-      @info_text1.remove
-      @info_text2 = Text.new("    Game over!", x:1036, y: 306, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-      @info_text4 = Text.new("     Draw by", x:1042, y: 358, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-      @info_text5 = Text.new("    stalemate", x:1042, y: 387, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    elsif data[3] == 'insufficient!'
-      @info_text1.remove
-      @info_text1 = Text.new("    Game over!", x:1036, y: 294, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-      @info_text3 = Text.new("     Draw by", x:1041, y: 348, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-      @info_text4 = Text.new("   insufficient", x:1036, y: 375, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-      @info_text5 = Text.new("     material", x:1036, y: 402, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-    elsif data[3] == '50-move rule!'
-      @info_text1.remove
-      @info_text2 = Text.new("    Game over!", x:1036, y: 306, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-      @info_text4 = Text.new("     Draw by", x:1042, y: 358, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-      @info_text5 = Text.new("   50-move rule", x:1036, y: 387, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    elsif data[3] == '3-fold repetition!'
-      @info_text1.remove
-      @info_text1 = Text.new("    Game over!", x:1036, y: 294, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-      @info_text3 = Text.new("     Draw by", x:1041, y: 348, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-      @info_text4 = Text.new("    threefold", x:1041, y: 375, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-      @info_text5 = Text.new("    repetition", x:1036, y: 402, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
+      @g_o_txt2.x, @g_o_txt2.y, @g_o_txt2.z = 1036, 358, 2
+      @g_o_txt3.x, @g_o_txt3.y, @g_o_txt3.z = 1036, 387, 2
+    elsif @game_over == 'stalemate!'
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
+      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1042, 358, 2
+      @g_o_txt5.z = 2
+    elsif @game_over == 'insufficient!'
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 294, 2
+      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1041, 348, 2
+      @g_o_txt6.z = 2
+      @g_o_txt7.z = 2
+    elsif @game_over == '50-move rule!'
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
+      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1042, 358, 2
+      @g_o_txt8.z = 2
+    elsif @game_over == '3-fold repetition!'
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 294, 2
+      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1041, 348, 2
+      @g_o_txt9.z = 2
+      @g_o_txt10.z = 2
     end
   end
 
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
     if x > 1020 && x < 1125 && y > 245 && y < 275 # button icons
-      @basic_info.each {|e| e.z = -1}
+      info_off if @hover == ''
+
       if x > 1020 && x < 1055 && y > 245 && y < 275 # flip button
-        @hover = 'flip'
         if event_type == 'hover'
-          clear_hover
-          @flip_icon.color = '#ffffff'
-          show_hover_info
+          hover_off if @hover != '' && @hover != 'flip'
+          hover_on('flip') if @hover != 'flip'
         else # event_type == 'click' (flip board)
           if board.flipped == false
             board.posn = posn.reverse
             board.flipped = true
             game.flipped = true
+            hover_off
             @flipped = true
             update_move_ind
             board.clear_pieces
@@ -182,6 +189,7 @@ class UI
             board.posn = posn
             board.flipped = false
             game.flipped = false
+            hover_off
             @flipped = false
             update_move_ind
             board.clear_pieces
@@ -198,115 +206,132 @@ class UI
             board.show_promo_pieces
           end
           place_defaults
-          show_hover_info
+          hover_on('flip')
         end
       elsif x > 1055 && x < 1093 && y > 245 && y < 275 # autoflip button
-        @hover = 'autoflip'
         if event_type == 'hover'
-          clear_hover
-          if @autoflip == false
-            @autoflip_off.color = '#ffffff'
-          else
-            @autoflip_on.color = '#ffffff'
-          end
-          show_hover_info
+          hover_off if @hover != '' && @hover != 'autoflip'
+          hover_on('autoflip') if @hover != 'autoflip'
         else # event_type == 'click' (auto-flip board)
           if @autoflip == true
+            hover_off
             @autoflip = false
-            @autoflip_off.z = 1
-            @autoflip_on.z = -1
           else
+            hover_off
             @autoflip = true
-            @autoflip_on.z = 1
-            @autoflip_off.z = -1
-          end
-          show_hover_info
+            end
+          hover_on('autoflip')
         end
       elsif x > 1093 && x < 1125 && y > 245 && y < 275 # coords button
-        @hover = 'coords'
         if event_type == 'hover'
-          clear_hover
-          @coords_icon.color = '#ffffff'
-          show_hover_info
+          hover_off if @hover != '' && @hover != 'coords'
+          hover_on('coords') if @hover != 'coords'
         else # event_type == 'click' (toggle coords display)
           if board.coords_on == true
             board.hide_coords
             board.coords_on = false
+            hover_off
             @coords_on = false
           else
             board.show_coords
             board.coords_on = true
+            hover_off
             @coords_on = true
           end
-          show_hover_info
+          hover_on('coords')
         end
       end
-    else
+    else # not in button icons area
+      hover_off
+      info_on
       @hover = ''
-      clear_hover
-      @info_text6.z = -1
-      @basic_info.each {|e| e.z = 2}
     end
   end
 
-  def clear_hover
-    @coords_icon.color = '#888888' unless @hover == 'coords'
-    @flip_icon.color = '#888888' unless @hover == 'flip'
-    if @autoflip == false && @hover != 'autoflip'
-      @autoflip_off.color = '#888888'
-    elsif @autoflip == true && @hover != 'autoflip'
-      @autoflip_on.color = '#888888' unless @hover == 'autoflip'
-    end
-  end
-
-  def show_hover_info
-    if @hover == 'coords'
-      @info_text6.remove
+  def hover_on(element)
+    if element == 'coords'
+      @coords_icon.color = '#ffffff'
       if @coords_on == false
-        @info_text6 = Text.new(" show coordinates", x:1036, y: 348, z: 2, size: 20,
-                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+        @tooltip1.z = 1
       else
-        @info_text6 = Text.new(" hide coordinates ", x:1036, y: 348, z: 2, size: 20,
-                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+        @tooltip2.z = 1
+      end
+      @hover = 'coords'
+    elsif element == 'flip'
+      @tooltip3.z = 1
+      @flip_icon.color = '#ffffff'
+      @hover = 'flip'
+    elsif element == 'autoflip'
+      if @autoflip == true
+        @tooltip4.z = 1
+        @autoflip_on.color = '#ffffff'
+      else
+        @tooltip5.z = 1
+        @autoflip_off.color = '#ffffff'
+      end
+      @hover = 'autoflip'
+    end
+  end
+
+  def hover_off
+    if @hover == 'coords'
+      @coords_icon.color = '#888888'
+      if @coords_on == false
+        @tooltip1.z = -1
+      else
+        @tooltip2.z = -1
       end
     elsif @hover == 'flip'
-      @info_text6.remove
-      @info_text6 = Text.new("    flip board", x:1036, y: 348, z: 2, size: 20,
-                              font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+      @flip_icon.color = '#888888'
+      @tooltip3.z = -1
     elsif @hover == 'autoflip'
       if @autoflip == true
-        @info_text6.remove
-        @info_text6 = Text.new(" turn autoflip OFF", x:1034, y: 348, z: 2, size: 20,
-                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+        @autoflip_on.color = '#888888'
+        @tooltip4.z = -1
       else
-        @info_text6.remove
-        @info_text6 = Text.new(" turn autoflip ON", x:1034, y: 348, z: 2, size: 20,
-                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+        @autoflip_off.color = '#888888'
+        @tooltip5.z = -1
       end
     end
+  end
+
+  def info_on
+      if @game_over == ''
+        @prog_txt.z = 1
+      else
+        game_over
+      end
+  end
+
+  def info_off
+      if @game_over == ''
+        @prog_txt.z = -1
+      else
+        hide_game_over
+      end
+  end
+
+  def switch_info
+    if @game_over == ''
+      @prog_txt.z = 1
+      hide_game_over
+    else
+      @prog_txt.z = -1
+      game_over
+    end
+  end
+
+  def hide_game_over
+    @g_o_txt1.z = -1
+    @g_o_txt2.z = -1
+    @g_o_txt3.z = -1
+    @g_o_txt4.z = -1
+    @g_o_txt5.z = -1
+    @g_o_txt6.z = -1
+    @g_o_txt7.z = -1
+    @g_o_txt8.z = -1
+    @g_o_txt9.z = -1
+    @g_o_txt10.z = -1
   end
 
 end
-
-
-# Text.new("#{@b_material} (#{@b_diff})", x:1160, y: 71,
-# font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
-
-=begin
-
-@status = Text.new(
-  "   Game over! #{to_m} wins by checkmate", x: 400, y: 8,
-  font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 3)
-
-@info_text1 = Text.new("xGame in progressx", x:1036, y: 294, z: 2, size: 20,
-                      font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-@info_text2 = Text.new("xGame in progressx", x:1036, y: 321, z: 2, size: 20,
-                      font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-@info_text3 = Text.new("xGame in progressx", x:1036, y: 348, z: 2, size: 20,
-                      font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-@info_text4 = Text.new("xGame in progressx", x:1036, y: 375, z: 2, size: 20,
-                      font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-@info_text5 = Text.new("xGame in progressx", x:1036, y: 402, z: 2, size: 20,
-                      font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-
-=end
