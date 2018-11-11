@@ -264,9 +264,13 @@ class UI
     elsif element == 'autoflip'
       if @autoflip == true
         @tooltip4.z = 1
+        @autoflip_on.z = 1
+        @autoflip_off.z = -1
         @autoflip_on.color = '#ffffff'
       else
         @tooltip5.z = 1
+        @autoflip_off.z = 1
+        @autoflip_on.z = -1
         @autoflip_off.color = '#ffffff'
       end
       @hover = 'autoflip'
