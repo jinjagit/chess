@@ -179,8 +179,6 @@ class UI
             board.posn = posn.reverse
             board.flipped = true
             game.flipped = true
-            hover_off
-            @flipped = true
             update_move_ind
             board.clear_pieces
             board.set_up_posn(first_run = false)
@@ -189,8 +187,6 @@ class UI
             board.posn = posn
             board.flipped = false
             game.flipped = false
-            hover_off
-            @flipped = false
             update_move_ind
             board.clear_pieces
             board.set_up_posn(first_run = false)
