@@ -9,7 +9,7 @@ I chose not to produce a command line app, but instead went for a more graphical
 
 Current state (11/11/18): Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling, pawn promotion and en-passant. Checkmate and stalemate are correctly detected (and the game halted when found).
 
-Draws by 50-move-rule (no captures or pawn moves) or 3-fold repetition of position are enforced (though officially should be claimed by a player, so I may change this to an advisory message, with an option to claim the draw).
+Draw conditions due to 50-move-rule (no captures or pawn moves) or 3-fold repetition of position are detected and an option to claim the draw is presented.
 
 A move list (both native and PGN format) is created as a game progresses. The piece that moved is disambiguated in PGN format, when needed (e.g. 'Nbd7', rather than simply 'Nd7'). Checks, checkmate, stalemate, en-passant and pawn promotion are all correctly formatted in the PGN record.
 
@@ -18,7 +18,8 @@ Legal moves, if any, are highlighted (green squares) when a piece is 'lifted'. A
 ### UI features implemented:
   * side to move indicator
   * total pieces value (and difference) for each side - updates when piece taken / pawn promoted
-  * game status info in box to right of board
+  * information box: 'game in progress'; checkmate, stalemate and draw advice, etc.
+  * advice + 'claim draw' option  when 3-fold-repetition / 50-move-rule conditions satisfied
   * flip board (and related UI elements + promotion menu, if displayed)
   * auto-flip - board flips to side to move, after every move
   * button hover effects and tool-tips
