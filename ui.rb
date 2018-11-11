@@ -248,8 +248,8 @@ class UI
     elsif @game_over == '3-fold repetition!'
       @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 294, 2
       @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1041, 348, 2
-      @g_o_txt9.z = 2
-      @g_o_txt10.z = 2
+      @g_o_txt9.x, @g_o_txt9.y, @g_o_txt9.z = 1041, 375, 2
+      @g_o_txt10.x, @g_o_txt10.y, @g_o_txt10.z = 1036, 402, 2
     end
   end
 
@@ -304,7 +304,12 @@ class UI
         hover_off if @hover != '' && @hover != 'claim'
         hover_on('claim') if @hover != 'claim'
       elsif @claim != '' # event_type == 'click' (claim draw)
-
+        game.game_over = @claim
+        @game_over = @claim
+        info_off
+        @claim = ''
+        info_on
+        @to_move_ind.z = -1
       end
     else # not in button icons nor claim button area
       hover_off

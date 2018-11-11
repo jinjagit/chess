@@ -265,12 +265,11 @@ class Game
       string = posn.join
       @checksums << Digest::SHA2.hexdigest(string)
     end
-    if @checksums.length >= 100 && @claim == '' #### >= 100
+    if @checksums.length >= 100 && @claim == ''
       @claim = "50-move rule!"
     else
       @claim = ''
     end
-    # @game_over = "50-move rule!"
 
     if @ply >= 5 && @checksums.length >= 3
       if @checksum_dbls.length > 0
