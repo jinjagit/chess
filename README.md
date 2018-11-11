@@ -1,7 +1,7 @@
 # chess:
 My (UNFINISHED) solution to the [final exercise of the Ruby Programming Unit](https://www.theodinproject.com/courses/ruby-programming/lessons/ruby-final-project), from the Odin Project.
 
-![screenshot](img/screenshot2018-11-07.png)
+![screenshot](img/2screens.png)
 
 The instructions, in a nutshell, are to build a "... command line chess game where two players can play against each other. The game should be properly constrained."
 
