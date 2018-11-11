@@ -7,7 +7,7 @@ The instructions, in a nutshell, are to build a "... command line chess game whe
 
 I chose not to produce a command line app, but instead went for a more graphical approach, using the ruby2D gem. While this gem is still a little rough around the edges (at only v 0.7), it is way more pleasant to look at than anything I could produce in a terminal, and enables a much more user-friendly interface (with a little more work). So far, I have been very impressed with the ease-of-use of this gem.
 
-Current state (09/11/18): Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling, pawn promotion and en-passant. Checkmate and stalemate are correctly detected (and the game halted when found).
+Current state (11/11/18): Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling, pawn promotion and en-passant. Checkmate and stalemate are correctly detected (and the game halted when found).
 
 Draws by 50-move-rule (no captures or pawn moves) or 3-fold repetition of position are enforced (though officially should be claimed by a player, so I may change this to an advisory message, with an option to claim the draw).
 
@@ -15,7 +15,13 @@ A move list (both native and PGN format) is created as a game progresses. The pi
 
 Legal moves, if any, are highlighted (green squares) when a piece is 'lifted'. A 'ghost' piece remains on the originating square while a piece is 'lifted'. The king's square is highlighted (red) if in check (or checkmate). The last move originating and final squares are highlighted (yellow). On pawn promotion, the player is presented with a choice of Queen, Rook, Bishop, or Knight (click-able).
 
-UI: Indicator shows side to move. Total pieces value (and difference) for each side updates when piece taken / pawn promoted. Game status info shown in box to right of board. Board (and related UI elements) can be flipped at any point in game (including while promotion menu displayed). Button hover effects and tool-tips working smoothly.
+### UI features implemented:
+  * side to move indicator
+  * total pieces value (and difference) for each side - updates when piece taken / pawn promoted
+  * game status info in box to right of board
+  * flip board (and related UI elements + promotion menu, if displayed)
+  * auto-flip - board flips to side to move, after every move
+  * button hover effects and tool-tips
 
 ### To do next:
   * auto-flip function
