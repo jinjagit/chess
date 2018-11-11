@@ -42,6 +42,7 @@ class Board
   attr_accessor :home_square
   attr_accessor :promote
   attr_accessor :flipped
+  attr_accessor :start_end
 
   def initialize(posn = Position.get_posn('start'))
     @piece_codes = {'q' => Queen, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
