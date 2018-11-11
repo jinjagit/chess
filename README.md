@@ -24,8 +24,9 @@ Legal moves, if any, are highlighted (green squares) when a piece is 'lifted'. A
   * button hover effects and tool-tips
 
 ### To do next:
-  * auto-flip function
   * basic ui elements (in progress)
+  * covert draws by 3-fold repetition & 50-move rule to advice with 'claim draw' option
+  * add draw by agreement & resign buttons (with confirm / cancel pop up(s))
 
 Note: At the moment, to run this (after downloading this repository), you'll need Ruby installed. Then, open a terminal, navigate to the root folder of the downloaded repository, and enter; <code>ruby chess.rb</code>
 
