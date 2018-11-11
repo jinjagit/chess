@@ -73,9 +73,9 @@ class UI
                             z: -1, x: 1057, y: 245, color: '#888888')
     @coords_icon = Image.new("img/ui/coords_icon.png", height: 30, width: 30,
                             z: 1, x: 1095, y: 245, color: '#888888')
-    @claim_btn = Image.new("img/ui/claim_btn.png", height: 30, width: 195, z: 3,
+    @claim_btn = Image.new("img/ui/claim_btn.png", height: 30, width: 195, z: -1,
                       x: 1030, y: 402, color: '#7c0000')
-    @claim_txt = Text.new("claim draw", x:1076, y: 407, z: 4, size: 20,
+    @claim_txt = Text.new("claim draw", x:1076, y: 407, z: -1, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
   end
 
@@ -157,6 +157,16 @@ class UI
     place_defaults
   end
 
+  def show_claim(game)
+    @claim_btn.z = 3
+    @claim_txt.z = 4
+  end
+
+  def hide_claim
+    @claim_btn.z = -1
+    @claim_txt.z = -1
+  end
+
   def move_update(posn, board, game)
     @ply = game.ply
     @checks = game.checks
@@ -170,6 +180,13 @@ class UI
       font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
       @b_material_text = Text.new("#{@b_material} (#{@b_diff})", x:1160, y: 71,
       font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
+    end
+    if game.claim != ''
+      show_claim(game)
+      @claim = true
+    elsif @claim == true
+      hide_claim
+      @claim = false
     end
     flip_if_needed(posn, board, game) if @autoflip == true
     if game.game_over != ''
