@@ -265,7 +265,7 @@ class Game
       string = posn.join
       @checksums << Digest::SHA2.hexdigest(string)
     end
-    if @checksums.length >= 100 && @claim == ''
+    if @checksums.length >= 100 && @claim == '' #### >= 100
       @claim = "50-move rule!"
     else
       @claim = ''
@@ -402,6 +402,7 @@ class Game
     # p @moves
 
     # puts "#{@game_over}"
+    # @claim = "3-fold repetition!" # dev of draw claims only
 
     return end_square, @moves, posn
   end

@@ -8,7 +8,7 @@ class UI
     @coords_on = true
     @flipped = false
     @autoflip = false
-    @claim = true
+    @claim = ''
     @ply = 0
     @checks = 0
     @game_over = ''
@@ -75,8 +75,16 @@ class UI
                             z: 1, x: 1095, y: 245, color: '#888888')
     @claim_btn = Image.new("img/ui/claim_btn.png", height: 30, width: 195, z: -1,
                       x: 1030, y: 402, color: '#7c0000')
-    @claim_txt = Text.new("claim draw", x:1076, y: 407, z: -1, size: 20,
+    @claim_txt1 = Text.new("claim draw", x:1076, y: 407, z: -1, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @claim_txt2 = Text.new("   of position", x:1040, y: 361, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @claimtext3 = Text.new(" 50 moves without", x:1036, y: 307, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @claimtext4 = Text.new("    capture or", x:1036, y: 334, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @claimtext5 = Text.new("    pawn move", x:1040, y: 361, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
   end
 
   def place_defaults
@@ -157,14 +165,30 @@ class UI
     place_defaults
   end
 
-  def show_claim(game)
+  def show_claim
     @claim_btn.z = 3
-    @claim_txt.z = 4
+    @claim_txt1.z = 4
+    if @claim == "3-fold repetition!"
+      @g_o_txt9.x, @g_o_txt9.y, @g_o_txt9.z = 1041, 307, 1
+      @g_o_txt10.x, @g_o_txt10.y, @g_o_txt10.z = 1036, 334, 1
+      @claim_txt2.z = 1
+    elsif @claim == "50-move rule!"
+      @claimtext3.z = 1
+      @claimtext4.z = 1
+      @claimtext5.z = 1
+    end
   end
 
   def hide_claim
     @claim_btn.z = -1
-    @claim_txt.z = -1
+    @claim_txt1.z = -1
+    if @claim == "3-fold repetition!"
+      @g_o_txt9.z, @g_o_txt10.z, @claim_txt2.z = -1, -1, -1
+    elsif @claim == "50-move rule!"
+      @claimtext3.z = -1
+      @claimtext4.z = -1
+      @claimtext5.z = -1
+    end
   end
 
   def move_update(posn, board, game)
@@ -182,11 +206,13 @@ class UI
       font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
     end
     if game.claim != ''
-      show_claim(game)
-      @claim = true
-    elsif @claim == true
-      hide_claim
-      @claim = false
+      info_off
+      @claim = game.claim
+      info_on
+    elsif @claim != ''
+      info_off
+      @claim = ''
+      info_on
     end
     flip_if_needed(posn, board, game) if @autoflip == true
     if game.game_over != ''
@@ -273,10 +299,12 @@ class UI
           hover_on('coords')
         end
       end
-    elsif @claim == true && x > 1029 && x < 1226 && y > 401 && y < 433 # claim_btn
+    elsif @claim != '' && x > 1029 && x < 1226 && y > 401 && y < 433 # claim_btn
       if event_type == 'hover'
         hover_off if @hover != '' && @hover != 'claim'
         hover_on('claim') if @hover != 'claim'
+      elsif @claim != '' # event_type == 'click' (claim draw)
+
       end
     else # not in button icons nor claim button area
       hover_off
@@ -342,18 +370,22 @@ class UI
   end
 
   def info_on
-      if @game_over == ''
-        @prog_txt.z = 1
-      else
-        game_over
-      end
+    if @game_over != ''
+      game_over
+    elsif @claim != ''
+      show_claim
+    else
+      @prog_txt.z = 1
+    end
   end
 
   def info_off
-      if @game_over == ''
+      if @game_over == '' && @claim == ''
         @prog_txt.z = -1
-      else
+      elsif @claim == ''
         hide_game_over
+      else
+        hide_claim
       end
   end
 
