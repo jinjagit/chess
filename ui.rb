@@ -36,7 +36,9 @@ class UI
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @g_o_txt1 = Text.new("    Game over!", x:1036, y: 294, z: -1, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-    @g_o_txt2 = Text.new("    #{@winner} wins", x:1036, y: 358, z: -1, size: 20,
+    @g_o_txt2a = Text.new("    White wins", x:1036, y: 358, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @g_o_txt2b = Text.new("    Black wins", x:1036, y: 358, z: -1, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @g_o_txt3 = Text.new("   by checkmate", x:1036, y: 387, z: -1, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
@@ -224,13 +226,12 @@ class UI
   def game_over
     if @game_over == 'checkmate!'
       @to_move_ind.z = -1
-      if @ply == 0
-        @winner = 'Black'
+      if @ply % 2 == 0
+        @g_o_txt2b.x, @g_o_txt2b.y, @g_o_txt2b.z = 1036, 358, 2
       else
-        @winner = 'White'
+        @g_o_txt2a.x, @g_o_txt2a.y, @g_o_txt2a.z = 1036, 358, 2
       end
       @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
-      @g_o_txt2.x, @g_o_txt2.y, @g_o_txt2.z = 1036, 358, 2
       @g_o_txt3.x, @g_o_txt3.y, @g_o_txt3.z = 1036, 387, 2
     elsif @game_over == 'stalemate!'
       @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
@@ -311,7 +312,7 @@ class UI
         info_on
         @to_move_ind.z = -1
       end
-    else # not in button icons nor claim button area
+    elsif @hover != '' # not in button icons nor claim button area
       hover_off
       info_on
       @hover = ''
@@ -406,7 +407,8 @@ class UI
 
   def hide_game_over
     @g_o_txt1.z = -1
-    @g_o_txt2.z = -1
+    @g_o_txt2a.z = -1
+    @g_o_txt2b.z = -1
     @g_o_txt3.z = -1
     @g_o_txt4.z = -1
     @g_o_txt5.z = -1
