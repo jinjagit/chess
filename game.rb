@@ -16,6 +16,8 @@ class Game
   attr_accessor :ui_data
   attr_accessor :flipped
   attr_accessor :red_square
+  attr_accessor :w_material
+  attr_accessor :b_material
 
   def initialize(game_pieces)
     @ply = 0
@@ -33,7 +35,6 @@ class Game
     @threefold = []
     @w_material = 39
     @b_material = 39
-    @ui_data = []
     @flipped = false
   end
 
@@ -388,7 +389,6 @@ class Game
 
     @moves[-1][3] = details # add move details to move list(s)
     pgn_move(posn, piece, start_square, end_square, details)
-    @ui_data = [@ply, @w_material, @b_material, @game_over, @checks]
 
     puts
     puts @pgn # debug (and later, for display)

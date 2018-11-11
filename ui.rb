@@ -4,7 +4,6 @@ class UI
 
   def initialize
     @hover = ''
-    @last_hover = ''
     @coords = true
     @coords_on = true
     @flipped = false
@@ -114,12 +113,12 @@ class UI
     end
   end
 
-  def move_update(data)
-    @ply = data[0]
-    @checks = data[4]
+  def move_update(posn, board, game)
+    @ply = game.ply
+    @checks = game.checks
     update_move_ind
-    if data[1] != @w_material || data[2] != @b_material
-      @w_material, @b_material = data[1], data[2]
+    if game.w_material != @w_material || game.b_material != @b_material
+      @w_material, @b_material = game.w_material, game.b_material
       material_diff
       @w_material_text.remove
       @b_material_text.remove
@@ -128,8 +127,14 @@ class UI
       @b_material_text = Text.new("#{@b_material} (#{@b_diff})", x:1160, y: 71,
       font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
     end
-    if data[3] != ''
-      @game_over = data[3]
+
+    if @autoflip == true && ((@ply % 2 == 1) && @flipped == false) ||
+                    ((@ply % 2 == 0)  && @flipped == true)
+      flip_board(posn, board, game)
+    end
+
+    if game.game_over != ''
+      @game_over = game.game_over
       switch_info
     end
   end
@@ -166,6 +171,40 @@ class UI
     end
   end
 
+  def flip_board(posn, board, game)
+    if board.flipped == false
+      board.posn = posn.reverse
+      board.flipped = true
+      game.flipped = true
+      @flipped = true
+      update_move_ind
+      board.clear_pieces
+      board.set_up_posn(first_run = false)
+      board.flip_start_end if @ply > 0
+    else
+      board.posn = posn
+      board.flipped = false
+      game.flipped = false
+      @flipped = false
+      update_move_ind
+      board.clear_pieces
+      board.set_up_posn(first_run = false)
+      board.flip_start_end if @ply > 0
+    end
+    if @checks > 0
+      red_sq = board.mouse_square(game.red_square.image.x, game.red_square.image.y)
+      red_sq = 63 - red_sq if @flipped == false
+      game.place_red_sq(red_sq)
+    end
+    if board.promote != []
+      board.promote[1] = 63 - board.promote[1] if @flipped == false
+      board.show_promo_pieces
+    end
+    place_defaults
+    hover_on('flip')
+
+  end
+
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
     if x > 1020 && x < 1125 && y > 245 && y < 275 # button icons
       info_off if @hover == ''
@@ -175,36 +214,7 @@ class UI
           hover_off if @hover != '' && @hover != 'flip'
           hover_on('flip') if @hover != 'flip'
         else # event_type == 'click' (flip board)
-          if board.flipped == false
-            board.posn = posn.reverse
-            board.flipped = true
-            game.flipped = true
-            @flipped = true
-            update_move_ind
-            board.clear_pieces
-            board.set_up_posn(first_run = false)
-            board.flip_start_end if @ply > 0
-          else
-            board.posn = posn
-            board.flipped = false
-            game.flipped = false
-            @flipped = false
-            update_move_ind
-            board.clear_pieces
-            board.set_up_posn(first_run = false)
-            board.flip_start_end if @ply > 0
-          end
-          if @checks > 0
-            red_sq = board.mouse_square(game.red_square.image.x, game.red_square.image.y)
-            red_sq = 63 - red_sq if @flipped == false
-            game.place_red_sq(red_sq)
-          end
-          if board.promote != []
-            board.promote[1] = 63 - board.promote[1] if @flipped == false
-            board.show_promo_pieces
-          end
-          place_defaults
-          hover_on('flip')
+          flip_board(posn, board, game)
         end
       elsif x > 1055 && x < 1093 && y > 245 && y < 275 # autoflip button
         if event_type == 'hover'

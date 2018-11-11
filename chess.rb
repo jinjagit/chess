@@ -81,14 +81,13 @@ on :mouse_down do |event|
     new_piece, details, location = board.select_promo_pc(location, posn, start_square)
     game.game_pieces = board.game_pieces
     end_sq, moves, posn = game.move(posn, new_piece, start_square, location, details)
-    ui.move_update(game.ui_data)
+    ui.move_update(posn, board, game)
     end_sq = 63 - end_sq if board.flipped == true
     new_piece.move_to_square(end_sq)
     new_piece.icon.z = 3
     promote = []
   elsif location == "off_board"
     ui.event(event.x, event.y, 'click', posn, board, game)
-    # posn = board.posn
   end
 end
 
@@ -122,7 +121,7 @@ on :mouse_up do |event|
       else
         details = ''
         end_sq, moves, posn = game.move(posn, piece, start_square, location, details)
-        ui.move_update(game.ui_data)
+        ui.move_update(posn, board, game)
       end
       board.start_end_squares(start_square, location)
       # puts "time to assess position: #{(duration = Time.now - startTime).to_s} s"
