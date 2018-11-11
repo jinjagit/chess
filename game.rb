@@ -18,6 +18,7 @@ class Game
   attr_accessor :red_square
   attr_accessor :w_material
   attr_accessor :b_material
+  attr_accessor :claim
 
   def initialize(game_pieces)
     @ply = 0
@@ -36,6 +37,7 @@ class Game
     @w_material = 39
     @b_material = 39
     @flipped = false
+    @claim = ''
   end
 
   def remove_red_sq
@@ -264,12 +266,14 @@ class Game
       @checksums << Digest::SHA2.hexdigest(string)
     end
 
-    @game_over = "50-move rule!" if @checksums.length >= 100
+    @claim = "50-move rule!" if @checksums.length >= 100
+    # @game_over = "50-move rule!"
 
     if @ply >= 5 && @checksums.length >= 3
       if @checksum_dbls.length > 0
         if @checksum_dbls.key?(@checksums[-1])
-          @game_over = "3-fold repetition!"
+          @claim = "3-fold repetition!"
+          # @game_over = "3-fold repetition!"
           @threefold = @checksum_dbls["#{@checksums[-1]}"]
           @threefold << @ply
         end
