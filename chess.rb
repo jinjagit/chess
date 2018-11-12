@@ -94,7 +94,7 @@ end
 on :mouse_move do |event|
   location = board.mouse_square(event.x, event.y)
   if piece_lift == true && promote == []
-    location = 63 - location if board.flipped == true
+    location = 63 - location if board.flipped == true && location != "off_board"
     board.home_square.image.z = 4
     piece.set_posn(event.x - 40, event.y - 40)
     piece.icon.z = 10
@@ -109,7 +109,7 @@ on :mouse_up do |event|
   if piece_lift == true
     piece_lift = false
     location = board.mouse_square(event.x, event.y)
-    location = 63 - location if board.flipped == true
+    location = 63 - location if board.flipped == true && location != "off_board"
 
     board.unhighlight_squares(legal_list)
     if location != "off_board" && legal_list.include?(location) == true
