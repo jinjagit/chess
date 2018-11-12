@@ -8,6 +8,7 @@ class UI
     @coords_on = true
     @flipped = false
     @autoflip = false
+    @legal_sqs = false
     @claim = ''
     @ply = 0
     @checks = 0
@@ -58,7 +59,7 @@ class UI
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
     @tooltip1 = Text.new("  coordinates ON", x:1033, y: 348, z: -1, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip2 = Text.new("  coordinates OFF ", x:1033, y: 348, z: -1, size: 20,
+    @tooltip2 = Text.new("  coordinates OFF", x:1033, y: 348, z: -1, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @tooltip3 = Text.new("    flip board", x:1036, y: 348, z: -1, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
@@ -66,8 +67,10 @@ class UI
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @tooltip5 = Text.new("   autoflip ON", x:1037, y: 348, z: -1, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip6 = '' # reserved for legal moves off
-    @tooltip7 = '' # reserved for legal moves on
+    @tooltip6 = Text.new(" legal squares ON", x:1033, y: 348, z: -1, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip7 = Text.new(" legal squares OFF", x:1033, y: 348, z: -1, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @tooltip8 = Text.new("     new game", x:1036, y: 348, z: -1, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @tooltip9 = Text.new("    offer draw", x:1036, y: 348, z: -1, size: 20,
@@ -85,6 +88,8 @@ class UI
                             z: 1, x: 1095, y: 245, color: '#888888')
     @lgl_off_icon = Image.new("img/ui/legal_off.png", height: 30, width: 30,
                             z: 1, x: 1130, y: 245, color: '#888888')
+    @lgl_on_icon = Image.new("img/ui/legal_on.png", height: 30, width: 30,
+                            z: -1, x: 1130, y: 245, color: '#888888')
     @claim_btn = Image.new("img/ui/claim_btn.png", height: 30, width: 195, z: -1,
                       x: 1030, y: 402, color: '#7c0000')
     @claim_txt1 = Text.new("claim draw", x:1076, y: 407, z: -1, size: 20,
@@ -319,6 +324,15 @@ class UI
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'legal'
           hover_on('legal') if @hover != 'legal'
+        else # event_type == 'click' (auto-flip board)
+          if @legal_sqs == true
+            hover_off
+            @legal_sqs = false
+          else
+            hover_off
+            @legal_sqs = true
+          end
+          hover_on('legal')
         end
       end
 
@@ -392,7 +406,17 @@ class UI
       end
       @hover = 'autoflip'
     elsif element == 'legal'
-      @lgl_off_icon.color = '#ffffff'
+      if @legal_sqs == true
+        @tooltip7.z = 1
+        @lgl_on_icon.z = 1
+        @lgl_off_icon.z = -1
+        @lgl_on_icon.color = '#ffffff'
+      else
+        @tooltip6.z = 1
+        @lgl_off_icon.z = 1
+        @lgl_on_icon.z = -1
+        @lgl_off_icon.color = '#ffffff'
+      end
       @hover = 'legal'
     elsif element == 'new'
       @tooltip8.z = 1
@@ -432,7 +456,13 @@ class UI
         @tooltip5.z = -1
       end
     elsif @hover == 'legal'
-      @lgl_off_icon.color = '#888888'
+      if @legal_sqs == true
+        @lgl_on_icon.color = '#888888'
+        @tooltip7.z = -1
+      else
+        @lgl_off_icon.color = '#888888'
+        @tooltip6.z = -1
+      end
     elsif @hover == 'new'
       @new_icon.color = '#888888'
       @tooltip8.z = -1
