@@ -277,7 +277,6 @@ class UI
           else
             hover_off
             @autoflip = true
-            puts "@game_over: #{@game_over}"
             flip_if_needed(posn, board, game) if @game_over == ''
           end
           hover_on('autoflip')
