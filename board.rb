@@ -328,8 +328,6 @@ class Board
         @posn[square] = "---" # just to make array look neater ;-)
       end
     end
-    # **needs more finesse when loading saved game (**see notes, below)
-    @game_pieces.each {|piece| piece.moved = false}
 
     # list_piece_instance_vars # debug list
   end
