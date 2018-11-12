@@ -13,7 +13,7 @@ Pieces constrained to legal moves, including the effects of pins and check (both
 
 Draw conditions due to 50-move-rule (no captures or pawn moves) or 3-fold repetition of position are detected and an option to claim the draw is presented.
 
-A move list (both native and PGN format) is created as a game progresses. The piece that moved is disambiguated in PGN format, when needed (e.g. 'Nbd7', rather than simply 'Nd7'). Checks, checkmate, stalemate, en-passant and pawn promotion are all correctly formatted in the PGN record.
+A move list (both native and PGN format) is created as a game progresses. The piece that moved is disambiguated in algebraic notation, when needed (e.g. 'Nbd7', rather than simply 'Nd7'). Checks, checkmate, stalemate, en-passant and pawn promotion are all correctly formatted in the PGN record.
 
 ### UI features implemented:
   * highlighting of legal moves, if any, (green squares) when a piece is lifted
