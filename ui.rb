@@ -56,15 +56,23 @@ class UI
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
     @g_o_txt10 = Text.new("    repetition", x:1036, y: 402, z: -1, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-    @tooltip1 = Text.new(" show coordinates", x:1036, y: 348, z: -1, size: 20,
+    @tooltip1 = Text.new("  coordinates ON", x:1033, y: 348, z: -1, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip2 = Text.new(" hide coordinates ", x:1036, y: 348, z: -1, size: 20,
+    @tooltip2 = Text.new("  coordinates OFF ", x:1033, y: 348, z: -1, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @tooltip3 = Text.new("    flip board", x:1036, y: 348, z: -1, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip4 = Text.new(" turn autoflip OFF", x:1034, y: 348, z: -1, size: 20,
+    @tooltip4 = Text.new("   autoflip OFF", x:1037, y: 348, z: -1, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip5 = Text.new(" turn autoflip ON", x:1034, y: 348, z: -1, size: 20,
+    @tooltip5 = Text.new("   autoflip ON", x:1037, y: 348, z: -1, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip6 = '' # reserved for legal moves off
+    @tooltip7 = '' # reserved for legal moves on
+    @tooltip8 = Text.new("     new game", x:1036, y: 348, z: -1, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip9 = Text.new("    offer draw", x:1036, y: 348, z: -1, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip10 = Text.new("      resign", x:1036, y: 348, z: -1, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @info_temp = []
     @flip_icon = Image.new("img/ui/flip_icon.png", height: 30, width: 33,
@@ -387,12 +395,15 @@ class UI
       @lgl_off_icon.color = '#ffffff'
       @hover = 'legal'
     elsif element == 'new'
+      @tooltip8.z = 1
       @new_icon.color = '#ffffff'
       @hover = 'new'
     elsif element == 'draw'
+      @tooltip9.z = 1
       @draw_icon.color = '#ffffff'
       @hover = 'draw'
     elsif element == 'resign'
+      @tooltip10.z = 1
       @res_icon.color = '#ffffff'
       @hover = 'resign'
     elsif element == 'claim'
@@ -424,10 +435,13 @@ class UI
       @lgl_off_icon.color = '#888888'
     elsif @hover == 'new'
       @new_icon.color = '#888888'
+      @tooltip8.z = -1
     elsif @hover == 'draw'
       @draw_icon.color = '#888888'
+      @tooltip9.z = -1
     elsif @hover == 'resign'
       @res_icon.color = '#888888'
+      @tooltip10.z = -1
     elsif @hover == 'claim'
       @claim_btn.color = '#7c0000'
     end
