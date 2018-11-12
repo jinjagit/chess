@@ -266,7 +266,7 @@ class UI
           flip_board(posn, board, game)
           hover_on('flip')
         end
-      elsif x > 1055 && x < 1093 && y > 245 && y < 275 # autoflip button
+      elsif x > 1055 && x < 1093 && y > 245 && y < 275# autoflip button
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'autoflip'
           hover_on('autoflip') if @hover != 'autoflip'
@@ -277,7 +277,8 @@ class UI
           else
             hover_off
             @autoflip = true
-            flip_if_needed(posn, board, game)
+            puts "@game_over: #{@game_over}"
+            flip_if_needed(posn, board, game) if @game_over == ''
           end
           hover_on('autoflip')
         end
