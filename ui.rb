@@ -266,7 +266,7 @@ class UI
     if x > 1020 && x < 1162 && y > 245 && y < 275 # button icons
       info_off if @hover == ''
 
-      if x > 1020 && x < 1055 && y > 245 && y < 275 # flip button
+      if x > 1020 && x < 1055 # flip button
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'flip'
           hover_on('flip') if @hover != 'flip'
@@ -274,7 +274,7 @@ class UI
           flip_board(posn, board, game)
           hover_on('flip')
         end
-      elsif x > 1055 && x < 1093 && y > 245 && y < 275# autoflip button
+      elsif x > 1055 && x < 1093 # autoflip button
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'autoflip'
           hover_on('autoflip') if @hover != 'autoflip'
@@ -289,7 +289,7 @@ class UI
           end
           hover_on('autoflip')
         end
-      elsif x > 1093 && x < 1125 && y > 245 && y < 275 # coords button
+      elsif x > 1093 && x < 1125 # coords button
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'coords'
           hover_on('coords') if @hover != 'coords'
@@ -307,7 +307,7 @@ class UI
           end
           hover_on('coords')
         end
-      elsif x > 1126 && x < 1162 && y > 245 && y < 275
+      elsif x > 1126 && x < 1162
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'legal'
           hover_on('legal') if @hover != 'legal'
