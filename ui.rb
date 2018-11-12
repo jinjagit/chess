@@ -75,6 +75,8 @@ class UI
                             z: -1, x: 1057, y: 245, color: '#888888')
     @coords_icon = Image.new("img/ui/coords_icon.png", height: 30, width: 30,
                             z: 1, x: 1095, y: 245, color: '#888888')
+    @lgl_off_icon = Image.new("img/ui/legal_off.png", height: 30, width: 30,
+                            z: 1, x: 1130, y: 245, color: '#888888')
     @claim_btn = Image.new("img/ui/claim_btn.png", height: 30, width: 195, z: -1,
                       x: 1030, y: 402, color: '#7c0000')
     @claim_txt1 = Text.new("claim draw", x:1076, y: 407, z: -1, size: 20,
@@ -87,6 +89,12 @@ class UI
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @claimtext5 = Text.new("    pawn move", x:1040, y: 361, z: -1, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @new_icon = Image.new("img/ui/swords.png", height: 42, width: 42,
+                            z: 2, x: 1050, y: 452, color: '#888888')
+    @draw_icon = Image.new("img/ui/hand.png", height: 32, width: 42,
+                            z: 2, x: 1104, y: 458, color: '#888888')
+    @res_icon = Image.new("img/ui/flag.png", height: 42, width: 42,
+                            z: 2, x: 1158, y: 452, color: '#888888')
   end
 
   def place_defaults
@@ -255,7 +263,7 @@ class UI
   end
 
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
-    if x > 1020 && x < 1125 && y > 245 && y < 275 # button icons
+    if x > 1020 && x < 1162 && y > 245 && y < 275 # button icons
       info_off if @hover == ''
 
       if x > 1020 && x < 1055 && y > 245 && y < 275 # flip button
@@ -299,7 +307,37 @@ class UI
           end
           hover_on('coords')
         end
+      elsif x > 1126 && x < 1162 && y > 245 && y < 275
+        if event_type == 'hover'
+          hover_off if @hover != '' && @hover != 'legal'
+          hover_on('legal') if @hover != 'legal'
+        end
       end
+
+    elsif x > 1048 && x < 1202 && y > 450 && y < 494 # new, draw, resign btns
+      info_off if @hover == ''
+      if x > 1048 && x < 1098
+        if event_type == 'hover'
+          hover_off if @hover != '' && @hover != 'new'
+          hover_on('new') if @hover != 'new'
+        end
+
+      elsif x > 1099 && x < 1152
+        if event_type == 'hover'
+          hover_off if @hover != '' && @hover != 'draw'
+          hover_on('draw') if @hover != 'draw'
+        end
+
+      elsif x > 1153 && x < 1202
+        if event_type == 'hover'
+          hover_off if @hover != '' && @hover != 'resign'
+          hover_on('resign') if @hover != 'resign'
+        end
+
+
+      end
+
+
     elsif @claim != '' && x > 1029 && x < 1226 && y > 401 && y < 433 # claim_btn
       if event_type == 'hover'
         hover_off if @hover != '' && @hover != 'claim'
@@ -345,6 +383,18 @@ class UI
         @autoflip_off.color = '#ffffff'
       end
       @hover = 'autoflip'
+    elsif element == 'legal'
+      @lgl_off_icon.color = '#ffffff'
+      @hover = 'legal'
+    elsif element == 'new'
+      @new_icon.color = '#ffffff'
+      @hover = 'new'
+    elsif element == 'draw'
+      @draw_icon.color = '#ffffff'
+      @hover = 'draw'
+    elsif element == 'resign'
+      @res_icon.color = '#ffffff'
+      @hover = 'resign'
     elsif element == 'claim'
       @claim_btn.color = '#ff0000'
       @hover = 'claim'
@@ -370,6 +420,14 @@ class UI
         @autoflip_off.color = '#888888'
         @tooltip5.z = -1
       end
+    elsif @hover == 'legal'
+      @lgl_off_icon.color = '#888888'
+    elsif @hover == 'new'
+      @new_icon.color = '#888888'
+    elsif @hover == 'draw'
+      @draw_icon.color = '#888888'
+    elsif @hover == 'resign'
+      @res_icon.color = '#888888'
     elsif @hover == 'claim'
       @claim_btn.color = '#7c0000'
     end
