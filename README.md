@@ -9,7 +9,7 @@ I chose not to produce a command line app, but instead went for a more graphical
 
 ### Current state (11/11/18):
 
-Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling, pawn promotion and en-passant. Checkmate and stalemate are correctly detected (and the game halted when found).
+Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling, pawn promotion and en-passant. Checkmate, stalemate, and draw due to insufficient material, are correctly detected (and the game halted when found).
 
 Draw conditions due to 50-move-rule (no captures or pawn moves) or 3-fold repetition of position are detected and an option to claim the draw is presented.
 
@@ -31,6 +31,8 @@ A move list (both native and PGN format) is created as a game progresses. The pi
 ### To do next:
   * basic ui elements (in progress)
   * add draw by agreement & resign buttons (with confirm / cancel pop up(s))
+  * add toggle for legal moves highlighting
+  * add new game icon and functionality
 
 Note: At the moment, to run this (after downloading this repository), you'll need Ruby installed. Then, open a terminal, navigate to the root folder of the downloaded repository, and enter; <code>ruby chess.rb</code>
 
