@@ -70,7 +70,6 @@ on :mouse_down do |event|
           piece.find_moves(posn, moves)
         end
         legal_list = piece.legal_moves
-        #legal_list = legal_list.each {|e| e = 63 - e} if board.flipped == true
         board.highlight_squares(legal_list)
       end
     end
@@ -127,7 +126,6 @@ on :mouse_up do |event|
       # puts "time to assess position: #{(duration = Time.now - startTime).to_s} s"
     else # == illegal move (reject)
       end_sq = start_square
-      #end_sq = 63 - end_sq if board.flipped == true
     end
 
     board.hide_home_piece(posn_pc)
