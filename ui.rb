@@ -105,12 +105,12 @@ class UI
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @claimtext5 = Text.new("    pawn move", x:1040, y: 361, z: -1, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @new_icon = Image.new("img/ui/swords.png", height: 42, width: 42,
-                            z: 2, x: 1050, y: 452, color: '#888888')
-    @draw_icon = Image.new("img/ui/hand.png", height: 32, width: 42,
-                            z: 2, x: 1104, y: 458, color: '#888888')
-    @res_icon = Image.new("img/ui/flag.png", height: 42, width: 42,
-                            z: 2, x: 1158, y: 452, color: '#888888')
+    @new_icon = Image.new("img/ui/swords.png", height: 36, width: 36,
+                            z: 2, x: 1062, y: 452, color: '#888888')
+    @draw_icon = Image.new("img/ui/hand.png", height: 28, width: 36,
+                            z: 2, x: 1108, y: 458, color: '#888888')
+    @res_icon = Image.new("img/ui/flag.png", height: 36, width: 36,
+                            z: 2, x: 1154, y: 452, color: '#888888')
   end
 
   def place_defaults
@@ -339,21 +339,21 @@ class UI
         end
       end
 
-    elsif x > 1048 && x < 1202 && y > 450 && y < 494 # new, draw, resign btns
+    elsif x > 1060 && x < 1192 && y > 450 && y < 480 # new, draw, resign btns
       info_off if @hover == ''
-      if x > 1048 && x < 1098
+      if x > 1060 && x < 1102
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'new'
           hover_on('new') if @hover != 'new'
         end
 
-      elsif x > 1099 && x < 1152
+      elsif x > 1103 && x < 1152
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'draw'
           hover_on('draw') if @hover != 'draw'
         end
 
-      elsif x > 1153 && x < 1202
+      elsif x > 1153 && x < 1192
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'resign'
           hover_on('resign') if @hover != 'resign'
