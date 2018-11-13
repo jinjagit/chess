@@ -455,9 +455,7 @@ class UI
           end
         end
 
-
     end
-
 
     elsif (@claim != '' || @draw_offer == true) && x > 1029 && x < 1226 && y > 401 && y < 433 # claim_btn
       if event_type == 'hover'
