@@ -11,6 +11,7 @@ class UI
     @autoflip = false
     @legal_sqs = true
     @sound = true
+    @draw_offer = false
     @claim = ''
     @ply = 0
     @checks = 0
@@ -59,6 +60,8 @@ class UI
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
     @g_o_txt10 = Text.new("    repetition", x:1036, y: 402, z: -1, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+    @g_o_txt11 = Text.new("    agreement", x:1042, y: 387, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @tooltip1 = Text.new("  coordinates ON", x:1033, y: 348, z: -1, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @tooltip2 = Text.new("  coordinates OFF", x:1033, y: 348, z: -1, size: 20,
@@ -112,11 +115,19 @@ class UI
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @claim_txt2 = Text.new("   of position", x:1040, y: 361, z: -1, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @claimtext3 = Text.new(" 50 moves without", x:1036, y: 307, z: -1, size: 20,
+    @claim_txt3 = Text.new(" 50 moves without", x:1036, y: 307, z: -1, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @claimtext4 = Text.new("    capture or", x:1036, y: 334, z: -1, size: 20,
+    @claim_txt4 = Text.new("    capture or", x:1036, y: 334, z: -1, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @claimtext5 = Text.new("    pawn move", x:1040, y: 361, z: -1, size: 20,
+    @claim_txt5 = Text.new("    pawn move", x:1040, y: 361, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @draw_txt1 = Text.new("  Draw offered!", x:1042, y: 294, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @draw_txt2 = Text.new("    to decline", x:1038, y: 367, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @draw_txt3 = Text.new("agree draw", x:1076, y: 407, z: -1, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @play_on_txt = Text.new("     play on", x:1042, y: 340, z: -1, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @new_icon = Image.new("img/ui/swords.png", height: 36, width: 36,
                             z: 2, x: 1062, y: 452, color: '#888888')
@@ -212,9 +223,9 @@ class UI
       @g_o_txt10.x, @g_o_txt10.y, @g_o_txt10.z = 1036, 334, 1
       @claim_txt2.z = 1
     elsif @claim == "50-move rule!"
-      @claimtext3.z = 1
-      @claimtext4.z = 1
-      @claimtext5.z = 1
+      @claim_txt3.z = 1
+      @claim_txt4.z = 1
+      @claim_txt5.z = 1
     end
   end
 
@@ -224,10 +235,26 @@ class UI
     if @claim == "3-fold repetition!"
       @g_o_txt9.z, @g_o_txt10.z, @claim_txt2.z = -1, -1, -1
     elsif @claim == "50-move rule!"
-      @claimtext3.z = -1
-      @claimtext4.z = -1
-      @claimtext5.z = -1
+      @claim_txt3.z = -1
+      @claim_txt4.z = -1
+      @claim_txt5.z = -1
     end
+  end
+
+  def show_offer
+    @draw_txt1.z = 1
+    @play_on_txt.z = 1
+    @draw_txt2.z = 1
+    @draw_txt3.z = 3
+    @claim_btn.z = 1
+  end
+
+  def hide_offer
+    @draw_txt1.z = -1
+    @play_on_txt.z = -1
+    @draw_txt2.z = -1
+    @draw_txt3.z = -1
+    @claim_btn.z = -1
   end
 
   def move_update(posn, board, game)
@@ -243,6 +270,11 @@ class UI
       font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
       @b_material_text = Text.new("#{@b_material} (#{@b_diff})", x:1160, y: 71,
       font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
+    end
+    if @draw_offer == true
+      info_off
+      @draw_offer = false
+      info_on
     end
     if game.claim != ''
       info_off
@@ -288,6 +320,10 @@ class UI
       @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1041, 348, 2
       @g_o_txt9.x, @g_o_txt9.y, @g_o_txt9.z = 1041, 375, 2
       @g_o_txt10.x, @g_o_txt10.y, @g_o_txt10.z = 1036, 402, 2
+    elsif @game_over == 'draw_agreed'
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
+      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1042, 358, 2
+      @g_o_txt11.z = 2
     end
   end
 
@@ -336,7 +372,7 @@ class UI
           end
           hover_on('coords')
         end
-      elsif x > 1126 && x < 1162
+      elsif x > 1126 && x < 1162 # legal squares
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'legal'
           hover_on('legal') if @hover != 'legal'
@@ -369,43 +405,75 @@ class UI
           end
           hover_on('sound')
         end
-
-
       end
 
-    elsif x > 1060 && x < 1192 && y > 450 && y < 488 # new, draw, resign btns
+    elsif x > 1060 && x < 1192 && y > 450 && y < 488 # new game, draw, resign btns
       info_off if @hover == ''
-      if x > 1060 && x < 1102
+      if x > 1060 && x < 1102 # new game
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'new'
           hover_on('new') if @hover != 'new'
         end
 
-      elsif x > 1103 && x < 1152
-        if event_type == 'hover'
+      elsif x > 1102 && x < 1152 # draw offer button
+        if @draw_offer == false && event_type == 'hover'
           hover_off if @hover != '' && @hover != 'draw'
-          hover_on('draw') if @hover != 'draw'
+          if @hover != 'draw'
+            if @claim == '' && @game_over == ''
+              hover_on('draw')
+            else
+              info_on
+              @hover = ''
+            end
+          end
+        elsif @draw_offer == true && event_type == 'hover'
+          hover_off
+          info_off
+          info_on
+          @hover = ''
+        elsif @draw_offer == false && @claim == '' && @game_over == ''
+          hover_off
+          info_off
+          @draw_offer = true
+          info_on
+          @hover = ''
+        else
+          info_on
         end
 
-      elsif x > 1153 && x < 1192
+      elsif x > 1152 && x < 1192 # resign
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'resign'
-          hover_on('resign') if @hover != 'resign'
+          if @hover != 'resign'
+            if @claim == '' && @game_over == ''
+              hover_on('resign')
+            else
+              info_on
+              @hover = ''
+            end
+          end
         end
 
 
-      end
+    end
 
 
-    elsif @claim != '' && x > 1029 && x < 1226 && y > 401 && y < 433 # claim_btn
+    elsif (@claim != '' || @draw_offer == true) && x > 1029 && x < 1226 && y > 401 && y < 433 # claim_btn
       if event_type == 'hover'
         hover_off if @hover != '' && @hover != 'claim'
         hover_on('claim') if @hover != 'claim'
       elsif @claim != '' # event_type == 'click' (claim draw)
         game.game_over = @claim
-        @game_over = @claim
         info_off
+        @game_over = @claim
         @claim = ''
+        info_on
+        @to_move_ind.z = -1
+      elsif @draw_offer == true
+        game.game_over = 'draw_agreed'
+        info_off
+        @game_over = 'draw_agreed'
+        @draw_offer = false
         info_on
         @to_move_ind.z = -1
       end
@@ -553,19 +621,23 @@ class UI
       game_over
     elsif @claim != ''
       show_claim
+    elsif @draw_offer == true
+      show_offer
     else
       @prog_txt.z = 1
     end
   end
 
   def info_off
-      if @game_over == '' && @claim == ''
-        @prog_txt.z = -1
-      elsif @claim == ''
-        hide_game_over
-      else
-        hide_claim
-      end
+    if @game_over != ''
+      hide_game_over
+    elsif @claim != ''
+      hide_claim
+    elsif @draw_offer == true
+      hide_offer
+    else
+      @prog_txt.z = -1
+    end
   end
 
   def switch_info
@@ -590,6 +662,7 @@ class UI
     @g_o_txt8.z = -1
     @g_o_txt9.z = -1
     @g_o_txt10.z = -1
+    @g_o_txt11.z = -1
   end
 
 end
