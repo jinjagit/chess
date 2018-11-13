@@ -70,7 +70,7 @@ on :mouse_down do |event|
           piece.find_moves(posn, moves)
         end
         legal_list = piece.legal_moves
-        board.highlight_squares(legal_list)
+        board.highlight_squares(legal_list) if ui.legal_sqs == true
       end
     end
     #puts "time to find legal squares: #{(duration = Time.now - startTime).to_s} s"
@@ -110,7 +110,7 @@ on :mouse_up do |event|
     location = board.mouse_square(event.x, event.y)
     location = 63 - location if board.flipped == true && location != "off_board"
 
-    board.unhighlight_squares(legal_list)
+    board.unhighlight_squares(legal_list) if ui.legal_sqs == true
     if location != "off_board" && legal_list.include?(location) == true
       # startTime = Time.now # debug: monitor responsiveness
       if piece.name[1] == 'p' && (location < 8 || location > 55)
