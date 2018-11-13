@@ -287,8 +287,9 @@ class UI
     end
     flip_if_needed(posn, board, game) if @autoflip == true
     if game.game_over != ''
+      info_off
       @game_over = game.game_over
-      switch_info
+      info_on
     end
   end
 
@@ -415,7 +416,7 @@ class UI
           hover_on('new') if @hover != 'new'
         end
 
-      elsif x > 1102 && x < 1152 # draw offer button
+      elsif x >= 1102 && x < 1152 # draw offer button
         if @draw_offer == false && event_type == 'hover'
           hover_off if @hover != '' && @hover != 'draw'
           if @hover != 'draw'
@@ -441,7 +442,7 @@ class UI
           info_on
         end
 
-      elsif x > 1152 && x < 1192 # resign
+      elsif x >= 1152 && x < 1192 # resign
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'resign'
           if @hover != 'resign'
@@ -640,14 +641,9 @@ class UI
     end
   end
 
-  def switch_info
-    if @game_over == ''
-      @prog_txt.z = 1
-      hide_game_over
-    else
-      @prog_txt.z = -1
-      game_over
-    end
+  def update_info
+    info_off
+    info_on
   end
 
   def hide_game_over
