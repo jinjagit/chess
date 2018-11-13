@@ -32,7 +32,7 @@ A move list (both native and PGN format) is created as a game progresses. The pi
 
 ### To do next:
   * basic ui elements (in progress)
-  * add draw by agreement & resign buttons (with confirm / cancel pop up(s))
+  * add draw by agreement & resign functionality (with confirm / cancel pop up(s))
   * add new game functionality
 
 Note: At the moment, to run this (after downloading this repository), you'll need Ruby installed. Then, open a terminal, navigate to the root folder of the downloaded repository, and enter; <code>ruby chess.rb</code>
