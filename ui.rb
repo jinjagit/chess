@@ -101,7 +101,7 @@ class UI
     @lgl_on_icon = Image.new("img/ui/legal_on.png", height: 30, width: 30,
                             z: 1, x: 1130, y: 245, color: '#888888')
     @floppy_icon = Image.new("img/ui/floppy.png", height: 30, width: 30,
-                            z: 1, x: 1165, y: 245, color: '#888888')
+                            z: 1, x: 1166, y: 245, color: '#888888')
     @sound_on_icon = Image.new("img/ui/sound_on.png", height: 30, width: 30,
                             z: 1, x: 1200, y: 245, color: '#888888')
     @sound_off_icon = Image.new("img/ui/sound_off.png", height: 30, width: 30,
@@ -350,12 +350,12 @@ class UI
           end
           hover_on('legal')
         end
-      elsif x > 1161 && x < 1196 # save / load
+      elsif x > 1163 && x < 1197 # save / load
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'save_load'
           hover_on('save_load') if @hover != 'save_load'
         end
-      elsif x > 1197 && x < 1237
+      elsif x > 1198 && x < 1237
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'sound'
           hover_on('sound') if @hover != 'sound'
