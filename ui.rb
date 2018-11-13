@@ -84,7 +84,9 @@ class UI
                             z: 1, x: 1057, y: 245, color: '#888888')
     @autoflip_on = Image.new("img/ui/autoflip_on.png", height: 30, width: 33,
                             z: -1, x: 1057, y: 245, color: '#888888')
-    @coords_icon = Image.new("img/ui/coords_icon.png", height: 30, width: 30,
+    @coords_off_icon = Image.new("img/ui/coords_off_icon.png", height: 30, width: 30,
+                            z: -1, x: 1095, y: 245, color: '#888888')
+    @coords_on_icon = Image.new("img/ui/coords_on_icon.png", height: 30, width: 30,
                             z: 1, x: 1095, y: 245, color: '#888888')
     @lgl_off_icon = Image.new("img/ui/legal_off.png", height: 30, width: 30,
                             z: 1, x: 1130, y: 245, color: '#888888')
@@ -381,10 +383,15 @@ class UI
 
   def hover_on(element)
     if element == 'coords'
-      @coords_icon.color = '#ffffff'
       if @coords_on == false
+        @coords_off_icon.color = '#ffffff'
+        @coords_off_icon.z = 1
+        @coords_on_icon.z = -1
         @tooltip1.z = 1
       else
+        @coords_on_icon.color = '#ffffff'
+        @coords_on_icon.z = 1
+        @coords_off_icon.z = -1
         @tooltip2.z = 1
       end
       @hover = 'coords'
@@ -438,10 +445,11 @@ class UI
 
   def hover_off
     if @hover == 'coords'
-      @coords_icon.color = '#888888'
       if @coords_on == false
+        @coords_off_icon.color = '#888888'
         @tooltip1.z = -1
       else
+        @coords_on_icon.color = '#888888'
         @tooltip2.z = -1
       end
     elsif @hover == 'flip'
