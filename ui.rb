@@ -10,6 +10,7 @@ class UI
     @flipped = false
     @autoflip = false
     @legal_sqs = true
+    @sound = true
     @claim = ''
     @ply = 0
     @checks = 0
@@ -78,6 +79,12 @@ class UI
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @tooltip10 = Text.new("      resign", x:1036, y: 348, z: -1, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip11 = Text.new(" save / load game", x:1036, y: 348, z: -1, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip12 = Text.new("     sound OFF", x:1032, y: 348, z: -1, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip13 = Text.new("     sound ON", x:1032, y: 348, z: -1, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @info_temp = []
     @flip_icon = Image.new("img/ui/flip_icon.png", height: 30, width: 33,
                             z: 1, x: 1020, y: 245, color: '#888888')
@@ -93,6 +100,12 @@ class UI
                             z: -1, x: 1130, y: 245, color: '#888888')
     @lgl_on_icon = Image.new("img/ui/legal_on.png", height: 30, width: 30,
                             z: 1, x: 1130, y: 245, color: '#888888')
+    @floppy_icon = Image.new("img/ui/floppy.png", height: 30, width: 30,
+                            z: 1, x: 1165, y: 245, color: '#888888')
+    @sound_on_icon = Image.new("img/ui/sound_on.png", height: 30, width: 30,
+                            z: 1, x: 1200, y: 245, color: '#888888')
+    @sound_off_icon = Image.new("img/ui/sound_off.png", height: 30, width: 30,
+                            z: -1, x: 1200, y: 245, color: '#888888')
     @claim_btn = Image.new("img/ui/claim_btn.png", height: 30, width: 195, z: -1,
                       x: 1030, y: 402, color: '#7c0000')
     @claim_txt1 = Text.new("claim draw", x:1076, y: 407, z: -1, size: 20,
@@ -108,7 +121,7 @@ class UI
     @new_icon = Image.new("img/ui/swords.png", height: 36, width: 36,
                             z: 2, x: 1062, y: 452, color: '#888888')
     @draw_icon = Image.new("img/ui/hand.png", height: 28, width: 36,
-                            z: 2, x: 1108, y: 458, color: '#888888')
+                            z: 2, x: 1108, y: 456, color: '#888888')
     @res_icon = Image.new("img/ui/flag.png", height: 36, width: 36,
                             z: 2, x: 1154, y: 452, color: '#888888')
   end
@@ -279,7 +292,7 @@ class UI
   end
 
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
-    if x > 1020 && x < 1162 && y > 245 && y < 275 # button icons
+    if x > 1020 && x < 1237 && y > 245 && y < 275 # button icons
       info_off if @hover == ''
 
       if x > 1020 && x < 1055 # flip button
@@ -327,7 +340,7 @@ class UI
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'legal'
           hover_on('legal') if @hover != 'legal'
-        else # event_type == 'click' (auto-flip board)
+        else # event_type == 'click' (toggle legal squares highlighting)
           if @legal_sqs == true
             hover_off
             @legal_sqs = false
@@ -337,9 +350,30 @@ class UI
           end
           hover_on('legal')
         end
+      elsif x > 1161 && x < 1196 # save / load
+        if event_type == 'hover'
+          hover_off if @hover != '' && @hover != 'save_load'
+          hover_on('save_load') if @hover != 'save_load'
+        end
+      elsif x > 1197 && x < 1237
+        if event_type == 'hover'
+          hover_off if @hover != '' && @hover != 'sound'
+          hover_on('sound') if @hover != 'sound'
+        else # event_type == 'click' (sound on / off)
+          if @sound == true
+            hover_off
+            @sound = false
+          else
+            hover_off
+            @sound = true
+          end
+          hover_on('sound')
+        end
+
+
       end
 
-    elsif x > 1060 && x < 1192 && y > 450 && y < 480 # new, draw, resign btns
+    elsif x > 1060 && x < 1192 && y > 450 && y < 488 # new, draw, resign btns
       info_off if @hover == ''
       if x > 1060 && x < 1102
         if event_type == 'hover'
@@ -426,6 +460,23 @@ class UI
         @lgl_off_icon.color = '#ffffff'
       end
       @hover = 'legal'
+    elsif element == 'save_load'
+      @tooltip11.z = 1
+      @floppy_icon.color = '#ffffff'
+      @hover = 'save_load'
+    elsif element == 'sound'
+      if @sound == true
+        @tooltip12.z = 1
+        @sound_on_icon.z = 1
+        @sound_off_icon.z = -1
+        @sound_on_icon.color = '#ffffff'
+      else
+        @tooltip13.z = 1
+        @sound_off_icon.z = 1
+        @sound_on_icon.z = -1
+        @sound_off_icon.color = '#ffffff'
+      end
+      @hover = 'sound'
     elsif element == 'new'
       @tooltip8.z = 1
       @new_icon.color = '#ffffff'
@@ -471,6 +522,17 @@ class UI
       else
         @lgl_off_icon.color = '#888888'
         @tooltip6.z = -1
+      end
+    elsif @hover == 'save_load'
+      @floppy_icon.color = '#888888'
+      @tooltip11.z = -1
+    elsif @hover == 'sound'
+      if @sound == true
+        @sound_on_icon.color = '#888888'
+        @tooltip12.z = -1
+      else
+        @sound_off_icon.color = '#888888'
+        @tooltip13.z = -1
       end
     elsif @hover == 'new'
       @new_icon.color = '#888888'
