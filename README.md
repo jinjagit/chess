@@ -7,7 +7,7 @@ The instructions, in a nutshell, are to build a "... command line chess game whe
 
 I chose not to produce a command line app, but instead went for a more graphical approach, using the ruby2D gem. While this gem is still a little rough around the edges (at only v 0.7), it is way more pleasant to look at than anything I could produce in a terminal, and enables a much more user-friendly interface (with a little more work). So far, I have been very impressed with the ease-of-use of this gem.
 
-### Current state (11/11/18):
+### Current state (12/11/18):
 
 Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling, pawn promotion and en-passant. Checkmate, stalemate, and draw due to insufficient material, are correctly detected (and the game halted when found).
 
@@ -16,7 +16,7 @@ Draw conditions due to 50-move-rule (no captures or pawn moves) or 3-fold repeti
 A move list (both native and PGN format) is created as a game progresses. The piece that moved is disambiguated in algebraic notation, when needed (e.g. 'Nbd7', rather than simply 'Nd7'). Check, checkmate, piece capture, win, draw, en-passant and pawn promotion are also correctly formatted (in algebraic notation) in the PGN record.
 
 ### UI features implemented:
-  * highlighting of legal moves, if any, (green squares) when a piece is lifted
+  * highlighting of legal move squares, if any, (green squares) when a piece is lifted
   * highlighting of king in check / checkmate (red square)
   * highlighting of last move (yellow squares: start-square & end-square)
   * pawn promotion menu: click-able choice of Q, R, N, or B.
@@ -26,6 +26,8 @@ A move list (both native and PGN format) is created as a game progresses. The pi
   * advice + 'claim draw' option  when 3-fold-repetition / 50-move-rule conditions satisfied
   * flip board (and related UI elements + promotion menu, if displayed)
   * auto-flip - board flips to side to move, after every move
+  * disable / enable coordinates
+  * disable / enable highlighting of legal move squares
   * button hover effects and tool-tips
 
 ### To do next:
