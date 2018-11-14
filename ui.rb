@@ -104,11 +104,11 @@ class UI
     @lgl_on_icon = Image.new("img/ui/legal_on.png", height: 30, width: 30,
                             z: 1, x: 1130, y: 245, color: '#888888')
     @floppy_icon = Image.new("img/ui/floppy.png", height: 30, width: 30,
-                            z: 1, x: 1166, y: 245, color: '#888888')
+                            z: 1, x: 1167, y: 245, color: '#888888')
     @sound_on_icon = Image.new("img/ui/sound_on.png", height: 30, width: 30,
-                            z: 1, x: 1200, y: 245, color: '#888888')
+                            z: 1, x: 1202, y: 245, color: '#888888')
     @sound_off_icon = Image.new("img/ui/sound_off.png", height: 30, width: 30,
-                            z: -1, x: 1200, y: 245, color: '#888888')
+                            z: -1, x: 1202, y: 245, color: '#888888')
     @claim_btn = Image.new("img/ui/claim_btn.png", height: 30, width: 195, z: -1,
                       x: 1030, y: 402, color: '#7c0000')
     @claim_txt1 = Text.new("claim draw", x:1076, y: 407, z: -1, size: 20,
@@ -329,7 +329,7 @@ class UI
   end
 
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
-    if x > 1020 && x < 1237 && y > 245 && y < 275 # button icons
+    if x > 1020 && x < 1240 && y > 245 && y < 275 # button icons
       info_off if @hover == ''
 
       if x > 1020 && x < 1055 # flip button
@@ -387,12 +387,12 @@ class UI
           end
           hover_on('legal')
         end
-      elsif x > 1163 && x < 1197 # save / load
+      elsif x > 1163 && x < 1198 # save / load
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'save_load'
           hover_on('save_load') if @hover != 'save_load'
         end
-      elsif x > 1198 && x < 1237
+      elsif x > 1199 && x < 1240
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'sound'
           hover_on('sound') if @hover != 'sound'
