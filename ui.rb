@@ -544,8 +544,6 @@ class UI
           game.pgn = game.pgn + ' 1-0'
           game.moves << ['', nil, nil, '1-0']
         end
-        puts game.pgn
-        p game.moves
         info_off
         @game_over = 'resignation'
         @resign = false

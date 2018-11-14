@@ -399,7 +399,7 @@ class Game
 
     puts
     puts @pgn # debug (and later, for display)
-    p @moves
+    # p @moves
 
     # puts "#{@game_over}"
     # @claim = "3-fold repetition!" # dev of draw claims only
