@@ -7,11 +7,11 @@ The instructions, in a nutshell, are to build a "... command line chess game whe
 
 I chose not to produce a command line app, but instead went for a more graphical approach, using the ruby2D gem. While this gem is still a little rough around the edges (at only v 0.7), it is way more pleasant to look at than anything I could produce in a terminal, and enables a much more user-friendly interface (with a little more work). So far, I have been very impressed with the ease-of-use of this gem.
 
-### Current state (13/11/18):
+### Current state (14/11/18):
 
 Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling, pawn promotion and en-passant. Checkmate, stalemate, and draw due to insufficient material, are correctly detected (and the game halted when found).
 
-Draw conditions due to 50-move-rule (no captures or pawn moves) or 3-fold repetition of position are detected and an option to claim the draw is presented. A draw can also be agreed manually, or declined by playing a move after a draw offer is made.
+Draw conditions due to 50-move-rule (no captures or pawn moves) or 3-fold repetition of position are detected and an option to claim the draw is presented. A draw can also be agreed manually, or declined by playing a move after a draw offer is made. The side to move can choose to resign.
 
 A move list (both native and PGN format) is created as a game progresses. The piece that moved is disambiguated in algebraic notation, when needed (e.g. 'Nbd7', rather than simply 'Nd7'). Check, checkmate, piece capture, win, draw, en-passant and pawn promotion are also correctly formatted (in algebraic notation) in the PGN record.
 
@@ -24,7 +24,8 @@ A move list (both native and PGN format) is created as a game progresses. The pi
   * total pieces value (and difference) for each side - updates when piece taken / pawn promoted
   * information box: 'game in progress'; checkmate, stalemate and draw advice, etc.
   * advice + 'claim draw' option  when 3-fold-repetition / 50-move-rule conditions satisfied
-  * draw by agreement - click to 'agree' or play on to decline.
+  * draw by agreement - click to 'agree' or play on to decline
+  * resign option - click to confirm or play on to decline
   * flip board (and related UI elements + promotion menu, if displayed)
   * auto-flip - board flips to side to move, after every move
   * disable / enable coordinates
