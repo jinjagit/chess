@@ -19,6 +19,7 @@ class Game
   attr_accessor :w_material
   attr_accessor :b_material
   attr_accessor :claim
+  attr_accessor :pgn
 
   def initialize(game_pieces)
     @ply = 0
@@ -398,7 +399,7 @@ class Game
 
     puts
     puts @pgn # debug (and later, for display)
-    # p @moves
+    p @moves
 
     # puts "#{@game_over}"
     # @claim = "3-fold repetition!" # dev of draw claims only
