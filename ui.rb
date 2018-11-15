@@ -307,6 +307,7 @@ class UI
       @b_material_text = Text.new("#{@b_material} (#{@b_diff})", x:1160, y: 71,
       font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
     end
+    flip_if_needed(posn, board, game) if @autoflip == true
     if @draw_offer == true
       info_off
       @draw_offer = false
@@ -315,8 +316,7 @@ class UI
       info_off
       @resign = false
       info_on
-    end
-    if game.claim != ''
+    elsif game.claim != ''
       info_off
       @claim = game.claim
       info_on
@@ -324,9 +324,7 @@ class UI
       info_off
       @claim = ''
       info_on
-    end
-    flip_if_needed(posn, board, game) if @autoflip == true
-    if game.game_over != ''
+    elsif game.game_over != ''
       info_off
       @game_over = game.game_over
       info_on
@@ -716,7 +714,7 @@ class UI
     end
   end
 
-  def update_info
+  def refresh_info
     info_off
     info_on
   end
