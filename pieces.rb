@@ -20,6 +20,14 @@ class Piece
     @pinned = {}
   end
 
+  def reset
+    @legal_moves = []
+    @moved = false
+    @checks = 0
+    @check_blocks = []
+    @pinned = {}
+  end
+
   def set_posn(x, y)
     @icon.x = x + 5
     @icon.y = y + 5

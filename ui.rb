@@ -3,6 +3,7 @@ class UI
   attr_accessor :flipped
   attr_accessor :legal_sqs
   attr_accessor :menu
+  attr_accessor :new_game
 
   def initialize
     @hover = ''
@@ -15,6 +16,7 @@ class UI
     @draw_offer = false
     @resign = false
     @menu = false
+    @new_game = false
     @claim = ''
     @ply = 0
     @checks = 0
@@ -195,7 +197,12 @@ class UI
         hover_off if @hover != '' && @hover != 'hmn_v_hmn'
         hover_on('hmn_v_hmn') if @hover != 'hmn_v_hmn'
       else
-
+        @new_game = true
+        @menu = false
+        hide_menu1
+        hover_off
+        @hover = ''
+        info_on
       end
     elsif @hover != '' # not in button icons nor claim button area
       hover_off

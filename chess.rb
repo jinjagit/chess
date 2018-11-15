@@ -25,6 +25,23 @@ def print_game_pieces(game_pieces)
 end
 # ------------------------------------------------------------------
 
+def new_game
+  ui = UI.new
+  board = Board.new
+  game = Game.new(board.game_pieces)
+  ui.place_defaults
+  posn = board.posn
+
+  piece_lift = false
+  posn_pc = ""
+  start_square = nil
+  piece = nil
+  legal_list = []
+  promote = []
+
+  return ui, board, game, posn, piece_lift, posn_pc, start_square, piece, legal_list, promote
+end
+
 set title: "Chess - by Simon Tharby"
 set width: 1280
 set height: 720
@@ -32,23 +49,22 @@ set resizable: true
 
 canvas = Rectangle.new(x: 0, y: 0, width: 1280, height: 720, color: '#000000', z: 0)
 
-ui = UI.new
-board = Board.new
-game = Game.new(board.game_pieces)
-ui.place_defaults
-posn = board.posn
-moves = []
-
-piece_lift = false
-posn_pc = ""
-start_square = nil
-piece = nil
-legal_list = []
-promote = []
+ui, board, game, posn, piece_lift, posn_pc, start_square, piece, legal_list, promote = new_game
 
 on :mouse_down do |event|
   if ui.menu == true
     ui.menu_event(event.x, event.y, 'click')
+    if ui.new_game == true
+      ui.new_game = false
+      board.clear_pieces
+      board.hide_start_end
+      board.game_pieces.each {|e| e.reset}
+      posn = Position.get_posn('start')
+      board.posn = posn
+      board.set_up_posn(first_run = false)
+      game_pieces = board.game_pieces
+      game.reinitialize(game_pieces)
+    end
   else
     location = board.mouse_square(event.x, event.y)
     if location != "off_board" && game.game_over == '' && promote == []
@@ -62,6 +78,7 @@ on :mouse_down do |event|
           piece_lift = true
           board.show_home_piece(posn_pc, location)
           start_square = location
+          moves = game.moves
           if posn_pc[1] == 'k'
             piece.find_moves(game_pieces, posn, moves)
           else

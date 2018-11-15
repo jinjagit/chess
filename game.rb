@@ -403,4 +403,23 @@ class Game
 
     return end_square, @moves, posn
   end
+
+  def reinitialize(game_pieces)
+    @ply = 0
+    @to_move = 'white'
+    @moves = [] # [['piece', start_square, end_square, 'x,+,#,O-O, etc.']]
+    @pgn = ''
+    @checks = 0
+    @check_blocks = []
+    @pinned = {}
+    @game_over = ''
+    @game_pieces = game_pieces
+    @checksums = []
+    @checksum_dbls = {}
+    @threefold = []
+    @w_material = 39
+    @b_material = 39
+    @flipped = false
+    @claim = ''
+  end
 end
