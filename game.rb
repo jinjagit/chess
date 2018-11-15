@@ -1,7 +1,4 @@
-require 'ruby2d'
 require 'digest'
-require './board'
-require './pieces'
 
 class Game
   attr_accessor :ply
