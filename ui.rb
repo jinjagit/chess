@@ -228,71 +228,6 @@ class UI
     place_defaults
   end
 
-  def show_claim
-    @claim_btn.z = 3
-    @claim_txt1.z = 4
-    if @claim == "3-fold repetition!"
-      @g_o_txt9.x, @g_o_txt9.y, @g_o_txt9.z = 1041, 307, 1
-      @g_o_txt10.x, @g_o_txt10.y, @g_o_txt10.z = 1036, 334, 1
-      @claim_txt2.z = 1
-    elsif @claim == "50-move rule!"
-      @claim_txt3.z = 1
-      @claim_txt4.z = 1
-      @claim_txt5.z = 1
-    end
-  end
-
-  def hide_claim
-    @claim_btn.z = -1
-    @claim_txt1.z = -1
-    if @claim == "3-fold repetition!"
-      @g_o_txt9.z, @g_o_txt10.z, @claim_txt2.z = -1, -1, -1
-    elsif @claim == "50-move rule!"
-      @claim_txt3.z = -1
-      @claim_txt4.z = -1
-      @claim_txt5.z = -1
-    end
-  end
-
-  def show_offer
-    @draw_txt1.z = 1
-    @play_on_txt.x, @play_on_txt.y, @play_on_txt.z = 1042, 340, 1
-    @draw_txt2.z = 1
-    @draw_txt3.z = 3
-    @claim_btn.z = 1
-  end
-
-  def hide_offer
-    @draw_txt1.z = -1
-    @play_on_txt.z = -1
-    @draw_txt2.z = -1
-    @draw_txt3.z = -1
-    @claim_btn.z = -1
-  end
-
-  def show_resign
-    if @ply % 2 == 0
-      @res_txt1.z = 1
-    else
-      @res_txt2.z = 1
-    end
-    @res_txt3.z = 1
-    @play_on_txt.x, @play_on_txt.y, @play_on_txt.z = 1042, 350, 1
-    @res_txt4.z = 1
-    @res_txt5.z = 3
-    @claim_btn.z = 1
-  end
-
-  def hide_resign
-    @res_txt1.z = -1
-    @res_txt2.z = -1
-    @res_txt3.z = -1
-    @play_on_txt.z = -1
-    @res_txt4.z = -1
-    @res_txt5.z = -1
-    @claim_btn.z = -1
-  end
-
   def move_update(posn, board, game)
     @ply = game.ply
     @checks = game.checks
@@ -328,49 +263,6 @@ class UI
       info_off
       @game_over = game.game_over
       info_on
-    end
-  end
-
-  def game_over
-    @to_move_ind.z = -1
-    if @game_over == 'checkmate!'
-      if @ply % 2 == 0
-        @g_o_txt2b.x, @g_o_txt2b.y, @g_o_txt2b.z = 1036, 358, 2
-      else
-        @g_o_txt2a.x, @g_o_txt2a.y, @g_o_txt2a.z = 1036, 358, 2
-      end
-      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
-      @g_o_txt3.x, @g_o_txt3.y, @g_o_txt3.z = 1036, 387, 2
-    elsif @game_over == 'stalemate!'
-      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
-      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1042, 358, 2
-      @g_o_txt5.z = 2
-    elsif @game_over == 'insufficient!'
-      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 294, 2
-      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1041, 348, 2
-      @g_o_txt6.z = 2
-      @g_o_txt7.z = 2
-    elsif @game_over == '50-move rule!'
-      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
-      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1042, 358, 2
-      @g_o_txt8.z = 2
-    elsif @game_over == '3-fold repetition!'
-      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 294, 2
-      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1041, 348, 2
-      @g_o_txt9.x, @g_o_txt9.y, @g_o_txt9.z = 1041, 375, 2
-      @g_o_txt10.x, @g_o_txt10.y, @g_o_txt10.z = 1036, 402, 2
-    elsif @game_over == 'draw_agreed'
-      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
-      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1042, 358, 2
-      @g_o_txt11.z = 2
-    elsif @game_over == 'resignation'
-      if @ply % 2 == 0
-        @g_o_txt2b.x, @g_o_txt2b.y, @g_o_txt2b.z = 1036, 358, 2
-      else
-        @g_o_txt2a.x, @g_o_txt2a.y, @g_o_txt2a.z = 1036, 358, 2
-      end
-      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
-      @g_o_txt12.z = 2
     end
   end
 
@@ -719,6 +611,49 @@ class UI
     info_on
   end
 
+  def game_over
+    @to_move_ind.z = -1
+    if @game_over == 'checkmate!'
+      if @ply % 2 == 0
+        @g_o_txt2b.x, @g_o_txt2b.y, @g_o_txt2b.z = 1036, 358, 2
+      else
+        @g_o_txt2a.x, @g_o_txt2a.y, @g_o_txt2a.z = 1036, 358, 2
+      end
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
+      @g_o_txt3.x, @g_o_txt3.y, @g_o_txt3.z = 1036, 387, 2
+    elsif @game_over == 'stalemate!'
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
+      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1042, 358, 2
+      @g_o_txt5.z = 2
+    elsif @game_over == 'insufficient!'
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 294, 2
+      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1041, 348, 2
+      @g_o_txt6.z = 2
+      @g_o_txt7.z = 2
+    elsif @game_over == '50-move rule!'
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
+      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1042, 358, 2
+      @g_o_txt8.z = 2
+    elsif @game_over == '3-fold repetition!'
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 294, 2
+      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1041, 348, 2
+      @g_o_txt9.x, @g_o_txt9.y, @g_o_txt9.z = 1041, 375, 2
+      @g_o_txt10.x, @g_o_txt10.y, @g_o_txt10.z = 1036, 402, 2
+    elsif @game_over == 'draw_agreed'
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
+      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1042, 358, 2
+      @g_o_txt11.z = 2
+    elsif @game_over == 'resignation'
+      if @ply % 2 == 0
+        @g_o_txt2b.x, @g_o_txt2b.y, @g_o_txt2b.z = 1036, 358, 2
+      else
+        @g_o_txt2a.x, @g_o_txt2a.y, @g_o_txt2a.z = 1036, 358, 2
+      end
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
+      @g_o_txt12.z = 2
+    end
+  end
+
   def hide_game_over
     @g_o_txt1.z = -1
     @g_o_txt2a.z = -1
@@ -732,6 +667,71 @@ class UI
     @g_o_txt9.z = -1
     @g_o_txt10.z = -1
     @g_o_txt11.z = -1
+  end
+
+  def show_claim
+    @claim_btn.z = 3
+    @claim_txt1.z = 4
+    if @claim == "3-fold repetition!"
+      @g_o_txt9.x, @g_o_txt9.y, @g_o_txt9.z = 1041, 307, 1
+      @g_o_txt10.x, @g_o_txt10.y, @g_o_txt10.z = 1036, 334, 1
+      @claim_txt2.z = 1
+    elsif @claim == "50-move rule!"
+      @claim_txt3.z = 1
+      @claim_txt4.z = 1
+      @claim_txt5.z = 1
+    end
+  end
+
+  def hide_claim
+    @claim_btn.z = -1
+    @claim_txt1.z = -1
+    if @claim == "3-fold repetition!"
+      @g_o_txt9.z, @g_o_txt10.z, @claim_txt2.z = -1, -1, -1
+    elsif @claim == "50-move rule!"
+      @claim_txt3.z = -1
+      @claim_txt4.z = -1
+      @claim_txt5.z = -1
+    end
+  end
+
+  def show_offer
+    @draw_txt1.z = 1
+    @play_on_txt.x, @play_on_txt.y, @play_on_txt.z = 1042, 340, 1
+    @draw_txt2.z = 1
+    @draw_txt3.z = 3
+    @claim_btn.z = 1
+  end
+
+  def hide_offer
+    @draw_txt1.z = -1
+    @play_on_txt.z = -1
+    @draw_txt2.z = -1
+    @draw_txt3.z = -1
+    @claim_btn.z = -1
+  end
+
+  def show_resign
+    if @ply % 2 == 0
+      @res_txt1.z = 1
+    else
+      @res_txt2.z = 1
+    end
+    @res_txt3.z = 1
+    @play_on_txt.x, @play_on_txt.y, @play_on_txt.z = 1042, 350, 1
+    @res_txt4.z = 1
+    @res_txt5.z = 3
+    @claim_btn.z = 1
+  end
+
+  def hide_resign
+    @res_txt1.z = -1
+    @res_txt2.z = -1
+    @res_txt3.z = -1
+    @play_on_txt.z = -1
+    @res_txt4.z = -1
+    @res_txt5.z = -1
+    @claim_btn.z = -1
   end
 
 end
