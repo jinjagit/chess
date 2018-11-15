@@ -2,6 +2,7 @@ class UI
   attr_accessor :coords
   attr_accessor :flipped
   attr_accessor :legal_sqs
+  attr_accessor :menu
 
   def initialize
     @hover = ''
@@ -13,6 +14,7 @@ class UI
     @sound = true
     @draw_offer = false
     @resign = false
+    @menu = false
     @claim = ''
     @ply = 0
     @checks = 0
@@ -112,7 +114,7 @@ class UI
                             z: 1, x: 1202, y: 245, color: '#888888')
     @sound_off_icon = Image.new("img/ui/sound_off.png", height: 30, width: 30,
                             z: -1, x: 1202, y: 245, color: '#888888')
-    @claim_btn = Image.new("img/ui/claim_btn.png", height: 30, width: 195, z: -1,
+    @claim_btn = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
                       x: 1030, y: 402, color: '#7c0000')
     @claim_txt1 = Text.new("claim draw", x:1076, y: 407, z: -1, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
@@ -148,6 +150,67 @@ class UI
                             z: 2, x: 1108, y: 456, color: '#888888')
     @res_icon = Image.new("img/ui/flag.png", height: 36, width: 36,
                             z: 2, x: 1154, y: 452, color: '#888888')
+    @screen = Rectangle.new(x: 0, y: 0, z: -1, width: 1280, height: 720,
+                            color: [0.5, 0.5, 0.5, 0.5])
+    @menu1 = Image.new("img/ui/menu1.png", height: 480, width: 480,
+                        z: -1, x: 400, y: 120)
+    @menu1_txt1 = Text.new("New Game", x:600, y: 150, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @menu_btn1 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
+                      x: 540, y: 200, color: '#888888')
+    @menu_btn2 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
+                      x: 540, y: 260, color: '#888888')
+    @menu_btn3 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
+                      x: 540, y: 320, color: '#888888')
+    @menu_btn4 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
+                      x: 540, y: 400, color: '#888888')
+    @menu_btn5 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
+                      x: 540, y: 540, color: '#7c0000')
+    @btn1_txt = Text.new("cancel", x:610, y: 545, z: -1, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+
+  end
+
+  def menu_event(x, y, event_type)
+    if x > 539 && x < 736 && y > 539 && y < 571
+      if event_type == 'hover'
+        hover_off if @hover != '' && @hover != 'cancel'
+        hover_on('cancel') if @hover != 'cancel'
+        @menu_btn5.color = '#ff0000'
+      else
+        @menu = false
+        hide_menu1
+        hover_off
+        @hover = ''
+      end
+    elsif @hover != '' # not in button icons nor claim button area
+      hover_off
+      @hover = ''
+    end
+  end
+
+  def show_menu1
+    @screen.z = 5
+    @menu1.z = 6
+    @menu1_txt1.z = 7
+    @menu_btn1.z = 7
+    @menu_btn2.z = 7
+    @menu_btn3.z = 7
+    @menu_btn4.z = 7
+    @menu_btn5.z = 7
+    @btn1_txt.z = 8
+  end
+
+  def hide_menu1
+    @screen.z = -1
+    @menu1.z = -1
+    @menu1_txt1.z = -1
+    @menu_btn1.z = -1
+    @menu_btn2.z = -1
+    @menu_btn3.z = -1
+    @menu_btn4.z = -1
+    @menu_btn5.z = -1
+    @btn1_txt.z = -1
   end
 
   def place_defaults
@@ -352,6 +415,10 @@ class UI
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'new'
           hover_on('new') if @hover != 'new'
+        else
+          @menu = true
+          hover_off
+          show_menu1
         end
 
       elsif x >= 1102 && x < 1152 # draw offer button
@@ -367,8 +434,7 @@ class UI
           end
         elsif @draw_offer == true && event_type == 'hover'
           hover_off
-          info_off
-          info_on
+          refresh_info
           @hover = ''
         elsif @draw_offer == false && @claim == '' && @game_over == '' && @resign == false
           hover_off
@@ -393,8 +459,7 @@ class UI
           end
         elsif @resign == true && event_type == 'hover'
           hover_off
-          info_off
-          info_on
+          refresh_info
           @hover = ''
         elsif @resign == false && @claim == '' && @game_over == ''
           hover_off
@@ -522,6 +587,9 @@ class UI
     elsif element == 'claim'
       @claim_btn.color = '#ff0000'
       @hover = 'claim'
+    elsif element == 'cancel'
+      @menu_btn5.color = '#ff0000'
+      @hover = 'cancel'
     end
   end
 
@@ -575,6 +643,8 @@ class UI
       @tooltip10.z = -1
     elsif @hover == 'claim'
       @claim_btn.color = '#7c0000'
+    elsif @hover == 'cancel'
+      @menu_btn5.color = '#7c0000'
     end
   end
 

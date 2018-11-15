@@ -30,12 +30,7 @@ set width: 1280
 set height: 720
 set resizable: true
 
-canvas = Rectangle.new(
-  x: 0, y: 0,
-  width: 1280,
-  height: 720,
-  color: '#000000', # true black
-  z: 0)
+canvas = Rectangle.new(x: 0, y: 0, width: 1280, height: 720, color: '#000000', z: 0)
 
 ui = UI.new
 board = Board.new
@@ -52,55 +47,63 @@ legal_list = []
 promote = []
 
 on :mouse_down do |event|
-  location = board.mouse_square(event.x, event.y)
-  if location != "off_board" && game.game_over == '' && promote == []
-    location = 63 - location if board.flipped == true
-    #startTime = Time.now # debug: monitor responsiveness
-    posn_pc = posn[location]
-    if posn_pc != "---"
-      game_pieces = board.game_pieces
-      piece = game_pieces.detect {|e| e.name == posn_pc}
-      if game.to_move == piece.color
-        piece_lift = true
-        board.show_home_piece(posn_pc, location)
-        start_square = location
-        if posn_pc[1] == 'k'
-          piece.find_moves(game_pieces, posn, moves)
-        else
-          piece.find_moves(posn, moves)
+  if ui.menu == true
+    ui.menu_event(event.x, event.y, 'click')
+  else
+    location = board.mouse_square(event.x, event.y)
+    if location != "off_board" && game.game_over == '' && promote == []
+      location = 63 - location if board.flipped == true
+      #startTime = Time.now # debug: monitor responsiveness
+      posn_pc = posn[location]
+      if posn_pc != "---"
+        game_pieces = board.game_pieces
+        piece = game_pieces.detect {|e| e.name == posn_pc}
+        if game.to_move == piece.color
+          piece_lift = true
+          board.show_home_piece(posn_pc, location)
+          start_square = location
+          if posn_pc[1] == 'k'
+            piece.find_moves(game_pieces, posn, moves)
+          else
+            piece.find_moves(posn, moves)
+          end
+          legal_list = piece.legal_moves
+          board.highlight_squares(legal_list) if ui.legal_sqs == true
         end
-        legal_list = piece.legal_moves
-        board.highlight_squares(legal_list) if ui.legal_sqs == true
       end
+      #puts "time to find legal squares: #{(duration = Time.now - startTime).to_s} s"
+      #puts
+    elsif promote != [] && board.promote.include?(location)
+      piece.icon.z = -1
+      new_piece, details, location = board.select_promo_pc(location, posn, start_square)
+      game.game_pieces = board.game_pieces
+      end_sq, moves, posn = game.move(posn, new_piece, start_square, location, details)
+      ui.move_update(posn, board, game)
+      end_sq = 63 - end_sq if board.flipped == true
+      new_piece.move_to_square(end_sq)
+      new_piece.icon.z = 3
+      promote = []
+    elsif location == "off_board"
+      ui.event(event.x, event.y, 'click', posn, board, game)
     end
-    #puts "time to find legal squares: #{(duration = Time.now - startTime).to_s} s"
-    #puts
-  elsif promote != [] && board.promote.include?(location)
-    piece.icon.z = -1
-    new_piece, details, location = board.select_promo_pc(location, posn, start_square)
-    game.game_pieces = board.game_pieces
-    end_sq, moves, posn = game.move(posn, new_piece, start_square, location, details)
-    ui.move_update(posn, board, game)
-    end_sq = 63 - end_sq if board.flipped == true
-    new_piece.move_to_square(end_sq)
-    new_piece.icon.z = 3
-    promote = []
-  elsif location == "off_board"
-    ui.event(event.x, event.y, 'click', posn, board, game)
   end
 end
 
 on :mouse_move do |event|
-  location = board.mouse_square(event.x, event.y)
-  if piece_lift == true && promote == []
-    location = 63 - location if board.flipped == true && location != "off_board"
-    board.home_square.image.z = 4
-    piece.set_posn(event.x - 40, event.y - 40)
-    piece.icon.z = 10
-  elsif promote != [] && board.promote.include?(location)
-    board.promo_hover(location)
-  elsif location == "off_board"
-    ui.event(event.x, event.y, 'hover')
+  if ui.menu == true
+    ui.menu_event(event.x, event.y, 'hover')
+  else
+    location = board.mouse_square(event.x, event.y)
+    if piece_lift == true && promote == []
+      location = 63 - location if board.flipped == true && location != "off_board"
+      board.home_square.image.z = 4
+      piece.set_posn(event.x - 40, event.y - 40)
+      piece.icon.z = 10
+    elsif promote != [] && board.promote.include?(location)
+      board.promo_hover(location)
+    elsif location == "off_board"
+      ui.event(event.x, event.y, 'hover')
+    end
   end
 end
 
