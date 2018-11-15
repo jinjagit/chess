@@ -35,6 +35,9 @@ A move list (both native and PGN format) is created as a game progresses. The pi
 ### To do next:
   * basic ui elements (in progress)
   * add move list to ui (with step fwd/bckwd review function(s))
+  * add sound effects
+  * load / save game
+  * engine (very simple, probably with poor play) v human
 
 Note: At the moment, to run this (after downloading this repository), you'll need Ruby installed. Then, open a terminal, navigate to the root folder of the downloaded repository, and enter; <code>ruby chess.rb</code>
 
