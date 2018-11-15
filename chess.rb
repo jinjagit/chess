@@ -25,23 +25,6 @@ def print_game_pieces(game_pieces)
 end
 # ------------------------------------------------------------------
 
-def new_game
-  ui = UI.new
-  board = Board.new
-  game = Game.new(board.game_pieces)
-  ui.place_defaults
-  posn = board.posn
-
-  piece_lift = false
-  posn_pc = ""
-  start_square = nil
-  piece = nil
-  legal_list = []
-  promote = []
-
-  return ui, board, game, posn, piece_lift, posn_pc, start_square, piece, legal_list, promote
-end
-
 set title: "Chess - by Simon Tharby"
 set width: 1280
 set height: 720
@@ -49,7 +32,18 @@ set resizable: true
 
 canvas = Rectangle.new(x: 0, y: 0, width: 1280, height: 720, color: '#000000', z: 0)
 
-ui, board, game, posn, piece_lift, posn_pc, start_square, piece, legal_list, promote = new_game
+ui = UI.new
+board = Board.new
+game = Game.new(board.game_pieces)
+ui.place_defaults
+posn = board.posn
+
+piece_lift = false
+posn_pc = ""
+start_square = nil
+piece = nil
+legal_list = []
+promote = []
 
 on :mouse_down do |event|
   if ui.menu == true
