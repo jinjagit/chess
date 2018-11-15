@@ -157,17 +157,25 @@ class UI
     @menu1_txt1 = Text.new("New Game", x:600, y: 150, z: -1, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @menu_btn1 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
-                      x: 540, y: 200, color: '#888888')
+                      x: 540, y: 200, color: '#006991') # #018dc1
     @menu_btn2 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
-                      x: 540, y: 260, color: '#888888')
+                      x: 540, y: 260, color: '#0058b7') # #007bff
     @menu_btn3 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
-                      x: 540, y: 320, color: '#888888')
+                      x: 540, y: 320, color: '#4000b7') # #5500f4
     @menu_btn4 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
-                      x: 540, y: 400, color: '#888888')
+                      x: 540, y: 400, color: '#444444')
     @menu_btn5 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
                       x: 540, y: 540, color: '#7c0000')
-    @btn1_txt = Text.new("cancel", x:610, y: 545, z: -1, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @btn1_txt = Text.new("human v human", x:574, y: 205, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @btn2_txt = Text.new("human v engine", x:574, y: 265, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @btn3_txt = Text.new("engine v engine", x:566, y: 325, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @btn4_txt = Text.new("engine settings", x:566, y: 405, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @btn5_txt = Text.new("cancel", x:610, y: 545, z: -1, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
 
   end
 
@@ -176,12 +184,18 @@ class UI
       if event_type == 'hover'
         hover_off if @hover != '' && @hover != 'cancel'
         hover_on('cancel') if @hover != 'cancel'
-        @menu_btn5.color = '#ff0000'
       else
         @menu = false
         hide_menu1
         hover_off
         @hover = ''
+      end
+    elsif x > 539 && x < 736 && y > 199 && y < 231
+      if event_type == 'hover'
+        hover_off if @hover != '' && @hover != 'hmn_v_hmn'
+        hover_on('hmn_v_hmn') if @hover != 'hmn_v_hmn'
+      else
+
       end
     elsif @hover != '' # not in button icons nor claim button area
       hover_off
@@ -199,6 +213,10 @@ class UI
     @menu_btn4.z = 7
     @menu_btn5.z = 7
     @btn1_txt.z = 8
+    @btn2_txt.z = 8
+    @btn3_txt.z = 8
+    @btn4_txt.z = 8
+    @btn5_txt.z = 8
   end
 
   def hide_menu1
@@ -211,6 +229,10 @@ class UI
     @menu_btn4.z = -1
     @menu_btn5.z = -1
     @btn1_txt.z = -1
+    @btn2_txt.z = -1
+    @btn3_txt.z = -1
+    @btn4_txt.z = -1
+    @btn5_txt.z = -1
   end
 
   def place_defaults
@@ -590,6 +612,9 @@ class UI
     elsif element == 'cancel'
       @menu_btn5.color = '#ff0000'
       @hover = 'cancel'
+    elsif element == 'hmn_v_hmn'
+      @menu_btn1.color = '#018dc1'
+      @hover = 'hmn_v_hmn'
     end
   end
 
@@ -645,6 +670,8 @@ class UI
       @claim_btn.color = '#7c0000'
     elsif @hover == 'cancel'
       @menu_btn5.color = '#7c0000'
+    elsif @hover == 'hmn_v_hmn'
+      @menu_btn1.color = '#006991'
     end
   end
 
