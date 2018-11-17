@@ -180,6 +180,14 @@ class UI
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @move_box = Image.new("img/ui/move_box.png", height: 640, width: 210, z: 1,
                             x: 48, y: 40)
+    @start = Image.new("img/ui/start.png", height: 33, width: 43, z: 2,
+                            x: 60, y: 638, color: '#888888')
+    @back = Image.new("img/ui/back.png", height: 33, width: 31, z: 2,
+                            x: 118, y: 638, color: '#888888')
+    @fwd = Image.new("img/ui/fwd.png", height: 33, width: 31, z: 2,
+                            x: 154, y: 638, color: '#888888')
+    @end = Image.new("img/ui/end.png", height: 33, width: 43, z: 2,
+                            x: 203, y: 638, color: '#888888')
     @test = Text.new("100. Nb2xa4+ Nc3xa4#", x:52, y: 48, z: 2, size: 20,
                       font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @test2 = Text.new("10. Nb2xa4+ Nc3xa4#", x:62, y: 68, z: 2, size: 20,
