@@ -519,12 +519,14 @@ class UI
         game.game_over = @claim
         info_off
         @game_over = @claim
+        add_draw_to_moves(game)
         @claim = ''
         info_on
       elsif @draw_offer == true
         game.game_over = 'draw_agreed'
         info_off
         @game_over = 'draw_agreed'
+        add_draw_to_moves(game)
         @draw_offer = false
         info_on
       elsif @resign == true
@@ -536,6 +538,7 @@ class UI
           game.pgn = game.pgn + ' 1-0'
           game.moves << ['', nil, nil, '1-0']
         end
+        puts game.pgn
         info_off
         @game_over = 'resignation'
         @resign = false
@@ -546,6 +549,12 @@ class UI
       info_on
       @hover = ''
     end
+  end
+
+  def add_draw_to_moves(game)
+    game.pgn = game.pgn + ' 1/2-1/2'
+    game.moves << ['', nil, nil, '1/2-1/2']
+    puts game.pgn
   end
 
   def hover_on(element)
