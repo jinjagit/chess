@@ -17,12 +17,14 @@ class Game
   attr_accessor :b_material
   attr_accessor :claim
   attr_accessor :pgn
+  attr_accessor :pgn_list
 
   def initialize(game_pieces)
     @ply = 0
     @to_move = 'white'
     @moves = [] # [['piece', start_square, end_square, 'x,+,#,O-O, etc.']]
     @pgn = ''
+    @pgn_list = []
     @checks = 0
     @check_blocks = []
     @pinned = {}
@@ -63,6 +65,8 @@ class Game
 
   def pgn_move(posn, piece, start_square, end_square, details = '')
     promote = ''
+    suffix = ''
+    result = ''
     name = piece.name
     if details.include?('=')
       if details.include?('x')
@@ -77,10 +81,11 @@ class Game
       suffix = details[-1]
       details = details[0..-2]
     elsif details.include?('#')
-      suffix = '# ' + details[-3..-1]
+      suffix = '#'
+      result = ' ' + details[-3..-1]
       details = details[0..-5]
     elsif details.include?('1/2-1/2')
-      suffix = ' 1/2-1/2'
+      result = ' 1/2-1/2'
       details = details[0..-8]
     end
     if @to_move == 'black'
@@ -119,7 +124,7 @@ class Game
     sq = pgn_square(end_square)
     sq = '' if details.include? 'O'
     pc = details if details.include? 'O'
-    @pgn = @pgn + "#{n}#{pc}#{sq}#{promote}#{suffix} "
+    @pgn = @pgn + "#{n}#{pc}#{sq}#{promote}#{suffix}#{result} "
   end
 
   def move(posn, piece, start_square, end_square, details = '')

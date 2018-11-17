@@ -159,15 +159,15 @@ class UI
     @menu1_txt1 = Text.new("New Game", x:600, y: 150, z: -1, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @menu_btn1 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
-                      x: 540, y: 200, color: '#006991') # #018dc1
+                            x: 540, y: 200, color: '#006991') # #018dc1
     @menu_btn2 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
-                      x: 540, y: 260, color: '#0058b7') # #007bff
+                            x: 540, y: 260, color: '#0058b7') # #007bff
     @menu_btn3 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
-                      x: 540, y: 320, color: '#4000b7') # #5500f4
+                            x: 540, y: 320, color: '#4000b7') # #5500f4
     @menu_btn4 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
-                      x: 540, y: 400, color: '#444444')
+                            x: 540, y: 400, color: '#444444')
     @menu_btn5 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
-                      x: 540, y: 540, color: '#7c0000')
+                            x: 540, y: 540, color: '#7c0000')
     @btn1_txt = Text.new("human v human", x:574, y: 205, z: -1, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn2_txt = Text.new("human v engine", x:574, y: 265, z: -1, size: 20,
@@ -178,6 +178,14 @@ class UI
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn5_txt = Text.new("cancel", x:610, y: 545, z: -1, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @move_box = Image.new("img/ui/move_box.png", height: 640, width: 210, z: 1,
+                            x: 48, y: 40)
+    @test = Text.new("100. Nb2xa4+ Nc3xa4#", x:52, y: 48, z: 2, size: 20,
+                      font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @test2 = Text.new("10. Nb2xa4+ Nc3xa4#", x:62, y: 68, z: 2, size: 20,
+                      font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @test3 = Text.new("Nc3xa4#", x:182, y: 88, z: 2, size: 20,
+                      font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
 
   end
 
