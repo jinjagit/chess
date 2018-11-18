@@ -21,6 +21,7 @@ class UI
     @ply = 0
     @checks = 0
     @game_over = ''
+    @moves_txts = []
     @title_w = Image.new("img/ui/title_w.png", height: 50, width: 128, z: 2)
     @title_b = Image.new("img/ui/title_b.png", height: 50, width: 128, z: 2)
     @to_move_ind = Image.new("img/ui/to_move_ind.png", height: 46, width: 15, z: 2)
@@ -188,13 +189,34 @@ class UI
                             x: 154, y: 638, color: '#888888')
     @end = Image.new("img/ui/end.png", height: 33, width: 43, z: 2,
                             x: 203, y: 638, color: '#888888')
-    @test = Text.new("100. Nb2xa4+ Nc3xa4#", x:52, y: 48, z: 2, size: 20,
-                      font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @test2 = Text.new("10. Nb2xa4+ Nc3xa4#", x:62, y: 68, z: 2, size: 20,
-                      font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @test3 = Text.new("Nc3xa4#", x:182, y: 88, z: 2, size: 20,
-                      font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    #@test = Text.new("100. Nb2xa4+ Nc3xa4#", x:52, y: 48, z: 2, size: 20,
+                      #font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    #@test2 = Text.new("10. Nb2xa4+ Nc3xa4#", x:62, y: 68, z: 2, size: 20,
+                      #font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    #@test3 = Text.new("Nc3xa4#", x:182, y: 88, z: 2, size: 20,
+                      #font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
 
+  end
+
+  def update_move_list(game)
+    puts "@ply: #{@ply}"
+    y = 48 + (((@ply - 1) / 2.floor) * 20)
+    if @ply % 2 == 1 # was white move
+      @moves_txts << Text.new("#{(@ply + 1) / 2}.", y: y, z: 2, size: 20,
+                        font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+      if @ply < 19
+        @moves_txts[-1].x = 72
+      elsif @ply > 198 # check this when overflow offset implemented
+        @moves_txts[-1].x = 52
+      else
+        @moves_txts[-1].x = 62
+      end
+      @moves_txts << Text.new("#{game.pgn_list[-1]}", x: 102, y: y, z: 2, size: 20,
+                        font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    else
+      @moves_txts << Text.new("#{game.pgn_list[-1]}", x: 182, y: y, z: 2, size: 20,
+                        font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    end
   end
 
   def menu_event(x, y, event_type)
@@ -372,6 +394,7 @@ class UI
       @game_over = game.game_over
       info_on
     end
+    update_move_list(game)
   end
 
   def event(x, y, event_type, posn = nil, board = nil, game = nil)

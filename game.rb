@@ -125,6 +125,7 @@ class Game
     sq = '' if details.include? 'O'
     pc = details if details.include? 'O'
     @pgn = @pgn + "#{n}#{pc}#{sq}#{promote}#{suffix}#{result} "
+    @pgn_list << "#{pc}#{sq}#{promote}#{suffix}"
   end
 
   def move(posn, piece, start_square, end_square, details = '')
@@ -399,8 +400,9 @@ class Game
     @moves[-1][3] = details # add move details to move list(s)
     pgn_move(posn, piece, start_square, end_square, details)
 
-    puts
-    puts @pgn # debug (and later, for display)
+    # puts
+    # puts @pgn # debug (and later, for display)
+    # p @pgn_list
     # p @moves
 
     # puts "#{@game_over}"
