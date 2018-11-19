@@ -219,7 +219,7 @@ class UI
 
     if @ply % 2 == 1 # was white move
       @moves_txts << Text.new("#{(@ply + 1) / 2}.", y: y, z: 2, size: 20,
-                        font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+                        font: 'fonts/UbuntuMono-R.ttf', color: '#888888')
       if @ply < 19
         @moves_txts[-1].x = 72
       elsif @ply > 198 # check this when overflow offset implemented
@@ -228,10 +228,10 @@ class UI
         @moves_txts[-1].x = 62
       end
       @moves_txts << Text.new("#{game.pgn_list[-1]}", x: 102, y: y, z: 2, size: 20,
-                        font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+                        font: 'fonts/UbuntuMono-R.ttf', color: '#888888')
     else
       @moves_txts << Text.new("#{game.pgn_list[-1]}", x: 182, y: y, z: 2, size: 20,
-                        font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+                        font: 'fonts/UbuntuMono-R.ttf', color: '#888888')
     end
   end
 
