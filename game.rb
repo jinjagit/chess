@@ -401,8 +401,8 @@ class Game
     @moves[-1][3] = details # add move details to move list(s)
     pgn_move(posn, piece, start_square, end_square, details)
 
-    puts
-    puts @pgn # debug (and later, for display)
+    # puts
+    # puts @pgn # debug (and later, for display)
     # p @pgn_list
     # p @moves
 

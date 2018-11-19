@@ -424,8 +424,6 @@ class UI
       info_on
     end
     update_move_list(game) if @game_over != ''
-    puts "game-over: #{@game_over}"
-    puts game.moves[-1][-1]
   end
 
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
@@ -600,7 +598,6 @@ class UI
           game.pgn = game.pgn + ' 1-0'
           game.moves << ['', nil, nil, '1-0']
         end
-        puts game.pgn
         info_off
         @game_over = 'resignation'
         @resign = false
@@ -618,7 +615,6 @@ class UI
     game.pgn = game.pgn + ' 1/2-1/2'
     game.moves << ['', nil, nil, '1/2-1/2']
     update_move_list(game)
-    puts game.pgn
   end
 
   def hover_on(element)
