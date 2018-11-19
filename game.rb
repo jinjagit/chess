@@ -428,5 +428,6 @@ class Game
     @b_material = 39
     @flipped = false
     @claim = ''
+    @red_square.image.z = -1
   end
 end
