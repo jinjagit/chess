@@ -604,6 +604,10 @@ class UI
         info_on
         update_move_list(game)
       end
+
+    elsif x > 59 && x < 247 && y > 637 && y < 675 # move list navigation btns
+      puts "In the zone!"
+
     elsif @hover != '' # not in button icons nor claim button area
       hover_off
       info_on
