@@ -240,7 +240,8 @@ class UI
         hide_menu1
         hover_off
         @hover = ''
-        info_on
+        @game_over = ''
+        refresh_info
       end
     elsif @hover != '' # not in button icons nor claim button area
       hover_off
