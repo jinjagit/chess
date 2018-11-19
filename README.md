@@ -25,7 +25,7 @@ A move list (both native and PGN format) is created as a game progresses. The pi
   * information box: 'game in progress'; checkmate, stalemate and draw advice, etc.
   * advice + 'claim draw' option  when 3-fold-repetition / 50-move-rule conditions satisfied
   * draw by agreement - click to 'agree' or play on to decline
-  * resign option - click to confirm or play on to decline
+  * resign option - click to confirm or play on to cancel
   * flip board (and related UI elements + promotion menu, if displayed)
   * auto-flip - board flips to side to move, after every move
   * disable / enable coordinates
