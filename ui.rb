@@ -190,34 +190,42 @@ class UI
                             x: 154, y: 638, color: '#888888')
     @end = Image.new("img/ui/end.png", height: 33, width: 43, z: 2,
                             x: 203, y: 638, color: '#888888')
-    #@test = Text.new("100. Nb2xa4+ Nc3xa4#", x:52, y: 48, z: 2, size: 20,
-                      #font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    #@test2 = Text.new("10. Nb2xa4+ Nc3xa4#", x:62, y: 68, z: 2, size: 20,
-                      #font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    #@test3 = Text.new("Nc3xa4#", x:182, y: 88, z: 2, size: 20,
-                      #font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-
   end
 
   def update_move_list(game)
     new_offset = 0
 
-    if @ply > 58
+    new_offset += 1 if @game_over != ''
+
+    if @ply > 58 || (@ply > 56 && @game_over == '')
       new_offset = ((@ply - 57) / 2.floor)
-      if @list_offset != new_offset
+      new_offset += 1 if @game_over != ''
+      (new_offset - @list_offset).times do
          3.times do |i|
            i += (@list_offset * 3)
           @moves_txts[i].z = -1
         end
         @moves_txts.each {|e| e.y -= 20}
       end
-       @list_offset = new_offset
+      @list_offset = new_offset
     end
 
     y = 48 + (((@ply - 1) / 2.floor) * 20) - (@list_offset * 20)
 
-
-    if @ply % 2 == 1 # was white move
+    if @game_over != ''
+      y = y += 20
+      if game.moves[-1][-1].include?('1-0')
+        @moves_txts << Text.new("1-0", x: 132, y: y, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#888888')
+      elsif
+        game.moves[-1][-1].include?('0-1')
+        @moves_txts << Text.new("0-1", x: 132, y: y, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#888888')
+      else
+        @moves_txts << Text.new("1/2-1/2", x: 112, y: y, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#888888')
+      end
+    elsif @ply % 2 == 1 # was white move
       @moves_txts << Text.new("#{(@ply + 1) / 2}.", y: y, z: 2, size: 20,
                         font: 'fonts/UbuntuMono-R.ttf', color: '#888888')
       if @ply < 19
@@ -257,6 +265,8 @@ class UI
         hover_off
         @hover = ''
         @game_over = ''
+        @moves_txts.each {|e| e.remove}
+        @moves_txts = []
         @list_offset = 0
         refresh_info
       end
@@ -391,6 +401,7 @@ class UI
       font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
     end
     flip_if_needed(posn, board, game) if @autoflip == true
+    update_move_list(game)
     if @draw_offer == true
       info_off
       @draw_offer = false
@@ -412,7 +423,9 @@ class UI
       @game_over = game.game_over
       info_on
     end
-    update_move_list(game)
+    update_move_list(game) if @game_over != ''
+    puts "game-over: #{@game_over}"
+    puts game.moves[-1][-1]
   end
 
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
@@ -592,6 +605,7 @@ class UI
         @game_over = 'resignation'
         @resign = false
         info_on
+        update_move_list(game)
       end
     elsif @hover != '' # not in button icons nor claim button area
       hover_off
@@ -603,6 +617,7 @@ class UI
   def add_draw_to_moves(game)
     game.pgn = game.pgn + ' 1/2-1/2'
     game.moves << ['', nil, nil, '1/2-1/2']
+    update_move_list(game)
     puts game.pgn
   end
 
@@ -837,6 +852,7 @@ class UI
     @g_o_txt9.z = -1
     @g_o_txt10.z = -1
     @g_o_txt11.z = -1
+    @g_o_txt12.z = -1
   end
 
   def show_claim
