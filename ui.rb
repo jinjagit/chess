@@ -32,6 +32,7 @@ class UI
     @w_diff = 0
     @b_diff = 0
     @winner = ''
+    @list_offset = 0
     @title_top = [1020, 60]
     @title_bot = [1020, 617]
     @w_material_text = Text.new("39 (0)", x:1160, y: 628, z: 2, size: 24,
@@ -199,8 +200,23 @@ class UI
   end
 
   def update_move_list(game)
-    puts "@ply: #{@ply}"
-    y = 48 + (((@ply - 1) / 2.floor) * 20)
+    new_offset = 0
+
+    if @ply > 58
+      new_offset = ((@ply - 57) / 2.floor)
+      if @list_offset != new_offset
+         3.times do |i|
+           i += (@list_offset * 3)
+          @moves_txts[i].z = -1
+        end
+        @moves_txts.each {|e| e.y -= 20}
+      end
+       @list_offset = new_offset
+    end
+
+    y = 48 + (((@ply - 1) / 2.floor) * 20) - (@list_offset * 20)
+
+
     if @ply % 2 == 1 # was white move
       @moves_txts << Text.new("#{(@ply + 1) / 2}.", y: y, z: 2, size: 20,
                         font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
@@ -241,6 +257,7 @@ class UI
         hover_off
         @hover = ''
         @game_over = ''
+        @list_offset = 0
         refresh_info
       end
     elsif @hover != '' # not in button icons nor claim button area
