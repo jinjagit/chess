@@ -185,9 +185,9 @@ class UI
     @start = Image.new("img/ui/start.png", height: 33, width: 43, z: 2,
                             x: 60, y: 638, color: '#888888')
     @back = Image.new("img/ui/back.png", height: 33, width: 31, z: 2,
-                            x: 118, y: 638, color: '#888888')
+                            x: 119, y: 638, color: '#888888')
     @fwd = Image.new("img/ui/fwd.png", height: 33, width: 31, z: 2,
-                            x: 154, y: 638, color: '#888888')
+                            x: 155, y: 638, color: '#888888')
     @end = Image.new("img/ui/end.png", height: 33, width: 43, z: 2,
                             x: 203, y: 638, color: '#888888')
   end
@@ -215,14 +215,14 @@ class UI
     if @game_over != ''
       y = y += 20
       if game.moves[-1][-1].include?('1-0')
-        @moves_txts << Text.new("1-0", x: 132, y: y, z: 2, size: 20,
+        @moves_txts << Text.new("1-0", x: 137, y: y, z: 2, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#888888')
       elsif
         game.moves[-1][-1].include?('0-1')
-        @moves_txts << Text.new("0-1", x: 132, y: y, z: 2, size: 20,
+        @moves_txts << Text.new("0-1", x: 137, y: y, z: 2, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#888888')
       else
-        @moves_txts << Text.new("1/2-1/2", x: 112, y: y, z: 2, size: 20,
+        @moves_txts << Text.new("1/2-1/2", x: 117, y: y, z: 2, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#888888')
       end
     elsif @ply % 2 == 1 # was white move
