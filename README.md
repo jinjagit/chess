@@ -31,7 +31,7 @@ A move list (both native and PGN format) is created as a game progresses. The pi
   * disable / enable coordinates
   * disable / enable highlighting of legal move squares
   * button hover effects and tool-tips
-  * ui algebraic notation display
+  * algebraic notation display
 
 ### To do next:
   * basic ui elements (in progress)
