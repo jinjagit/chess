@@ -167,7 +167,7 @@ on :key_down do |e|
     when '6'
       new_posn = 'insuf3'
     when '7'
-      new_posn = 'stalemate'
+      new_posn = 'moves'
     when '8'
       new_posn = 'pro_mate'
     when '9'

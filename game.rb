@@ -94,7 +94,7 @@ class Game
       n = ""
     end
     if name[1] != 'p' && promote == ''
-      pc = name[1].upcase + details
+      pc = name[1].upcase
       if pc[0] != 'K' ## == R, B, N, or Q
         piece.find_moves(posn)
         if piece.disambiguate != []
@@ -113,8 +113,9 @@ class Game
             pc = pc + dis_list[0][0]
           end
         end
+        pc = pc + details
       end
-    else
+    else # pawns only
       if details.include? 'x'
         pc = pgn_square(start_square)[0] + 'x'
       else
@@ -400,8 +401,8 @@ class Game
     @moves[-1][3] = details # add move details to move list(s)
     pgn_move(posn, piece, start_square, end_square, details)
 
-    # puts
-    # puts @pgn # debug (and later, for display)
+    puts
+    puts @pgn # debug (and later, for display)
     # p @pgn_list
     # p @moves
 
