@@ -31,6 +31,8 @@ class Game
     @game_over = ''
     @game_pieces = game_pieces
     @red_square = HighLight_Sq.new(-1, 0, 0, [1.0, 0.0, 0.0, 0.7])
+    @red_square.image.z = 2
+    @red_square.image.remove
     @checksums = []
     @checksum_dbls = {}
     @threefold = []
@@ -236,7 +238,7 @@ class Game
     end
 
     if piece.checks > 0 # reset check vars, if move made (else checkmate already)
-      @red_square.image.z = -1
+      @red_square.image.remove
       @game_pieces.each do |piece|
         if piece.name[0] == @to_move[0]
           piece.checks = 0
@@ -342,7 +344,7 @@ class Game
     if @checks > 0
       red_sq = king.square
       place_red_sq(red_sq)
-      @red_square.image.z = 2
+      @red_square.image.add
       if @checks > 1
         puts "double check!" # DEBUG output
         if king_moves.length == 0
@@ -429,6 +431,7 @@ class Game
     @b_material = 39
     @flipped = false
     @claim = ''
-    @red_square.image.z = -1
+    @red_square.image.z = 2
+    @red_square.image.remove
   end
 end
