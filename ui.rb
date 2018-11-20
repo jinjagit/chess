@@ -41,8 +41,6 @@ class UI
                                 font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @material_top = [1160, 71]
     @material_bot = [1160, 628]
-    @info_box = Image.new("img/ui/info_box.png", height: 160, width: 210, z: 1,
-                          x: 1022, y: 280)
     @prog_txt = Text.new(" Game in progress ", x:1036, y: 348, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @g_o_txt1 = Text.new("    Game over!", x:1036, y: 294, z: -1, size: 20,
@@ -180,8 +178,6 @@ class UI
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn5_txt = Text.new("cancel", x:610, y: 545, z: -1, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @move_box = Image.new("img/ui/move_box.png", height: 640, width: 210, z: 1,
-                            x: 48, y: 40)
     @start = Image.new("img/ui/start.png", height: 33, width: 43, z: 2,
                             x: 60, y: 638, color: '#888888')
     @back = Image.new("img/ui/back.png", height: 33, width: 31, z: 2,
@@ -606,7 +602,17 @@ class UI
       end
 
     elsif x > 59 && x < 247 && y > 637 && y < 675 # move list navigation btns
-      puts "In the zone!"
+      if x < 104 # go to start
+        if event_type == 'hover'
+          puts "In the zone!"
+        end
+      elsif x > 118 && x < 153 # step back
+
+      elsif x > 153 && x < 157 # step fwd
+
+      elsif x > 202 && x < 43 # got end
+
+      end
 
     elsif @hover != '' # not in button icons nor claim button area
       hover_off

@@ -30,7 +30,8 @@ set width: 1280
 set height: 720
 set resizable: true
 
-canvas = Rectangle.new(x: 0, y: 0, width: 1280, height: 720, color: '#000000', z: 0)
+canvas = Image.new("img/ui/screen.png", height: 720, width: 1280, z: 0,
+                        x: 0, y: 0, color: '#ffffff')
 
 ui = UI.new
 board = Board.new

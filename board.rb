@@ -59,7 +59,6 @@ class Board
     @flipped = false
     @start_end = []
 
-    draw_board
     draw_coords
     create_spare_pieces
     create_promo_squares
