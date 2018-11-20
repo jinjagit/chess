@@ -146,7 +146,7 @@ on :mouse_up do |event|
     board.hide_home_piece(posn_pc)
     end_sq = 63 - end_sq if board.flipped == true
     piece.move_to_square(end_sq)
-    piece.icon.z = 3
+    piece.icon.z = 5
   end
 
   # print_posn(posn) # debug output

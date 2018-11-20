@@ -63,6 +63,7 @@ class Board
     create_legal_move_sqs
     create_spare_pieces
     create_promo_squares
+    create_extra_sqs
     set_up_posn
   end
 
@@ -70,9 +71,21 @@ class Board
     64.times do |i|
       x_pos, y_pos = Utilities.square_origin(i)
       @highlight_sqs << HighLight_Sq.new(i, x_pos, y_pos)
-      @highlight_sqs[-1].image.z = 2
+      @highlight_sqs[-1].image.z = 3
       @highlight_sqs[-1].image.remove
     end
+  end
+
+  def create_extra_sqs
+    @start_square = HighLight_Sq.new(-1, 0, 0, [0.95, 0.95, 0.258, 0.35])
+    @start_square.image.z = 2
+    @start_square.image.remove
+    @end_square = HighLight_Sq.new(-1, 0, 0, [0.95, 0.95, 0.258, 0.35])
+    @end_square.image.z = 2
+    @end_square.image.remove
+    @home_square = HighLight_Sq.new(-1, 0, 0, [0.5, 0.5, 0.5, 0.65])
+    @home_square.image.z = 2
+    @home_square.image.remove
   end
 
   def draw_coords
@@ -105,10 +118,10 @@ class Board
     start_sq = 63 - start_sq if @flipped == true
     end_sq = 63 - end_sq if @flipped == true
     @start_end = [start_sq, end_sq]
-    @start_square.image.z = 2
-    @end_square.image.z = 2
     @start_square.set_origin(start_sq)
     @end_square.set_origin(end_sq)
+    @start_square.image.add
+    @end_square.image.add
   end
 
   def flip_start_end
@@ -118,8 +131,8 @@ class Board
   end
 
   def hide_start_end
-    @start_square.image.z = -1
-    @end_square.image.z = -1
+    @start_square.image.remove
+    @end_square.image.remove
   end
 
   def flip_squares(list)
@@ -152,15 +165,16 @@ class Board
     square = 63 - square if @flipped == true
     home_piece = @spare_pieces.detect {|e| e.name.include?(piece[0..1])}
     home_piece.move_to_square(square)
-    home_piece.icon.z = 2
+    home_piece.icon.z = 1
+    home_piece.icon.add
     @home_square.set_origin(square)
-    @home_square.image.z = 2
+    @home_square.image.add
   end
 
   def hide_home_piece(piece)
     home_piece = @spare_pieces.detect {|e| e.name.include?(piece[0..1])}
-    home_piece.icon.z = -1
-    @home_square.image.z = -1
+    home_piece.icon.remove
+    @home_square.image.remove
   end
 
   def create_promo_squares
@@ -203,6 +217,7 @@ class Board
       @promo_sqs[i].image.add
       promo_pc.move_to_square(promo_sq)
       promo_pc.icon.add
+      promo_pc.icon.z = 10
     end
   end
 
@@ -250,26 +265,6 @@ class Board
     return new_piece, details, location
   end
 
-  def draw_board
-    64.times do |i|
-      if (i + (i / 8.floor)) % 2 == 0
-        square_color = '#e5d4b0' # light square
-      else
-        square_color = '#ba8f64' # dark square
-      end
-
-      x_pos, y_pos = Utilities.square_origin(i)
-
-      Square.new(
-        x: x_pos, y: y_pos,
-        size: 80,
-        color: square_color,
-        z: 1)
-
-      @highlight_sqs << HighLight_Sq.new(i, x_pos, y_pos)
-    end
-  end
-
   def create_spare_pieces
     names = ['wpx', 'wrx', 'wnx', 'wbx', 'wqx', 'wkx',
              'bpx', 'brx', 'bnx', 'bbx', 'bqx', 'bkx']
@@ -302,7 +297,7 @@ class Board
     @posn[square] = name
     x_pos, y_pos = Utilities.square_origin(square)
     @game_pieces[-1].set_posn(x_pos, y_pos)
-    @game_pieces[-1].icon.z = 3
+    @game_pieces[-1].icon.z = 5
     return @game_pieces[-1]
   end
 
@@ -322,7 +317,7 @@ class Board
           @posn[square] = piece.name
           x_pos, y_pos = Utilities.square_origin(square)
           piece.set_posn(x_pos, y_pos)
-          piece.icon.z = 3
+          piece.icon.z = 5
           if @flipped != true
             piece.square = square
           else
