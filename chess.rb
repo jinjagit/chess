@@ -1,7 +1,7 @@
-# sandbox.rb
-# for testing / developing 'potential' & 'legal' moves of pieces
-# potential moves == all legal moves, including constraints of other pieces,
-# but not yet including the effects of other pieces (check, pins, etc.)
+# chess.rb, by Simon Tharby, 2018
+# A chess interface.
+# Solution to final Ruby exercise, The odin project;
+# https://www.theodinproject.com/courses/ruby-programming/lessons/ruby-final-project
 
 require 'ruby2d'
 require './ui'
