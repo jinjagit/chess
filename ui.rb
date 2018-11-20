@@ -8,7 +8,7 @@ class UI
   def initialize
     @hover = ''
     @coords = true
-    @coords_on = true
+    @coords_on = false
     @flipped = false
     @autoflip = false
     @legal_sqs = true
@@ -103,9 +103,9 @@ class UI
     @autoflip_on = Image.new("img/ui/autoflip_on.png", height: 30, width: 33,
                             z: -1, x: 1057, y: 245, color: '#888888')
     @coords_off_icon = Image.new("img/ui/coords_off_icon.png", height: 30, width: 30,
-                            z: -1, x: 1095, y: 245, color: '#888888')
-    @coords_on_icon = Image.new("img/ui/coords_on_icon.png", height: 30, width: 30,
                             z: 1, x: 1095, y: 245, color: '#888888')
+    @coords_on_icon = Image.new("img/ui/coords_on_icon.png", height: 30, width: 30,
+                            z: -1, x: 1095, y: 245, color: '#888888')
     @lgl_off_icon = Image.new("img/ui/legal_off.png", height: 30, width: 30,
                             z: -1, x: 1130, y: 245, color: '#888888')
     @lgl_on_icon = Image.new("img/ui/legal_on.png", height: 30, width: 30,

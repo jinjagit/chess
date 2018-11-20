@@ -42,7 +42,7 @@ class Board
   def initialize(posn = Position.get_posn('start'))
     @piece_codes = {'q' => Queen, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
                     'p' => Pawn, 'k' => King}
-    @coords_on = true
+    @coords_on = false
     @coords = []
     @highlight_sqs = []
     @spare_pieces = []
@@ -79,29 +79,26 @@ class Board
     file = [354, 690]
     rank = [290, 628]
     color = '#ffffff'
-    if @coords_on == true
-      layer = 3
-    else
-      layer = -1
-    end
     8.times do |i|
       label = Text.new(Utilities::Coords[0][i], x: file[0] + (i * 80), y: file[1],
-              font: 'fonts/UbuntuMono-R.ttf', size: 24, color: color, z: layer)
+              font: 'fonts/UbuntuMono-R.ttf', size: 24, color: color, z: 3)
       @coords << label
+      label.remove
     end
     8.times do |i|
       label = Text.new(Utilities::Coords[1][i], x: rank[0], y: rank[1] - (i * 80),
-              font: 'fonts/UbuntuMono-R.ttf', size: 24, color: color, z: layer)
+              font: 'fonts/UbuntuMono-R.ttf', size: 24, color: color, z: 3)
       @coords << label
+      label.remove
     end
   end
 
   def hide_coords
-    @coords.each {|e| e.z = -1}
+    @coords.each {|e| e.remove}
   end
 
   def show_coords
-    @coords.each {|e| e.z = 3}
+    @coords.each {|e| e.add}
   end
 
   def start_end_squares(start_sq, end_sq)
