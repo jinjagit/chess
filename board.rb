@@ -169,6 +169,8 @@ class Board
   def create_promo_squares
     4.times do
       @promo_sqs << HighLight_Sq.new(-1, 0, 0, @promo_col)
+      @promo_sqs[-1].image.z = 9
+      @promo_sqs[-1].image.remove
     end
   end
 
@@ -201,7 +203,7 @@ class Board
         @promo_sqs[i].image.color = @promo_col
         @promote << promo_sq
       end
-      @promo_sqs[i].image.z = 9
+      @promo_sqs[i].image.add
       promo_pc.move_to_square(promo_sq)
       promo_pc.icon.add
     end
@@ -222,7 +224,7 @@ class Board
 
   def select_promo_pc(square, posn, start_square)
     4.times do |i|
-      @promo_sqs[i].image.z = -1
+      @promo_sqs[i].image.remove
       if square < 32
         i = i + 4 if flipped == true
         promo_pc = @spare_pieces.detect {|e| e.name == @promo_pcs[i]}
@@ -230,7 +232,7 @@ class Board
         i = i - 4 if flipped == true
         promo_pc = @spare_pieces.detect {|e| e.name == @promo_pcs[i + 4]}
       end
-      promo_pc.icon.z = -1
+      promo_pc.icon.remove
     end
 
     selected = @promote.find_index {|e| e == square}
