@@ -203,7 +203,7 @@ class Board
       end
       @promo_sqs[i].image.z = 9
       promo_pc.move_to_square(promo_sq)
-      promo_pc.icon.z = 10
+      promo_pc.icon.add
     end
   end
 
@@ -280,6 +280,8 @@ class Board
       color = name[0]
       piece = @piece_codes[name[1]].new(name, color, -1)
       @spare_pieces << piece
+      @spare_pieces[-1].icon.z = 10
+      @spare_pieces[-1].icon.remove
     end
   end
 
