@@ -60,9 +60,19 @@ class Board
     @start_end = []
 
     draw_coords
+    create_legal_move_sqs
     create_spare_pieces
     create_promo_squares
     set_up_posn
+  end
+
+  def create_legal_move_sqs
+    64.times do |i|
+      x_pos, y_pos = Utilities.square_origin(i)
+      @highlight_sqs << HighLight_Sq.new(i, x_pos, y_pos)
+      @highlight_sqs[-1].image.z = 2
+      @highlight_sqs[-1].image.remove
+    end
   end
 
   def draw_coords
@@ -123,12 +133,12 @@ class Board
 
   def highlight_squares(list)
     list = flip_squares(list) if @flipped == true
-    list.each {|sq| (@highlight_sqs.detect {|e| e.square == sq}).image.z = 2}
+    list.each {|sq| (@highlight_sqs.detect {|e| e.square == sq}).image.add}
   end
 
   def unhighlight_squares(list)
     list = flip_squares(list) if @flipped == true
-    list.each {|sq| (@highlight_sqs.detect {|e| e.square == sq}).image.z = -1}
+    list.each {|sq| (@highlight_sqs.detect {|e| e.square == sq}).image.remove}
   end
 
   def mouse_square(x, y)
