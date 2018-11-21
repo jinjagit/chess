@@ -49,6 +49,18 @@ Note: At the moment, to run this (after downloading this repository), you'll nee
   * Try doing more than just an 'AI' that plays a random move (as suggested in the 'Optional Extension'), but instead use a brute force look-ahead of a few ply (will still be an awful opponent!).
   * distributable executable (at least for Linux and OSX)
 
+### Ruby2D issues & workarounds:
+  Ruby2D seems to make great use of CPU to display elements:
+
+  * shape objects use significantly more CPU than text (counter-intutitive)
+  * using .add / .remove to show /hide is 10x slower than using z-axis (and hiding behind) other graphic objects, but completely removes CPU hit (when removed), without removing reference to object instance(s)
+
+  Thus, I replaced as many shape object instances with .png images (64 squares to create a board image, for example), and used .remove / .add wherever possible (rather than 'hiding' items using the z-axis). I also rewrote the move list display method to concatenate text wherever possible into single lines (rather than each line being composed of three text instances).
+
+  * text objects have poor anti-aliasing, which can result in a 90's style pixelation
+  * text objects seem to be limited to single-line strings
+  * creating 1000 text object instances crashes the ruby app (for me), whereas over 5000 shape instances do not.
+
 ### Resources used:
 
   * [Chess Mérida](https://marcelk.net/chess/pieces/merida/320/): Freeware. True Type Font, by Armando H. Marroquin, for diagrams and figurine notation.

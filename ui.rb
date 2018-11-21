@@ -43,59 +43,8 @@ class UI
     @material_bot = [1160, 628]
     @prog_txt = Text.new(" Game in progress ", x:1036, y: 348, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @g_o_txt1 = Text.new("    Game over!", x:1036, y: 294, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-    @g_o_txt2a = Text.new("    White wins", x:1036, y: 358, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @g_o_txt2b = Text.new("    Black wins", x:1036, y: 358, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @g_o_txt3 = Text.new("   by checkmate", x:1036, y: 387, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @g_o_txt4 = Text.new("     Draw by", x:1042, y: 358, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @g_o_txt5 = Text.new("    stalemate", x:1042, y: 387, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @g_o_txt6 = Text.new("   insufficient", x:1036, y: 375, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-    @g_o_txt7 = Text.new("     material", x:1036, y: 402, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-    @g_o_txt8 = Text.new("   50-move rule", x:1036, y: 387, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @g_o_txt9 = Text.new("    threefold", x:1041, y: 375, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-    @g_o_txt10 = Text.new("    repetition", x:1036, y: 402, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
-    @g_o_txt11 = Text.new("    agreement", x:1042, y: 387, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @g_o_txt12 = Text.new("  by resignation", x:1036, y: 387, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip1 = Text.new("  coordinates ON", x:1033, y: 348, z: -1, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip2 = Text.new("  coordinates OFF", x:1033, y: 348, z: -1, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip3 = Text.new("    flip board", x:1036, y: 348, z: -1, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip4 = Text.new("   autoflip OFF", x:1037, y: 348, z: -1, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip5 = Text.new("   autoflip ON", x:1037, y: 348, z: -1, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip6 = Text.new(" legal squares ON", x:1033, y: 348, z: -1, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip7 = Text.new(" legal squares OFF", x:1033, y: 348, z: -1, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip8 = Text.new("     new game", x:1036, y: 348, z: -1, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip9 = Text.new("    offer draw", x:1036, y: 348, z: -1, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip10 = Text.new("      resign", x:1036, y: 348, z: -1, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip11 = Text.new(" save / load game", x:1036, y: 348, z: -1, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip12 = Text.new("     sound OFF", x:1032, y: 348, z: -1, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @tooltip13 = Text.new("     sound ON", x:1032, y: 348, z: -1, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @info_temp = []
+
+
     @flip_icon = Image.new("img/ui/flip_icon.png", height: 30, width: 33,
                             z: 1, x: 1020, y: 245, color: '#888888')
     @autoflip_off = Image.new("img/ui/autoflip_off.png", height: 30, width: 33,
@@ -186,6 +135,7 @@ class UI
                             x: 155, y: 638, color: '#888888')
     @end = Image.new("img/ui/end.png", height: 33, width: 43, z: 2,
                             x: 203, y: 638, color: '#888888')
+    create_texts
   end
 
   def update_move_list(game)
@@ -633,26 +583,26 @@ class UI
         @coords_off_icon.color = '#ffffff'
         @coords_off_icon.z = 1
         @coords_on_icon.z = -1
-        @tooltip1.z = 1
+        @tooltip1.add
       else
         @coords_on_icon.color = '#ffffff'
         @coords_on_icon.z = 1
         @coords_off_icon.z = -1
-        @tooltip2.z = 1
+        @tooltip2.add
       end
       @hover = 'coords'
     elsif element == 'flip'
-      @tooltip3.z = 1
+      @tooltip3.add
       @flip_icon.color = '#ffffff'
       @hover = 'flip'
     elsif element == 'autoflip'
       if @autoflip == true
-        @tooltip4.z = 1
+        @tooltip4.add
         @autoflip_on.z = 1
         @autoflip_off.z = -1
         @autoflip_on.color = '#ffffff'
       else
-        @tooltip5.z = 1
+        @tooltip5.add
         @autoflip_off.z = 1
         @autoflip_on.z = -1
         @autoflip_off.color = '#ffffff'
@@ -660,44 +610,44 @@ class UI
       @hover = 'autoflip'
     elsif element == 'legal'
       if @legal_sqs == true
-        @tooltip7.z = 1
+        @tooltip7.add
         @lgl_on_icon.z = 1
         @lgl_off_icon.z = -1
         @lgl_on_icon.color = '#ffffff'
       else
-        @tooltip6.z = 1
+        @tooltip6.add
         @lgl_off_icon.z = 1
         @lgl_on_icon.z = -1
         @lgl_off_icon.color = '#ffffff'
       end
       @hover = 'legal'
     elsif element == 'save_load'
-      @tooltip11.z = 1
+      @tooltip11.add
       @floppy_icon.color = '#ffffff'
       @hover = 'save_load'
     elsif element == 'sound'
       if @sound == true
-        @tooltip12.z = 1
+        @tooltip12.add
         @sound_on_icon.z = 1
         @sound_off_icon.z = -1
         @sound_on_icon.color = '#ffffff'
       else
-        @tooltip13.z = 1
+        @tooltip13.add
         @sound_off_icon.z = 1
         @sound_on_icon.z = -1
         @sound_off_icon.color = '#ffffff'
       end
       @hover = 'sound'
     elsif element == 'new'
-      @tooltip8.z = 1
+      @tooltip8.add
       @new_icon.color = '#ffffff'
       @hover = 'new'
     elsif element == 'draw'
-      @tooltip9.z = 1
+      @tooltip9.add
       @draw_icon.color = '#ffffff'
       @hover = 'draw'
     elsif element == 'resign'
-      @tooltip10.z = 1
+      @tooltip10.add
       @res_icon.color = '#ffffff'
       @hover = 'resign'
     elsif element == 'claim'
@@ -716,50 +666,50 @@ class UI
     if @hover == 'coords'
       if @coords_on == false
         @coords_off_icon.color = '#888888'
-        @tooltip1.z = -1
+        @tooltip1.remove
       else
         @coords_on_icon.color = '#888888'
-        @tooltip2.z = -1
+        @tooltip2.remove
       end
     elsif @hover == 'flip'
       @flip_icon.color = '#888888'
-      @tooltip3.z = -1
+      @tooltip3.remove
     elsif @hover == 'autoflip'
       if @autoflip == true
         @autoflip_on.color = '#888888'
-        @tooltip4.z = -1
+        @tooltip4.remove
       else
         @autoflip_off.color = '#888888'
-        @tooltip5.z = -1
+        @tooltip5.remove
       end
     elsif @hover == 'legal'
       if @legal_sqs == true
         @lgl_on_icon.color = '#888888'
-        @tooltip7.z = -1
+        @tooltip7.remove
       else
         @lgl_off_icon.color = '#888888'
-        @tooltip6.z = -1
+        @tooltip6.remove
       end
     elsif @hover == 'save_load'
       @floppy_icon.color = '#888888'
-      @tooltip11.z = -1
+      @tooltip11.remove
     elsif @hover == 'sound'
       if @sound == true
         @sound_on_icon.color = '#888888'
-        @tooltip12.z = -1
+        @tooltip12.remove
       else
         @sound_off_icon.color = '#888888'
-        @tooltip13.z = -1
+        @tooltip13.remove
       end
     elsif @hover == 'new'
       @new_icon.color = '#888888'
-      @tooltip8.z = -1
+      @tooltip8.remove
     elsif @hover == 'draw'
       @draw_icon.color = '#888888'
-      @tooltip9.z = -1
+      @tooltip9.remove
     elsif @hover == 'resign'
       @res_icon.color = '#888888'
-      @tooltip10.z = -1
+      @tooltip10.remove
     elsif @hover == 'claim'
       @claim_btn.color = '#7c0000'
     elsif @hover == 'cancel'
@@ -802,64 +752,7 @@ class UI
     info_on
   end
 
-  def game_over
-    @to_move_ind.z = -1
-    if @game_over == 'checkmate!'
-      if @ply % 2 == 0
-        @g_o_txt2b.x, @g_o_txt2b.y, @g_o_txt2b.z = 1036, 358, 2
-      else
-        @g_o_txt2a.x, @g_o_txt2a.y, @g_o_txt2a.z = 1036, 358, 2
-      end
-      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
-      @g_o_txt3.x, @g_o_txt3.y, @g_o_txt3.z = 1036, 387, 2
-    elsif @game_over == 'stalemate!'
-      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
-      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1042, 358, 2
-      @g_o_txt5.z = 2
-    elsif @game_over == 'insufficient!'
-      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 294, 2
-      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1041, 348, 2
-      @g_o_txt6.z = 2
-      @g_o_txt7.z = 2
-    elsif @game_over == '50-move rule!'
-      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
-      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1042, 358, 2
-      @g_o_txt8.z = 2
-    elsif @game_over == '3-fold repetition!'
-      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 294, 2
-      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1041, 348, 2
-      @g_o_txt9.x, @g_o_txt9.y, @g_o_txt9.z = 1041, 375, 2
-      @g_o_txt10.x, @g_o_txt10.y, @g_o_txt10.z = 1036, 402, 2
-    elsif @game_over == 'draw_agreed'
-      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
-      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1042, 358, 2
-      @g_o_txt11.z = 2
-    elsif @game_over == 'resignation'
-      if @ply % 2 == 0
-        @g_o_txt2b.x, @g_o_txt2b.y, @g_o_txt2b.z = 1036, 358, 2
-      else
-        @g_o_txt2a.x, @g_o_txt2a.y, @g_o_txt2a.z = 1036, 358, 2
-      end
-      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
-      @g_o_txt12.z = 2
-    end
-  end
 
-  def hide_game_over
-    @g_o_txt1.z = -1
-    @g_o_txt2a.z = -1
-    @g_o_txt2b.z = -1
-    @g_o_txt3.z = -1
-    @g_o_txt4.z = -1
-    @g_o_txt5.z = -1
-    @g_o_txt6.z = -1
-    @g_o_txt7.z = -1
-    @g_o_txt8.z = -1
-    @g_o_txt9.z = -1
-    @g_o_txt10.z = -1
-    @g_o_txt11.z = -1
-    @g_o_txt12.z = -1
-  end
 
   def show_claim
     @claim_btn.z = 3
@@ -924,6 +817,165 @@ class UI
     @res_txt4.z = -1
     @res_txt5.z = -1
     @claim_btn.z = -1
+  end
+
+  def game_over
+    @to_move_ind.z = -1 ##########################
+    if @game_over == 'checkmate!'
+      if @ply % 2 == 0
+        @g_o_txt2b.x, @g_o_txt2b.y, @g_o_txt2b.z = 1036, 358, 2
+        @g_o_txt2b.add
+      else
+        @g_o_txt2a.x, @g_o_txt2a.y, @g_o_txt2a.z = 1036, 358, 2
+        @g_o_txt2a.add
+      end
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
+      @g_o_txt3.x, @g_o_txt3.y, @g_o_txt3.z = 1036, 387, 2
+      @g_o_txt1.add
+      @g_o_txt3.add
+    elsif @game_over == 'stalemate!'
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
+      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1042, 358, 2
+      @g_o_txt1.add
+      @g_o_txt4.add
+      @g_o_txt5.add
+    elsif @game_over == 'insufficient!'
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 294, 2
+      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1041, 348, 2
+      @g_o_txt1.add
+      @g_o_txt4.add
+      @g_o_txt6.add
+      @g_o_txt7.add
+    elsif @game_over == '50-move rule!'
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
+      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1042, 358, 2
+      @g_o_txt1.add
+      @g_o_txt4.add
+      @g_o_txt8.add
+    elsif @game_over == '3-fold repetition!'
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 294, 2
+      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1041, 348, 2
+      @g_o_txt9.x, @g_o_txt9.y, @g_o_txt9.z = 1041, 375, 2
+      @g_o_txt10.x, @g_o_txt10.y, @g_o_txt10.z = 1036, 402, 2
+      @g_o_txt1.add
+      @g_o_txt4.add
+      @g_o_txt9.add
+      @g_o_txt10.add
+    elsif @game_over == 'draw_agreed'
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
+      @g_o_txt4.x, @g_o_txt4.y, @g_o_txt4.z = 1042, 358, 2
+      @g_o_txt1.add
+      @g_o_txt4.add
+      @g_o_txt11.add
+    elsif @game_over == 'resignation'
+      if @ply % 2 == 0
+        @g_o_txt2b.x, @g_o_txt2b.y, @g_o_txt2b.z = 1036, 358, 2
+        @g_o_txt2b.add
+      else
+        @g_o_txt2a.x, @g_o_txt2a.y, @g_o_txt2a.z = 1036, 358, 2
+        @g_o_txt2a.add
+      end
+      @g_o_txt1.x, @g_o_txt1.y, @g_o_txt1.z = 1036, 306, 2
+      @g_o_txt1.add
+      @g_o_txt12.add
+    end
+  end
+
+  def hide_game_over
+    @g_o_txt1.remove
+    @g_o_txt2a.remove
+    @g_o_txt2b.remove
+    @g_o_txt3.remove
+    @g_o_txt4.remove
+    @g_o_txt5.remove
+    @g_o_txt6.remove
+    @g_o_txt7.remove
+    @g_o_txt8.remove
+    @g_o_txt9.remove
+    @g_o_txt10.remove
+    @g_o_txt11.remove
+    @g_o_txt12.remove
+  end
+
+  def create_texts
+    @g_o_txt1 = Text.new("    Game over!", x:1036, y: 294, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+    @g_o_txt1.remove
+    @g_o_txt2a = Text.new("    White wins", x:1036, y: 358, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @g_o_txt2a.remove
+    @g_o_txt2b = Text.new("    Black wins", x:1036, y: 358, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @g_o_txt2b.remove
+    @g_o_txt3 = Text.new("   by checkmate", x:1036, y: 387, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @g_o_txt3.remove
+    @g_o_txt4 = Text.new("     Draw by", x:1042, y: 358, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @g_o_txt4.remove
+    @g_o_txt5 = Text.new("    stalemate", x:1042, y: 387, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @g_o_txt5.remove
+    @g_o_txt6 = Text.new("   insufficient", x:1036, y: 375, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+    @g_o_txt6.remove
+    @g_o_txt7 = Text.new("     material", x:1036, y: 402, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
+    @g_o_txt7.remove
+    @g_o_txt8 = Text.new("   50-move rule", x:1036, y: 387, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @g_o_txt8.remove
+    @g_o_txt9 = Text.new("    threefold", x:1041, y: 375, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @g_o_txt9.remove
+    @g_o_txt10 = Text.new("    repetition", x:1036, y: 402, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @g_o_txt10.remove
+    @g_o_txt11 = Text.new("    agreement", x:1042, y: 387, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @g_o_txt11.remove
+    @g_o_txt12 = Text.new("  by resignation", x:1036, y: 387, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @g_o_txt12.remove
+    @tooltip1 = Text.new("  coordinates ON", x:1033, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip1.remove
+    @tooltip2 = Text.new("  coordinates OFF", x:1033, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip2.remove
+    @tooltip3 = Text.new("    flip board", x:1036, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip3.remove
+    @tooltip4 = Text.new("   autoflip OFF", x:1037, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip4.remove
+    @tooltip5 = Text.new("   autoflip ON", x:1037, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip5.remove
+    @tooltip6 = Text.new(" legal squares ON", x:1033, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip6.remove
+    @tooltip7 = Text.new(" legal squares OFF", x:1033, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip7.remove
+    @tooltip8 = Text.new("     new game", x:1036, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip8.remove
+    @tooltip9 = Text.new("    offer draw", x:1036, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip9.remove
+    @tooltip10 = Text.new("      resign", x:1036, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip10.remove
+    @tooltip11 = Text.new(" save / load game", x:1036, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip11.remove
+    @tooltip12 = Text.new("     sound OFF", x:1032, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip12.remove
+    @tooltip13 = Text.new("     sound ON", x:1032, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip13.remove
   end
 
 end
