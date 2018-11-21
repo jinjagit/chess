@@ -67,34 +67,7 @@ class UI
                             z: -1, x: 1202, y: 245, color: '#888888')
     @claim_btn = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
                       x: 1030, y: 402, color: '#7c0000')
-    @claim_txt1 = Text.new("claim draw", x:1076, y: 407, z: -1, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @claim_txt2 = Text.new("   of position", x:1040, y: 361, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @claim_txt3 = Text.new(" 50 moves without", x:1036, y: 307, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @claim_txt4 = Text.new("    capture or", x:1036, y: 334, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @claim_txt5 = Text.new("    pawn move", x:1040, y: 361, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @draw_txt1 = Text.new("  Draw offered!", x:1042, y: 294, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @draw_txt2 = Text.new("    to decline", x:1038, y: 367, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @draw_txt3 = Text.new("agree draw", x:1076, y: 406, z: -1, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @res_txt1 = Text.new("      White;", x:1036, y: 294, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @res_txt2 = Text.new("      Black;", x:1036, y: 294, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @res_txt3 = Text.new("   confirm, or", x:1040, y: 326, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @res_txt4 = Text.new("    to cancel", x:1040, y: 374, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @res_txt5 = Text.new("  resign", x:1076, y: 405, z: -1, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @play_on_txt = Text.new("     play on", x:1042, y: 340, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+
     @new_icon = Image.new("img/ui/swords.png", height: 36, width: 36,
                             z: 2, x: 1062, y: 452, color: '#888888')
     @draw_icon = Image.new("img/ui/hand.png", height: 28, width: 36,
@@ -756,66 +729,72 @@ class UI
 
   def show_claim
     @claim_btn.z = 3
-    @claim_txt1.z = 4
+    @claim_txt1.add
     if @claim == "3-fold repetition!"
-      @g_o_txt9.x, @g_o_txt9.y, @g_o_txt9.z = 1041, 307, 1
-      @g_o_txt10.x, @g_o_txt10.y, @g_o_txt10.z = 1036, 334, 1
-      @claim_txt2.z = 1
+      @g_o_txt9.x, @g_o_txt9.y = 1041, 307
+      @g_o_txt9.add
+      @g_o_txt10.x, @g_o_txt10.y = 1036, 334
+      @g_o_txt10.add
+      @claim_txt2.add
     elsif @claim == "50-move rule!"
-      @claim_txt3.z = 1
-      @claim_txt4.z = 1
-      @claim_txt5.z = 1
+      @claim_txt3.add
+      @claim_txt4.add
+      @claim_txt5.add
     end
   end
 
   def hide_claim
     @claim_btn.z = -1
-    @claim_txt1.z = -1
+    @claim_txt1.remove
     if @claim == "3-fold repetition!"
-      @g_o_txt9.z, @g_o_txt10.z, @claim_txt2.z = -1, -1, -1
+      @g_o_txt9.remove
+      @g_o_txt10.remove
+      @claim_txt2.remove
     elsif @claim == "50-move rule!"
-      @claim_txt3.z = -1
-      @claim_txt4.z = -1
-      @claim_txt5.z = -1
+      @claim_txt3.remove
+      @claim_txt4.remove
+      @claim_txt5.remove
     end
   end
 
   def show_offer
-    @draw_txt1.z = 1
-    @play_on_txt.x, @play_on_txt.y, @play_on_txt.z = 1042, 340, 1
-    @draw_txt2.z = 1
-    @draw_txt3.z = 3
+    @draw_txt1.add
+    @play_on_txt.x, @play_on_txt.y = 1042, 340
+    @play_on_txt.add
+    @draw_txt2.add
+    @draw_txt3.add
     @claim_btn.z = 1
   end
 
   def hide_offer
-    @draw_txt1.z = -1
-    @play_on_txt.z = -1
-    @draw_txt2.z = -1
-    @draw_txt3.z = -1
+    @draw_txt1.remove
+    @play_on_txt.remove
+    @draw_txt2.remove
+    @draw_txt3.remove
     @claim_btn.z = -1
   end
 
   def show_resign
     if @ply % 2 == 0
-      @res_txt1.z = 1
+      @res_txt1.add
     else
-      @res_txt2.z = 1
+      @res_txt2.add
     end
-    @res_txt3.z = 1
-    @play_on_txt.x, @play_on_txt.y, @play_on_txt.z = 1042, 350, 1
-    @res_txt4.z = 1
-    @res_txt5.z = 3
+    @res_txt3.add
+    @play_on_txt.x, @play_on_txt.y = 1042, 350
+    @play_on_txt.remove
+    @res_txt4.add
+    @res_txt5.add
     @claim_btn.z = 1
   end
 
   def hide_resign
-    @res_txt1.z = -1
-    @res_txt2.z = -1
-    @res_txt3.z = -1
-    @play_on_txt.z = -1
-    @res_txt4.z = -1
-    @res_txt5.z = -1
+    @res_txt1.remove
+    @res_txt2.remove
+    @res_txt3.remove
+    @play_on_txt.remove
+    @res_txt4.remove
+    @res_txt5.remove
     @claim_btn.z = -1
   end
 
@@ -976,6 +955,48 @@ class UI
     @tooltip13 = Text.new("     sound ON", x:1032, y: 348, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @tooltip13.remove
+    @claim_txt1 = Text.new("claim draw", x:1076, y: 407, z: 4, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @claim_txt1.remove
+    @claim_txt2 = Text.new("   of position", x:1040, y: 361, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @claim_txt2.remove
+    @claim_txt3 = Text.new(" 50 moves without", x:1036, y: 307, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @claim_txt3.remove
+    @claim_txt4 = Text.new("    capture or", x:1036, y: 334, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @claim_txt4.remove
+    @claim_txt5 = Text.new("    pawn move", x:1040, y: 361, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @claim_txt5.remove
+    @draw_txt1 = Text.new("  Draw offered!", x:1042, y: 294, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @draw_txt1.remove
+    @draw_txt2 = Text.new("    to decline", x:1038, y: 367, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @draw_txt2.remove
+    @draw_txt3 = Text.new("agree draw", x:1076, y: 406, z: 4, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @draw_txt3.remove
+    @res_txt1 = Text.new("      White;", x:1036, y: 294, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @res_txt1.remove
+    @res_txt2 = Text.new("      Black;", x:1036, y: 294, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @res_txt2.remove
+    @res_txt3 = Text.new("   confirm, or", x:1040, y: 326, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @res_txt3.remove
+    @res_txt4 = Text.new("    to cancel", x:1040, y: 374, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @res_txt4.remove
+    @res_txt5 = Text.new("  resign", x:1076, y: 405, z: 4, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @res_txt5.remove
+    @play_on_txt = Text.new("     play on", x:1042, y: 340, z: 2, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @play_on_txt.remove
   end
 
 end
