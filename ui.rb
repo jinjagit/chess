@@ -24,7 +24,6 @@ class UI
     @moves_txts = []
     @title_w = Image.new("img/ui/title_w.png", height: 50, width: 128, z: 2)
     @title_b = Image.new("img/ui/title_b.png", height: 50, width: 128, z: 2)
-    @to_move_ind = Image.new("img/ui/to_move_ind.png", height: 46, width: 15, z: 2)
     @to_move_bot = [1002, 619]
     @to_move_top = [1002, 62]
     @w_material = 39
@@ -35,51 +34,11 @@ class UI
     @list_offset = 0
     @title_top = [1020, 60]
     @title_bot = [1020, 617]
-    @w_material_text = Text.new("39 (0)", x:1160, y: 628, z: 2, size: 24,
-                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @b_material_text = Text.new("39 (0)", x:1160, y: 71, z: 2, size: 24,
-                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @material_top = [1160, 71]
     @material_bot = [1160, 628]
-
-
-
-
-    @claim_btn = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
-                      x: 1030, y: 402, color: '#7c0000')
-
-    @new_icon = Image.new("img/ui/swords.png", height: 36, width: 36,
-                            z: 2, x: 1062, y: 452, color: '#888888')
-    @draw_icon = Image.new("img/ui/hand.png", height: 28, width: 36,
-                            z: 2, x: 1108, y: 456, color: '#888888')
-    @res_icon = Image.new("img/ui/flag.png", height: 36, width: 36,
-                            z: 2, x: 1154, y: 452, color: '#888888')
-    @screen = Rectangle.new(x: 0, y: 0, z: -1, width: 1280, height: 720,
-                            color: [0.5, 0.5, 0.5, 0.5])
-    @menu1 = Image.new("img/ui/menu1.png", height: 480, width: 480,
-                        z: -1, x: 400, y: 120)
-
-    @menu_btn1 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
-                            x: 540, y: 200, color: '#006991') # #018dc1
-    @menu_btn2 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
-                            x: 540, y: 260, color: '#0058b7') # #007bff
-    @menu_btn3 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
-                            x: 540, y: 320, color: '#4000b7') # #5500f4
-    @menu_btn4 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
-                            x: 540, y: 400, color: '#444444')
-    @menu_btn5 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
-                            x: 540, y: 540, color: '#7c0000')
-
-    @start = Image.new("img/ui/start.png", height: 33, width: 43, z: 2,
-                            x: 60, y: 638, color: '#888888')
-    @back = Image.new("img/ui/back.png", height: 33, width: 31, z: 2,
-                            x: 119, y: 638, color: '#888888')
-    @fwd = Image.new("img/ui/fwd.png", height: 33, width: 31, z: 2,
-                            x: 155, y: 638, color: '#888888')
-    @end = Image.new("img/ui/end.png", height: 33, width: 43, z: 2,
-                            x: 203, y: 638, color: '#888888')
     create_texts
     create_icons
+    create_menus
   end
 
   def update_move_list(game)
@@ -153,11 +112,14 @@ class UI
         @menu = false
         hide_menu1
         hover_off
+        @ply = 0
         @hover = ''
         @game_over = ''
         @moves_txts.each {|e| e.remove}
         @moves_txts = []
         @list_offset = 0
+        @to_move_ind.add
+        update_move_ind
         refresh_info
       end
     elsif @hover != '' # not in button icons nor claim button area
@@ -167,14 +129,14 @@ class UI
   end
 
   def show_menu1
-    @screen.z = 5
-    @menu1.z = 6
+    @screen.add
+    @menu1.add
     @menu1_txt1.add
-    @menu_btn1.z = 7
-    @menu_btn2.z = 7
-    @menu_btn3.z = 7
-    @menu_btn4.z = 7
-    @menu_btn5.z = 7
+    @menu_btn1.add
+    @menu_btn2.add
+    @menu_btn3.add
+    @menu_btn4.add
+    @menu_btn5.add
     @btn1_txt.add
     @btn2_txt.add
     @btn3_txt.add
@@ -183,14 +145,14 @@ class UI
   end
 
   def hide_menu1
-    @screen.z = -1
-    @menu1.z = -1
+    @screen.remove
+    @menu1.remove
     @menu1_txt1.remove
-    @menu_btn1.z = -1
-    @menu_btn2.z = -1
-    @menu_btn3.z = -1
-    @menu_btn4.z = -1
-    @menu_btn5.z = -1
+    @menu_btn1.remove
+    @menu_btn2.remove
+    @menu_btn3.remove
+    @menu_btn4.remove
+    @menu_btn5.remove
     @btn1_txt.remove
     @btn2_txt.remove
     @btn3_txt.remove
@@ -285,6 +247,8 @@ class UI
       material_diff
       @w_material_text.remove
       @b_material_text.remove
+      @w_material_text = nil
+      @b_material_text = nil
       @w_material_text = Text.new("#{@w_material} (#{@w_diff})", x:1160, y: 628,
       font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
       @b_material_text = Text.new("#{@b_material} (#{@b_diff})", x:1160, y: 71,
@@ -770,7 +734,7 @@ class UI
   end
 
   def game_over
-    @to_move_ind.z = -1 ##########################
+    @to_move_ind.remove
     if @game_over == 'checkmate!'
       if @ply % 2 == 0
         @g_o_txt2b.x, @g_o_txt2b.y, @g_o_txt2b.z = 1036, 358, 2
@@ -848,6 +812,10 @@ class UI
   end
 
   def create_texts
+    @w_material_text = Text.new("39 (0)", x:1160, y: 628, z: 2, size: 24,
+                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @b_material_text = Text.new("39 (0)", x:1160, y: 71, z: 2, size: 24,
+                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @prog_txt = Text.new(" Game in progress ", x:1036, y: 348, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     # no .remove, as currently is welcome message
@@ -992,6 +960,7 @@ class UI
   end
 
   def create_icons
+    @to_move_ind = Image.new("img/ui/to_move_ind.png", height: 46, width: 15, z: 2)
     @flip_icon = Image.new("img/ui/flip_icon.png", height: 30, width: 33,
                             z: 1, x: 1020, y: 245, color: '#888888')
     @autoflip_off = Image.new("img/ui/autoflip_off.png", height: 30, width: 33,
@@ -1016,6 +985,47 @@ class UI
     @sound_off_icon = Image.new("img/ui/sound_off.png", height: 30, width: 30,
                             z: 1, x: 1202, y: 245, color: '#888888')
     @sound_off_icon.remove
+    @claim_btn = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
+                      x: 1030, y: 402, color: '#7c0000')
+    @claim_btn.remove
+    @new_icon = Image.new("img/ui/swords.png", height: 36, width: 36,
+                            z: 2, x: 1062, y: 452, color: '#888888')
+    @draw_icon = Image.new("img/ui/hand.png", height: 28, width: 36,
+                            z: 2, x: 1108, y: 456, color: '#888888')
+    @res_icon = Image.new("img/ui/flag.png", height: 36, width: 36,
+                            z: 2, x: 1154, y: 452, color: '#888888')
+    @menu_btn1 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
+                            x: 540, y: 200, color: '#006991') # #018dc1
+    @menu_btn1.remove
+    @menu_btn2 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
+                            x: 540, y: 260, color: '#0058b7') # #007bff
+    @menu_btn2.remove
+    @menu_btn3 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
+                            x: 540, y: 320, color: '#4000b7') # #5500f4
+    @menu_btn3.remove
+    @menu_btn4 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
+                            x: 540, y: 400, color: '#444444')
+    @menu_btn4.remove
+    @menu_btn5 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
+                            x: 540, y: 540, color: '#7c0000')
+    @menu_btn5.remove
+    @start = Image.new("img/ui/start.png", height: 33, width: 43, z: 2,
+                            x: 60, y: 638, color: '#888888')
+    @back = Image.new("img/ui/back.png", height: 33, width: 31, z: 2,
+                            x: 119, y: 638, color: '#888888')
+    @fwd = Image.new("img/ui/fwd.png", height: 33, width: 31, z: 2,
+                            x: 155, y: 638, color: '#888888')
+    @end = Image.new("img/ui/end.png", height: 33, width: 43, z: 2,
+                            x: 203, y: 638, color: '#888888')
+  end
+
+  def create_menus
+    @screen = Rectangle.new(x: 0, y: 0, z: 5, width: 1280, height: 720,
+                            color: [0.5, 0.5, 0.5, 0.5])
+    @screen.remove
+    @menu1 = Image.new("img/ui/menu1.png", height: 480, width: 480,
+                        z: 6, x: 400, y: 120)
+    @menu1.remove
   end
 
 end
