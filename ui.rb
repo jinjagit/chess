@@ -26,16 +26,16 @@ class UI
     @title_b = Image.new("img/ui/title_b.png", height: 50, width: 128, z: 2)
     @to_move_bot = [1002, 619]
     @to_move_top = [1002, 62]
+    @title_top = [1020, 60]
+    @title_bot = [1020, 617]
+    @material_top = [1160, 71]
+    @material_bot = [1160, 628]
     @w_material = 39
     @b_material = 39
     @w_diff = 0
     @b_diff = 0
     @winner = ''
     @list_offset = 0
-    @title_top = [1020, 60]
-    @title_bot = [1020, 617]
-    @material_top = [1160, 71]
-    @material_bot = [1160, 628]
     create_texts
     create_icons
     create_menus
@@ -43,7 +43,6 @@ class UI
 
   def update_move_list(game)
     new_offset = 0
-
     new_offset += 1 if @game_over != ''
 
     if @ply > 58 || (@ply > 56 && @game_over == '')
@@ -660,8 +659,6 @@ class UI
     info_on
   end
 
-
-
   def show_claim
     @claim_btn.z = 3
     @claim_txt1.add
@@ -1027,5 +1024,4 @@ class UI
                         z: 6, x: 400, y: 120)
     @menu1.remove
   end
-
 end
