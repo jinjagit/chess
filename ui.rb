@@ -41,30 +41,10 @@ class UI
                                 font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @material_top = [1160, 71]
     @material_bot = [1160, 628]
-    @prog_txt = Text.new(" Game in progress ", x:1036, y: 348, z: 2, size: 20,
-                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
 
 
-    @flip_icon = Image.new("img/ui/flip_icon.png", height: 30, width: 33,
-                            z: 1, x: 1020, y: 245, color: '#888888')
-    @autoflip_off = Image.new("img/ui/autoflip_off.png", height: 30, width: 33,
-                            z: 1, x: 1057, y: 245, color: '#888888')
-    @autoflip_on = Image.new("img/ui/autoflip_on.png", height: 30, width: 33,
-                            z: -1, x: 1057, y: 245, color: '#888888')
-    @coords_off_icon = Image.new("img/ui/coords_off_icon.png", height: 30, width: 30,
-                            z: 1, x: 1095, y: 245, color: '#888888')
-    @coords_on_icon = Image.new("img/ui/coords_on_icon.png", height: 30, width: 30,
-                            z: -1, x: 1095, y: 245, color: '#888888')
-    @lgl_off_icon = Image.new("img/ui/legal_off.png", height: 30, width: 30,
-                            z: -1, x: 1130, y: 245, color: '#888888')
-    @lgl_on_icon = Image.new("img/ui/legal_on.png", height: 30, width: 30,
-                            z: 1, x: 1130, y: 245, color: '#888888')
-    @floppy_icon = Image.new("img/ui/floppy.png", height: 30, width: 30,
-                            z: 1, x: 1167, y: 245, color: '#888888')
-    @sound_on_icon = Image.new("img/ui/sound_on.png", height: 30, width: 30,
-                            z: 1, x: 1202, y: 245, color: '#888888')
-    @sound_off_icon = Image.new("img/ui/sound_off.png", height: 30, width: 30,
-                            z: -1, x: 1202, y: 245, color: '#888888')
+
+
     @claim_btn = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
                       x: 1030, y: 402, color: '#7c0000')
 
@@ -99,6 +79,7 @@ class UI
     @end = Image.new("img/ui/end.png", height: 33, width: 43, z: 2,
                             x: 203, y: 638, color: '#888888')
     create_texts
+    create_icons
   end
 
   def update_move_list(game)
@@ -544,13 +525,13 @@ class UI
     if element == 'coords'
       if @coords_on == false
         @coords_off_icon.color = '#ffffff'
-        @coords_off_icon.z = 1
-        @coords_on_icon.z = -1
+        @coords_off_icon.add
+        @coords_on_icon.remove
         @tooltip1.add
       else
         @coords_on_icon.color = '#ffffff'
-        @coords_on_icon.z = 1
-        @coords_off_icon.z = -1
+        @coords_on_icon.add
+        @coords_off_icon.remove
         @tooltip2.add
       end
       @hover = 'coords'
@@ -561,26 +542,26 @@ class UI
     elsif element == 'autoflip'
       if @autoflip == true
         @tooltip4.add
-        @autoflip_on.z = 1
-        @autoflip_off.z = -1
+        @autoflip_on.add
+        @autoflip_off.remove
         @autoflip_on.color = '#ffffff'
       else
         @tooltip5.add
-        @autoflip_off.z = 1
-        @autoflip_on.z = -1
+        @autoflip_off.add
+        @autoflip_on.remove
         @autoflip_off.color = '#ffffff'
       end
       @hover = 'autoflip'
     elsif element == 'legal'
       if @legal_sqs == true
         @tooltip7.add
-        @lgl_on_icon.z = 1
-        @lgl_off_icon.z = -1
+        @lgl_on_icon.add
+        @lgl_off_icon.remove
         @lgl_on_icon.color = '#ffffff'
       else
         @tooltip6.add
-        @lgl_off_icon.z = 1
-        @lgl_on_icon.z = -1
+        @lgl_off_icon.add
+        @lgl_on_icon.remove
         @lgl_off_icon.color = '#ffffff'
       end
       @hover = 'legal'
@@ -591,13 +572,13 @@ class UI
     elsif element == 'sound'
       if @sound == true
         @tooltip12.add
-        @sound_on_icon.z = 1
-        @sound_off_icon.z = -1
+        @sound_on_icon.add
+        @sound_off_icon.remove
         @sound_on_icon.color = '#ffffff'
       else
         @tooltip13.add
-        @sound_off_icon.z = 1
-        @sound_on_icon.z = -1
+        @sound_off_icon.add
+        @sound_on_icon.remove
         @sound_off_icon.color = '#ffffff'
       end
       @hover = 'sound'
@@ -692,7 +673,7 @@ class UI
     elsif @resign == true
       show_resign
     else
-      @prog_txt.z = 1
+      @prog_txt.add
     end
   end
 
@@ -706,7 +687,7 @@ class UI
     elsif @resign == true
       hide_resign
     else
-      @prog_txt.z = -1
+      @prog_txt.remove
     end
   end
 
@@ -867,6 +848,9 @@ class UI
   end
 
   def create_texts
+    @prog_txt = Text.new(" Game in progress ", x:1036, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    # no .remove, as currently is welcome message
     @g_o_txt1 = Text.new("    Game over!", x:1036, y: 294, z: 2, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff', )
     @g_o_txt1.remove
@@ -1005,6 +989,33 @@ class UI
     @btn5_txt = Text.new("cancel", x:610, y: 545, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn5_txt.remove
+  end
+
+  def create_icons
+    @flip_icon = Image.new("img/ui/flip_icon.png", height: 30, width: 33,
+                            z: 1, x: 1020, y: 245, color: '#888888')
+    @autoflip_off = Image.new("img/ui/autoflip_off.png", height: 30, width: 33,
+                            z: 1, x: 1057, y: 245, color: '#888888')
+    @autoflip_on = Image.new("img/ui/autoflip_on.png", height: 30, width: 33,
+                            z: 1, x: 1057, y: 245, color: '#888888')
+    @autoflip_on.remove
+    @coords_off_icon = Image.new("img/ui/coords_off_icon.png", height: 30, width: 30,
+                            z: 1, x: 1095, y: 245, color: '#888888')
+    @coords_on_icon = Image.new("img/ui/coords_on_icon.png", height: 30, width: 30,
+                            z: 1, x: 1095, y: 245, color: '#888888')
+    @coords_on_icon.remove
+    @lgl_off_icon = Image.new("img/ui/legal_off.png", height: 30, width: 30,
+                            z: 1, x: 1130, y: 245, color: '#888888')
+    @lgl_off_icon.remove
+    @lgl_on_icon = Image.new("img/ui/legal_on.png", height: 30, width: 30,
+                            z: 1, x: 1130, y: 245, color: '#888888')
+    @floppy_icon = Image.new("img/ui/floppy.png", height: 30, width: 30,
+                            z: 1, x: 1167, y: 245, color: '#888888')
+    @sound_on_icon = Image.new("img/ui/sound_on.png", height: 30, width: 30,
+                            z: 1, x: 1202, y: 245, color: '#888888')
+    @sound_off_icon = Image.new("img/ui/sound_off.png", height: 30, width: 30,
+                            z: 1, x: 1202, y: 245, color: '#888888')
+    @sound_off_icon.remove
   end
 
 end
