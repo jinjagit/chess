@@ -53,7 +53,7 @@ Note: At the moment, to run this (after downloading this repository), you'll nee
   Ruby2D seems to make great use of CPU to display elements:
 
   * shape objects use significantly more CPU than text (counter-intutitive)
-  * using .add / .remove to show /hide is 10x slower than using z-axis (and hiding behind) other graphic objects, but completely removes CPU hit (when removed), without removing reference to object instance(s)
+  * using .add / .remove to show / hide is 10x slower than using z-axis (and hiding behind other graphic object(s)), but completely avoids the CPU hit otherwise incurred, without removing reference to object instance(s)
 
   Thus, I replaced as many shape object instances with .png images (64 squares to create a board image, for example), and used .remove / .add wherever possible (rather than 'hiding' items using the z-axis). I also rewrote the move list display method to concatenate text wherever possible into single lines (rather than each line being composed of three text instances).
 
