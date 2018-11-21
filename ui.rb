@@ -78,8 +78,7 @@ class UI
                             color: [0.5, 0.5, 0.5, 0.5])
     @menu1 = Image.new("img/ui/menu1.png", height: 480, width: 480,
                         z: -1, x: 400, y: 120)
-    @menu1_txt1 = Text.new("New Game", x:600, y: 150, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+
     @menu_btn1 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
                             x: 540, y: 200, color: '#006991') # #018dc1
     @menu_btn2 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
@@ -90,16 +89,7 @@ class UI
                             x: 540, y: 400, color: '#444444')
     @menu_btn5 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: -1,
                             x: 540, y: 540, color: '#7c0000')
-    @btn1_txt = Text.new("human v human", x:574, y: 205, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @btn2_txt = Text.new("human v engine", x:574, y: 265, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @btn3_txt = Text.new("engine v engine", x:566, y: 325, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @btn4_txt = Text.new("engine settings", x:566, y: 405, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @btn5_txt = Text.new("cancel", x:610, y: 545, z: -1, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+
     @start = Image.new("img/ui/start.png", height: 33, width: 43, z: 2,
                             x: 60, y: 638, color: '#888888')
     @back = Image.new("img/ui/back.png", height: 33, width: 31, z: 2,
@@ -198,33 +188,33 @@ class UI
   def show_menu1
     @screen.z = 5
     @menu1.z = 6
-    @menu1_txt1.z = 7
+    @menu1_txt1.add
     @menu_btn1.z = 7
     @menu_btn2.z = 7
     @menu_btn3.z = 7
     @menu_btn4.z = 7
     @menu_btn5.z = 7
-    @btn1_txt.z = 8
-    @btn2_txt.z = 8
-    @btn3_txt.z = 8
-    @btn4_txt.z = 8
-    @btn5_txt.z = 8
+    @btn1_txt.add
+    @btn2_txt.add
+    @btn3_txt.add
+    @btn4_txt.add
+    @btn5_txt.add
   end
 
   def hide_menu1
     @screen.z = -1
     @menu1.z = -1
-    @menu1_txt1.z = -1
+    @menu1_txt1.remove
     @menu_btn1.z = -1
     @menu_btn2.z = -1
     @menu_btn3.z = -1
     @menu_btn4.z = -1
     @menu_btn5.z = -1
-    @btn1_txt.z = -1
-    @btn2_txt.z = -1
-    @btn3_txt.z = -1
-    @btn4_txt.z = -1
-    @btn5_txt.z = -1
+    @btn1_txt.remove
+    @btn2_txt.remove
+    @btn3_txt.remove
+    @btn4_txt.remove
+    @btn5_txt.remove
   end
 
   def place_defaults
@@ -782,7 +772,7 @@ class UI
     end
     @res_txt3.add
     @play_on_txt.x, @play_on_txt.y = 1042, 350
-    @play_on_txt.remove
+    @play_on_txt.add
     @res_txt4.add
     @res_txt5.add
     @claim_btn.z = 1
@@ -997,6 +987,24 @@ class UI
     @play_on_txt = Text.new("     play on", x:1042, y: 340, z: 2, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @play_on_txt.remove
+    @menu1_txt1 = Text.new("New Game", x:600, y: 150, z: 7, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @menu1_txt1.remove
+    @btn1_txt = Text.new("human v human", x:574, y: 205, z: 8, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @btn1_txt.remove
+    @btn2_txt = Text.new("human v engine", x:574, y: 265, z: 8, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @btn2_txt.remove
+    @btn3_txt = Text.new("engine v engine", x:566, y: 325, z: 8, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @btn3_txt.remove
+    @btn4_txt = Text.new("engine settings", x:566, y: 405, z: 8, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @btn4_txt.remove
+    @btn5_txt = Text.new("cancel", x:610, y: 545, z: 8, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @btn5_txt.remove
   end
 
 end
