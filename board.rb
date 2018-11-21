@@ -48,9 +48,6 @@ class Board
     @spare_pieces = []
     @game_pieces = []
     @posn = posn
-    @start_square = HighLight_Sq.new(-1, 0, 0, [0.95, 0.95, 0.258, 0.35])
-    @end_square = HighLight_Sq.new(-1, 0, 0, [0.95, 0.95, 0.258, 0.35])
-    @home_square = HighLight_Sq.new(-1, 0, 0, [0.5, 0.5, 0.5, 0.65])
     @promo_sqs = []
     @promo_col = [0.62, 0.26, 0.957, 1.0]
     @promo_hov_col = [0.695, 0.431, 0.937, 1.0]
