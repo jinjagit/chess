@@ -8,7 +8,7 @@ class UI
   def initialize
     @hover = ''
     @coords = true
-    @coords_on = false
+    @coords_on = true
     @flipped = false
     @autoflip = false
     @legal_sqs = true
@@ -24,6 +24,7 @@ class UI
     @moves_txts = []
     @title_w = Image.new("img/ui/title_w.png", height: 50, width: 128, z: 2)
     @title_b = Image.new("img/ui/title_b.png", height: 50, width: 128, z: 2)
+    @coords = Image.new("img/ui/coords.png", height: 644, width: 646, x: 290, y: 68, z: 2)
     @to_move_bot = [1002, 619]
     @to_move_top = [1002, 62]
     @title_top = [1020, 60]
@@ -323,14 +324,12 @@ class UI
           hover_off if @hover != '' && @hover != 'coords'
           hover_on('coords') if @hover != 'coords'
         else # event_type == 'click' (toggle coords display)
-          if board.coords_on == true
-            board.hide_coords
-            board.coords_on = false
+          if @coords_on == true
+            @coords.remove
             hover_off
             @coords_on = false
           else
-            board.show_coords
-            board.coords_on = true
+            @coords.add
             hover_off
             @coords_on = true
           end
@@ -979,9 +978,9 @@ class UI
     @autoflip_on.remove
     @coords_off_icon = Image.new("img/ui/coords_off_icon.png", height: 30, width: 30,
                             z: 1, x: 1095, y: 245, color: '#888888')
+    @coords_off_icon.remove
     @coords_on_icon = Image.new("img/ui/coords_on_icon.png", height: 30, width: 30,
                             z: 1, x: 1095, y: 245, color: '#888888')
-    @coords_on_icon.remove
     @lgl_off_icon = Image.new("img/ui/legal_off.png", height: 30, width: 30,
                             z: 1, x: 1130, y: 245, color: '#888888')
     @lgl_off_icon.remove

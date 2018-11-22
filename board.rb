@@ -42,7 +42,6 @@ class Board
   def initialize(posn = Position.get_posn('start'))
     @piece_codes = {'q' => Queen, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
                     'p' => Pawn, 'k' => King}
-    @coords_on = false
     @coords = []
     @highlight_sqs = []
     @spare_pieces = []
@@ -56,7 +55,6 @@ class Board
     @flipped = false
     @start_end = []
 
-    draw_coords
     create_legal_move_sqs
     create_spare_pieces
     create_promo_squares
@@ -83,32 +81,6 @@ class Board
     @home_square = HighLight_Sq.new(-1, 0, 0, [0.5, 0.5, 0.5, 0.65])
     @home_square.image.z = 2
     @home_square.image.remove
-  end
-
-  def draw_coords
-    file = [354, 690]
-    rank = [290, 628]
-    color = '#ffffff'
-    8.times do |i|
-      label = Text.new(Utilities::Coords[0][i], x: file[0] + (i * 80), y: file[1],
-              font: 'fonts/UbuntuMono-R.ttf', size: 24, color: color, z: 3)
-      @coords << label
-      label.remove
-    end
-    8.times do |i|
-      label = Text.new(Utilities::Coords[1][i], x: rank[0], y: rank[1] - (i * 80),
-              font: 'fonts/UbuntuMono-R.ttf', size: 24, color: color, z: 3)
-      @coords << label
-      label.remove
-    end
-  end
-
-  def hide_coords
-    @coords.each {|e| e.remove}
-  end
-
-  def show_coords
-    @coords.each {|e| e.add}
   end
 
   def start_end_squares(start_sq, end_sq)
