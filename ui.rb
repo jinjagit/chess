@@ -110,21 +110,33 @@ class UI
         @new_game = true
         @menu = false
         hide_menu1
-        hover_off
-        @ply = 0
-        @hover = ''
-        @game_over = ''
-        @moves_txts.each {|e| e.remove}
-        @moves_txts = []
-        @list_offset = 0
-        @to_move_ind.add
-        update_move_ind
-        refresh_info
+        reset_ui
       end
     elsif @hover != '' # not in button icons nor claim button area
       hover_off
       @hover = ''
     end
+  end
+
+  def reset_ui
+    hover_off
+    @ply = 0
+    @hover = ''
+    @game_over = ''
+    @moves_txts.each {|e| e.remove}
+    @moves_txts = []
+    @list_offset = 0
+    @to_move_ind.add
+    @w_material_text.remove
+    @b_material_text.remove
+    @w_material_text = nil
+    @b_material_text = nil
+    @w_material_text = Text.new("39 (0)", x:1160, y: 628, z: 2, size: 24,
+                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @b_material_text = Text.new("39 (0)", x:1160, y: 71, z: 2, size: 24,
+                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    update_move_ind
+    refresh_info
   end
 
   def show_menu1
