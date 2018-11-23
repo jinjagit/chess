@@ -60,7 +60,7 @@ Note: At the moment, to run this (after downloading this repository), you'll nee
   * text objects have poor anti-aliasing, which can result in a 90's style pixelation
   * text objects seem to be limited to single-line strings
   * creating 1000 text object instances causes crashes, whereas over 5000 shape instances do not
-  * crashes when using .remove / .add on text instances (200 to 300) in large arrays
+  * crashes when using .remove / .add on many (200 to 300) text instances in large arrays
 
 ### Resources used:
 
