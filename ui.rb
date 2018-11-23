@@ -487,14 +487,32 @@ class UI
     elsif x > 59 && x < 247 && y > 637 && y < 675 # move list navigation btns
       if x < 104 # go to start
         if event_type == 'hover'
-          puts "In the zone!"
+          info_off
+          hover_off if @hover != '' && @hover != 'start'
+          hover_on('start') if @hover != 'start'
         end
       elsif x > 118 && x < 153 # step back
-
-      elsif x > 153 && x < 157 # step fwd
-
-      elsif x > 202 && x < 43 # got end
-
+        if event_type == 'hover'
+          info_off
+          hover_off if @hover != '' && @hover != 'back'
+          hover_on('back') if @hover != 'back'
+        end
+      elsif x > 152 && x < 187 # step fwd
+        if event_type == 'hover'
+          info_off
+          hover_off if @hover != '' && @hover != 'fwd'
+          hover_on('fwd') if @hover != 'fwd'
+        end
+      elsif x > 202 && x < 247 # got end
+        if event_type == 'hover'
+          info_off
+          hover_off if @hover != '' && @hover != 'end'
+          hover_on('end') if @hover != 'end'
+        end
+      else
+        hover_off
+        info_on
+        @hover = ''
       end
 
     elsif @hover != '' # not in button icons nor claim button area
@@ -592,6 +610,22 @@ class UI
     elsif element == 'hmn_v_hmn'
       @menu_btn1.color = '#018dc1'
       @hover = 'hmn_v_hmn'
+    elsif element == 'start'
+      @tooltip14.add
+      @start.color = '#ffffff'
+      @hover = 'start'
+    elsif element == 'back'
+      @tooltip15.add
+      @back.color = '#ffffff'
+      @hover = 'back'
+    elsif element == 'fwd'
+      @tooltip16.add
+      @fwd.color = '#ffffff'
+      @hover = 'fwd'
+    elsif element == 'end'
+      @tooltip17.add
+      @end.color = '#ffffff'
+      @hover = 'end'
     end
   end
 
@@ -649,6 +683,18 @@ class UI
       @menu_btn5.color = '#7c0000'
     elsif @hover == 'hmn_v_hmn'
       @menu_btn1.color = '#006991'
+    elsif @hover == 'start'
+      @tooltip14.remove
+      @start.color = '#888888'
+    elsif @hover == 'back'
+      @tooltip15.remove
+      @back.color = '#888888'
+    elsif @hover == 'fwd'
+      @tooltip16.remove
+      @fwd.color = '#888888'
+    elsif @hover == 'end'
+      @tooltip17.remove
+      @end.color = '#888888'
     end
   end
 
@@ -920,6 +966,18 @@ class UI
     @tooltip13 = Text.new("     sound ON", x:1032, y: 348, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @tooltip13.remove
+    @tooltip14 = Text.new("    go to start", x:1036, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip14.remove
+    @tooltip15 = Text.new("  step backward", x:1036, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip15.remove
+    @tooltip16 = Text.new("  step forward", x:1036, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip16.remove
+    @tooltip17 = Text.new("    go to end", x:1036, y: 348, z: 2, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @tooltip17.remove
     @claim_txt1 = Text.new("claim draw", x:1076, y: 407, z: 4, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @claim_txt1.remove
