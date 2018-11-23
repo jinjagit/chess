@@ -2,6 +2,17 @@ module Utilities
   Coords = [['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
             ['1', '2', '3', '4', '5', '6', '7', '8']]
 
+  def self.start_posn
+    posn = ['br', 'bn', 'bb', 'bq', 'bk', 'bb', 'bn', 'br',
+              'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp',
+              '--', '--', '--', '--', '--', '--', '--', '--',
+              '--', '--', '--', '--', '--', '--', '--', '--',
+              '--', '--', '--', '--', '--', '--', '--', '--',
+              '--', '--', '--', '--', '--', '--', '--', '--',
+              'wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp',
+              'wr', 'wn', 'wb', 'wq', 'wk', 'wb', 'wn', 'wr']
+  end
+
   def self.square_origin(index)
     x_offset = 320
     y_offset = 40
@@ -38,15 +49,16 @@ class Board
   attr_accessor :promote
   attr_accessor :flipped
   attr_accessor :start_end
+  attr_accessor :start
 
-  def initialize(posn = Position.get_posn('start'))
+  def initialize
     @piece_codes = {'q' => Queen, 'r' => Rook, 'n' => Knight, 'b' => Bishop,
                     'p' => Pawn, 'k' => King}
     @coords = []
     @highlight_sqs = []
     @spare_pieces = []
     @game_pieces = []
-    @posn = posn
+    @posn = Utilities.start_posn
     @promo_sqs = []
     @promo_col = [0.62, 0.26, 0.957, 1.0]
     @promo_hov_col = [0.695, 0.431, 0.937, 1.0]
@@ -60,6 +72,13 @@ class Board
     create_promo_squares
     create_extra_sqs
     set_up_posn
+  end
+
+  def new_game
+    clear_pieces
+    hide_start_end
+    @game_pieces.each {|e| e.reset}
+    set_up_posn(first_run = false)
   end
 
   def create_legal_move_sqs

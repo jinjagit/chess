@@ -51,12 +51,9 @@ on :mouse_down do |event|
     ui.menu_event(event.x, event.y, 'click')
     if ui.new_game == true
       ui.new_game = false
-      board.clear_pieces
-      board.hide_start_end
-      board.game_pieces.each {|e| e.reset}
-      posn = Position.get_posn('start')
+      posn = Utilities.start_posn
       board.posn = posn
-      board.set_up_posn(first_run = false)
+      board.new_game
       game_pieces = board.game_pieces
       game.reinitialize(game_pieces)
     end
