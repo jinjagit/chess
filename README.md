@@ -7,7 +7,7 @@ The instructions, in a nutshell, are to build a "... command line chess game whe
 
 I chose not to produce a command line app, but instead went for a more graphical approach, using the Ruby2D gem. While this gem is still a little rough around the edges (at only v 0.7), it is way more pleasant to look at than anything I could produce in a terminal, and enables a much more user-friendly interface (with a little more work). So far, I have been very impressed with the ease-of-use of this gem.
 
-### Current state (19/11/18):
+### Current state (23/11/18):
 
 Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling, pawn promotion and en-passant. Checkmate, stalemate, and draw due to insufficient material, are correctly detected (and the game halted when found).
 
@@ -43,8 +43,7 @@ Note: At the moment, to run this (after downloading this repository), you'll nee
 
 ### Features I want to add:
   * file ui, for saving / loading of both unfinished and finished games, in both app native and PGN formats.
-  * step back / fwd through game (in progress, or completed)
-  * ui niceties (e.g. coordinates on/off, piece points count, etc.)
+  * step back / fwd through game (in progress)
   * Try doing more than just an 'AI' that plays a random move (as suggested in the 'Optional Extension'), but instead use a brute force look-ahead of a few ply (will still be an awful opponent!).
   * distributable executable (at least for Linux and OSX)
 
