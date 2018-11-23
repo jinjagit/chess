@@ -43,17 +43,43 @@ class UI
   end
 
   def update_move_list(game)
+    def set_x_posn
+      if @ply < 19
+        @moves_txts[-1].x = 72
+      elsif @ply > 198 # check this when overflow offset implemented
+        @moves_txts[-1].x = 52
+      else
+        @moves_txts[-1].x = 62
+      end
+    end
+
+
+    def create_half_move(game, y)
+      @moves_txts << Text.new("#{(@ply + 1) / 2}. #{game.pgn_list[-1]}",
+                        y: y, z: 2, size: 20, color: '#888888',
+                        font: 'fonts/UbuntuMono-R.ttf')
+      set_x_posn
+    end
+
+    def create_full_move(game, y)
+      spaces_str = " " * (7 - game.pgn_list[-2].length)
+      @moves_txts[-1].remove
+      @moves_txts[-1] = nil
+      @moves_txts[-1] = Text.new("#{(@ply + 1) / 2}. #{game.pgn_list[-2]}#{spaces_str} #{game.pgn_list[-1]}",
+                        y: y, z: 2, size: 20, color: '#888888',
+                        font: 'fonts/UbuntuMono-R.ttf')
+      set_x_posn
+    end
+
     new_offset = 0
     new_offset += 1 if @game_over != ''
 
     if @ply > 58 || (@ply > 56 && @game_over == '')
       new_offset = ((@ply - 57) / 2.floor)
       new_offset += 1 if @game_over != ''
-      (new_offset - @list_offset).times do
-         3.times do |i|
-           i += (@list_offset * 3)
-          @moves_txts[i].z = -1
-        end
+      (new_offset - @list_offset).times do |i|
+        i += @list_offset
+        @moves_txts[i].remove
         @moves_txts.each {|e| e.y -= 20}
       end
       @list_offset = new_offset
@@ -74,21 +100,10 @@ class UI
         @moves_txts << Text.new("1/2-1/2", x: 117, y: y, z: 2, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#888888')
       end
-    elsif @ply % 2 == 1 # was white move
-      @moves_txts << Text.new("#{(@ply + 1) / 2}.", y: y, z: 2, size: 20,
-                        font: 'fonts/UbuntuMono-R.ttf', color: '#888888')
-      if @ply < 19
-        @moves_txts[-1].x = 72
-      elsif @ply > 198 # check this when overflow offset implemented
-        @moves_txts[-1].x = 52
-      else
-        @moves_txts[-1].x = 62
-      end
-      @moves_txts << Text.new("#{game.pgn_list[-1]}", x: 102, y: y, z: 2, size: 20,
-                        font: 'fonts/UbuntuMono-R.ttf', color: '#888888')
+    elsif @ply % 2 == 1
+      create_half_move(game, y)
     else
-      @moves_txts << Text.new("#{game.pgn_list[-1]}", x: 182, y: y, z: 2, size: 20,
-                        font: 'fonts/UbuntuMono-R.ttf', color: '#888888')
+      create_full_move(game, y)
     end
   end
 
