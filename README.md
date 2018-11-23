@@ -34,7 +34,6 @@ A move list (both native and PGN format) is created as a game progresses. The pi
   * algebraic notation display
 
 ### To do next:
-  * basic ui elements (in progress)
   * add step fwd/bckwd review function(s) to ui move list / board display
   * add sound effects
   * load / save game
