@@ -6,7 +6,6 @@
 require 'ruby2d'
 require './ui'
 require './pieces'
-require './position'
 require './board'
 require './game'
 
@@ -150,37 +149,7 @@ on :mouse_up do |event|
 end
 
 on :key_down do |e|
-  # Select sandbox position(s)
-  case e.key
-    when '1'
-      new_posn = 'start'
-    when '2'
-      new_posn = 'dbl_checks'
-    when '3'
-      new_posn = 'castling'
-    when '4'
-      new_posn = 'insuf1'
-    when '5'
-      new_posn = 'insuf2'
-    when '6'
-      new_posn = 'insuf3'
-    when '7'
-      new_posn = 'moves'
-    when '8'
-      new_posn = 'pro_mate'
-    when '9'
-      new_posn = 'promote'
-  end
-  if e.key.to_i > 0 && e.key.to_i < 10
-    board.clear_pieces
-    posn = Position.get_posn(new_posn)
-    board.posn = posn
-    board.hide_start_end
-    board.set_up_posn(first_run = false)
-    game.remove_red_sq
-    game = Game.new(board.game_pieces)
-    print_posn(posn)
-  end
+  # To develop: keys for move list navigation
 end
 
 # puts
