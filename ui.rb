@@ -21,6 +21,7 @@ class UI
     @ply = 0
     @review = false
     @rev_ply = 1
+    @rev_move = nil
     @checks = 0
     @game_over = ''
     @moves_txts = []
@@ -511,6 +512,8 @@ class UI
             @rev_ply = @ply
             @review = true
           end
+          @rev_move.remove if @rev_move != nil
+          @rev_move = nil
           @rev_ply -= 1
           move = game.moves[@rev_ply]
           prv_move = game.moves[@rev_ply - 1]
@@ -537,6 +540,18 @@ class UI
             game.red_square.image.remove
           elsif move[3].include?('+') # look for check prev move
             game.red_square.image.remove if @rev_ply > 1 && prv_move[3].include?('+') != true
+          end
+
+          if @rev_ply != game.pgn_list.length && @rev_ply > 0
+            y = 48 + (((@rev_ply - 1) / 2.floor) * 20) - (@list_offset * 20)
+            if @rev_ply % 2 == 1
+              x = 102
+            else
+              x = 182
+            end
+            @rev_move = Text.new("#{game.pgn_list[@rev_ply - 1]}", x: x, y: y,
+                                  z: 5, size: 20, color: '#ffffff',
+                                  font: 'fonts/UbuntuMono-R.ttf')
           end
 
         end
