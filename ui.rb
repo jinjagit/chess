@@ -517,12 +517,13 @@ class UI
           details = move[3]
           piece = board.game_pieces.detect {|e| e.name == move[0]}
           board.start_end_squares(prv_move[1], prv_move[2])
+          piece.move_to_square(move[1])
           if details.include?('xep') != true && details.include?('x')
-
+            split = details.split('x')
+            piece = board.game_pieces.detect {|e| e.name == split[1]}
+            piece.icon.z = 5
           elsif details.include?('xep')
 
-          else
-            piece.move_to_square(move[1])
           end
           if @rev_ply == 0
             board.hide_start_end
