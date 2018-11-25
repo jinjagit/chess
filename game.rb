@@ -70,6 +70,12 @@ class Game
     suffix = ''
     result = ''
     name = piece.name
+
+    if details.include?('xep') != true && details.include?('x')
+      split_str = details.split('x')
+      details = split_str[0] + split_str[1][3..-1]
+    end
+
     if details.include?('=') # promotion, could include takes
       if details.include?('x') # promotion + takes
         promote = details[1..2]
@@ -86,7 +92,7 @@ class Game
       suffix = '#'
       result = ' ' + details[-3..-1]
       details = details[0..-5]
-    elsif details.include?('1/2-1/2')
+    elsif details.include?('1/2-1/2') # draw (rep / stalemate / insuf. / 50-move), could include takes
       result = ' 1/2-1/2'
       details = details[0..-8]
     end
@@ -97,7 +103,7 @@ class Game
     end
     if name[1] != 'p' && promote == ''
       pc = name[1].upcase
-      if pc[0] != 'K' ## == R, B, N, or Q
+      if pc[0] != 'K' ## == R, B, N, or Q, could include takes
         piece.find_moves(posn)
         if piece.disambiguate != []
           dis_list = [pgn_square(start_square)]
@@ -205,6 +211,7 @@ class Game
         details = 'xep'
       else # == piece taken, not en-passant
         piece_to_take = posn[end_square]
+        details = 'x' + piece_to_take
       end
       piece_to_take = @game_pieces.detect {|e| e.name == piece_to_take}
       piece_to_take.icon.z = -1
