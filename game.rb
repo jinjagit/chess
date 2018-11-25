@@ -73,7 +73,7 @@ class Game
 
     if details.include?('xep') != true && details.include?('x')
       split_str = details.split('x')
-      details = split_str[0] + split_str[1][3..-1]
+      details = 'x' + split_str[1][3..-1]
     end
 
     if details.include?('=') # promotion, could include takes
