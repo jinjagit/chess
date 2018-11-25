@@ -20,7 +20,7 @@ class UI
     @claim = ''
     @ply = 0
     @review = false
-    @rev_ply = 0
+    @rev_ply = 1
     @checks = 0
     @game_over = ''
     @moves_txts = []
@@ -144,6 +144,8 @@ class UI
     @moves_txts.each {|e| e.remove}
     @moves_txts = []
     @list_offset = 0
+    @review = false
+    @rev_ply = 1
     @to_move_ind.add
     @w_material_text.remove
     @b_material_text.remove
@@ -504,23 +506,30 @@ class UI
           info_off
           hover_off if @hover != '' && @hover != 'back'
           hover_on('back') if @hover != 'back'
-        else # click event
+        elsif @ply > 0 && @rev_ply >= 1 # click event
           if @review == false
             @rev_ply = @ply
             @review = true
           end
           @rev_ply -= 1
-          details = game.moves[@rev_ply]
-          piece = board.game_pieces.detect {|e| e.name == game.moves[@rev_ply][0]}
-          board.start_end_squares([@rev_ply - 1][1], [@rev_ply - 1][2])
+          move = game.moves[@rev_ply]
+          prv_move = game.moves[@rev_ply - 1]
+          details = move[3]
+          piece = board.game_pieces.detect {|e| e.name == move[0]}
+          board.start_end_squares(prv_move[1], prv_move[2])
           if details.include?('xep') != true && details.include?('x')
 
           elsif details.include?('xep')
 
           else
-            piece.move_to_square(game.moves[@rev_ply][1])
+            piece.move_to_square(move[1])
           end
-
+          if @rev_ply == 0
+            board.hide_start_end
+            game.red_square.image.remove
+          elsif move[3].include?('+') # look for check prev move
+            game.red_square.image.remove if @rev_ply > 1 && prv_move[3].include?('+') != true
+          end
           puts "#{game.moves[@ply - 1]}"
         end
       elsif x > 152 && x < 187 # step fwd
