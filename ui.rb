@@ -19,6 +19,8 @@ class UI
     @new_game = false
     @claim = ''
     @ply = 0
+    @review = false
+    @rev_ply = 0
     @checks = 0
     @game_over = ''
     @moves_txts = []
@@ -490,24 +492,51 @@ class UI
           info_off
           hover_off if @hover != '' && @hover != 'start'
           hover_on('start') if @hover != 'start'
+        else # set up start posn, when click 'go to start'
+          @review = true if @review == false
+          #board.posn = Utilities.start_posn
+          #board.clear_pieces
+          #board.hide_start_end
+          #board.set_up_posn(first_run = false)
         end
       elsif x > 118 && x < 153 # step back
         if event_type == 'hover'
           info_off
           hover_off if @hover != '' && @hover != 'back'
           hover_on('back') if @hover != 'back'
+        else # click event
+          if @review == false
+            @rev_ply = @ply
+            @review = true
+          end
+          @rev_ply -= 1
+          details = game.moves[@rev_ply]
+          piece = board.game_pieces.detect {|e| e.name == game.moves[@rev_ply][0]}
+          board.start_end_squares([@rev_ply - 1][1], [@rev_ply - 1][2])
+          if details.include?('xep') != true && details.include?('x')
+
+          elsif details.include?('xep')
+
+          else
+            piece.move_to_square(game.moves[@rev_ply][1])
+          end
+
+          puts "#{game.moves[@ply - 1]}"
         end
       elsif x > 152 && x < 187 # step fwd
         if event_type == 'hover'
           info_off
           hover_off if @hover != '' && @hover != 'fwd'
           hover_on('fwd') if @hover != 'fwd'
+        else # click event
+          @review = true if @review == false
         end
-      elsif x > 202 && x < 247 # got end
+      elsif x > 202 && x < 247 # go to end
         if event_type == 'hover'
           info_off
           hover_off if @hover != '' && @hover != 'end'
           hover_on('end') if @hover != 'end'
+        else # click event
         end
       else
         hover_off
