@@ -70,19 +70,19 @@ class Game
     suffix = ''
     result = ''
     name = piece.name
-    if details.include?('=')
-      if details.include?('x')
+    if details.include?('=') # promotion, could include takes
+      if details.include?('x') # promotion + takes
         promote = details[1..2]
         details = 'x' + details[3..-1]
-      else
+      else # promotion, no take
         promote = details[0..1]
         details = details[2..-1]
       end
     end
-    if details.include?('+')
+    if details.include?('+') # check, could include take
       suffix = details[-1]
       details = details[0..-2]
-    elsif details.include?('#')
+    elsif details.include?('#') # mate, could include take
       suffix = '#'
       result = ' ' + details[-3..-1]
       details = details[0..-5]
@@ -377,7 +377,7 @@ class Game
         details += '#1-0'
       end
     elsif @game_over == 'stalemate!' || @game_over == 'insufficient!' ||
-          @game_over == '50-move rule!' || game_over == '3-fold repetition!'
+          @game_over == '50-move rule!' || @game_over == '3-fold repetition!'
       details += '1/2-1/2'
     end
 
@@ -404,9 +404,9 @@ class Game
     pgn_move(posn, piece, start_square, end_square, details)
 
     # puts
-    # puts @pgn # debug (and later, for display)
-    # p @pgn_list
-    # p @moves
+     puts @pgn # debug (and later, for display)
+     p @pgn_list
+     p @moves
 
     # puts "#{@game_over}"
     # @claim = "3-fold repetition!" # dev of draw claims only
