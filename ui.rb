@@ -523,7 +523,14 @@ class UI
             piece = board.game_pieces.detect {|e| e.name == split[1]}
             piece.icon.z = 5
           elsif details.include?('xep')
-
+            split = details.split('xep')
+            piece = board.game_pieces.detect {|e| e.name == split[1]}
+            if move[1] < 32
+              piece.move_to_square(move[2] + 8)
+            else
+              piece.move_to_square(move[2] - 8)
+            end
+            piece.icon.z = 5
           end
           if @rev_ply == 0
             board.hide_start_end
@@ -531,7 +538,7 @@ class UI
           elsif move[3].include?('+') # look for check prev move
             game.red_square.image.remove if @rev_ply > 1 && prv_move[3].include?('+') != true
           end
-          puts "#{game.moves[@ply - 1]}"
+
         end
       elsif x > 152 && x < 187 # step fwd
         if event_type == 'hover'

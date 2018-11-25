@@ -208,7 +208,7 @@ class Game
           posn[end_square - 8] = '---'
         end
         piece.ep_square = -1
-        details = 'xep'
+        details = 'xep' + piece_to_take
       else # == piece taken, not en-passant
         piece_to_take = posn[end_square]
         details = 'x' + piece_to_take
