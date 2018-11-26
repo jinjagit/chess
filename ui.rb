@@ -92,11 +92,11 @@ class UI
 
     if @game_over != ''
       y = y += 20
-      if game.moves[-1][-1].include?('1-0')
+      if game.moves[-1][3].include?('1-0')
         @moves_txts << Text.new("1-0", x: 137, y: y, z: 2, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#888888')
       elsif
-        game.moves[-1][-1].include?('0-1')
+        game.moves[-1][3].include?('0-1')
         @moves_txts << Text.new("0-1", x: 137, y: y, z: 2, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#888888')
       else
@@ -545,9 +545,11 @@ class UI
           if @rev_ply == 0
             board.hide_start_end
             game.red_square.image.remove
-          elsif move[3].include?('+') || move[3].include?('#') # look for check prev move
+          elsif move[3].include?('+') # look for check prev move
             game.red_square.image.remove if @rev_ply > 1 && prv_move[3].include?('+') != true
           end
+
+          game.red_square.image.add if prv_move[3].include?('+')
 
           if @rev_ply != game.pgn_list.length && @rev_ply > 0
             y = 48 + (((@rev_ply - 1) / 2.floor) * 20) - (@list_offset * 20)
