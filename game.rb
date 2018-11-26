@@ -71,22 +71,16 @@ class Game
     result = ''
     name = piece.name
 
-    if details.include?('xep') != true && details.include?('x')
-      split_str = details.split('x')
-      details = 'x' + split_str[1][3..-1]
-    end
-
     if details.include?('=') # promotion, could include takes
       if details.include?('x') # promotion + takes
-        promote = details[1..2]
         details = 'x' + details[3..-1]
       else # promotion, no take
-        promote = details[0..1]
         details = details[2..-1]
       end
+      promote = '=Q'
     end
     if details.include?('+') # check, could include take
-      suffix = details[-1]
+      suffix = '+'
       details = details[0..-2]
     elsif details.include?('#') # mate, could include take
       suffix = '#'
@@ -137,7 +131,7 @@ class Game
     @pgn_list << "#{pc}#{sq}#{promote}#{suffix}"
   end
 
-  def move(posn, piece, start_square, end_square, details = '')
+  def move(posn, piece, start_square, end_square, details = '', promo_pawn = nil)
     def castle_move(start_sq, end_sq, name, posn)
       posn[start_sq] = '---'
       posn[end_sq] = name
@@ -208,14 +202,14 @@ class Game
           posn[end_square - 8] = '---'
         end
         piece.ep_square = -1
-        details = 'xep' + piece_to_take
+        details = 'xep' + details[1..-1]
       else # == piece taken, not en-passant
         piece_to_take = posn[end_square]
-        details = 'x' + piece_to_take
       end
       piece_to_take = @game_pieces.detect {|e| e.name == piece_to_take}
       piece_to_take.icon.z = -1
       subtract_material(piece_to_take)
+      piece_to_take = piece_to_take.name
     end
     posn[end_square] = posn_pc
     posn[start_square] = "---"
@@ -267,7 +261,7 @@ class Game
       end
     end
 
-    @moves << [piece.name, start_square, end_square, details]
+    @moves << [piece.name, start_square, end_square, details, piece_to_take, promo_pawn]
 
     # --- assess resulting position (most of remaining code in this def) ---
 
@@ -410,8 +404,8 @@ class Game
     @moves[-1][3] = details # add move details to move list(s)
     pgn_move(posn, piece, start_square, end_square, details)
 
-    # puts
-     puts @pgn # debug (and later, for display)
+     puts
+     #puts @pgn # debug (and later, for display)
      p @pgn_list
      p @moves
 

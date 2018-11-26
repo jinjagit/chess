@@ -517,17 +517,23 @@ class UI
           @rev_ply -= 1
           move = game.moves[@rev_ply]
           prv_move = game.moves[@rev_ply - 1]
-          details = move[3]
           piece = board.game_pieces.detect {|e| e.name == move[0]}
           board.start_end_squares(prv_move[1], prv_move[2])
-          piece.move_to_square(move[1])
-          if details.include?('xep') != true && details.include?('x')
-            split = details.split('x')
-            piece = board.game_pieces.detect {|e| e.name == split[1]}
+
+          if move[3].include?('=')
+            piece = board.game_pieces.detect {|e| e.name == posn[move[2]]}
+            piece.icon.z = -1
+            piece = board.game_pieces.detect {|e| e.name == move[5]}
             piece.icon.z = 5
-          elsif details.include?('xep')
-            split = details.split('xep')
-            piece = board.game_pieces.detect {|e| e.name == split[1]}
+          end
+
+          piece.move_to_square(move[1])
+
+          if move[3].include?('xep') != true && move[3].include?('x')
+            piece = board.game_pieces.detect {|e| e.name == move[4]}
+            piece.icon.z = 5 # taking a promoted q crashes here (nil class)
+          elsif move[3].include?('xep')
+            piece = board.game_pieces.detect {|e| e.name == move[4]}
             if move[1] < 32
               piece.move_to_square(move[2] + 8)
             else
@@ -535,10 +541,11 @@ class UI
             end
             piece.icon.z = 5
           end
+
           if @rev_ply == 0
             board.hide_start_end
             game.red_square.image.remove
-          elsif move[3].include?('+') # look for check prev move
+          elsif move[3].include?('+') || move[3].include?('#') # look for check prev move
             game.red_square.image.remove if @rev_ply > 1 && prv_move[3].include?('+') != true
           end
 

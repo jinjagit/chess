@@ -83,9 +83,10 @@ on :mouse_down do |event|
       #puts
     elsif promote != [] && board.promote.include?(location)
       piece.icon.z = -1
+      promo_pawn = piece.name
       new_piece, details, location = board.select_promo_pc(location, posn, start_square)
       game.game_pieces = board.game_pieces
-      end_sq, moves, posn = game.move(posn, new_piece, start_square, location, details)
+      end_sq, moves, posn = game.move(posn, new_piece, start_square, location, details, promo_pawn)
       ui.move_update(posn, board, game)
       end_sq = 63 - end_sq if board.flipped == true
       new_piece.move_to_square(end_sq)
