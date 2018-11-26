@@ -521,7 +521,7 @@ class UI
           board.start_end_squares(prv_move[1], prv_move[2])
 
           if move[3].include?('=')
-            piece = board.game_pieces.detect {|e| e.name == posn[move[2]]}
+            piece = board.game_pieces.detect {|e| e.name == move[0]}
             piece.icon.z = -1
             piece = board.game_pieces.detect {|e| e.name == move[5]}
             piece.icon.z = 5
