@@ -70,15 +70,8 @@ class Game
     suffix = ''
     result = ''
     name = piece.name
+    promote = details[-2..-1] if details.include?('=') # promotion, could include takes
 
-    if details.include?('=') # promotion, could include takes
-      if details.include?('x') # promotion + takes
-        details = 'x' + details[3..-1]
-      else # promotion, no take
-        details = details[2..-1]
-      end
-      promote = '=Q'
-    end
     if details.include?('+') # check, could include take
       suffix = '+'
       details = details[0..-2]
