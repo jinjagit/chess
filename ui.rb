@@ -4,6 +4,7 @@ class UI
   attr_accessor :legal_sqs
   attr_accessor :menu
   attr_accessor :new_game
+  attr_accessor :review
 
   def initialize
     @hover = ''

@@ -58,7 +58,7 @@ on :mouse_down do |event|
     end
   else
     location = board.mouse_square(event.x, event.y)
-    if location != "off_board" && game.game_over == '' && promote == []
+    if location != "off_board" && game.game_over == '' && promote == [] && ui.review == false
       location = 63 - location if board.flipped == true
       #startTime = Time.now # debug: monitor responsiveness
       posn_pc = posn[location]
