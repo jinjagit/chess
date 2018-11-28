@@ -552,16 +552,31 @@ class UI
 
           game.red_square.image.add if prv_move[3].include?('+')
 
-          if @rev_ply != game.pgn_list.length && @rev_ply > 0
-            y = 48 + (((@rev_ply - 1) / 2.floor) * 20) - (@list_offset * 20)
+          if @rev_ply > 0
+
+            # ------- show highlight of move being reviewed -----------------
+            if @rev_ply / 2.floor < @moves_txts.length - 28
+              y = 48
+            else
+              y = 48 + (((@rev_ply - 1) / 2.floor) * 20) - (@list_offset * 20)
+            end
             if @rev_ply % 2 == 1
               x = 102
             else
               x = 182
+              # if list scroll needed, hide one line at end, show one at start, move all + 20y
+              if @rev_ply / 2.floor < @moves_txts.length - 28
+                @moves_txts.each {|e| e.y += 20}
+                @list_offset -= 1
+                @moves_txts[29 + @list_offset].remove
+                @moves_txts[@list_offset].add
+              end
             end
             @rev_move = Text.new("#{game.pgn_list[@rev_ply - 1]}", x: x, y: y,
                                   z: 5, size: 20, color: '#ffffff',
                                   font: 'fonts/UbuntuMono-R.ttf')
+            # ---------------------------------------------------------------
+
           end
 
         end
