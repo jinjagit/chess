@@ -413,6 +413,7 @@ class Game
     @to_move = 'white'
     @moves = [] # [['piece', start_square, end_square, 'x,+,#,O-O, etc.']]
     @pgn = ''
+    @pgn_list = []
     @checks = 0
     @check_blocks = []
     @pinned = {}
