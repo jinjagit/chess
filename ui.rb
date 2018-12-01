@@ -23,6 +23,8 @@ class UI
     @review = false
     @rev_ply = 1
     @rev_move = nil
+    @rev_posn = []
+    @rev_check = false
     @checks = 0
     @game_over = ''
     @moves_txts = []
@@ -41,6 +43,7 @@ class UI
     @b_diff = 0
     @winner = ''
     @list_offset = 0
+    @posn_list = []
     create_texts
     create_icons
     create_menus
@@ -145,9 +148,12 @@ class UI
     @game_over = ''
     @moves_txts.each {|e| e.remove}
     @moves_txts = []
+    @rev_posn = []
+    @posn_list = []
     @list_offset = 0
     @review = false
     @rev_ply = 1
+    @rev_check = false
     @to_move_ind.add
     @w_material_text.remove
     @b_material_text.remove
@@ -259,7 +265,7 @@ class UI
       board.set_up_posn(first_run = false)
       board.flip_start_end if board.start_end != []
     end
-    if @checks > 0
+    if @checks > 0 || @rev_check == true
       red_sq = board.mouse_square(game.red_square.image.x, game.red_square.image.y)
       red_sq = 63 - red_sq if @flipped == false
       game.place_red_sq(red_sq)
@@ -272,6 +278,7 @@ class UI
   end
 
   def move_update(posn, board, game)
+    @posn_list = @posn_list + posn
     @ply = game.ply
     @checks = game.checks
     update_move_ind
@@ -322,6 +329,7 @@ class UI
           hover_off if @hover != '' && @hover != 'flip'
           hover_on('flip') if @hover != 'flip'
         else # event_type == 'click' (flip board)
+          posn = @rev_posn if @review == true
           flip_board(posn, board, game)
           hover_on('flip')
         end
@@ -516,32 +524,40 @@ class UI
           @rev_move.remove if @rev_move != nil
           @rev_move = nil
           @rev_ply -= 1
+
           move = game.moves[@rev_ply]
           prv_move = game.moves[@rev_ply - 1]
-          piece = board.game_pieces.detect {|e| e.name == move[0]}
-          board.start_end_squares(prv_move[1], prv_move[2])
 
-          if move[3].include?('=')
-            piece = board.game_pieces.detect {|e| e.name == move[0]}
-            piece.icon.z = -1
-            piece = board.game_pieces.detect {|e| e.name == move[5]}
-            piece.icon.z = 5
+          if @rev_ply != 0
+            @rev_posn = @posn_list[((@rev_ply - 1) * 64)..((@rev_ply * 64) - 1)]
+          else
+            @rev_posn = Utilities.start_posn_w_pcs
           end
 
-          piece.move_to_square(move[1])
+          prev_posn = @posn_list[(64 + ((@rev_ply -1) * 64))..(63 + @rev_ply * 64)]
 
-          if move[3].include?('xep') != true && move[3].include?('x')
-            piece = board.game_pieces.detect {|e| e.name == move[4]}
-            piece.icon.z = 5 # taking a promoted q crashes here (nil class)
-          elsif move[3].include?('xep')
-            piece = board.game_pieces.detect {|e| e.name == move[4]}
-            if move[1] < 32
-              piece.move_to_square(move[2] + 8)
-            else
-              piece.move_to_square(move[2] - 8)
+          64.times do |i|
+            if prev_posn[i] != @rev_posn[i] && prev_posn[i] != '---'
+              piece = board.game_pieces.detect {|e| e.name == prev_posn[i]}
+              piece.icon.z = -1
             end
-            piece.icon.z = 5
           end
+
+          64.times do |i|
+            if prev_posn[i] != @rev_posn[i] && @rev_posn[i] != '---'
+              piece = board.game_pieces.detect {|e| e.name == @rev_posn[i]}
+              i = 63 - i if @flipped == true
+              piece.move_to_square(i)
+              piece.icon.z = 5
+            end
+          end
+
+          # remember:
+            # flip board must use rev_posn when reviewing moves
+            # ?autoflip?
+            # if works, delete @moves[4] && [5] ... then check all OK
+
+          board.start_end_squares(prv_move[1], prv_move[2])
 
           if @rev_ply == 0
             board.hide_start_end
@@ -550,11 +566,20 @@ class UI
             game.red_square.image.remove if @rev_ply > 1 && prv_move[3].include?('+') != true
           end
 
-          game.red_square.image.add if prv_move[3].include?('+')
+          if prv_move[3].include?('+')
+            @rev_check = true
+            if prv_move[0][0] == 'w'
+              square = @rev_posn.find_index('bk0')
+            else
+              square = @rev_posn.find_index('wk0')
+            end
+            game.place_red_sq(square)
+            game.red_square.image.add
+          else
+            @rev_check = false
+          end
 
-          if @rev_ply > 0
-
-            # ------- show highlight of move being reviewed -----------------
+          if @rev_ply > 0 # highlight move being reviewed
             if @rev_ply / 2.floor < @moves_txts.length - 28
               y = 48
             else
@@ -564,8 +589,7 @@ class UI
               x = 102
             else
               x = 182
-              # if list scroll needed, hide one line at end, show one at start, move all + 20y
-              if @rev_ply / 2.floor < @moves_txts.length - 28
+              if @rev_ply / 2.floor < @moves_txts.length - 28 # scroll move list
                 @moves_txts.each {|e| e.y += 20}
                 @list_offset -= 1
                 @moves_txts[29 + @list_offset].remove
@@ -575,8 +599,6 @@ class UI
             @rev_move = Text.new("#{game.pgn_list[@rev_ply - 1]}", x: x, y: y,
                                   z: 5, size: 20, color: '#ffffff',
                                   font: 'fonts/UbuntuMono-R.ttf')
-            # ---------------------------------------------------------------
-
           end
 
         end

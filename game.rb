@@ -397,10 +397,9 @@ class Game
     @moves[-1][3] = details # add move details to move list(s)
     pgn_move(posn, piece, start_square, end_square, details)
 
-     puts
      #puts @pgn # debug (and later, for display)
-     p @pgn_list
-     p @moves
+     #p @pgn_list
+     #p @moves
 
     # puts "#{@game_over}"
     # @claim = "3-fold repetition!" # dev of draw claims only
