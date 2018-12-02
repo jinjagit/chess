@@ -254,7 +254,7 @@ class Game
       end
     end
 
-    @moves << [piece.name, start_square, end_square, details, piece_to_take, promo_pawn]
+    @moves << [piece.name, start_square, end_square, details]
 
     # --- assess resulting position (most of remaining code in this def) ---
 

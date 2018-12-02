@@ -506,10 +506,6 @@ class UI
           hover_on('start') if @hover != 'start'
         else # set up start posn, when click 'go to start'
           @review = true if @review == false
-          #board.posn = Utilities.start_posn
-          #board.clear_pieces
-          #board.hide_start_end
-          #board.set_up_posn(first_run = false)
         end
       elsif x > 118 && x < 153 # step back
         if event_type == 'hover'
@@ -524,7 +520,6 @@ class UI
           @rev_move.remove if @rev_move != nil
           @rev_move = nil
           @rev_ply -= 1
-
           move = game.moves[@rev_ply]
           prv_move = game.moves[@rev_ply - 1]
 
@@ -551,11 +546,6 @@ class UI
               piece.icon.z = 5
             end
           end
-
-          # remember:
-            # flip board must use rev_posn when reviewing moves
-            # ?autoflip?
-            # if works, delete @moves[4] && [5] ... then check all OK
 
           board.start_end_squares(prv_move[1], prv_move[2])
 
@@ -600,15 +590,88 @@ class UI
                                   z: 5, size: 20, color: '#ffffff',
                                   font: 'fonts/UbuntuMono-R.ttf')
           end
-
         end
       elsif x > 152 && x < 187 # step fwd
         if event_type == 'hover'
           info_off
           hover_off if @hover != '' && @hover != 'fwd'
           hover_on('fwd') if @hover != 'fwd'
-        else # click event
-          @review = true if @review == false
+        elsif @ply != @rev_ply # click event
+          @rev_move.remove if @rev_move != nil
+          @rev_move = nil
+          move = game.moves[@rev_ply]
+          prv_move = game.moves[@rev_ply - 1]
+          @rev_ply += 1
+
+          prev_posn = @posn_list[((@rev_ply - 2) * 64)..(((@rev_ply - 1) * 64) - 1)]
+          @rev_posn = @posn_list[((@rev_ply -1) * 64)..((@rev_ply * 64) - 1)]
+
+          puts "prev:"
+          p prev_posn
+          puts "rev:"
+          p @rev_posn
+
+          64.times do |i|
+            if prev_posn[i] != @rev_posn[i] && prev_posn[i] != '---'
+              piece = board.game_pieces.detect {|e| e.name == prev_posn[i]}
+              piece.icon.z = -1
+            end
+          end
+
+          64.times do |i|
+            if prev_posn[i] != @rev_posn[i] && @rev_posn[i] != '---'
+              piece = board.game_pieces.detect {|e| e.name == @rev_posn[i]}
+              i = 63 - i if @flipped == true
+              piece.move_to_square(i)
+              piece.icon.z = 5
+            end
+          end
+
+          board.start_end_squares(move[1], move[2])
+
+          if @rev_ply == 0
+            board.hide_start_end
+            game.red_square.image.remove
+          elsif prv_move[3].include?('+') # look for check prev move
+            game.red_square.image.remove if move[3].include?('+') != true
+          end
+
+          if move[3].include?('+')
+            @rev_check = true
+            if move[0][0] == 'w'
+              square = @rev_posn.find_index('bk0')
+            else
+              square = @rev_posn.find_index('wk0')
+            end
+            game.place_red_sq(square)
+            game.red_square.image.add
+          else
+            @rev_check = false
+          end
+
+          if @ply != @rev_ply # highlight move being reviewed
+            if @rev_ply / 2.floor < @moves_txts.length - 28
+              y = 48
+            else
+              y = 48 + (((@rev_ply - 1) / 2.floor) * 20) - (@list_offset * 20)
+            end
+            if @rev_ply % 2 == 1
+              x = 102
+            else
+              x = 182
+              if @rev_ply / 2.floor < @moves_txts.length - 28 # scroll move list
+                @moves_txts.each {|e| e.y -= 20}
+                @list_offset += 1
+                @moves_txts[29 + @list_offset].add
+                @moves_txts[@list_offset].remove
+              end
+            end
+            @rev_move = Text.new("#{game.pgn_list[@rev_ply - 1]}", x: x, y: y,
+                                  z: 5, size: 20, color: '#ffffff',
+                                  font: 'fonts/UbuntuMono-R.ttf')
+          else
+            @review = false
+          end
         end
       elsif x > 202 && x < 247 # go to end
         if event_type == 'hover'
