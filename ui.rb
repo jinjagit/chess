@@ -603,13 +603,12 @@ class UI
           prv_move = game.moves[@rev_ply - 1]
           @rev_ply += 1
 
-          prev_posn = @posn_list[((@rev_ply - 2) * 64)..(((@rev_ply - 1) * 64) - 1)]
+          if @rev_ply != 1
+            prev_posn = @posn_list[((@rev_ply - 2) * 64)..(((@rev_ply - 1) * 64) - 1)]
+          else
+            prev_posn = Utilities.start_posn_w_pcs
+          end
           @rev_posn = @posn_list[((@rev_ply -1) * 64)..((@rev_ply * 64) - 1)]
-
-          puts "prev:"
-          p prev_posn
-          puts "rev:"
-          p @rev_posn
 
           64.times do |i|
             if prev_posn[i] != @rev_posn[i] && prev_posn[i] != '---'
