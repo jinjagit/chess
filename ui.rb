@@ -506,6 +506,19 @@ class UI
           hover_on('start') if @hover != 'start'
         else # set up start posn, when click 'go to start'
           @review = true if @review == false
+          @rev_posn = Utilities.start_posn_w_pcs
+           @rev_posn.each_with_index do |e, i|
+             if @rev_posn[i] != '---'
+               piece = board.game_pieces.detect {|e| e.name == @rev_posn[i]}
+               i = 63 - i if @flipped == true
+               piece.move_to_square(i)
+               piece.icon.z = 5
+             end
+           end
+           @rev_ply = 0
+           board.hide_start_end
+           @rev_check = false
+           game.red_square.image.remove
         end
       elsif x > 118 && x < 153 # step back
         if event_type == 'hover'
