@@ -44,6 +44,7 @@ class UI
     @winner = ''
     @list_offset = 0
     @posn_list = []
+    @key_delay = false
     create_texts
     create_icons
     create_menus
@@ -320,6 +321,167 @@ class UI
     update_move_list(game) if @game_over != ''
   end
 
+  def step_back(game, board)
+    if @ply > 0 && @rev_ply >= 1
+      if @review == false
+        @rev_ply = @ply
+        @review = true
+      end
+      @rev_move.remove if @rev_move != nil
+      @rev_move = nil
+      @rev_ply -= 1
+      move = game.moves[@rev_ply]
+      prv_move = game.moves[@rev_ply - 1]
+
+      if @rev_ply != 0
+        @rev_posn = @posn_list[((@rev_ply - 1) * 64)..((@rev_ply * 64) - 1)]
+      else
+        @rev_posn = Utilities.start_posn_w_pcs
+      end
+
+      prev_posn = @posn_list[(64 + ((@rev_ply -1) * 64))..(63 + @rev_ply * 64)]
+
+      64.times do |i|
+        if prev_posn[i] != @rev_posn[i] && prev_posn[i] != '---'
+          piece = board.game_pieces.detect {|e| e.name == prev_posn[i]}
+          piece.icon.z = -1
+        end
+      end
+
+      64.times do |i|
+        if prev_posn[i] != @rev_posn[i] && @rev_posn[i] != '---'
+          piece = board.game_pieces.detect {|e| e.name == @rev_posn[i]}
+          i = 63 - i if @flipped == true
+          piece.move_to_square(i)
+          piece.icon.z = 5
+        end
+      end
+
+      board.start_end_squares(prv_move[1], prv_move[2])
+
+      if @rev_ply == 0
+        board.hide_start_end
+        game.red_square.image.remove
+      elsif move[3].include?('+') # look for check prev move
+        game.red_square.image.remove if @rev_ply > 1 && prv_move[3].include?('+') != true
+      end
+
+      if prv_move[3].include?('+')
+        @rev_check = true
+        if prv_move[0][0] == 'w'
+          square = @rev_posn.find_index('bk0')
+        else
+          square = @rev_posn.find_index('wk0')
+        end
+        game.place_red_sq(square)
+        game.red_square.image.add
+      else
+        @rev_check = false
+      end
+
+      if @rev_ply > 0 # highlight move being reviewed
+        if @rev_ply / 2.floor < @moves_txts.length - 28
+          y = 48
+        else
+          y = 48 + (((@rev_ply - 1) / 2.floor) * 20) - (@list_offset * 20)
+        end
+        if @rev_ply % 2 == 1
+          x = 102
+        else
+          x = 182
+          if @rev_ply / 2.floor < @moves_txts.length - 28 # scroll move list
+            @moves_txts.each {|e| e.y += 20}
+            @list_offset -= 1
+            @moves_txts[29 + @list_offset].remove
+            @moves_txts[@list_offset].add
+          end
+        end
+        @rev_move = Text.new("#{game.pgn_list[@rev_ply - 1]}", x: x, y: y,
+                              z: 5, size: 20, color: '#ffffff',
+                              font: 'fonts/UbuntuMono-R.ttf')
+      end
+    end
+  end
+
+  def step_fwd(game, board)
+    if @ply != @rev_ply
+      @rev_move.remove if @rev_move != nil
+      @rev_move = nil
+      move = game.moves[@rev_ply]
+      prv_move = game.moves[@rev_ply - 1]
+      @rev_ply += 1
+
+      if @rev_ply != 1
+        prev_posn = @posn_list[((@rev_ply - 2) * 64)..(((@rev_ply - 1) * 64) - 1)]
+      else
+        prev_posn = Utilities.start_posn_w_pcs
+      end
+      @rev_posn = @posn_list[((@rev_ply -1) * 64)..((@rev_ply * 64) - 1)]
+
+      64.times do |i|
+        if prev_posn[i] != @rev_posn[i] && prev_posn[i] != '---'
+          piece = board.game_pieces.detect {|e| e.name == prev_posn[i]}
+          piece.icon.z = -1
+        end
+      end
+
+      64.times do |i|
+        if prev_posn[i] != @rev_posn[i] && @rev_posn[i] != '---'
+          piece = board.game_pieces.detect {|e| e.name == @rev_posn[i]}
+          i = 63 - i if @flipped == true
+          piece.move_to_square(i)
+          piece.icon.z = 5
+        end
+      end
+
+      board.start_end_squares(move[1], move[2])
+
+      if @rev_ply == 0
+        board.hide_start_end
+        game.red_square.image.remove
+      elsif prv_move[3].include?('+') # look for check prev move
+        game.red_square.image.remove if move[3].include?('+') != true
+      end
+
+      if move[3].include?('+')
+        @rev_check = true
+        if move[0][0] == 'w'
+          square = @rev_posn.find_index('bk0')
+        else
+          square = @rev_posn.find_index('wk0')
+        end
+        game.place_red_sq(square)
+        game.red_square.image.add
+      else
+        @rev_check = false
+      end
+
+      if @ply != @rev_ply # highlight move being reviewed
+        if @rev_ply / 2.floor > @list_offset + 28
+          y = 608
+        else
+          y = 48 + (((@rev_ply - 1) / 2.floor) * 20) - (@list_offset * 20)
+        end
+        if @rev_ply % 2 == 1
+          x = 102
+          if @rev_ply / 2.floor > @list_offset + 28 # scroll move list
+            @moves_txts.each {|e| e.y -= 20}
+            @list_offset += 1
+            @moves_txts[28 + @list_offset].add
+            @moves_txts[@list_offset].remove
+          end
+        else
+          x = 182
+        end
+        @rev_move = Text.new("#{game.pgn_list[@rev_ply - 1]}", x: x, y: y,
+                              z: 5, size: 20, color: '#ffffff',
+                              font: 'fonts/UbuntuMono-R.ttf')
+      else
+        @review = false
+      end
+    end
+  end
+
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
     if x > 1020 && x < 1240 && y > 245 && y < 275 # button icons
       info_off if @hover == ''
@@ -525,165 +687,16 @@ class UI
           info_off
           hover_off if @hover != '' && @hover != 'back'
           hover_on('back') if @hover != 'back'
-        elsif @ply > 0 && @rev_ply >= 1 # click event
-          if @review == false
-            @rev_ply = @ply
-            @review = true
-          end
-          @rev_move.remove if @rev_move != nil
-          @rev_move = nil
-          @rev_ply -= 1
-          move = game.moves[@rev_ply]
-          prv_move = game.moves[@rev_ply - 1]
-
-          if @rev_ply != 0
-            @rev_posn = @posn_list[((@rev_ply - 1) * 64)..((@rev_ply * 64) - 1)]
-          else
-            @rev_posn = Utilities.start_posn_w_pcs
-          end
-
-          prev_posn = @posn_list[(64 + ((@rev_ply -1) * 64))..(63 + @rev_ply * 64)]
-
-          64.times do |i|
-            if prev_posn[i] != @rev_posn[i] && prev_posn[i] != '---'
-              piece = board.game_pieces.detect {|e| e.name == prev_posn[i]}
-              piece.icon.z = -1
-            end
-          end
-
-          64.times do |i|
-            if prev_posn[i] != @rev_posn[i] && @rev_posn[i] != '---'
-              piece = board.game_pieces.detect {|e| e.name == @rev_posn[i]}
-              i = 63 - i if @flipped == true
-              piece.move_to_square(i)
-              piece.icon.z = 5
-            end
-          end
-
-          board.start_end_squares(prv_move[1], prv_move[2])
-
-          if @rev_ply == 0
-            board.hide_start_end
-            game.red_square.image.remove
-          elsif move[3].include?('+') # look for check prev move
-            game.red_square.image.remove if @rev_ply > 1 && prv_move[3].include?('+') != true
-          end
-
-          if prv_move[3].include?('+')
-            @rev_check = true
-            if prv_move[0][0] == 'w'
-              square = @rev_posn.find_index('bk0')
-            else
-              square = @rev_posn.find_index('wk0')
-            end
-            game.place_red_sq(square)
-            game.red_square.image.add
-          else
-            @rev_check = false
-          end
-
-          if @rev_ply > 0 # highlight move being reviewed
-            if @rev_ply / 2.floor < @moves_txts.length - 28
-              y = 48
-            else
-              y = 48 + (((@rev_ply - 1) / 2.floor) * 20) - (@list_offset * 20)
-            end
-            if @rev_ply % 2 == 1
-              x = 102
-            else
-              x = 182
-              if @rev_ply / 2.floor < @moves_txts.length - 28 # scroll move list
-                @moves_txts.each {|e| e.y += 20}
-                @list_offset -= 1
-                @moves_txts[29 + @list_offset].remove
-                @moves_txts[@list_offset].add
-              end
-            end
-            @rev_move = Text.new("#{game.pgn_list[@rev_ply - 1]}", x: x, y: y,
-                                  z: 5, size: 20, color: '#ffffff',
-                                  font: 'fonts/UbuntuMono-R.ttf')
-          end
+        else # click event
+          step_back(game, board)
         end
       elsif x > 152 && x < 187 # step fwd
         if event_type == 'hover'
           info_off
           hover_off if @hover != '' && @hover != 'fwd'
           hover_on('fwd') if @hover != 'fwd'
-        elsif @ply != @rev_ply # click event
-          @rev_move.remove if @rev_move != nil
-          @rev_move = nil
-          move = game.moves[@rev_ply]
-          prv_move = game.moves[@rev_ply - 1]
-          @rev_ply += 1
-
-          if @rev_ply != 1
-            prev_posn = @posn_list[((@rev_ply - 2) * 64)..(((@rev_ply - 1) * 64) - 1)]
-          else
-            prev_posn = Utilities.start_posn_w_pcs
-          end
-          @rev_posn = @posn_list[((@rev_ply -1) * 64)..((@rev_ply * 64) - 1)]
-
-          64.times do |i|
-            if prev_posn[i] != @rev_posn[i] && prev_posn[i] != '---'
-              piece = board.game_pieces.detect {|e| e.name == prev_posn[i]}
-              piece.icon.z = -1
-            end
-          end
-
-          64.times do |i|
-            if prev_posn[i] != @rev_posn[i] && @rev_posn[i] != '---'
-              piece = board.game_pieces.detect {|e| e.name == @rev_posn[i]}
-              i = 63 - i if @flipped == true
-              piece.move_to_square(i)
-              piece.icon.z = 5
-            end
-          end
-
-          board.start_end_squares(move[1], move[2])
-
-          if @rev_ply == 0
-            board.hide_start_end
-            game.red_square.image.remove
-          elsif prv_move[3].include?('+') # look for check prev move
-            game.red_square.image.remove if move[3].include?('+') != true
-          end
-
-          if move[3].include?('+')
-            @rev_check = true
-            if move[0][0] == 'w'
-              square = @rev_posn.find_index('bk0')
-            else
-              square = @rev_posn.find_index('wk0')
-            end
-            game.place_red_sq(square)
-            game.red_square.image.add
-          else
-            @rev_check = false
-          end
-
-          if @ply != @rev_ply # highlight move being reviewed
-            if @rev_ply / 2.floor > @list_offset + 28
-              y = 608
-            else
-              y = 48 + (((@rev_ply - 1) / 2.floor) * 20) - (@list_offset * 20)
-            end
-            if @rev_ply % 2 == 1
-              x = 102
-              if @rev_ply / 2.floor > @list_offset + 28 # scroll move list
-                @moves_txts.each {|e| e.y -= 20}
-                @list_offset += 1
-                @moves_txts[28 + @list_offset].add
-                @moves_txts[@list_offset].remove
-              end
-            else
-              x = 182
-            end
-            @rev_move = Text.new("#{game.pgn_list[@rev_ply - 1]}", x: x, y: y,
-                                  z: 5, size: 20, color: '#ffffff',
-                                  font: 'fonts/UbuntuMono-R.ttf')
-          else
-            @review = false
-          end
+        else # click event
+          step_fwd(game, board)
         end
       elsif x > 202 && x < 247 # go to end
         if event_type == 'hover'

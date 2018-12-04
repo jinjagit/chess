@@ -38,6 +38,8 @@ game = Game.new(board.game_pieces)
 ui.place_defaults
 posn = board.posn
 
+key_delay = 0.3
+key_time = 0
 piece_lift = false
 posn_pc = ""
 start_square = nil
@@ -149,8 +151,43 @@ on :mouse_up do |event|
   # print_posn(posn) # debug output
 end
 
-on :key_down do |e|
-  # To develop: keys for move list navigation
+on :key_down do |event|
+  case event.key
+  when 'a'
+    ui.step_back(game, board)
+    key_time = Time.now
+  when 'd'
+    ui.step_fwd(game, board)
+    key_time = Time.now
+  end
+end
+
+
+on :key_held do |event|
+  case event.key
+  when 'a'
+    duration = (Time.now - key_time).to_f
+    if duration > 0.3
+      ui.step_back(game, board)
+      key_delay *= 0.9
+      sleep(key_delay)
+    end
+  when 'd'
+    duration = (Time.now - key_time).to_f
+    if duration > 0.3
+      ui.step_fwd(game, board)
+      key_delay *= 0.9
+      sleep(key_delay)
+    end
+  end
+end
+
+on :key_up do |event|
+  # A key was released
+  case event.key
+  when 'a' || 'd' || 'w' || 's'
+    key_delay = 0.3
+  end
 end
 
 # puts
