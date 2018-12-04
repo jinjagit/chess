@@ -649,21 +649,21 @@ class UI
           end
 
           if @ply != @rev_ply # highlight move being reviewed
-            if @rev_ply / 2.floor < @moves_txts.length - 28
-              y = 48
+            if @rev_ply / 2.floor > @list_offset + 28
+              y = 608
             else
               y = 48 + (((@rev_ply - 1) / 2.floor) * 20) - (@list_offset * 20)
             end
             if @rev_ply % 2 == 1
               x = 102
-            else
-              x = 182
-              if @rev_ply / 2.floor < @moves_txts.length - 28 # scroll move list
+              if @rev_ply / 2.floor > @list_offset + 28 # scroll move list
                 @moves_txts.each {|e| e.y -= 20}
                 @list_offset += 1
-                @moves_txts[29 + @list_offset].add
+                @moves_txts[28 + @list_offset].add
                 @moves_txts[@list_offset].remove
               end
+            else
+              x = 182
             end
             @rev_move = Text.new("#{game.pgn_list[@rev_ply - 1]}", x: x, y: y,
                                   z: 5, size: 20, color: '#ffffff',
