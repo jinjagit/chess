@@ -154,11 +154,24 @@ end
 on :key_down do |event|
   case event.key
   when 'a'
-    ui.step_back(game, board)
-    key_time = Time.now
+    if ui.rev_ply != 0
+      ui.step_back(game, board)
+      key_time = Time.now
+    end
   when 'd'
-    ui.step_fwd(game, board)
-    key_time = Time.now
+    if ui.ply != ui.rev_ply
+      ui.step_fwd(game, board)
+      key_time = Time.now
+    end
+  when 'w'
+    if ui.ply != ui.rev_ply
+      ui.go_to_end(game, board)
+    end
+  when 's'
+    if ui.rev_ply != 0
+      ui.go_to_start(game, board)
+    end
+
   end
 end
 
@@ -167,14 +180,14 @@ on :key_held do |event|
   case event.key
   when 'a'
     duration = (Time.now - key_time).to_f
-    if duration > 0.3
+    if duration > 0.3 && ui.rev_ply != 0
       ui.step_back(game, board)
       key_delay *= 0.9
       sleep(key_delay)
     end
   when 'd'
     duration = (Time.now - key_time).to_f
-    if duration > 0.3
+    if duration > 0.3 && ui.ply != ui.rev_ply
       ui.step_fwd(game, board)
       key_delay *= 0.9
       sleep(key_delay)

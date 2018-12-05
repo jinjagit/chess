@@ -5,6 +5,8 @@ class UI
   attr_accessor :menu
   attr_accessor :new_game
   attr_accessor :review
+  attr_accessor :ply
+  attr_accessor :rev_ply
 
   def initialize
     @hover = ''
@@ -321,6 +323,24 @@ class UI
     update_move_list(game) if @game_over != ''
   end
 
+  def step_btwn_posns(board, prev_posn, rev_posn)
+    64.times do |i|
+      if prev_posn[i] != rev_posn[i] && prev_posn[i] != '---'
+        piece = board.game_pieces.detect {|e| e.name == prev_posn[i]}
+        piece.icon.z = -1
+      end
+    end
+
+    64.times do |i|
+      if prev_posn[i] != rev_posn[i] && rev_posn[i] != '---'
+        piece = board.game_pieces.detect {|e| e.name == rev_posn[i]}
+        i = 63 - i if @flipped == true
+        piece.move_to_square(i)
+        piece.icon.z = 5
+      end
+    end
+  end
+
   def step_back(game, board)
     if @ply > 0 && @rev_ply >= 1
       if @review == false
@@ -339,24 +359,10 @@ class UI
         @rev_posn = Utilities.start_posn_w_pcs
       end
 
+      rev_posn = @rev_posn
       prev_posn = @posn_list[(64 + ((@rev_ply -1) * 64))..(63 + @rev_ply * 64)]
 
-      64.times do |i|
-        if prev_posn[i] != @rev_posn[i] && prev_posn[i] != '---'
-          piece = board.game_pieces.detect {|e| e.name == prev_posn[i]}
-          piece.icon.z = -1
-        end
-      end
-
-      64.times do |i|
-        if prev_posn[i] != @rev_posn[i] && @rev_posn[i] != '---'
-          piece = board.game_pieces.detect {|e| e.name == @rev_posn[i]}
-          i = 63 - i if @flipped == true
-          piece.move_to_square(i)
-          piece.icon.z = 5
-        end
-      end
-
+      step_btwn_posns(board, prev_posn, rev_posn)
       board.start_end_squares(prv_move[1], prv_move[2])
 
       if @rev_ply == 0
@@ -366,7 +372,7 @@ class UI
         game.red_square.image.remove if @rev_ply > 1 && prv_move[3].include?('+') != true
       end
 
-      if prv_move[3].include?('+')
+      if @rev_ply != 0 && prv_move[3].include?('+')
         @rev_check = true
         if prv_move[0][0] == 'w'
           square = @rev_posn.find_index('bk0')
@@ -416,24 +422,11 @@ class UI
       else
         prev_posn = Utilities.start_posn_w_pcs
       end
+
       @rev_posn = @posn_list[((@rev_ply -1) * 64)..((@rev_ply * 64) - 1)]
+      rev_posn = @rev_posn
 
-      64.times do |i|
-        if prev_posn[i] != @rev_posn[i] && prev_posn[i] != '---'
-          piece = board.game_pieces.detect {|e| e.name == prev_posn[i]}
-          piece.icon.z = -1
-        end
-      end
-
-      64.times do |i|
-        if prev_posn[i] != @rev_posn[i] && @rev_posn[i] != '---'
-          piece = board.game_pieces.detect {|e| e.name == @rev_posn[i]}
-          i = 63 - i if @flipped == true
-          piece.move_to_square(i)
-          piece.icon.z = 5
-        end
-      end
-
+      step_btwn_posns(board, prev_posn, rev_posn)
       board.start_end_squares(move[1], move[2])
 
       if @rev_ply == 0
@@ -480,6 +473,46 @@ class UI
         @review = false
       end
     end
+  end
+
+  def go_to_end(game, board)
+    @rev_ply = @ply
+    rev_posn = @posn_list[-64..-1]
+    prev_posn = @rev_posn
+    @rev_posn = rev_posn
+    step_btwn_posns(board, prev_posn, rev_posn)
+    if game.moves[-1][3].include?('+')
+      @rev_check = true
+      if game.moves[-1][0][0] == 'w'
+        square = @rev_posn.find_index('bk0')
+      else
+        square = @rev_posn.find_index('wk0')
+      end
+      game.place_red_sq(square)
+      game.red_square.image.add
+    else
+      @rev_check = false
+      game.red_square.image.remove
+    end
+    board.start_end_squares(game.moves[-1][1], game.moves[-1][2])
+    @review = false
+  end
+
+  def go_to_start(game, board)
+    @review = true if @review == false
+    @rev_posn = Utilities.start_posn_w_pcs
+     @rev_posn.each_with_index do |e, i|
+       if @rev_posn[i] != '---'
+         piece = board.game_pieces.detect {|e| e.name == @rev_posn[i]}
+         i = 63 - i if @flipped == true
+         piece.move_to_square(i)
+         piece.icon.z = 5
+       end
+     end
+     @rev_ply = 0
+     board.hide_start_end
+     @rev_check = false
+     game.red_square.image.remove
   end
 
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
@@ -667,20 +700,7 @@ class UI
           hover_off if @hover != '' && @hover != 'start'
           hover_on('start') if @hover != 'start'
         else # set up start posn, when click 'go to start'
-          @review = true if @review == false
-          @rev_posn = Utilities.start_posn_w_pcs
-           @rev_posn.each_with_index do |e, i|
-             if @rev_posn[i] != '---'
-               piece = board.game_pieces.detect {|e| e.name == @rev_posn[i]}
-               i = 63 - i if @flipped == true
-               piece.move_to_square(i)
-               piece.icon.z = 5
-             end
-           end
-           @rev_ply = 0
-           board.hide_start_end
-           @rev_check = false
-           game.red_square.image.remove
+          go_to_start(game, board)
         end
       elsif x > 118 && x < 153 # step back
         if event_type == 'hover'
@@ -704,6 +724,7 @@ class UI
           hover_off if @hover != '' && @hover != 'end'
           hover_on('end') if @hover != 'end'
         else # click event
+          go_to_end(game, board)
         end
       else
         hover_off
