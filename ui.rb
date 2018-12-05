@@ -429,13 +429,6 @@ class UI
       step_btwn_posns(board, prev_posn, rev_posn)
       board.start_end_squares(move[1], move[2])
 
-      if @rev_ply == 0
-        board.hide_start_end
-        game.red_square.image.remove
-      elsif prv_move[3].include?('+') # look for check prev move
-        game.red_square.image.remove if move[3].include?('+') != true
-      end
-
       if move[3].include?('+')
         @rev_check = true
         if move[0][0] == 'w'
@@ -472,6 +465,7 @@ class UI
       else
         @review = false
       end
+
     end
   end
 
@@ -489,7 +483,7 @@ class UI
 
     if move[3].include?('+')
       @rev_check = true
-      if move[0] == 'w'
+      if move[0][0] == 'w'
         square = @rev_posn.find_index('bk0')
       else
         square = @rev_posn.find_index('wk0')
