@@ -52,6 +52,7 @@ on :mouse_down do |event|
     ui.menu_event(event.x, event.y, 'click')
     if ui.new_game == true
       ui.new_game = false
+      ui.reset_ui
       posn = Utilities.start_posn
       board.posn = posn
       board.new_game

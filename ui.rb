@@ -146,6 +146,7 @@ class UI
 
   def reset_ui
     hover_off
+    @flipped = false
     @ply = 0
     @hover = ''
     @game_over = ''
@@ -166,7 +167,7 @@ class UI
                                 font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @b_material_text = Text.new("39 (0)", x:1160, y: 71, z: 2, size: 24,
                                 font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    update_move_ind
+    place_defaults
     refresh_info
   end
 
@@ -410,7 +411,7 @@ class UI
   end
 
   def step_fwd(game, board)
-    if @ply != @rev_ply
+    if @rev_ply != @ply
       @rev_move.remove if @rev_move != nil
       @rev_move = nil
       move = game.moves[@rev_ply]
@@ -442,7 +443,7 @@ class UI
         @rev_check = false
       end
 
-      if @ply != @rev_ply # highlight move being reviewed
+      if @rev_ply != @ply # highlight move being reviewed
         if @rev_ply / 2.floor > @list_offset + 28
           y = 608
         else
@@ -465,7 +466,6 @@ class UI
       else
         @review = false
       end
-
     end
   end
 

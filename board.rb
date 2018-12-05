@@ -88,6 +88,7 @@ class Board
   def new_game
     clear_pieces
     hide_start_end
+    @flipped = false
     @game_pieces.each {|e| e.reset}
     set_up_posn(first_run = false)
   end
