@@ -363,7 +363,7 @@ class UI
       prev_posn = @posn_list[(64 + ((@rev_ply -1) * 64))..(63 + @rev_ply * 64)]
 
       step_btwn_posns(board, prev_posn, rev_posn)
-      board.start_end_squares(prv_move[1], prv_move[2])
+      board.start_end_squares(prv_move[1], prv_move[2]) if @rev_ply != 0
 
       if @rev_ply == 0
         board.hide_start_end
@@ -481,9 +481,15 @@ class UI
     prev_posn = @rev_posn
     @rev_posn = rev_posn
     step_btwn_posns(board, prev_posn, rev_posn)
-    if game.moves[-1][3].include?('+')
+    if game.moves[-1][3].include?('-')
+      move = game.moves[-2]
+    else
+      move = game.moves[-1]
+    end
+
+    if move[3].include?('+')
       @rev_check = true
-      if game.moves[-1][0][0] == 'w'
+      if move[0] == 'w'
         square = @rev_posn.find_index('bk0')
       else
         square = @rev_posn.find_index('wk0')
@@ -494,7 +500,7 @@ class UI
       @rev_check = false
       game.red_square.image.remove
     end
-    board.start_end_squares(game.moves[-1][1], game.moves[-1][2])
+    board.start_end_squares(move[1], move[2])
     @review = false
   end
 
