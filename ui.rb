@@ -411,7 +411,7 @@ class UI
   end
 
   def step_fwd(game, board)
-    if @rev_ply != @ply
+    if @rev_ply < @ply
       @rev_move.remove if @rev_move != nil
       @rev_move = nil
       move = game.moves[@rev_ply]
@@ -443,7 +443,7 @@ class UI
         @rev_check = false
       end
 
-      if @rev_ply != @ply # highlight move being reviewed
+      if @rev_ply <= @ply # highlight move being reviewed
         if @rev_ply / 2.floor > @list_offset + 28
           y = 608
         else
