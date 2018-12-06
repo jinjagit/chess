@@ -455,7 +455,7 @@ class UI
             @moves_txts.each {|e| e.y -= 20}
             @list_offset += 1
             @moves_txts[28 + @list_offset].add
-            @moves_txts[@list_offset].remove
+            @moves_txts[@list_offset - 1].remove
           end
         else
           x = 182
@@ -471,6 +471,8 @@ class UI
 
   def go_to_end(game, board)
     @rev_ply = @ply
+    @rev_move.remove if @rev_move != nil
+    @rev_move = nil
     rev_posn = @posn_list[-64..-1]
     prev_posn = @rev_posn
     @rev_posn = rev_posn
