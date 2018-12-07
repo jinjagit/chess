@@ -408,6 +408,7 @@ class UI
                               font: 'fonts/UbuntuMono-R.ttf')
       end
     end
+    puts "offset: #{@list_offset}"
   end
 
   def step_fwd(game, board)
@@ -497,7 +498,20 @@ class UI
       game.red_square.image.remove
     end
     board.start_end_squares(move[1], move[2])
+    if @moves_txts.length > 29
+      @list_offset = @moves_txts.length - 29
+      @list_offset.times do |i|
+        @moves_txts[i].y = 28 - ((@list_offset - i - 1) * 20)
+        @moves_txts[i].remove
+      end
+      y = 48
+      29.times do |i|
+        @moves_txts[i + @list_offset].y = 48 + (i * 20)
+        @moves_txts[i + @list_offset].add
+      end
+    end
     @review = false
+    puts "offset: #{@list_offset}"
   end
 
   def go_to_start(game, board)
