@@ -324,7 +324,7 @@ class UI
     update_move_list(game) if @game_over != ''
   end
 
-  def step_btwn_posns(board, prev_posn, rev_posn)
+  def swap_posns(board, prev_posn, rev_posn)
     64.times do |i|
       if prev_posn[i] != rev_posn[i] && prev_posn[i] != '---'
         piece = board.game_pieces.detect {|e| e.name == prev_posn[i]}
@@ -348,8 +348,6 @@ class UI
         @rev_ply = @ply
         @review = true
       end
-      @rev_move.remove if @rev_move != nil
-      @rev_move = nil
       @rev_ply -= 1
       move = game.moves[@rev_ply]
       prv_move = game.moves[@rev_ply - 1]
@@ -363,7 +361,7 @@ class UI
       rev_posn = @rev_posn
       prev_posn = @posn_list[(64 + ((@rev_ply -1) * 64))..(63 + @rev_ply * 64)]
 
-      step_btwn_posns(board, prev_posn, rev_posn)
+      swap_posns(board, prev_posn, rev_posn)
       board.start_end_squares(prv_move[1], prv_move[2]) if @rev_ply != 0
 
       if @rev_ply == 0
@@ -387,34 +385,19 @@ class UI
       end
 
       if @rev_ply > 0 # highlight move being reviewed
-        if @rev_ply / 2.floor < @moves_txts.length - 28
-          y = 48
-        else
-          y = 48 + (((@rev_ply - 1) / 2.floor) * 20) - (@list_offset * 20)
+        if @rev_ply / 2.floor < @moves_txts.length - 28 && @rev_ply % 2 == 0 # scroll move list
+          @moves_txts.each {|e| e.y += 20}
+          @list_offset -= 1
+          @moves_txts[29 + @list_offset].remove
+          @moves_txts[@list_offset].add
         end
-        if @rev_ply % 2 == 1
-          x = 102
-        else
-          x = 182
-          if @rev_ply / 2.floor < @moves_txts.length - 28 # scroll move list
-            @moves_txts.each {|e| e.y += 20}
-            @list_offset -= 1
-            @moves_txts[29 + @list_offset].remove
-            @moves_txts[@list_offset].add
-          end
-        end
-        @rev_move = Text.new("#{game.pgn_list[@rev_ply - 1]}", x: x, y: y,
-                              z: 5, size: 20, color: '#ffffff',
-                              font: 'fonts/UbuntuMono-R.ttf')
       end
+      highlight_move(game)
     end
-    puts "offset: #{@list_offset}"
   end
 
   def step_fwd(game, board)
     if @rev_ply < @ply
-      @rev_move.remove if @rev_move != nil
-      @rev_move = nil
       move = game.moves[@rev_ply]
       prv_move = game.moves[@rev_ply - 1]
       @rev_ply += 1
@@ -428,7 +411,7 @@ class UI
       @rev_posn = @posn_list[((@rev_ply -1) * 64)..((@rev_ply * 64) - 1)]
       rev_posn = @rev_posn
 
-      step_btwn_posns(board, prev_posn, rev_posn)
+      swap_posns(board, prev_posn, rev_posn)
       board.start_end_squares(move[1], move[2])
 
       if move[3].include?('+')
@@ -445,25 +428,13 @@ class UI
       end
 
       if @rev_ply <= @ply # highlight move being reviewed
-        if @rev_ply / 2.floor > @list_offset + 28
-          y = 608
-        else
-          y = 48 + (((@rev_ply - 1) / 2.floor) * 20) - (@list_offset * 20)
+        if @rev_ply / 2.floor > @list_offset + 28 && @rev_ply % 2 == 1 # scroll move list
+          @moves_txts.each {|e| e.y -= 20}
+          @list_offset += 1
+          @moves_txts[28 + @list_offset].add
+          @moves_txts[@list_offset - 1].remove
         end
-        if @rev_ply % 2 == 1
-          x = 102
-          if @rev_ply / 2.floor > @list_offset + 28 # scroll move list
-            @moves_txts.each {|e| e.y -= 20}
-            @list_offset += 1
-            @moves_txts[28 + @list_offset].add
-            @moves_txts[@list_offset - 1].remove
-          end
-        else
-          x = 182
-        end
-        @rev_move = Text.new("#{game.pgn_list[@rev_ply - 1]}", x: x, y: y,
-                              z: 5, size: 20, color: '#ffffff',
-                              font: 'fonts/UbuntuMono-R.ttf')
+        highlight_move(game)
       else
         @review = false
       end
@@ -472,12 +443,10 @@ class UI
 
   def go_to_end(game, board)
     @rev_ply = @ply
-    @rev_move.remove if @rev_move != nil
-    @rev_move = nil
     rev_posn = @posn_list[-64..-1]
     prev_posn = @rev_posn
     @rev_posn = rev_posn
-    step_btwn_posns(board, prev_posn, rev_posn)
+    swap_posns(board, prev_posn, rev_posn)
     if game.moves[-1][3].include?('-')
       move = game.moves[-2]
     else
@@ -510,8 +479,8 @@ class UI
         @moves_txts[i + @list_offset].add
       end
     end
+    highlight_move(game)
     @review = false
-    puts "offset: #{@list_offset}"
   end
 
   def go_to_start(game, board)
@@ -529,6 +498,27 @@ class UI
      board.hide_start_end
      @rev_check = false
      game.red_square.image.remove
+     @rev_move.remove
+     @rev_move = nil
+  end
+
+  def highlight_move(game)
+    if @rev_move != nil
+      @rev_move.remove
+      @rev_move = nil
+    end
+    if @rev_ply != 0
+      y = 48 + (((@rev_ply - 1) / 2.floor) * 20) - (@list_offset * 20)
+      if @rev_ply % 2 == 1
+        x = 102
+      else
+        x = 182
+      end
+
+      @rev_move = Text.new("#{game.pgn_list[@rev_ply - 1]}", x: x, y: y,
+                            z: 5, size: 20, color: '#ffffff',
+                            font: 'fonts/UbuntuMono-R.ttf')
+    end
   end
 
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
