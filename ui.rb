@@ -401,6 +401,13 @@ class UI
   end
 
   def step_fwd(game, board)
+    def scroll_fwd
+      @moves_txts.each {|e| e.y -= 20}
+      @list_offset += 1
+      @moves_txts[28 + @list_offset].add
+      @moves_txts[@list_offset - 1].remove
+    end
+
     if @rev_ply < @ply
       move = game.moves[@rev_ply]
       prv_move = game.moves[@rev_ply - 1]
@@ -435,16 +442,10 @@ class UI
       if @rev_ply <= @ply # scroll list if needed
         if @rev_ply / 2.floor > @list_offset + 28 # scroll move list
           if @rev_ply % 2 == 1
-            @moves_txts.each {|e| e.y -= 20}
-            @list_offset += 1
-            @moves_txts[28 + @list_offset].add
-            @moves_txts[@list_offset - 1].remove
+            scroll_fwd
           end
           if @rev_ply == @ply && @game_over != ''
-            @moves_txts.each {|e| e.y -= 20}
-            @list_offset += 1
-            @moves_txts[28 + @list_offset].add
-            @moves_txts[@list_offset - 1].remove
+            scroll_fwd
           end
         end
         @review = false if @rev_ply == @ply
