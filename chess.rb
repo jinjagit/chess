@@ -164,11 +164,11 @@ on :key_down do |event|
       ui.step_fwd(game, board)
       key_time = Time.now
     end
-  when 'w'
+  when 's'
     if ui.ply != ui.rev_ply
       ui.go_to_end(game, board)
     end
-  when 's'
+  when 'w'
     if ui.rev_ply != 0
       ui.go_to_start(game, board)
     end
@@ -199,7 +199,7 @@ end
 on :key_up do |event|
   # A key was released
   case event.key
-  when 'a' || 'd' || 'w' || 's'
+  when 'a' || 'd' || 's' || 'w'
     key_delay = 0.3
   end
 end

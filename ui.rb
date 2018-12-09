@@ -115,6 +115,8 @@ class UI
     else
       create_full_move(game, y)
     end
+    @rev_ply = @ply
+    highlight_move(game)
   end
 
   def menu_event(x, y, event_type)
@@ -167,6 +169,8 @@ class UI
                                 font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @b_material_text = Text.new("39 (0)", x:1160, y: 71, z: 2, size: 24,
                                 font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @rev_move.remove if @rev_move != nil
+    @rev_move = nil
     place_defaults
     refresh_info
   end
@@ -384,7 +388,7 @@ class UI
         @rev_check = false
       end
 
-      if @rev_ply > 0 # highlight move being reviewed
+      if @rev_ply > 0 # scroll list if needed
         if @rev_ply / 2.floor < @moves_txts.length - 28 && @rev_ply % 2 == 0 # scroll move list
           @moves_txts.each {|e| e.y += 20}
           @list_offset -= 1
@@ -425,19 +429,29 @@ class UI
         game.red_square.image.add
       else
         @rev_check = false
+        game.red_square.image.remove
       end
 
-      if @rev_ply <= @ply # highlight move being reviewed
-        if @rev_ply / 2.floor > @list_offset + 28 && @rev_ply % 2 == 1 # scroll move list
-          @moves_txts.each {|e| e.y -= 20}
-          @list_offset += 1
-          @moves_txts[28 + @list_offset].add
-          @moves_txts[@list_offset - 1].remove
+      if @rev_ply <= @ply # scroll list if needed
+        if @rev_ply / 2.floor > @list_offset + 28 # scroll move list
+          if @rev_ply % 2 == 1
+            @moves_txts.each {|e| e.y -= 20}
+            @list_offset += 1
+            @moves_txts[28 + @list_offset].add
+            @moves_txts[@list_offset - 1].remove
+          end
+          if @rev_ply == @ply && @game_over != ''
+            @moves_txts.each {|e| e.y -= 20}
+            @list_offset += 1
+            @moves_txts[28 + @list_offset].add
+            @moves_txts[@list_offset - 1].remove
+          end
         end
-        highlight_move(game)
+        @review = false if @rev_ply == @ply
       else
         @review = false
       end
+      highlight_move(game)
     end
   end
 
@@ -473,7 +487,6 @@ class UI
         @moves_txts[i].y = 28 - ((@list_offset - i - 1) * 20)
         @moves_txts[i].remove
       end
-      y = 48
       29.times do |i|
         @moves_txts[i + @list_offset].y = 48 + (i * 20)
         @moves_txts[i + @list_offset].add
@@ -498,15 +511,25 @@ class UI
      board.hide_start_end
      @rev_check = false
      game.red_square.image.remove
-     @rev_move.remove
+     @rev_move.remove if @rev_move != nil
      @rev_move = nil
+     if @moves_txts.length > 29
+       @list_offset = @moves_txts.length - 29
+       29.times do |i|
+         @moves_txts[i].y = 48 + (i * 20)
+         @moves_txts[i].add
+       end
+       @list_offset.times do |i|
+         @moves_txts[i + 29].y = 48 + ((29 + i) * 20)
+         @moves_txts[i + 29].remove
+       end
+     end
+     @list_offset = 0
   end
 
   def highlight_move(game)
-    if @rev_move != nil
-      @rev_move.remove
-      @rev_move = nil
-    end
+    @rev_move.remove if @rev_move != nil
+    @rev_move = nil
     if @rev_ply != 0
       y = 48 + (((@rev_ply - 1) / 2.floor) * 20) - (@list_offset * 20)
       if @rev_ply % 2 == 1
@@ -514,7 +537,6 @@ class UI
       else
         x = 182
       end
-
       @rev_move = Text.new("#{game.pgn_list[@rev_ply - 1]}", x: x, y: y,
                             z: 5, size: 20, color: '#ffffff',
                             font: 'fonts/UbuntuMono-R.ttf')
