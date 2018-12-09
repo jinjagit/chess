@@ -32,7 +32,7 @@ A move list (both native and PGN format) is created as a game progresses. The pi
   * disable / enable highlighting of legal move squares
   * button hover effects and tool-tips
   * algebraic notation display
-  * game moves can be reviewed (step fwd/back, go to start/end)
+  * review of game moves (step fwd/back, go to start/end)
 
 ### To do next:
   * add sound effects
