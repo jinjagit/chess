@@ -199,7 +199,9 @@ end
 on :key_up do |event|
   # A key was released
   case event.key
-  when 'a' || 'd' || 's' || 'w'
+  when 'a'
+    key_delay = 0.3
+  when 'd'
     key_delay = 0.3
   end
 end
