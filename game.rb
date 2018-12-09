@@ -340,7 +340,7 @@ class Game
       place_red_sq(red_sq)
       @red_square.image.add
       if @checks > 1
-        puts "double check!" # DEBUG output
+        # puts "double check!" # DEBUG output
         if king_moves.length == 0
           @game_over = 'checkmate!'
         else
