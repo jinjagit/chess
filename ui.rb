@@ -411,7 +411,7 @@ class UI
     board.start_end_squares(move[1], move[2])
     replay_king_check(move, game)
 
-    if @moves_txts.length > 29
+    if @moves_txts.length > 29 # scroll move list
       @list_offset = @moves_txts.length - 29
       @list_offset.times do |i|
         @moves_txts[i].y = 28 - ((@list_offset - i - 1) * 20)
@@ -427,7 +427,9 @@ class UI
   end
 
   def go_to_start(game, board)
-    @review = true if @review == false
+    if @review == false
+      @review = true
+    end
     rev_posn = Utilities.start_posn_w_pcs
     prev_posn = @posn_list[((@rev_ply - 1) * 64)..((@rev_ply * 64) - 1)]
     @rev_posn = rev_posn
@@ -439,7 +441,7 @@ class UI
     @rev_move.remove if @rev_move != nil
     @rev_move = nil
 
-    if @moves_txts.length > 29
+    if @moves_txts.length > 29 # scroll move list
       @list_offset = @moves_txts.length - 29
       29.times do |i|
         @moves_txts[i].y = 48 + (i * 20)
@@ -671,9 +673,8 @@ class UI
         else # click event
           go_to_end(game, board)
         end
-      else
+      elsif event_type != 'click'
         hover_off
-        info_on
         @hover = ''
       end
 
@@ -882,7 +883,9 @@ class UI
   end
 
   def info_on
-    if @game_over != ''
+    if @review == true
+      @rev_txt.add
+    elsif @game_over != ''
       game_over
     elsif @claim != ''
       show_claim
@@ -896,6 +899,7 @@ class UI
   end
 
   def info_off
+    @rev_txt.remove
     if @game_over != ''
       hide_game_over
     elsif @claim != ''
@@ -1253,6 +1257,9 @@ class UI
     @btn5_txt = Text.new("cancel", x:610, y: 545, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn5_txt.remove
+    @rev_txt = Text.new("   Review mode ", x:1042, y: 348, z: 4, size: 20,
+                            font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @rev_txt.remove
   end
 
   def create_icons

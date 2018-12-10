@@ -158,19 +158,23 @@ on :key_down do |event|
     if ui.rev_ply != 0
       ui.step_back(game, board)
       key_time = Time.now
+      ui.refresh_info
     end
   when 'd'
     if ui.ply != ui.rev_ply
       ui.step_fwd(game, board)
       key_time = Time.now
+      ui.refresh_info
     end
   when 's'
     if ui.ply != ui.rev_ply
       ui.go_to_end(game, board)
+      ui.refresh_info
     end
   when 'w'
     if ui.rev_ply != 0
       ui.go_to_start(game, board)
+      ui.refresh_info
     end
 
   end
@@ -184,6 +188,7 @@ on :key_held do |event|
     if duration > 0.3 && ui.rev_ply != 0
       ui.step_back(game, board)
       key_delay *= 0.9
+      ui.refresh_info
       sleep(key_delay)
     end
   when 'd'
@@ -191,6 +196,7 @@ on :key_held do |event|
     if duration > 0.3 && ui.ply != ui.rev_ply
       ui.step_fwd(game, board)
       key_delay *= 0.9
+      ui.refresh_info
       sleep(key_delay)
     end
   end
@@ -201,8 +207,10 @@ on :key_up do |event|
   case event.key
   when 'a'
     key_delay = 0.3
+    ui.refresh_info
   when 'd'
     key_delay = 0.3
+    ui.refresh_info
   end
 end
 
