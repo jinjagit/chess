@@ -346,6 +346,38 @@ class UI
     end
   end
 
+  def replay_king_check(move, game)
+    if move[3].include?('+')
+      @rev_check = true
+      if move[0][0] == 'w'
+        square = @rev_posn.find_index('bk0')
+      else
+        square = @rev_posn.find_index('wk0')
+      end
+      game.place_red_sq(square)
+      game.red_square.image.add
+    else
+      @rev_check = false
+      game.red_square.image.remove
+    end
+  end
+
+  def highlight_move(game)
+    @rev_move.remove if @rev_move != nil
+    @rev_move = nil
+    if @rev_ply != 0
+      y = 48 + (((@rev_ply - 1) / 2.floor) * 20) - (@list_offset * 20)
+      if @rev_ply % 2 == 1
+        x = 102
+      else
+        x = 182
+      end
+      @rev_move = Text.new("#{game.pgn_list[@rev_ply - 1]}", x: x, y: y,
+                            z: 5, size: 20, color: '#ffffff',
+                            font: 'fonts/UbuntuMono-R.ttf')
+    end
+  end
+
   def step_back(game, board)
     if @ply > 0 && @rev_ply >= 1
       if @review == false
@@ -353,8 +385,7 @@ class UI
         @review = true
       end
       @rev_ply -= 1
-      move = game.moves[@rev_ply]
-      prv_move = game.moves[@rev_ply - 1]
+      move = game.moves[@rev_ply - 1]
 
       if @rev_ply != 0
         @rev_posn = @posn_list[((@rev_ply - 1) * 64)..((@rev_ply * 64) - 1)]
@@ -366,29 +397,11 @@ class UI
       prev_posn = @posn_list[(64 + ((@rev_ply -1) * 64))..(63 + @rev_ply * 64)]
 
       swap_posns(board, prev_posn, rev_posn)
-      board.start_end_squares(prv_move[1], prv_move[2]) if @rev_ply != 0
+      board.start_end_squares(move[1], move[2]) if @rev_ply != 0
+      board.hide_start_end if @rev_ply == 0
+      replay_king_check(move, game)
 
-      if @rev_ply == 0
-        board.hide_start_end
-        game.red_square.image.remove
-      elsif move[3].include?('+') # look for check prev move
-        game.red_square.image.remove if @rev_ply > 1 && prv_move[3].include?('+') != true
-      end
-
-      if @rev_ply != 0 && prv_move[3].include?('+')
-        @rev_check = true
-        if prv_move[0][0] == 'w'
-          square = @rev_posn.find_index('bk0')
-        else
-          square = @rev_posn.find_index('wk0')
-        end
-        game.place_red_sq(square)
-        game.red_square.image.add
-      else
-        @rev_check = false
-      end
-
-      if @rev_ply > 0 # scroll list if needed
+      if @rev_ply > 0
         if @rev_ply / 2.floor < @moves_txts.length - 28 && @rev_ply % 2 == 0 # scroll move list
           @moves_txts.each {|e| e.y += 20}
           @list_offset -= 1
@@ -410,7 +423,6 @@ class UI
 
     if @rev_ply < @ply
       move = game.moves[@rev_ply]
-      prv_move = game.moves[@rev_ply - 1]
       @rev_ply += 1
 
       if @rev_ply != 1
@@ -424,22 +436,9 @@ class UI
 
       swap_posns(board, prev_posn, rev_posn)
       board.start_end_squares(move[1], move[2])
+      replay_king_check(move, game)
 
-      if move[3].include?('+')
-        @rev_check = true
-        if move[0][0] == 'w'
-          square = @rev_posn.find_index('bk0')
-        else
-          square = @rev_posn.find_index('wk0')
-        end
-        game.place_red_sq(square)
-        game.red_square.image.add
-      else
-        @rev_check = false
-        game.red_square.image.remove
-      end
-
-      if @rev_ply <= @ply # scroll list if needed
+      if @rev_ply <= @ply
         if @rev_ply / 2.floor > @list_offset + 28 # scroll move list
           if @rev_ply % 2 == 1
             scroll_fwd
@@ -468,20 +467,9 @@ class UI
       move = game.moves[-1]
     end
 
-    if move[3].include?('+')
-      @rev_check = true
-      if move[0][0] == 'w'
-        square = @rev_posn.find_index('bk0')
-      else
-        square = @rev_posn.find_index('wk0')
-      end
-      game.place_red_sq(square)
-      game.red_square.image.add
-    else
-      @rev_check = false
-      game.red_square.image.remove
-    end
     board.start_end_squares(move[1], move[2])
+    replay_king_check(move, game)
+
     if @moves_txts.length > 29
       @list_offset = @moves_txts.length - 29
       @list_offset.times do |i|
@@ -526,22 +514,6 @@ class UI
        end
      end
      @list_offset = 0
-  end
-
-  def highlight_move(game)
-    @rev_move.remove if @rev_move != nil
-    @rev_move = nil
-    if @rev_ply != 0
-      y = 48 + (((@rev_ply - 1) / 2.floor) * 20) - (@list_offset * 20)
-      if @rev_ply % 2 == 1
-        x = 102
-      else
-        x = 182
-      end
-      @rev_move = Text.new("#{game.pgn_list[@rev_ply - 1]}", x: x, y: y,
-                            z: 5, size: 20, color: '#ffffff',
-                            font: 'fonts/UbuntuMono-R.ttf')
-    end
   end
 
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
