@@ -52,6 +52,74 @@ class UI
     create_menus
   end
 
+  def reset_ui
+    hover_off
+    @flipped = false
+    @ply = 0
+    @hover = ''
+    @game_over = ''
+    @moves_txts.each {|e| e.remove}
+    @moves_txts = []
+    @rev_posn = []
+    @posn_list = []
+    @list_offset = 0
+    @review = false
+    @rev_ply = 1
+    @rev_check = false
+    @to_move_ind.add
+    @w_material_text.remove
+    @b_material_text.remove
+    @w_material_text = nil
+    @b_material_text = nil
+    @w_material_text = Text.new("39 (0)", x:1160, y: 628, z: 2, size: 24,
+                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @b_material_text = Text.new("39 (0)", x:1160, y: 71, z: 2, size: 24,
+                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @rev_move.remove if @rev_move != nil
+    @rev_move = nil
+    place_defaults
+    refresh_info
+  end
+
+  def place_defaults
+    if @flipped == false
+      @title_w.x, @title_w.y = @title_bot[0], @title_bot[1]
+      @title_b.x, @title_b.y = @title_top[0], @title_top[1]
+      @w_material_text.x, @w_material_text.y = @material_bot[0], @material_bot[1]
+      @b_material_text.x, @b_material_text.y = @material_top[0], @material_top[1]
+      update_move_ind
+    else
+      @title_w.x, @title_w.y = @title_top[0], @title_top[1]
+      @title_b.x, @title_b.y = @title_bot[0], @title_bot[1]
+      @w_material_text.x, @w_material_text.y = @material_top[0], @material_top[1]
+      @b_material_text.x, @b_material_text.y = @material_bot[0], @material_bot[1]
+      update_move_ind
+    end
+  end
+
+  def material_diff
+    @w_diff = @w_material - @b_material
+    @w_diff = '+' + @w_diff.to_s if @w_diff > 0
+    @b_diff = @b_material - @w_material
+    @b_diff = '+' + @b_diff.to_s if @b_diff > 0
+  end
+
+  def update_move_ind
+    if @ply % 2 == 0
+      if flipped == false
+        @to_move_ind.x, @to_move_ind.y = @to_move_bot[0], @to_move_bot[1]
+      else
+        @to_move_ind.x, @to_move_ind.y = @to_move_top[0], @to_move_top[1]
+      end
+    else
+      if flipped == false
+        @to_move_ind.x, @to_move_ind.y = @to_move_top[0], @to_move_top[1]
+      else
+        @to_move_ind.x, @to_move_ind.y = @to_move_bot[0], @to_move_bot[1]
+      end
+    end
+  end
+
   def update_move_list(game)
     def set_x_posn
       if @ply < 19
@@ -119,172 +187,6 @@ class UI
     highlight_move(game)
   end
 
-  def menu_event(x, y, event_type)
-    if x > 539 && x < 736 && y > 539 && y < 571
-      if event_type == 'hover'
-        hover_off if @hover != '' && @hover != 'cancel'
-        hover_on('cancel') if @hover != 'cancel'
-      else
-        @menu = false
-        hide_menu1
-        hover_off
-        @hover = ''
-      end
-    elsif x > 539 && x < 736 && y > 199 && y < 231
-      if event_type == 'hover'
-        hover_off if @hover != '' && @hover != 'hmn_v_hmn'
-        hover_on('hmn_v_hmn') if @hover != 'hmn_v_hmn'
-      else
-        @new_game = true
-        @menu = false
-        hide_menu1
-        reset_ui
-      end
-    elsif @hover != '' # not in button icons nor claim button area
-      hover_off
-      @hover = ''
-    end
-  end
-
-  def reset_ui
-    hover_off
-    @flipped = false
-    @ply = 0
-    @hover = ''
-    @game_over = ''
-    @moves_txts.each {|e| e.remove}
-    @moves_txts = []
-    @rev_posn = []
-    @posn_list = []
-    @list_offset = 0
-    @review = false
-    @rev_ply = 1
-    @rev_check = false
-    @to_move_ind.add
-    @w_material_text.remove
-    @b_material_text.remove
-    @w_material_text = nil
-    @b_material_text = nil
-    @w_material_text = Text.new("39 (0)", x:1160, y: 628, z: 2, size: 24,
-                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @b_material_text = Text.new("39 (0)", x:1160, y: 71, z: 2, size: 24,
-                                font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @rev_move.remove if @rev_move != nil
-    @rev_move = nil
-    place_defaults
-    refresh_info
-  end
-
-  def show_menu1
-    @screen.add
-    @menu1.add
-    @menu1_txt1.add
-    @menu_btn1.add
-    @menu_btn2.add
-    @menu_btn3.add
-    @menu_btn4.add
-    @menu_btn5.add
-    @btn1_txt.add
-    @btn2_txt.add
-    @btn3_txt.add
-    @btn4_txt.add
-    @btn5_txt.add
-  end
-
-  def hide_menu1
-    @screen.remove
-    @menu1.remove
-    @menu1_txt1.remove
-    @menu_btn1.remove
-    @menu_btn2.remove
-    @menu_btn3.remove
-    @menu_btn4.remove
-    @menu_btn5.remove
-    @btn1_txt.remove
-    @btn2_txt.remove
-    @btn3_txt.remove
-    @btn4_txt.remove
-    @btn5_txt.remove
-  end
-
-  def place_defaults
-    if @flipped == false
-      @title_w.x, @title_w.y = @title_bot[0], @title_bot[1]
-      @title_b.x, @title_b.y = @title_top[0], @title_top[1]
-      @w_material_text.x, @w_material_text.y = @material_bot[0], @material_bot[1]
-      @b_material_text.x, @b_material_text.y = @material_top[0], @material_top[1]
-      update_move_ind
-    else
-      @title_w.x, @title_w.y = @title_top[0], @title_top[1]
-      @title_b.x, @title_b.y = @title_bot[0], @title_bot[1]
-      @w_material_text.x, @w_material_text.y = @material_top[0], @material_top[1]
-      @b_material_text.x, @b_material_text.y = @material_bot[0], @material_bot[1]
-      update_move_ind
-    end
-  end
-
-  def material_diff
-    @w_diff = @w_material - @b_material
-    @w_diff = '+' + @w_diff.to_s if @w_diff > 0
-    @b_diff = @b_material - @w_material
-    @b_diff = '+' + @b_diff.to_s if @b_diff > 0
-  end
-
-  def update_move_ind
-    if @ply % 2 == 0
-      if flipped == false
-        @to_move_ind.x, @to_move_ind.y = @to_move_bot[0], @to_move_bot[1]
-      else
-        @to_move_ind.x, @to_move_ind.y = @to_move_top[0], @to_move_top[1]
-      end
-    else
-      if flipped == false
-        @to_move_ind.x, @to_move_ind.y = @to_move_top[0], @to_move_top[1]
-      else
-        @to_move_ind.x, @to_move_ind.y = @to_move_bot[0], @to_move_bot[1]
-      end
-    end
-  end
-
-  def flip_if_needed(posn, board, game)
-    if @autoflip == true && ((@ply % 2 == 1) && @flipped == false) ||
-                    ((@ply % 2 == 0)  && @flipped == true)
-      flip_board(posn, board, game)
-    end
-  end
-
-  def flip_board(posn, board, game)
-    if board.flipped == false
-      board.posn = posn.reverse
-      board.flipped = true
-      game.flipped = true
-      @flipped = true
-      update_move_ind
-      board.clear_pieces
-      board.set_up_posn(first_run = false)
-      board.flip_start_end if board.start_end != []
-    else
-      board.posn = posn
-      board.flipped = false
-      game.flipped = false
-      @flipped = false
-      update_move_ind
-      board.clear_pieces
-      board.set_up_posn(first_run = false)
-      board.flip_start_end if board.start_end != []
-    end
-    if @checks > 0 || @rev_check == true
-      red_sq = board.mouse_square(game.red_square.image.x, game.red_square.image.y)
-      red_sq = 63 - red_sq if @flipped == false
-      game.place_red_sq(red_sq)
-    end
-    if board.promote != []
-      board.promote[1] = 63 - board.promote[1] if @flipped == false
-      board.show_promo_pieces
-    end
-    place_defaults
-  end
-
   def move_update(posn, board, game)
     @posn_list = @posn_list + posn
     @ply = game.ply
@@ -326,6 +228,45 @@ class UI
       info_on
     end
     update_move_list(game) if @game_over != ''
+  end
+
+  def flip_if_needed(posn, board, game)
+    if @autoflip == true && ((@ply % 2 == 1) && @flipped == false) ||
+                    ((@ply % 2 == 0)  && @flipped == true)
+      flip_board(posn, board, game)
+    end
+  end
+
+  def flip_board(posn, board, game)
+    if board.flipped == false
+      board.posn = posn.reverse
+      board.flipped = true
+      game.flipped = true
+      @flipped = true
+      update_move_ind
+      board.clear_pieces
+      board.set_up_posn(first_run = false)
+      board.flip_start_end if board.start_end != []
+    else
+      board.posn = posn
+      board.flipped = false
+      game.flipped = false
+      @flipped = false
+      update_move_ind
+      board.clear_pieces
+      board.set_up_posn(first_run = false)
+      board.flip_start_end if board.start_end != []
+    end
+    if @checks > 0 || @rev_check == true
+      red_sq = board.mouse_square(game.red_square.image.x, game.red_square.image.y)
+      red_sq = 63 - red_sq if @flipped == false
+      game.place_red_sq(red_sq)
+    end
+    if board.promote != []
+      board.promote[1] = 63 - board.promote[1] if @flipped == false
+      board.show_promo_pieces
+    end
+    place_defaults
   end
 
   def swap_posns(board, prev_posn, rev_posn)
@@ -517,6 +458,12 @@ class UI
   end
 
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
+    def add_draw_to_moves(game)
+      game.pgn = game.pgn + ' 1/2-1/2'
+      game.moves << ['', nil, nil, '1/2-1/2']
+      update_move_list(game)
+    end
+    
     if x > 1020 && x < 1240 && y > 245 && y < 275 # button icons
       info_off if @hover == ''
 
@@ -740,10 +687,31 @@ class UI
     end
   end
 
-  def add_draw_to_moves(game)
-    game.pgn = game.pgn + ' 1/2-1/2'
-    game.moves << ['', nil, nil, '1/2-1/2']
-    update_move_list(game)
+  def menu_event(x, y, event_type)
+    if x > 539 && x < 736 && y > 539 && y < 571
+      if event_type == 'hover'
+        hover_off if @hover != '' && @hover != 'cancel'
+        hover_on('cancel') if @hover != 'cancel'
+      else
+        @menu = false
+        hide_menu1
+        hover_off
+        @hover = ''
+      end
+    elsif x > 539 && x < 736 && y > 199 && y < 231
+      if event_type == 'hover'
+        hover_off if @hover != '' && @hover != 'hmn_v_hmn'
+        hover_on('hmn_v_hmn') if @hover != 'hmn_v_hmn'
+      else
+        @new_game = true
+        @menu = false
+        hide_menu1
+        reset_ui
+      end
+    elsif @hover != '' # not in button icons nor claim button area
+      hover_off
+      @hover = ''
+    end
   end
 
   def hover_on(element)
@@ -1096,6 +1064,38 @@ class UI
     @g_o_txt10.remove
     @g_o_txt11.remove
     @g_o_txt12.remove
+  end
+
+  def show_menu1
+    @screen.add
+    @menu1.add
+    @menu1_txt1.add
+    @menu_btn1.add
+    @menu_btn2.add
+    @menu_btn3.add
+    @menu_btn4.add
+    @menu_btn5.add
+    @btn1_txt.add
+    @btn2_txt.add
+    @btn3_txt.add
+    @btn4_txt.add
+    @btn5_txt.add
+  end
+
+  def hide_menu1
+    @screen.remove
+    @menu1.remove
+    @menu1_txt1.remove
+    @menu_btn1.remove
+    @menu_btn2.remove
+    @menu_btn3.remove
+    @menu_btn4.remove
+    @menu_btn5.remove
+    @btn1_txt.remove
+    @btn2_txt.remove
+    @btn3_txt.remove
+    @btn4_txt.remove
+    @btn5_txt.remove
   end
 
   def create_texts
