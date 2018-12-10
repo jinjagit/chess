@@ -428,33 +428,30 @@ class UI
 
   def go_to_start(game, board)
     @review = true if @review == false
-    @rev_posn = Utilities.start_posn_w_pcs
-     @rev_posn.each_with_index do |e, i|
-       if @rev_posn[i] != '---'
-         piece = board.game_pieces.detect {|e| e.name == @rev_posn[i]}
-         i = 63 - i if @flipped == true
-         piece.move_to_square(i)
-         piece.icon.z = 5
-       end
-     end
-     @rev_ply = 0
-     board.hide_start_end
-     @rev_check = false
-     game.red_square.image.remove
-     @rev_move.remove if @rev_move != nil
-     @rev_move = nil
-     if @moves_txts.length > 29
-       @list_offset = @moves_txts.length - 29
-       29.times do |i|
-         @moves_txts[i].y = 48 + (i * 20)
-         @moves_txts[i].add
-       end
-       @list_offset.times do |i|
-         @moves_txts[i + 29].y = 48 + ((29 + i) * 20)
-         @moves_txts[i + 29].remove
-       end
-     end
-     @list_offset = 0
+    rev_posn = Utilities.start_posn_w_pcs
+    prev_posn = @posn_list[((@rev_ply - 1) * 64)..((@rev_ply * 64) - 1)]
+    @rev_posn = rev_posn
+    swap_posns(board, prev_posn, rev_posn)
+    @rev_ply = 0
+    board.hide_start_end
+    @rev_check = false
+    game.red_square.image.remove
+    @rev_move.remove if @rev_move != nil
+    @rev_move = nil
+
+    if @moves_txts.length > 29
+      @list_offset = @moves_txts.length - 29
+      29.times do |i|
+        @moves_txts[i].y = 48 + (i * 20)
+        @moves_txts[i].add
+      end
+      @list_offset.times do |i|
+        @moves_txts[i + 29].y = 48 + ((29 + i) * 20)
+        @moves_txts[i + 29].remove
+      end
+    end
+
+    @list_offset = 0
   end
 
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
@@ -463,7 +460,7 @@ class UI
       game.moves << ['', nil, nil, '1/2-1/2']
       update_move_list(game)
     end
-    
+
     if x > 1020 && x < 1240 && y > 245 && y < 275 # button icons
       info_off if @hover == ''
 
