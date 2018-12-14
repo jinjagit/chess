@@ -7,6 +7,7 @@ class UI
   attr_accessor :review
   attr_accessor :ply
   attr_accessor :rev_ply
+  attr_accessor :move
 
   def initialize
     @hover = ''
@@ -47,6 +48,8 @@ class UI
     @list_offset = 0
     @posn_list = []
     @key_delay = false
+    @move = Sound.new('./audio/move.wav')
+    @capture = Sound.new('./audio/capture.wav')
     create_texts
     create_icons
     create_menus
@@ -227,7 +230,16 @@ class UI
       @game_over = game.game_over
       info_on
     end
+    play_sound(game.moves[-1][3]) if @sound == true
     update_move_list(game) if @game_over != ''
+  end
+
+  def play_sound(details)
+    if details.include?('x')
+      @capture.play
+    else
+      @move.play
+    end
   end
 
   def flip_if_needed(posn, board, game)
@@ -351,6 +363,7 @@ class UI
         end
       end
       highlight_move(game)
+      play_sound(game.moves[@rev_ply][3]) if @sound == true
     end
   end
 
@@ -393,6 +406,7 @@ class UI
         @review = false
       end
       highlight_move(game)
+      play_sound(move[3]) if @sound == true
     end
   end
 
@@ -423,6 +437,7 @@ class UI
       end
     end
     highlight_move(game)
+    play_sound(move[3]) if @sound == true
     @review = false
   end
 
