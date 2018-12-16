@@ -8,6 +8,7 @@ require './ui'
 require './pieces'
 require './board'
 require './game'
+require './io'
 
 # ---------------- print routines for debugging --------------------
 def print_posn(posn)
