@@ -40,15 +40,14 @@ module Io
     mk_dir(incomplete = true)
     File.delete(last_save) if File.exists? last_save
 
-    game_data = YAML.dump ({
-      :game =>
-      {:moves => game.moves,
-      :pgn_list => game.pgn_list,
-      :game_pieces => game.game_pieces}
+    save_data = YAML.dump ({
+      :game => {:moves => game.moves,
+                :pgn_list => game.pgn_list,
+                :game_pieces => game.game_pieces}
     })
 
     filename = create_filename(incomplete = true)
-    File.open("games/incomplete/#{filename}.yml", 'w'){|f| f.write(game_data)}
+    File.open("games/incomplete/#{filename}.yml", 'w'){|f| f.write(save_data)}
 
     #test_read(filename)
 

@@ -47,6 +47,7 @@ start_square = nil
 piece = nil
 legal_list = []
 promote = []
+ui_update = false
 
 on :mouse_down do |event|
   if ui.menu == true
@@ -91,10 +92,10 @@ on :mouse_down do |event|
       new_piece, details, location = board.select_promo_pc(location, posn, start_square)
       game.game_pieces = board.game_pieces
       end_sq, moves, posn = game.move(posn, new_piece, start_square, location, details, promo_pawn)
-      ui.move_update(posn, board, game)
       end_sq = 63 - end_sq if board.flipped == true
       new_piece.move_to_square(end_sq)
       new_piece.icon.z = 3
+      ui.move_update(posn, board, game)
       promote = []
     elsif location == "off_board"
       ui.event(event.x, event.y, 'click', posn, board, game)
@@ -136,7 +137,7 @@ on :mouse_up do |event|
       else
         details = ''
         end_sq, moves, posn = game.move(posn, piece, start_square, location, details)
-        ui.move_update(posn, board, game)
+        ui_update = true
       end
       board.start_end_squares(start_square, location)
       # puts "time to assess position: #{(duration = Time.now - startTime).to_s} s"
@@ -148,6 +149,11 @@ on :mouse_up do |event|
     end_sq = 63 - end_sq if board.flipped == true
     piece.move_to_square(end_sq)
     piece.icon.z = 5
+    
+    if ui_update == true
+      ui.move_update(posn, board, game)
+      ui_update = false
+    end
   end
 
   # print_posn(posn) # debug output
