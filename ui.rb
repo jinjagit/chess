@@ -49,7 +49,7 @@ class UI
     @posn_list = []
     @key_delay = false
     @autosave = true
-    @last_save = nil
+    @last_save = 'none'
     @move = Sound.new('./audio/move.wav')
     @capture = Sound.new('./audio/capture.wav')
     create_texts
@@ -234,7 +234,8 @@ class UI
     end
     play_sound(game.moves[-1][3]) if @sound == true
     update_move_list(game) if @game_over != ''
-    Io.autosave if @autosave == true
+    last_save = @last_save
+    @last_save = Io.autosave(last_save) if @autosave == true
   end
 
   def play_sound(details)

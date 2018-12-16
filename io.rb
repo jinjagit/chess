@@ -14,19 +14,23 @@ module Io
 
   def self.mk_dir(incomplete = true)
     dirname = "games"
-    Dir.mkdir(dirname) unless File.exists?dirname
+    Dir.mkdir(dirname) unless File.exists? dirname
     if incomplete == true
       dirname = "games/incomplete"
-      Dir.mkdir(dirname) unless File.exists?dirname
+      Dir.mkdir(dirname) unless File.exists? dirname
     else
       dirname = "games/complete"
-      Dir.mkdir(dirname) unless File.exists?dirname
+      Dir.mkdir(dirname) unless File.exists? dirname
     end
   end
 
-  def self.autosave
+  def self.autosave(last_save)
+    last_save = "games/incomplete/#{last_save}.txt"
+    puts last_save
     mk_dir(incomplete = true)
+    File.delete(last_save) if File.exists? last_save
     filename = create_filename(incomplete = true)
-    puts filename
+    File.open("games/incomplete/#{filename}.txt", 'w'){|f| f.write("My name is: #{filename}")}
+    filename
   end
 end
