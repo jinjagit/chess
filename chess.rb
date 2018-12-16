@@ -162,7 +162,6 @@ on :key_down do |event|
     end
   when 'd'
     if ui.ply != ui.rev_ply
-      ui.move.play
       ui.step_fwd(game, board)
       key_time = Time.now
       ui.refresh_info
