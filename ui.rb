@@ -235,7 +235,7 @@ class UI
     play_sound(game.moves[-1][3]) if @sound == true
     update_move_list(game) if @game_over != ''
     last_save = @last_save
-    @last_save = Io.autosave(last_save) if @autosave == true
+    @last_save = Io.autosave(last_save, game) if @autosave == true
   end
 
   def play_sound(details)

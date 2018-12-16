@@ -1,3 +1,5 @@
+require 'yaml'
+
 module Io
   def self.create_filename(incomplete = true)
     t = Time.now
@@ -24,13 +26,20 @@ module Io
     end
   end
 
-  def self.autosave(last_save)
-    last_save = "games/incomplete/#{last_save}.txt"
+  def self.autosave(last_save, game)
+    last_save = "games/incomplete/#{last_save}.yml"
     puts last_save
     mk_dir(incomplete = true)
     File.delete(last_save) if File.exists? last_save
+
+    game_data = YAML.dump ({
+      :moves => game.moves,
+      :game_pieces => game.game_pieces,
+    })
+
     filename = create_filename(incomplete = true)
-    File.open("games/incomplete/#{filename}.txt", 'w'){|f| f.write("My name is: #{filename}")}
+    File.open("games/incomplete/#{filename}.yml", 'w'){|f| f.write(game_data)}
+
     filename
   end
 end
