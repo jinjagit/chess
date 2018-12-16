@@ -30,26 +30,27 @@ module Io
     # test how to get specific data
     d = YAML::load_file("games/incomplete/#{filename}.yml") #Load
 
-    g_p = d[:game_pieces]
+    g_p = d[:game][:game_pieces]
     piece = g_p.detect {|e| e.name == 'wn1'}
-    puts "square: #{piece.square}"
+    puts "test read of wn1.square: #{piece.square}"
   end
 
   def self.autosave(last_save, game)
     last_save = "games/incomplete/#{last_save}.yml"
-    puts last_save
     mk_dir(incomplete = true)
     File.delete(last_save) if File.exists? last_save
 
     game_data = YAML.dump ({
-      :moves => game.moves,
-      :game_pieces => game.game_pieces,
+      :game =>
+      {:moves => game.moves,
+      :pgn_list => game.pgn_list,
+      :game_pieces => game.game_pieces}
     })
 
     filename = create_filename(incomplete = true)
     File.open("games/incomplete/#{filename}.yml", 'w'){|f| f.write(game_data)}
 
-    test_read(filename)
+    #test_read(filename)
 
     filename
   end
