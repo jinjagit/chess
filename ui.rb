@@ -583,13 +583,14 @@ class UI
           hover_off
           refresh_info
           @hover = ''
-        elsif @draw_offer == false && @claim == '' && @game_over == '' && @resign == false
+        elsif @draw_offer == false && @claim == '' && @game_over == '' &&
+            @resign == false && @ply > 0
           hover_off
           info_off
           @draw_offer = true
           info_on
           @hover = ''
-        else
+        elsif @ply > 0
           info_on
         end
 
@@ -608,14 +609,14 @@ class UI
           hover_off
           refresh_info
           @hover = ''
-        elsif @resign == false && @claim == '' && @game_over == ''
+        elsif @resign == false && @claim == '' && @game_over == '' && @ply > 0
           hover_off
           info_off
           @draw_offer = false if @draw_offer == true
           @resign = true
           info_on
           @hover = ''
-        else
+        elsif @ply > 0
           info_on
         end
       end
