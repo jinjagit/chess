@@ -26,6 +26,15 @@ module Io
     end
   end
 
+  def self.test_read(filename)
+    # test how to get specific data
+    d = YAML::load_file("games/incomplete/#{filename}.yml") #Load
+
+    g_p = d[:game_pieces]
+    piece = g_p.detect {|e| e.name == 'wn1'}
+    puts "square: #{piece.square}"
+  end
+
   def self.autosave(last_save, game)
     last_save = "games/incomplete/#{last_save}.yml"
     puts last_save
@@ -39,6 +48,8 @@ module Io
 
     filename = create_filename(incomplete = true)
     File.open("games/incomplete/#{filename}.yml", 'w'){|f| f.write(game_data)}
+
+    test_read(filename)
 
     filename
   end
