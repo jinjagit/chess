@@ -50,7 +50,7 @@ promote = []
 ui_update = false
 
 on :mouse_down do |event|
-  if ui.menu == true
+  if ui.menu != 'off'
     ui.menu_event(event.x, event.y, 'click')
     if ui.new_game == true
       ui.new_game = false
@@ -149,7 +149,7 @@ on :mouse_up do |event|
     end_sq = 63 - end_sq if board.flipped == true
     piece.move_to_square(end_sq)
     piece.icon.z = 5
-    
+
     if ui_update == true
       ui.move_update(posn, board, game)
       ui_update = false

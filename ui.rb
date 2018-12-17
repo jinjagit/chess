@@ -19,7 +19,7 @@ class UI
     @sound = true
     @draw_offer = false
     @resign = false
-    @menu = false
+    @menu = 'off'
     @new_game = false
     @claim = ''
     @ply = 0
@@ -569,7 +569,7 @@ class UI
           hover_off if @hover != '' && @hover != 'new'
           hover_on('new') if @hover != 'new'
         else
-          @menu = true
+          @menu = 'new'
           hover_off
           show_menu_new
         end
@@ -708,30 +708,35 @@ class UI
   end
 
   def menu_event(x, y, event_type)
-    if x > 539 && x < 736 && y > 539 && y < 571
-      if event_type == 'hover'
-        hover_off if @hover != '' && @hover != 'cancel'
-        hover_on('cancel') if @hover != 'cancel'
-      else
-        @menu = false
-        hide_menu_new
+
+    if @menu == 'new'
+      if x > 539 && x < 736 && y > 539 && y < 571
+        if event_type == 'hover'
+          hover_off if @hover != '' && @hover != 'cancel'
+          hover_on('cancel') if @hover != 'cancel'
+        else
+          @menu = 'off'
+          hide_menu_new
+          hover_off
+          @hover = ''
+        end
+      elsif x > 539 && x < 736 && y > 199 && y < 231
+        if event_type == 'hover'
+          hover_off if @hover != '' && @hover != 'hmn_v_hmn'
+          hover_on('hmn_v_hmn') if @hover != 'hmn_v_hmn'
+        else
+          @new_game = true
+          @menu = 'off'
+          hide_menu_new
+          reset_ui
+        end
+      elsif @hover != '' # not in button icons nor claim button area
         hover_off
         @hover = ''
       end
-    elsif x > 539 && x < 736 && y > 199 && y < 231
-      if event_type == 'hover'
-        hover_off if @hover != '' && @hover != 'hmn_v_hmn'
-        hover_on('hmn_v_hmn') if @hover != 'hmn_v_hmn'
-      else
-        @new_game = true
-        @menu = false
-        hide_menu_new
-        reset_ui
-      end
-    elsif @hover != '' # not in button icons nor claim button area
-      hover_off
-      @hover = ''
     end
+
+
   end
 
   def hover_on(element)
