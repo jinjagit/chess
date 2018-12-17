@@ -82,6 +82,7 @@ class UI
                                 font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @rev_move.remove if @rev_move != nil
     @rev_move = nil
+    @last_save = 'none'
     place_defaults
     refresh_info
   end
