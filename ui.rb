@@ -1118,7 +1118,7 @@ class UI
 
   def show_menu_new
     show_menu_basics
-    @menu1_txt1.add
+    @menu_txt1.add
     @menu_btn1.add
     @menu_btn2.add
     @menu_btn3.add
@@ -1131,7 +1131,7 @@ class UI
 
   def hide_menu_new
     hide_menu_basics
-    @menu1_txt1.remove
+    @menu_txt1.remove
     @menu_btn1.remove
     @menu_btn2.remove
     @menu_btn3.remove
@@ -1144,12 +1144,30 @@ class UI
 
   def show_menu_load_save
     show_menu_basics
+    @menu_txt2.add
+    @menu_txt3.add
     @menu_btn6.add
+    @menu_btn7.add
+    @menu_btn8.add
+    @menu_btn9.add
+    @btn6_txt.add
+    @btn7_txt.add
+    @btn8_txt.add
+    @btn9_txt.add
   end
 
   def hide_menu_load_save
     hide_menu_basics
+    @menu_txt2.remove
+    @menu_txt3.remove
     @menu_btn6.remove
+    @menu_btn7.remove
+    @menu_btn8.remove
+    @menu_btn9.remove
+    @btn6_txt.remove
+    @btn7_txt.remove
+    @btn8_txt.remove
+    @btn9_txt.remove
   end
 
   def create_texts
@@ -1292,9 +1310,15 @@ class UI
     @play_on_txt = Text.new("     play on", x:1042, y: 340, z: 2, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @play_on_txt.remove
-    @menu1_txt1 = Text.new("New Game", x:600, y: 150, z: 7, size: 20,
+    @menu_txt1 = Text.new("New Game", x:600, y: 150, z: 7, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @menu1_txt1.remove
+    @menu_txt1.remove
+    @menu_txt2 = Text.new("Load Game", x:595, y: 150, z: 7, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @menu_txt2.remove
+    @menu_txt3 = Text.new("Save Game", x:595, y: 300, z: 7, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @menu_txt3.remove
     @btn1_txt = Text.new("human v human", x:574, y: 205, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn1_txt.remove
@@ -1310,6 +1334,18 @@ class UI
     @btn5_txt = Text.new("cancel", x:610, y: 545, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn5_txt.remove
+    @btn6_txt = Text.new("load COMPLETE game", x:549, y: 195, z: 8, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @btn6_txt.remove
+    @btn7_txt = Text.new("load INCOMPLETE game", x:540, y: 255, z: 8, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @btn7_txt.remove
+    @btn8_txt = Text.new("save COMPLETE game", x:549, y: 345, z: 8, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @btn8_txt.remove
+    @btn9_txt = Text.new("save INCOMPLETE game", x:540, y: 405, z: 8, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @btn9_txt.remove
     @rev_txt = Text.new("   Review mode ", x:1042, y: 348, z: 4, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @rev_txt.remove
@@ -1366,8 +1402,17 @@ class UI
                             x: 540, y: 540, color: '#7c0000')
     @menu_btn5.remove
     @menu_btn6 = Image.new("img/ui/btn2.png", height: 30, width: 293, z: 7,
-                            x: 496, y: 200, color: '#006991') # #018dc1
+                            x: 496, y: 190, color: '#018700') # ??
     @menu_btn6.remove
+    @menu_btn7 = Image.new("img/ui/btn2.png", height: 30, width: 293, z: 7,
+                            x: 496, y: 250, color: '#008249') # ??
+    @menu_btn7.remove
+    @menu_btn8 = Image.new("img/ui/btn2.png", height: 30, width: 293, z: 7,
+                            x: 496, y: 340, color: '#006991') # #018dc1
+    @menu_btn8.remove
+    @menu_btn9 = Image.new("img/ui/btn2.png", height: 30, width: 293, z: 7,
+                            x: 496, y: 400, color: '#0058b7') # #007bff
+    @menu_btn9.remove
     @start = Image.new("img/ui/start.png", height: 33, width: 43, z: 2,
                             x: 60, y: 638, color: '#888888')
     @back = Image.new("img/ui/back.png", height: 33, width: 31, z: 2,
