@@ -713,6 +713,15 @@ class UI
   end
 
   def menu_event(x, y, event_type)
+    def autosave_checkbox(event_type)
+      if event_type == 'hover'
+        hover_off if @hover != '' && @hover != 'autosave'
+        hover_on('autosave') if @hover != 'autosave'
+      else
+        # click event #
+      end
+    end
+
     if x > 539 && x < 736 && y > 539 && y < 571 # cancel btn
       if event_type == 'hover'
         hover_off if @hover != '' && @hover != 'cancel'
@@ -759,6 +768,8 @@ class UI
         else
           # click event
         end
+      elsif x > 539 && x < 567 && y > 473 && y < 501 # autosave checkbox
+        autosave_checkbox(event_type)
       elsif @hover != '' # not in button icons nor claim button area
         hover_off
         @hover = ''
@@ -783,8 +794,10 @@ class UI
           hover_off if @hover != '' && @hover != 'save'
           hover_on('save') if @hover != 'save'
         else
-          # click event
+          # click event #
         end
+      elsif x > 539 && x < 567 && y > 439 && y < 467 # autosave checkbox
+        autosave_checkbox(event_type)
       elsif @hover != '' # not in button icons nor claim button area
         hover_off
         @hover = ''
@@ -895,6 +908,10 @@ class UI
     elsif element == 'save'
       @menu_btn8.color = '#018dc1'
       @hover = 'save'
+    elsif element == 'autosave'
+      @checkbox.remove
+      @checkbox_hover.add
+      @hover = 'autosave'
     elsif element == 'start'
       @tooltip14.add
       @start.color = '#ffffff'
@@ -980,6 +997,9 @@ class UI
       @menu_btn7.color = '#008249'
     elsif @hover == 'save'
       @menu_btn8.color = '#006991'
+    elsif @hover == 'autosave'
+      @checkbox_hover.remove
+      @checkbox.add
     elsif @hover == 'start'
       @tooltip14.remove
       @start.color = '#888888'
@@ -1206,6 +1226,7 @@ class UI
     @btn3_txt.add
     @btn4_txt.add
     @checkbox.y = 474
+    @checkbox_hover.y = 474
     @checkbox.add
     if @autosave == true
       @menu_txt4.y = 476
@@ -1249,6 +1270,7 @@ class UI
     @btn7_txt.add
     @btn8_txt.add
     @checkbox.y = 440
+    @checkbox_hover.y = 440
     @checkbox.add
     if @autosave == true
       @menu_txt4.y = 442
@@ -1526,7 +1548,10 @@ class UI
     @checkbox = Image.new("img/ui/checkbox.png", height: 26, width: 26, z: 7,
                             x: 540, y: 440, color: '#ffffff')
     @checkbox.remove
-    @tick = Image.new("img/ui/tick.png", height: 20, width: 20, z: 7,
+    @checkbox_hover = Image.new("img/ui/checkbox_hover.png", height: 26, width: 26,
+                                z: 7, x: 540, y: 440, color: '#ffffff')
+    @checkbox_hover.remove
+    @tick = Image.new("img/ui/tick.png", height: 20, width: 20, z: 8,
                             x: 543, y: 443, color: '#ffffff')
     @tick.remove
     @start = Image.new("img/ui/start.png", height: 33, width: 43, z: 2,
