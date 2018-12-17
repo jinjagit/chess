@@ -1095,50 +1095,52 @@ class UI
     @g_o_txt12.remove
   end
 
-  def show_menu_new
+  def show_menu_basics
     @menu_screen.add
     @menu_box.add
+    @menu_btn5.add
+    @btn5_txt.add
+  end
+
+  def hide_menu_basics
+    @menu_screen.remove
+    @menu_box.remove
+    @menu_btn5.remove
+    @btn5_txt.remove
+  end
+
+  def show_menu_new
+    show_menu_basics
     @menu1_txt1.add
     @menu_btn1.add
     @menu_btn2.add
     @menu_btn3.add
     @menu_btn4.add
-    @menu_btn5.add
     @btn1_txt.add
     @btn2_txt.add
     @btn3_txt.add
     @btn4_txt.add
-    @btn5_txt.add
   end
 
   def hide_menu_new
-    @menu_screen.remove
-    @menu_box.remove
+    hide_menu_basics
     @menu1_txt1.remove
     @menu_btn1.remove
     @menu_btn2.remove
     @menu_btn3.remove
     @menu_btn4.remove
-    @menu_btn5.remove
     @btn1_txt.remove
     @btn2_txt.remove
     @btn3_txt.remove
     @btn4_txt.remove
-    @btn5_txt.remove
   end
 
   def show_menu_load_save
-    @menu_screen.add
-    @menu_box.add
-    @menu_btn5.add
-    @btn5_txt.add
+    show_menu_basics
   end
 
   def hide_menu_load_save
-    @menu_screen.remove
-    @menu_box.remove
-    @menu_btn5.remove
-    @btn5_txt.remove
+    hide_menu_basics
   end
 
   def create_texts
