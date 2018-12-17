@@ -1205,6 +1205,17 @@ class UI
     @btn2_txt.add
     @btn3_txt.add
     @btn4_txt.add
+    @checkbox.y = 474
+    @checkbox.add
+    if @autosave == true
+      @menu_txt4.y = 476
+      @menu_txt4.add
+      @tick.y = 477
+      @tick.add
+    else
+      @menu_txt5.y = 442
+      @menu_txt5.add
+    end
   end
 
   def hide_menu_new
@@ -1218,6 +1229,13 @@ class UI
     @btn2_txt.remove
     @btn3_txt.remove
     @btn4_txt.remove
+    @checkbox.remove
+    if @autosave == true
+      @menu_txt4.remove
+      @tick.remove
+    else
+      @menu_txt5.remove
+    end
   end
 
   def show_menu_load_save
@@ -1230,6 +1248,17 @@ class UI
     @btn6_txt.add
     @btn7_txt.add
     @btn8_txt.add
+    @checkbox.y = 440
+    @checkbox.add
+    if @autosave == true
+      @menu_txt4.y = 442
+      @menu_txt4.add
+      @tick.y = 443
+      @tick.add
+    else
+      @menu_txt5.y = 442
+      @menu_txt5.add
+    end
   end
 
   def hide_menu_load_save
@@ -1242,6 +1271,13 @@ class UI
     @btn6_txt.remove
     @btn7_txt.remove
     @btn8_txt.remove
+    @checkbox.remove
+    if @autosave == true
+      @menu_txt4.remove
+      @tick.remove
+    else
+      @menu_txt5.remove
+    end
   end
 
   def create_texts
@@ -1390,9 +1426,15 @@ class UI
     @menu_txt2 = Text.new("Load Game", x:600, y: 150, z: 7, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @menu_txt2.remove
-    @menu_txt3 = Text.new("Save Game", x:595, y: 320, z: 7, size: 20,
+    @menu_txt3 = Text.new("Save Game", x:595, y: 330, z: 7, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @menu_txt3.remove
+    @menu_txt4 = Text.new("Autosave is ON", x:580, y: 442, z: 7, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @menu_txt4.remove
+    @menu_txt5 = Text.new("Autosave is OFF", x:580, y: 442, z: 7, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @menu_txt5.remove
     @btn1_txt = Text.new("human v human", x:574, y: 205, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn1_txt.remove
@@ -1414,7 +1456,7 @@ class UI
     @btn7_txt = Text.new("load INCOMPLETE game", x:545, y: 260, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn7_txt.remove
-    @btn8_txt = Text.new("save game", x:595, y: 369, z: 8, size: 20,
+    @btn8_txt = Text.new("save game", x:595, y: 379, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn8_txt.remove
     @rev_txt = Text.new("   Review mode ", x:1042, y: 348, z: 4, size: 20,
@@ -1479,8 +1521,14 @@ class UI
                             x: 496, y: 255, color: '#008249') # #00a05a
     @menu_btn7.remove
     @menu_btn8 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
-                            x: 540, y: 365, color: '#006991') # #018dc1
+                            x: 540, y: 375, color: '#006991') # #018dc1
     @menu_btn8.remove
+    @checkbox = Image.new("img/ui/checkbox.png", height: 26, width: 26, z: 7,
+                            x: 540, y: 440, color: '#ffffff')
+    @checkbox.remove
+    @tick = Image.new("img/ui/tick.png", height: 20, width: 20, z: 7,
+                            x: 543, y: 443, color: '#ffffff')
+    @tick.remove
     @start = Image.new("img/ui/start.png", height: 33, width: 43, z: 2,
                             x: 60, y: 638, color: '#888888')
     @back = Image.new("img/ui/back.png", height: 33, width: 31, z: 2,
