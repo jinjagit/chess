@@ -14,16 +14,13 @@ module Io
     end
   end
 
-  def self.mk_dir(incomplete = true)
+  def self.mk_dir
     dirname = "games"
     Dir.mkdir(dirname) unless File.exists? dirname
-    if incomplete == true
-      dirname = "games/incomplete"
-      Dir.mkdir(dirname) unless File.exists? dirname
-    else
-      dirname = "games/complete"
-      Dir.mkdir(dirname) unless File.exists? dirname
-    end
+    dirname = "games/incomplete"
+    Dir.mkdir(dirname) unless File.exists? dirname
+    dirname = "games/complete"
+    Dir.mkdir(dirname) unless File.exists? dirname
   end
 
   def self.test_read(filename)
@@ -37,7 +34,6 @@ module Io
 
   def self.autosave(last_save, game)
     last_save = "games/incomplete/#{last_save}.yml"
-    mk_dir(incomplete = true)
     File.delete(last_save) if File.exists? last_save
 
     save_data = YAML.dump ({
