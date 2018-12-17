@@ -809,7 +809,7 @@ class UI
         else
           # click event
         end
-      elsif x > 539 && x < 736 && y > 359 && y < 391 # save btn
+      elsif x > 539 && x < 736 && y > 374 && y < 406 # save btn
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'save'
           hover_on('save') if @hover != 'save'
