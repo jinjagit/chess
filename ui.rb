@@ -1127,6 +1127,20 @@ class UI
     @btn5_txt.remove
   end
 
+  def show_menu_load_save
+    @menu_screen.add
+    @menu_box.add
+    @menu_btn5.add
+    @btn5_txt.add
+  end
+
+  def hide_menu_load_save
+    @menu_screen.remove
+    @menu_box.remove
+    @menu_btn5.remove
+    @btn5_txt.remove
+  end
+
   def create_texts
     @w_material_text = Text.new("39 (0)", x:1160, y: 628, z: 2, size: 24,
                                 font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
