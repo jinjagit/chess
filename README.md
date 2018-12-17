@@ -7,7 +7,7 @@ The instructions, in a nutshell, are to build a "... command line [pure Ruby] ch
 
 I chose not to produce a command line app, but instead went for a more graphical approach, using the Ruby2D gem. While this gem is still a little rough around the edges (at only v 0.7), it is way more pleasant to look at than anything I could produce in a terminal, and enables a much more user-friendly interface (with a little more work). So far, I have been very impressed with the ease-of-use of this gem.
 
-### Current state (16/12/18):
+### Current state (17/12/18):
 
 Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling, pawn promotion and en-passant. Checkmate, stalemate, and draw due to insufficient material, are correctly detected (and the game halted when found).
 
@@ -16,9 +16,9 @@ Draw conditions due to 50-move-rule (no captures or pawn moves) or 3-fold repeti
 A move list (both native and PGN format) is created as a game progresses. The piece that moved is disambiguated in algebraic notation, when needed (e.g. 'Nbd7', rather than simply 'Nd7'). Check, checkmate, piece capture, win, draw, en-passant and pawn promotion are also correctly formatted (in algebraic notation) in the PGN record.
 
 ### UI features implemented:
-  * highlighting of legal move squares, if any, (green squares) when a piece is lifted
-  * highlighting of king in check / checkmate (red square)
-  * highlighting of last move (yellow squares: start-square & end-square)
+  * highlight legal move squares, if any, (green squares) when piece is lifted
+  * highlight king in check / checkmate (red square)
+  * highlight last move (yellow squares: start-square & end-square)
   * pawn promotion menu: click-able choice of Q, R, N, or B.
   * side to move indicator
   * total pieces value (and difference) for each side - updates when piece taken / pawn promoted
