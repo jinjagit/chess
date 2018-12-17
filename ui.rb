@@ -542,10 +542,14 @@ class UI
           end
           hover_on('legal')
         end
-      elsif x > 1163 && x < 1198 # save / load
+      elsif x > 1163 && x < 1198 # load / save
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'save_load'
           hover_on('save_load') if @hover != 'save_load'
+        else
+          @menu = 'load_save'
+          hover_off
+          show_menu_load_save
         end
       elsif x > 1199 && x < 1240 # sound on / off
         if event_type == 'hover'
