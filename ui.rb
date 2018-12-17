@@ -742,7 +742,41 @@ class UI
         hover_off
         @hover = ''
       end
+    elsif @menu == 'load_save'
+      if x > 495 && x < 789 && y > 189 && y < 221 # load complete btn
+        if event_type == 'hover'
+          hover_off if @hover != '' && @hover != 'load_complete'
+          hover_on('load_complete') if @hover != 'load_complete'
+        else
+          # click event
+        end
+      elsif x > 495 && x < 789 && y > 249 && y < 281 # load INcomplete btn
+        if event_type == 'hover'
+          hover_off if @hover != '' && @hover != 'load_incomplete'
+          hover_on('load_incomplete') if @hover != 'load_incomplete'
+        else
+          # click event
+        end
+      elsif x > 495 && x < 789 && y > 349 && y < 381 # save complete btn
+        if event_type == 'hover'
+          hover_off if @hover != '' && @hover != 'save_complete'
+          hover_on('save_complete') if @hover != 'save_complete'
+        else
+          # click event
+        end
+      elsif x > 495 && x < 789 && y > 399 && y < 431 # save INcomplete btn
+        if event_type == 'hover'
+          hover_off if @hover != '' && @hover != 'save_incomplete'
+          hover_on('save_incomplete') if @hover != 'save_incomplete'
+        else
+          # click event
+        end
+      elsif @hover != '' # not in button icons nor claim button area
+        hover_off
+        @hover = ''
+      end
     end
+
 
 
   end
@@ -829,6 +863,18 @@ class UI
     elsif element == 'hmn_v_hmn'
       @menu_btn1.color = '#018dc1'
       @hover = 'hmn_v_hmn'
+    elsif element == 'load_complete'
+      @menu_btn6.color = '#01a500'
+      @hover = 'load_complete'
+    elsif element == 'load_incomplete'
+      @menu_btn7.color = '#00a05a'
+      @hover = 'load_incomplete'
+    elsif element == 'save_complete'
+      @menu_btn8.color = '#018dc1'
+      @hover = 'save_complete'
+    elsif element == 'save_incomplete'
+      @menu_btn9.color = '#007bff'
+      @hover = 'save_incomplete'
     elsif element == 'start'
       @tooltip14.add
       @start.color = '#ffffff'
@@ -902,6 +948,14 @@ class UI
       @menu_btn5.color = '#7c0000'
     elsif @hover == 'hmn_v_hmn'
       @menu_btn1.color = '#006991'
+    elsif @hover == 'load_complete'
+      @menu_btn6.color = '#018700'
+    elsif @hover == 'load_incomplete'
+      @menu_btn7.color = '#008249'
+    elsif @hover == 'save_complete'
+      @menu_btn8.color = '#006991'
+    elsif @hover == 'save_incomplete'
+      @menu_btn9.color = '#0058b7'
     elsif @hover == 'start'
       @tooltip14.remove
       @start.color = '#888888'
@@ -1402,10 +1456,10 @@ class UI
                             x: 540, y: 540, color: '#7c0000')
     @menu_btn5.remove
     @menu_btn6 = Image.new("img/ui/btn2.png", height: 30, width: 293, z: 7,
-                            x: 496, y: 190, color: '#018700') # ??
+                            x: 496, y: 190, color: '#018700') # #01a500
     @menu_btn6.remove
     @menu_btn7 = Image.new("img/ui/btn2.png", height: 30, width: 293, z: 7,
-                            x: 496, y: 250, color: '#008249') # ??
+                            x: 496, y: 250, color: '#008249') # #00a05a
     @menu_btn7.remove
     @menu_btn8 = Image.new("img/ui/btn2.png", height: 30, width: 293, z: 7,
                             x: 496, y: 340, color: '#006991') # #018dc1
