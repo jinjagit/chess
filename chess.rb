@@ -104,7 +104,7 @@ on :mouse_down do |event|
 end
 
 on :mouse_move do |event|
-  if ui.menu == true
+  if ui.menu != 'off'
     ui.menu_event(event.x, event.y, 'hover')
   else
     location = board.mouse_square(event.x, event.y)

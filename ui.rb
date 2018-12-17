@@ -713,19 +713,18 @@ class UI
   end
 
   def menu_event(x, y, event_type)
-
-    if @menu == 'new'
-      if x > 539 && x < 736 && y > 539 && y < 571
-        if event_type == 'hover'
-          hover_off if @hover != '' && @hover != 'cancel'
-          hover_on('cancel') if @hover != 'cancel'
-        else
-          @menu = 'off'
-          hide_menu_new
-          hover_off
-          @hover = ''
-        end
-      elsif x > 539 && x < 736 && y > 199 && y < 231
+    if x > 539 && x < 736 && y > 539 && y < 571 # cancel btn
+      if event_type == 'hover'
+        hover_off if @hover != '' && @hover != 'cancel'
+        hover_on('cancel') if @hover != 'cancel'
+      else
+        @menu = 'off'
+        hide_menu_new
+        hover_off
+        @hover = ''
+      end
+    elsif @menu == 'new'
+      if x > 539 && x < 736 && y > 199 && y < 231 # human v human btn
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'hmn_v_hmn'
           hover_on('hmn_v_hmn') if @hover != 'hmn_v_hmn'
