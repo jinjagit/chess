@@ -28,9 +28,9 @@ module Io
 
   def self.test_read(filename)
     # test how to get specific data
-    d = YAML::load_file("games/incomplete/#{filename}.yml") #Load
+    data = YAML::load_file("games/incomplete/#{filename}.yml") #Load
 
-    g_p = d[:game][:game_pieces]
+    g_p = data[:game][:game_pieces]
     piece = g_p.detect {|e| e.name == 'wn1'}
     puts "test read of wn1.square: #{piece.square}"
   end

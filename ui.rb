@@ -234,10 +234,10 @@ class UI
     end
     play_sound(game.moves[-1][3]) if @sound == true
     update_move_list(game) if @game_over != ''
-    startTime = Time.now # debug: monitor responsiveness
+    #startTime = Time.now # debug: monitor responsiveness
     last_save = @last_save
     @last_save = Io.autosave(last_save, game) if @autosave == true
-    puts "time to delete/create autosave: #{(duration = Time.now - startTime).to_s} s"
+    #puts "time to delete/create autosave: #{(duration = Time.now - startTime).to_s} s"
   end
 
   def play_sound(details)
@@ -571,7 +571,7 @@ class UI
         else
           @menu = true
           hover_off
-          show_menu1
+          show_menu_new
         end
 
       elsif x >= 1102 && x < 1152 # draw offer button
@@ -714,7 +714,7 @@ class UI
         hover_on('cancel') if @hover != 'cancel'
       else
         @menu = false
-        hide_menu1
+        hide_menu_new
         hover_off
         @hover = ''
       end
@@ -725,7 +725,7 @@ class UI
       else
         @new_game = true
         @menu = false
-        hide_menu1
+        hide_menu_new
         reset_ui
       end
     elsif @hover != '' # not in button icons nor claim button area
@@ -1089,9 +1089,9 @@ class UI
     @g_o_txt12.remove
   end
 
-  def show_menu1
-    @screen.add
-    @menu1.add
+  def show_menu_new
+    @menu_screen.add
+    @menu_box.add
     @menu1_txt1.add
     @menu_btn1.add
     @menu_btn2.add
@@ -1105,9 +1105,9 @@ class UI
     @btn5_txt.add
   end
 
-  def hide_menu1
-    @screen.remove
-    @menu1.remove
+  def hide_menu_new
+    @menu_screen.remove
+    @menu_box.remove
     @menu1_txt1.remove
     @menu_btn1.remove
     @menu_btn2.remove
@@ -1198,7 +1198,7 @@ class UI
     @tooltip10 = Text.new("      resign", x:1036, y: 348, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @tooltip10.remove
-    @tooltip11 = Text.new(" save / load game", x:1036, y: 348, z: 2, size: 20,
+    @tooltip11 = Text.new(" load / save game", x:1036, y: 348, z: 2, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @tooltip11.remove
     @tooltip12 = Text.new("     sound OFF", x:1032, y: 348, z: 2, size: 20,
@@ -1345,11 +1345,11 @@ class UI
   end
 
   def create_menus
-    @screen = Rectangle.new(x: 0, y: 0, z: 5, width: 1280, height: 720,
+    @menu_screen = Rectangle.new(x: 0, y: 0, z: 5, width: 1280, height: 720,
                             color: [0.5, 0.5, 0.5, 0.5])
-    @screen.remove
-    @menu1 = Image.new("img/ui/menu1.png", height: 480, width: 480,
+    @menu_screen.remove
+    @menu_box = Image.new("img/ui/menu1.png", height: 480, width: 480,
                         z: 6, x: 400, y: 120)
-    @menu1.remove
+    @menu_box.remove
   end
 end

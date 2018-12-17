@@ -1,32 +1,47 @@
 ---
 :game:
   :moves:
-  - - wp3
-    - 51
-    - 35
+  - - wp6
+    - 54
+    - 46
     - ''
-  - - bp4
-    - 12
-    - 28
+  - - bp6
+    - 14
+    - 22
     - ''
-  - - wp3
-    - 35
-    - 28
-    - x
+  - - wb1
+    - 61
+    - 54
+    - ''
+  - - bb1
+    - 5
+    - 14
+    - ''
+  - - wn1
+    - 62
+    - 45
+    - ''
   - - bn1
     - 6
     - 21
     - ''
-  - - wp3
-    - 28
-    - 21
-    - x
+  - - wk0
+    - 60
+    - 62
+    - O-O
+  - - bk0
+    - 4
+    - 6
+    - O-O
   :pgn_list:
-  - d4
-  - e5
-  - dxe5
+  - g3
+  - g6
+  - Bg2
+  - Bg7
+  - Nf3
   - Nf6
-  - exf6
+  - O-O
+  - O-O
   :game_pieces:
   - !ruby/object:Rook
     name: br0
@@ -57,8 +72,8 @@
     color: black
     square: 1
     legal_moves:
-    - 18
-    - 16
+    - 46
+    - 53
     moved: false
     checks: 0
     check_blocks: []
@@ -129,15 +144,17 @@
   - !ruby/object:King
     name: bk0
     color: black
-    square: 4
-    legal_moves: []
-    moved: false
+    square: 6
+    legal_moves:
+    - 5
+    - 6
+    moved: true
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_king.png
-      x: 645
+      x: 805
       y: 45
       z: 5
       width: 70
@@ -154,16 +171,23 @@
   - !ruby/object:Bishop
     name: bb1
     color: black
-    square: 5
-    legal_moves: []
-    moved: false
+    square: 14
+    legal_moves:
+    - 23
+    - 21
+    - 28
+    - 35
+    - 42
+    - 49
+    - 5
+    moved: true
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_bishop.png
-      x: 725
-      y: 45
+      x: 805
+      y: 125
       z: 5
       width: 70
       height: 70
@@ -193,7 +217,7 @@
       path: img/b_knight.png
       x: 725
       y: 205
-      z: -1
+      z: 5
       width: 70
       height: 70
       rotate: 0
@@ -207,7 +231,7 @@
   - !ruby/object:Rook
     name: br1
     color: black
-    square: 7
+    square: 5
     legal_moves: []
     moved: false
     checks: 0
@@ -215,7 +239,7 @@
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_rook.png
-      x: 885
+      x: 725
       y: 45
       z: 5
       width: 70
@@ -331,19 +355,17 @@
   - !ruby/object:Pawn
     name: bp4
     color: black
-    square: 28
-    legal_moves:
-    - 20
-    - 28
-    moved: true
+    square: 12
+    legal_moves: []
+    moved: false
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_pawn.png
       x: 645
-      y: 285
-      z: -1
+      y: 125
+      z: 5
       width: 70
       height: 70
       rotate: 0
@@ -383,16 +405,18 @@
   - !ruby/object:Pawn
     name: bp6
     color: black
-    square: 14
-    legal_moves: []
-    moved: false
+    square: 22
+    legal_moves:
+    - 22
+    - 30
+    moved: true
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_pawn.png
       x: 805
-      y: 125
+      y: 205
       z: 5
       width: 70
       height: 70
@@ -434,7 +458,9 @@
     name: wp0
     color: white
     square: 48
-    legal_moves: []
+    legal_moves:
+    - 40
+    - 32
     moved: false
     checks: 0
     check_blocks: []
@@ -508,18 +534,16 @@
   - !ruby/object:Pawn
     name: wp3
     color: white
-    square: 21
-    legal_moves:
-    - 20
-    - 21
-    moved: true
+    square: 51
+    legal_moves: []
+    moved: false
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/w_pawn.png
-      x: 725
-      y: 205
+      x: 565
+      y: 525
       z: 5
       width: 70
       height: 70
@@ -585,16 +609,18 @@
   - !ruby/object:Pawn
     name: wp6
     color: white
-    square: 54
-    legal_moves: []
-    moved: false
+    square: 46
+    legal_moves:
+    - 46
+    - 38
+    moved: true
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/w_pawn.png
       x: 805
-      y: 525
+      y: 445
       z: 5
       width: 70
       height: 70
@@ -661,12 +687,9 @@
     color: white
     square: 57
     legal_moves:
-    - 6
-    - 22
-    - 29
-    - 27
-    - 2
-    - 18
+    - 23
+    - 21
+    - 12
     moved: false
     checks: 0
     check_blocks: []
@@ -737,16 +760,16 @@
   - !ruby/object:King
     name: wk0
     color: white
-    square: 60
+    square: 62
     legal_moves:
-    - 51
-    moved: false
+    - 63
+    moved: true
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/w_king.png
-      x: 645
+      x: 805
       y: 605
       z: 5
       width: 70
@@ -763,16 +786,23 @@
   - !ruby/object:Bishop
     name: wb1
     color: white
-    square: 61
-    legal_moves: []
-    moved: false
+    square: 54
+    legal_moves:
+    - 47
+    - 61
+    - 45
+    - 36
+    - 27
+    - 18
+    - 9
+    moved: true
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/w_bishop.png
-      x: 725
-      y: 605
+      x: 805
+      y: 525
       z: 5
       width: 70
       height: 70
@@ -787,16 +817,21 @@
   - !ruby/object:Knight
     name: wn1
     color: white
-    square: 62
-    legal_moves: []
-    moved: false
+    square: 45
+    legal_moves:
+    - 30
+    - 28
+    - 39
+    - 62
+    - 35
+    moved: true
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/w_knight.png
-      x: 805
-      y: 605
+      x: 725
+      y: 445
       z: 5
       width: 70
       height: 70
@@ -811,7 +846,7 @@
   - !ruby/object:Rook
     name: wr1
     color: white
-    square: 63
+    square: 61
     legal_moves: []
     moved: false
     checks: 0
@@ -819,7 +854,7 @@
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/w_rook.png
-      x: 885
+      x: 725
       y: 605
       z: 5
       width: 70
