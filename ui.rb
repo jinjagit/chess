@@ -718,8 +718,12 @@ class UI
         hover_off if @hover != '' && @hover != 'cancel'
         hover_on('cancel') if @hover != 'cancel'
       else
+        if @menu == 'new'
+          hide_menu_new
+        elsif @menu == 'load_save'
+          hide_menu_load_save
+        end
         @menu = 'off'
-        hide_menu_new
         hover_off
         @hover = ''
       end
@@ -1140,10 +1144,12 @@ class UI
 
   def show_menu_load_save
     show_menu_basics
+    @menu_btn6.add
   end
 
   def hide_menu_load_save
     hide_menu_basics
+    @menu_btn6.remove
   end
 
   def create_texts
@@ -1359,6 +1365,9 @@ class UI
     @menu_btn5 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
                             x: 540, y: 540, color: '#7c0000')
     @menu_btn5.remove
+    @menu_btn6 = Image.new("img/ui/btn2.png", height: 30, width: 293, z: 7,
+                            x: 496, y: 200, color: '#006991') # #018dc1
+    @menu_btn6.remove
     @start = Image.new("img/ui/start.png", height: 33, width: 43, z: 2,
                             x: 60, y: 638, color: '#888888')
     @back = Image.new("img/ui/back.png", height: 33, width: 31, z: 2,
