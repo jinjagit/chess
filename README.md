@@ -39,7 +39,7 @@ A move list (both native and PGN format) is created as a game progresses. The pi
   * load / save game (in progress)
   * engine (very simple, probably with poor play) v human
 
-Note: At the moment, to run this (after downloading this repository), you'll need Ruby installed. Then, open a terminal, navigate to the root folder of the downloaded repository, and enter; <code>ruby chess.rb</code>
+Note: At the moment, to run this (after downloading this repository), you'll need Ruby and the Ruby2D gem installed. Then, open a terminal, navigate to the root folder of the downloaded repository, and enter; <code>ruby chess.rb</code>
 
 ### Features I want to add:
   * file ui, for saving / loading of both unfinished and finished games, in both app native and PGN formats.
