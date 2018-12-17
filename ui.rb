@@ -730,13 +730,34 @@ class UI
     elsif @menu == 'new'
       if x > 539 && x < 736 && y > 199 && y < 231 # human v human btn
         if event_type == 'hover'
-          hover_off if @hover != '' && @hover != 'hmn_v_hmn'
-          hover_on('hmn_v_hmn') if @hover != 'hmn_v_hmn'
+          hover_off if @hover != '' && @hover != 'human_v_human'
+          hover_on('human_v_human') if @hover != 'human_v_human'
         else
           @new_game = true
           @menu = 'off'
           hide_menu_new
           reset_ui
+        end
+      elsif x > 539 && x < 736 && y > 259 && y < 291 # human v engine btn
+        if event_type == 'hover'
+          hover_off if @hover != '' && @hover != 'human_v_engine'
+          hover_on('human_v_engine') if @hover != 'human_v_engine'
+        else
+          # click event
+        end
+      elsif x > 539 && x < 736 && y > 319 && y < 351 # engine v engine btn
+        if event_type == 'hover'
+          hover_off if @hover != '' && @hover != 'engine_v_engine'
+          hover_on('engine_v_engine') if @hover != 'engine_v_engine'
+        else
+          # click event
+        end
+      elsif x > 539 && x < 736 && y > 399 && y < 431 # engine settings btn
+        if event_type == 'hover'
+          hover_off if @hover != '' && @hover != 'engine_settings'
+          hover_on('engine_settings') if @hover != 'engine_settings'
+        else
+          # click event
         end
       elsif @hover != '' # not in button icons nor claim button area
         hover_off
@@ -860,9 +881,18 @@ class UI
     elsif element == 'cancel'
       @menu_btn5.color = '#ff0000'
       @hover = 'cancel'
-    elsif element == 'hmn_v_hmn'
+    elsif element == 'human_v_human'
       @menu_btn1.color = '#018dc1'
-      @hover = 'hmn_v_hmn'
+      @hover = 'human_v_human'
+    elsif element == 'human_v_engine'
+      @menu_btn2.color = '#007bff'
+      @hover = 'human_v_engine'
+    elsif element == 'engine_v_engine'
+      @menu_btn3.color = '#5500f4'
+      @hover = 'engine_v_engine'
+    elsif element == 'engine_settings'
+      @menu_btn4.color = '#666666'
+      @hover = 'engine_settings'
     elsif element == 'load_complete'
       @menu_btn6.color = '#01a500'
       @hover = 'load_complete'
@@ -946,8 +976,14 @@ class UI
       @claim_btn.color = '#7c0000'
     elsif @hover == 'cancel'
       @menu_btn5.color = '#7c0000'
-    elsif @hover == 'hmn_v_hmn'
+    elsif @hover == 'human_v_human'
       @menu_btn1.color = '#006991'
+    elsif @hover == 'human_v_engine'
+      @menu_btn2.color = '#0058b7'
+    elsif @hover == 'engine_v_engine'
+      @menu_btn3.color = '#4000b7'
+    elsif @hover == 'engine_settings'
+      @menu_btn4.color = '#444444'
     elsif @hover == 'load_complete'
       @menu_btn6.color = '#018700'
     elsif @hover == 'load_incomplete'
@@ -1450,10 +1486,10 @@ class UI
                             x: 540, y: 320, color: '#4000b7') # #5500f4
     @menu_btn3.remove
     @menu_btn4 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
-                            x: 540, y: 400, color: '#444444')
+                            x: 540, y: 400, color: '#444444') # #666666
     @menu_btn4.remove
     @menu_btn5 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
-                            x: 540, y: 540, color: '#7c0000')
+                            x: 540, y: 540, color: '#7c0000') # #ff0000
     @menu_btn5.remove
     @menu_btn6 = Image.new("img/ui/btn2.png", height: 30, width: 293, z: 7,
                             x: 496, y: 190, color: '#018700') # #01a500
