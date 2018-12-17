@@ -718,14 +718,34 @@ class UI
         hover_off if @hover != '' && @hover != 'autosave'
         hover_on('autosave') if @hover != 'autosave'
       else
-        # click event #
+        if @autosave == true
+          if @menu == 'new'
+            hide_menu_new
+            @autosave = false
+            show_menu_new
+          else
+            hide_menu_load_save
+            @autosave = false
+            show_menu_load_save
+          end
+        else
+          if @menu == 'new'
+            hide_menu_new
+            @autosave = true
+            show_menu_new
+          else
+            hide_menu_load_save
+            @autosave = true
+            show_menu_load_save
+          end
+        end
       end
     end
 
-    if x > 539 && x < 736 && y > 539 && y < 571 # cancel btn
+    if x > 539 && x < 736 && y > 539 && y < 571 # close btn
       if event_type == 'hover'
-        hover_off if @hover != '' && @hover != 'cancel'
-        hover_on('cancel') if @hover != 'cancel'
+        hover_off if @hover != '' && @hover != 'close'
+        hover_on('close') if @hover != 'close'
       else
         if @menu == 'new'
           hide_menu_new
@@ -884,9 +904,9 @@ class UI
     elsif element == 'claim'
       @claim_btn.color = '#ff0000'
       @hover = 'claim'
-    elsif element == 'cancel'
+    elsif element == 'close'
       @menu_btn5.color = '#ff0000'
-      @hover = 'cancel'
+      @hover = 'close'
     elsif element == 'human_v_human'
       @menu_btn1.color = '#018dc1'
       @hover = 'human_v_human'
@@ -981,7 +1001,7 @@ class UI
       @tooltip10.remove
     elsif @hover == 'claim'
       @claim_btn.color = '#7c0000'
-    elsif @hover == 'cancel'
+    elsif @hover == 'close'
       @menu_btn5.color = '#7c0000'
     elsif @hover == 'human_v_human'
       @menu_btn1.color = '#006991'
@@ -1234,7 +1254,7 @@ class UI
       @tick.y = 477
       @tick.add
     else
-      @menu_txt5.y = 442
+      @menu_txt5.y = 476
       @menu_txt5.add
     end
   end
@@ -1433,7 +1453,7 @@ class UI
     @res_txt3 = Text.new("   confirm, or", x:1040, y: 326, z: 2, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @res_txt3.remove
-    @res_txt4 = Text.new("    to cancel", x:1040, y: 374, z: 2, size: 20,
+    @res_txt4 = Text.new("    to close", x:1040, y: 374, z: 2, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @res_txt4.remove
     @res_txt5 = Text.new("  resign", x:1076, y: 405, z: 4, size: 20,
@@ -1469,7 +1489,7 @@ class UI
     @btn4_txt = Text.new("engine settings", x:566, y: 405, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn4_txt.remove
-    @btn5_txt = Text.new("cancel", x:610, y: 545, z: 8, size: 20,
+    @btn5_txt = Text.new("close", x:614, y: 545, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn5_txt.remove
     @btn6_txt = Text.new("load COMPLETE game", x:554, y: 200, z: 8, size: 20,
