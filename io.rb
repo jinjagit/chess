@@ -14,13 +14,11 @@ module Io
     end
   end
 
-  def self.mk_dir
-    dirname = "games"
-    Dir.mkdir(dirname) unless File.exists? dirname
-    dirname = "games/incomplete"
-    Dir.mkdir(dirname) unless File.exists? dirname
-    dirname = "games/complete"
-    Dir.mkdir(dirname) unless File.exists? dirname
+  def self.mk_dirs
+    mk_dir = Proc.new { |dir| Dir.mkdir(dir) unless File.exists? dir }
+    mk_dir.call("games")
+    mk_dir.call("games/incomplete")
+    mk_dir.call("games/complete")
   end
 
   def self.test_read(filename)

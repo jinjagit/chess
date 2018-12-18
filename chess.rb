@@ -36,7 +36,7 @@ canvas = Image.new("img/ui/screen.png", height: 720, width: 1280, z: 0,
 ui = UI.new
 board = Board.new
 game = Game.new(board.game_pieces)
-Io.mk_dir
+Io.mk_dirs
 ui.place_defaults
 posn = board.posn
 
