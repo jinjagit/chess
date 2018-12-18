@@ -742,6 +742,8 @@ class UI
           hide_menu_new
         elsif @menu == 'load_save'
           hide_menu_load_save
+        elsif @menu == 'load'
+          hide_menu_load
         end
         @menu = 'off'
         hover_off
@@ -1318,13 +1320,10 @@ class UI
     end
   end
 
-  def hide_menu_load(type = 'complete')
+  def hide_menu_load
     hide_menu_basics
-    if type == 'incomplete'
-      @menu_txt6.remove
-    else
-      @menu_txt7.remove
-    end
+    @menu_txt6.remove
+    @menu_txt7.remove
   end
 
   def create_texts
