@@ -1336,9 +1336,9 @@ class UI
                               font: 'fonts/UbuntuMono-R.ttf')
     end
     text = "page #{(start + 10) / 10.floor} of #{(@files.length + 10) / 10.floor}"
-    @page_num_txt = Text.new(text, x: 584, y: 420,
-                            z: 8, size: 20, color: '#ffffff',
-                            font: 'fonts/UbuntuMono-R.ttf')
+    offset = 584 + ((text.length - 11) * -5)
+    @page_num_txt = Text.new(text, x: offset, y: 420, z: 8, size: 20,
+                              color: '#ffffff', font: 'fonts/UbuntuMono-R.ttf')
     # x needs -5 offset for every extra char (min = 11 chars)
 
   end
