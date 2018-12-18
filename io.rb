@@ -30,6 +30,14 @@ module Io
     puts "test read of wn1.square: #{piece.square}"
   end
 
+  def self.list_files(dir)
+    if dir == 'incomplete'
+      list = Dir.glob("games/#{dir}/*.{yml,YML}").map {|e| e[17..-5]}
+    else
+      list = Dir.glob("games/#{dir}/*.{pgn,PGN}").map {|e| e[15..-5]}
+    end
+  end
+
   def self.autosave(last_save, game)
     last_save = "games/incomplete/#{last_save}.yml"
     File.delete(last_save) if File.exists? last_save

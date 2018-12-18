@@ -52,6 +52,7 @@ class UI
     @last_save = 'none'
     @move = Sound.new('./audio/move.wav')
     @capture = Sound.new('./audio/capture.wav')
+    @files = []
     create_texts
     create_icons
     create_menus
@@ -83,6 +84,7 @@ class UI
     @rev_move.remove if @rev_move != nil
     @rev_move = nil
     @last_save = 'none'
+    @files = []
     place_defaults
     refresh_info
   end
@@ -1312,6 +1314,8 @@ class UI
   end
 
   def show_menu_load(type = 'complete')
+    @files = Io.list_files(type)
+    @files.each {|e| puts e}
     show_menu_basics
     if type == 'incomplete'
       @menu_txt6.add
