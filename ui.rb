@@ -791,8 +791,13 @@ class UI
       elsif x > 495 && x < 789 && y > 249 && y < 281 # load INcomplete button
         if event_type == 'hover'
           hover_if_off('load_incomplete')
-        else
-          # click event
+        else # click event
+          hide_menu_load_save
+          @menu = 'off'
+          hover_off
+          @hover = ''
+          @menu = 'load'
+          show_menu_load('incomplete')
         end
       elsif x > 539 && x < 736 && y > 374 && y < 406 # save button
         if event_type == 'hover'
@@ -1304,6 +1309,24 @@ class UI
     end
   end
 
+  def show_menu_load(type = 'complete')
+    show_menu_basics
+    if type == 'incomplete'
+      @menu_txt6.add
+    else
+      @menu_txt7.add
+    end
+  end
+
+  def hide_menu_load(type = 'complete')
+    hide_menu_basics
+    if type == 'incomplete'
+      @menu_txt6.remove
+    else
+      @menu_txt7.remove
+    end
+  end
+
   def create_texts
     @w_material_text = Text.new("39 (0)", x:1160, y: 628, z: 2, size: 24,
                                 font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
@@ -1459,6 +1482,12 @@ class UI
     @menu_txt5 = Text.new("Autosave is OFF", x:580, y: 442, z: 7, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @menu_txt5.remove
+    @menu_txt6 = Text.new("Select Incomplete Game to Load", x:488, y: 150, z: 7, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @menu_txt6.remove
+    @menu_txt7 = Text.new("Select Complete Game to Load", x:500, y: 150, z: 7, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
+    @menu_txt7.remove
     @btn1_txt = Text.new("human v human", x:574, y: 205, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn1_txt.remove
