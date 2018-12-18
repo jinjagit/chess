@@ -478,6 +478,11 @@ class UI
     @list_offset = 0
   end
 
+  def hover_if_off(name)
+    hover_off if @hover != '' && @hover != name
+    hover_on(name) if @hover != name
+  end
+
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
     def add_draw_to_moves(game)
       game.pgn = game.pgn + ' 1/2-1/2'
@@ -490,8 +495,7 @@ class UI
 
       if x > 1020 && x < 1055 # flip button
         if event_type == 'hover'
-          hover_off if @hover != '' && @hover != 'flip'
-          hover_on('flip') if @hover != 'flip'
+          hover_if_off('flip')
         else # event_type == 'click' (flip board)
           posn = @rev_posn if @review == true
           flip_board(posn, board, game)
@@ -499,8 +503,7 @@ class UI
         end
       elsif x > 1055 && x < 1093 # autoflip button
         if event_type == 'hover'
-          hover_off if @hover != '' && @hover != 'autoflip'
-          hover_on('autoflip') if @hover != 'autoflip'
+          hover_if_off('autoflip')
         else # event_type == 'click' (auto-flip board)
           if @autoflip == true
             hover_off
@@ -514,8 +517,7 @@ class UI
         end
       elsif x > 1093 && x < 1125 # coords button
         if event_type == 'hover'
-          hover_off if @hover != '' && @hover != 'coords'
-          hover_on('coords') if @hover != 'coords'
+          hover_if_off('coords')
         else # event_type == 'click' (toggle coords display)
           if @coords_on == true
             @coords.remove
@@ -530,8 +532,7 @@ class UI
         end
       elsif x > 1126 && x < 1162 # legal squares button
         if event_type == 'hover'
-          hover_off if @hover != '' && @hover != 'legal'
-          hover_on('legal') if @hover != 'legal'
+          hover_if_off('legal')
         else # event_type == 'click' (toggle legal squares highlighting)
           if @legal_sqs == true
             hover_off
@@ -544,8 +545,7 @@ class UI
         end
       elsif x > 1163 && x < 1198 # load / save button
         if event_type == 'hover'
-          hover_off if @hover != '' && @hover != 'save_load'
-          hover_on('save_load') if @hover != 'save_load'
+          hover_if_off('save_load')
         else
           @menu = 'load_save'
           hover_off
@@ -553,8 +553,7 @@ class UI
         end
       elsif x > 1199 && x < 1240 # sound on / off  button
         if event_type == 'hover'
-          hover_off if @hover != '' && @hover != 'sound'
-          hover_on('sound') if @hover != 'sound'
+          hover_if_off('sound')
         else # event_type == 'click' (sound on / off)
           if @sound == true
             hover_off
@@ -571,8 +570,7 @@ class UI
       info_off if @hover == ''
       if x > 1060 && x < 1102 # new game button
         if event_type == 'hover'
-          hover_off if @hover != '' && @hover != 'new'
-          hover_on('new') if @hover != 'new'
+          hover_if_off('new')
         else
           @menu = 'new'
           hover_off
@@ -635,8 +633,7 @@ class UI
     elsif (@claim != '' || @draw_offer == true || @resign == true) &&
             x > 1029 && x < 1226 && y > 401 && y < 433 # claim button
       if event_type == 'hover'
-        hover_off if @hover != '' && @hover != 'claim'
-        hover_on('claim') if @hover != 'claim'
+        hover_if_off('claim')
       elsif @claim != '' # event_type == 'click' (claim draw)
         game.game_over = @claim
         info_off
@@ -671,32 +668,28 @@ class UI
       if x < 104 # go to start button
         if event_type == 'hover'
           info_off
-          hover_off if @hover != '' && @hover != 'start'
-          hover_on('start') if @hover != 'start'
+          hover_if_off('start')
         else # set up start posn, when click 'go to start'
           go_to_start(game, board)
         end
       elsif x > 118 && x < 153 # step back button
         if event_type == 'hover'
           info_off
-          hover_off if @hover != '' && @hover != 'back'
-          hover_on('back') if @hover != 'back'
+          hover_if_off('back')
         else # click event
           step_back(game, board)
         end
       elsif x > 152 && x < 187 # step fwd button
         if event_type == 'hover'
           info_off
-          hover_off if @hover != '' && @hover != 'fwd'
-          hover_on('fwd') if @hover != 'fwd'
+          hover_if_off('fwd')
         else # click event
           step_fwd(game, board)
         end
       elsif x > 202 && x < 247 # go to end button
         if event_type == 'hover'
           info_off
-          hover_off if @hover != '' && @hover != 'end'
-          hover_on('end') if @hover != 'end'
+          hover_if_off('end')
         else # click event
           go_to_end(game, board)
         end
@@ -715,8 +708,7 @@ class UI
   def menu_event(x, y, event_type)
     def autosave_checkbox(event_type) # autosave button
       if event_type == 'hover'
-        hover_off if @hover != '' && @hover != 'autosave'
-        hover_on('autosave') if @hover != 'autosave'
+        hover_if_off('autosave')
       else
         if @autosave == true
           if @menu == 'new'
@@ -744,8 +736,7 @@ class UI
 
     if x > 539 && x < 736 && y > 539 && y < 571 # close button
       if event_type == 'hover'
-        hover_off if @hover != '' && @hover != 'close'
-        hover_on('close') if @hover != 'close'
+        hover_if_off('close')
       else
         if @menu == 'new'
           hide_menu_new
@@ -759,8 +750,7 @@ class UI
     elsif @menu == 'new'
       if x > 539 && x < 736 && y > 199 && y < 231 # human v human button
         if event_type == 'hover'
-          hover_off if @hover != '' && @hover != 'human_v_human'
-          hover_on('human_v_human') if @hover != 'human_v_human'
+          hover_if_off('human_v_human')
         else
           @new_game = true
           @menu = 'off'
@@ -769,22 +759,19 @@ class UI
         end
       elsif x > 539 && x < 736 && y > 259 && y < 291 # human v engine button
         if event_type == 'hover'
-          hover_off if @hover != '' && @hover != 'human_v_engine'
-          hover_on('human_v_engine') if @hover != 'human_v_engine'
+          hover_if_off('human_v_engine')
         else
           # click event
         end
       elsif x > 539 && x < 736 && y > 319 && y < 351 # engine v engine button
         if event_type == 'hover'
-          hover_off if @hover != '' && @hover != 'engine_v_engine'
-          hover_on('engine_v_engine') if @hover != 'engine_v_engine'
+          hover_if_off('engine_v_engine')
         else
           # click event
         end
       elsif x > 539 && x < 736 && y > 399 && y < 431 # engine settings button
         if event_type == 'hover'
-          hover_off if @hover != '' && @hover != 'engine_settings'
-          hover_on('engine_settings') if @hover != 'engine_settings'
+          hover_if_off('engine_settings')
         else
           # click event
         end
@@ -797,22 +784,19 @@ class UI
     elsif @menu == 'load_save'
       if x > 495 && x < 789 && y > 189 && y < 221 # load complete button
         if event_type == 'hover'
-          hover_off if @hover != '' && @hover != 'load_complete'
-          hover_on('load_complete') if @hover != 'load_complete'
+          hover_if_off('load_complete')
         else
           # click event
         end
       elsif x > 495 && x < 789 && y > 249 && y < 281 # load INcomplete button
         if event_type == 'hover'
-          hover_off if @hover != '' && @hover != 'load_incomplete'
-          hover_on('load_incomplete') if @hover != 'load_incomplete'
+          hover_if_off('load_incomplete')
         else
           # click event
         end
       elsif x > 539 && x < 736 && y > 374 && y < 406 # save button
         if event_type == 'hover'
-          hover_off if @hover != '' && @hover != 'save'
-          hover_on('save') if @hover != 'save'
+          hover_if_off('save')
         else
           # click event
         end
