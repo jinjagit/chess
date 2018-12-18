@@ -1314,14 +1314,17 @@ class UI
   end
 
   def show_menu_load(type = 'complete')
-    @files = Io.list_files(type)
-    @files.each {|e| puts e}
+
+
     show_menu_basics
     if type == 'incomplete'
       @menu_txt6.add
+      @files = Io.list_files(type, 'yml')
     else
       @menu_txt7.add
+      @files = Io.list_files(type, ext)
     end
+    @files.each {|e| puts e}
   end
 
   def hide_menu_load
