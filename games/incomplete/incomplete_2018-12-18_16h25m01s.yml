@@ -5,138 +5,8 @@
     - 51
     - 35
     - ''
-  - - bp4
-    - 12
-    - 28
-    - ''
-  - - wp3
-    - 35
-    - 28
-    - x
-  - - bp5
-    - 13
-    - 21
-    - ''
-  - - wp3
-    - 28
-    - 21
-    - x
-  - - bn1
-    - 6
-    - 23
-    - ''
-  - - wp3
-    - 21
-    - 14
-    - x
-  - - bn1
-    - 23
-    - 29
-    - ''
-  - - wq1
-    - 14
-    - 7
-    - x=Q
-  - - bn1
-    - 29
-    - 19
-    - ''
-  - - wq1
-    - 7
-    - 15
-    - x
-  - - bn1
-    - 19
-    - 29
-    - ''
-  - - wq1
-    - 15
-    - 6
-    - ''
-  - - bn1
-    - 29
-    - 19
-    - ''
-  - - wp7
-    - 55
-    - 39
-    - ''
-  - - bn1
-    - 19
-    - 29
-    - ''
-  - - wp7
-    - 39
-    - 31
-    - ''
-  - - bn1
-    - 29
-    - 19
-    - ''
-  - - wp7
-    - 31
-    - 23
-    - ''
-  - - bn1
-    - 19
-    - 29
-    - ''
-  - - wp7
-    - 23
-    - 15
-    - ''
-  - - bn1
-    - 29
-    - 19
-    - ''
-  - - wq2
-    - 15
-    - 7
-    - "=Q"
-  - - bn1
-    - 19
-    - 29
-    - ''
-  - - wq2
-    - 7
-    - 14
-    - ''
-  - - bn1
-    - 29
-    - 19
-    - ''
-  - - wq2
-    - 14
-    - 30
-    - ''
   :pgn_list:
   - d4
-  - e5
-  - dxe5
-  - f6
-  - exf6
-  - Nh6
-  - fxg7
-  - Nf5
-  - gxh8=Q
-  - Nd6
-  - Qxh7
-  - Nf5
-  - Qg8
-  - Nd6
-  - h4
-  - Nf5
-  - h5
-  - Nd6
-  - h6
-  - Nf5
-  - h7
-  - Nd6
-  - h8=Q
-  - Nf5
-  - Qhg7
-  - Nd6
-  - Qgg5
   :game_pieces:
   - !ruby/object:Rook
     name: br0
@@ -260,7 +130,7 @@
         a: 1.0
       data: !ruby/object {}
     long: true
-    short: false
+    short: true
   - !ruby/object:Bishop
     name: bb1
     color: black
@@ -269,10 +139,7 @@
     moved: false
     checks: 0
     check_blocks: []
-    pinned:
-      bb1:
-      - 5
-      - 6
+    pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_bishop.png
       x: 725
@@ -291,21 +158,16 @@
   - !ruby/object:Knight
     name: bn1
     color: black
-    square: 19
-    legal_moves:
-    - 13
-    - 29
-    - 36
-    - 34
-    - 25
-    moved: true
+    square: 6
+    legal_moves: []
+    moved: false
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_knight.png
-      x: 565
-      y: 205
+      x: 805
+      y: 45
       z: 5
       width: 70
       height: 70
@@ -330,7 +192,7 @@
       path: img/b_rook.png
       x: 885
       y: 45
-      z: -1
+      z: 5
       width: 70
       height: 70
       rotate: 0
@@ -444,19 +306,17 @@
   - !ruby/object:Pawn
     name: bp4
     color: black
-    square: 28
-    legal_moves:
-    - 20
-    - 28
-    moved: true
+    square: 12
+    legal_moves: []
+    moved: false
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_pawn.png
       x: 645
-      y: 285
-      z: -1
+      y: 125
+      z: 5
       width: 70
       height: 70
       rotate: 0
@@ -471,19 +331,17 @@
   - !ruby/object:Pawn
     name: bp5
     color: black
-    square: 21
-    legal_moves:
-    - 21
-    - 29
-    moved: true
+    square: 13
+    legal_moves: []
+    moved: false
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_pawn.png
       x: 725
-      y: 205
-      z: -1
+      y: 125
+      z: 5
       width: 70
       height: 70
       rotate: 0
@@ -508,7 +366,7 @@
       path: img/b_pawn.png
       x: 805
       y: 125
-      z: -1
+      z: 5
       width: 70
       height: 70
       rotate: 0
@@ -533,7 +391,7 @@
       path: img/b_pawn.png
       x: 885
       y: 125
-      z: -1
+      z: 5
       width: 70
       height: 70
       rotate: 0
@@ -623,20 +481,19 @@
   - !ruby/object:Pawn
     name: wp3
     color: white
-    square: 14
+    square: 35
     legal_moves:
-    - 6
-    - 7
-    - 5
+    - 43
+    - 35
     moved: true
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/w_pawn.png
-      x: 885
-      y: 45
-      z: -1
+      x: 565
+      y: 365
+      z: 5
       width: 70
       height: 70
       rotate: 0
@@ -726,18 +583,17 @@
   - !ruby/object:Pawn
     name: wp7
     color: white
-    square: 15
-    legal_moves:
-    - 7
-    moved: true
+    square: 55
+    legal_moves: []
+    moved: false
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/w_pawn.png
       x: 885
-      y: 45
-      z: -1
+      y: 525
+      z: 5
       width: 70
       height: 70
       rotate: 0
@@ -778,11 +634,10 @@
     color: white
     square: 57
     legal_moves:
-    - 7
-    - 23
-    - 28
-    - 3
+    - 14
+    - 21
     - 19
+    - 10
     moved: false
     checks: 0
     check_blocks: []
@@ -854,8 +709,7 @@
     name: wk0
     color: white
     square: 60
-    legal_moves:
-    - 51
+    legal_moves: []
     moved: false
     checks: 0
     check_blocks: []
@@ -948,82 +802,3 @@
         a: 1.0
       data: !ruby/object {}
     disambiguate: []
-  - !ruby/object:Queen
-    name: wq1
-    color: white
-    square: 6
-    legal_moves:
-    - 14
-    - 22
-    - 7
-    - 5
-    - 15
-    - 13
-    - 20
-    - 27
-    - 34
-    - 41
-    moved: true
-    checks: 0
-    check_blocks: []
-    pinned: {}
-    icon: !ruby/object:Ruby2D::Image
-      path: img/w_queen.png
-      x: 805
-      y: 45
-      z: 5
-      width: 70
-      height: 70
-      rotate: 0
-      color: !ruby/object:Ruby2D::Color
-        r: 1.0
-        g: 1.0
-        b: 1.0
-        a: 1.0
-      data: !ruby/object {}
-    disambiguate:
-    - 30
-  - !ruby/object:Queen
-    name: wq2
-    color: white
-    square: 30
-    legal_moves:
-    - 22
-    - 14
-    - 38
-    - 46
-    - 31
-    - 29
-    - 28
-    - 27
-    - 26
-    - 25
-    - 24
-    - 23
-    - 39
-    - 37
-    - 44
-    - 51
-    - 21
-    - 12
-    - 3
-    moved: true
-    checks: 0
-    check_blocks: []
-    pinned: {}
-    icon: !ruby/object:Ruby2D::Image
-      path: img/w_queen.png
-      x: 805
-      y: 285
-      z: 5
-      width: 70
-      height: 70
-      rotate: 0
-      color: !ruby/object:Ruby2D::Color
-        r: 1.0
-        g: 1.0
-        b: 1.0
-        a: 1.0
-      data: !ruby/object {}
-    disambiguate:
-    - 6

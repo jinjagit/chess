@@ -53,6 +53,8 @@ class UI
     @move = Sound.new('./audio/move.wav')
     @capture = Sound.new('./audio/capture.wav')
     @files = []
+    @files_for_page = []
+    @page_txts = []
     create_texts
     create_icons
     create_menus
@@ -85,6 +87,8 @@ class UI
     @rev_move = nil
     @last_save = 'none'
     @files = []
+    @files_for_page = []
+    @page_txts = []
     place_defaults
     refresh_info
   end
@@ -1313,24 +1317,39 @@ class UI
     end
   end
 
+  def create_page_txts(start)
+    @files.length - start >= 10 ? n = 10 : n = @files.length - start
+    @page_txts.map! {|e| e = nil}
+    n.times do |i|
+      @files_for_page << @files[i]
+      @page_txts << Text.new("#{@files[i][0..-5]}", x:484, y: 200 + (i * 20),
+                              z: 8, size: 20, color: '#ffffff',
+                              font: 'fonts/UbuntuMono-R.ttf')
+    end
+
+  end
+
   def show_menu_load(type = 'complete')
-
-
     show_menu_basics
+
     if type == 'incomplete'
       @menu_txt6.add
       @files = Io.list_files(type, 'yml')
     else
       @menu_txt7.add
-      @files = Io.list_files(type, ext)
+      @files = Io.list_files(type, 'pgn')
     end
-    @files.each {|e| puts e}
+
+    create_page_txts(0)
+
   end
 
   def hide_menu_load
     hide_menu_basics
     @menu_txt6.remove
     @menu_txt7.remove
+    @page_txts.each {|e| e.remove if e != nil}
+    @files_for_page = []
   end
 
   def create_texts

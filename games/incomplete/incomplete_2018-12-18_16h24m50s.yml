@@ -5,18 +5,8 @@
     - 51
     - 35
     - ''
-  - - bp4
-    - 12
-    - 28
-    - ''
-  - - wp3
-    - 35
-    - 28
-    - x
   :pgn_list:
   - d4
-  - e5
-  - dxe5
   :game_pieces:
   - !ruby/object:Rook
     name: br0
@@ -47,12 +37,8 @@
     color: black
     square: 1
     legal_moves:
-    - 36
-    - 34
-    - 45
-    - 61
-    - 41
-    - 57
+    - 18
+    - 16
     moved: false
     checks: 0
     check_blocks: []
@@ -124,8 +110,7 @@
     name: bk0
     color: black
     square: 4
-    legal_moves:
-    - 12
+    legal_moves: []
     moved: false
     checks: 0
     check_blocks: []
@@ -321,19 +306,17 @@
   - !ruby/object:Pawn
     name: bp4
     color: black
-    square: 28
-    legal_moves:
-    - 20
-    - 28
-    moved: true
+    square: 12
+    legal_moves: []
+    moved: false
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_pawn.png
       x: 645
-      y: 285
-      z: -1
+      y: 125
+      z: 5
       width: 70
       height: 70
       rotate: 0
@@ -498,18 +481,18 @@
   - !ruby/object:Pawn
     name: wp3
     color: white
-    square: 28
+    square: 35
     legal_moves:
-    - 27
-    - 28
+    - 43
+    - 35
     moved: true
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/w_pawn.png
-      x: 645
-      y: 285
+      x: 565
+      y: 365
       z: 5
       width: 70
       height: 70
@@ -651,12 +634,10 @@
     color: white
     square: 57
     legal_moves:
-    - 6
-    - 22
-    - 29
-    - 27
-    - 2
-    - 18
+    - 14
+    - 21
+    - 19
+    - 10
     moved: false
     checks: 0
     check_blocks: []
@@ -728,8 +709,7 @@
     name: wk0
     color: white
     square: 60
-    legal_moves:
-    - 51
+    legal_moves: []
     moved: false
     checks: 0
     check_blocks: []
