@@ -40,6 +40,7 @@ class Game
     @b_material = 39
     @flipped = false
     @claim = ''
+    @posn_list = []
   end
 
   def remove_red_sq
@@ -94,18 +95,30 @@ class Game
         piece.find_moves(posn)
         if piece.disambiguate != []
           dis_list = [pgn_square(start_square)]
-          piece.disambiguate.each {|e| dis_list << pgn_square(e)}
+          piece.disambiguate.each do |e|
+            if pc[0] != 'N'
+              prev_posn = @posn_list[-128..-65]
+              dis_piece = @game_pieces.detect {|elem| elem.name == prev_posn[e]}
+              dis_piece.find_moves(prev_posn)
+              legal = dis_piece.legal_moves
+              dis_list << pgn_square(e) if legal.any? {|m| m == end_square}
+            elsif pc[0] == 'N'
+              dis_list << pgn_square(e)
+            end
+          end
           same_file, same_rank = false, false
           dis_list.each do |elem|
             same_file = true if dis_list.count {|e| e[0] == elem[0]} > 1
             same_rank = true if dis_list.count {|e| e[1] == elem[1]} > 1
           end
-          if same_file == true && same_rank == true
-            pc = pc + dis_list[0]
-          elsif same_file == true
-            pc = pc + dis_list[0][1]
-          else
-            pc = pc + dis_list[0][0]
+          if dis_list.length > 1
+            if same_file == true && same_rank == true
+              pc = pc + dis_list[0]
+            elsif same_file == true
+              pc = pc + dis_list[0][1]
+            else
+              pc = pc + dis_list[0][0]
+            end
           end
         end
         pc = pc + details
@@ -125,12 +138,12 @@ class Game
   end
 
   def move(posn, piece, start_square, end_square, details = '', promo_pawn = nil)
-    def castle_move(start_sq, end_sq, name, posn)
-      posn[start_sq] = '---'
-      posn[end_sq] = name
+    def castle_move(start_square, end_square, name, posn)
+      posn[start_square] = '---'
+      posn[end_square] = name
       rook = @game_pieces.detect {|e| e.name == name}
-      rook.square = end_sq
-      rook.move_to_square(end_sq)
+      rook.square = end_square
+      rook.move_to_square(end_square)
     end
 
     def no_moves(posn)
@@ -182,6 +195,7 @@ class Game
 
     # Update posn array, square of moved piece icon, hide icon of piece taken
     # (if any), and set @moved = true for moved piece
+
     posn_pc = posn[start_square]
     if (piece.name[1] == 'p' && piece.ep_square == end_square) ||
       posn[end_square] != '---' # == piece taken
@@ -396,6 +410,7 @@ class Game
 
     @moves[-1][3] = details # add move details to move list(s)
     pgn_move(posn, piece, start_square, end_square, details)
+    posn.each {|e| @posn_list << e }
 
      #puts @pgn # debug (and later, for display)
      #p @pgn_list
@@ -427,5 +442,6 @@ class Game
     @claim = ''
     @red_square.image.z = 2
     @red_square.image.remove
+    @posn_list = []
   end
 end
