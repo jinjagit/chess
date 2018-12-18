@@ -55,6 +55,7 @@ class UI
     @files = []
     @files_for_page = []
     @page_txts = []
+    @page_num_txt = nil
     create_texts
     create_icons
     create_menus
@@ -89,6 +90,7 @@ class UI
     @files = []
     @files_for_page = []
     @page_txts = []
+    @page_num_txt = nil
     place_defaults
     refresh_info
   end
@@ -819,6 +821,11 @@ class UI
         hover_off
         @hover = ''
       end
+    elsif @menu == 'load'
+      if @hover != '' # not in button icons, nor claim button areas
+        hover_off
+        @hover = ''
+      end
     end
 
   end
@@ -1320,12 +1327,19 @@ class UI
   def create_page_txts(start)
     @files.length - start >= 10 ? n = 10 : n = @files.length - start
     @page_txts.map! {|e| e = nil}
+    @page_num_txt = nil
+
     n.times do |i|
       @files_for_page << @files[i]
       @page_txts << Text.new("#{@files[i][0..-5]}", x:484, y: 200 + (i * 20),
-                              z: 8, size: 20, color: '#ffffff',
+                              z: 8, size: 20, color: '#888888',
                               font: 'fonts/UbuntuMono-R.ttf')
     end
+    text = "page #{(start + 10) / 10.floor} of #{(@files.length + 10) / 10.floor}"
+    @page_num_txt = Text.new(text, x: 584, y: 420,
+                            z: 8, size: 20, color: '#ffffff',
+                            font: 'fonts/UbuntuMono-R.ttf')
+    # x needs -5 offset for every extra char (min = 11 chars)
 
   end
 
@@ -1349,6 +1363,7 @@ class UI
     @menu_txt6.remove
     @menu_txt7.remove
     @page_txts.each {|e| e.remove if e != nil}
+    @page_num_txt.remove
     @files_for_page = []
   end
 
