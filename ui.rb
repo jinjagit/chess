@@ -1360,6 +1360,15 @@ class UI
     else
       @page = 0
       create_page_txts
+      if @files.length > 10
+        @page_fwd.add
+        @page_back.add
+      end
+      if @files.length > 20
+        @page_start.add
+        @page_end.add
+      end
+
     end
 
   end
@@ -1371,6 +1380,10 @@ class UI
     @menu_txt8.remove
     @page_txts.each {|e| e.remove if e != nil}
     @page_num_txt.remove if @page_num_txt != nil
+    @page_start.remove
+    @page_end.remove
+    @page_fwd.remove
+    @page_back.remove
     @files = []
     @files_for_page = []
   end
@@ -1644,6 +1657,18 @@ class UI
                             x: 155, y: 638, color: '#888888')
     @end = Image.new("img/ui/end.png", height: 33, width: 43, z: 2,
                             x: 203, y: 638, color: '#888888')
+    @page_start = Image.new("img/ui/start.png", height: 33, width: 43, z: 8,
+                            x: 543, y: 460, color: '#888888')
+    @page_start.remove
+    @page_back = Image.new("img/ui/back.png", height: 33, width: 31, z: 8,
+                            x: 604, y: 460, color: '#888888')
+    @page_back.remove
+    @page_fwd = Image.new("img/ui/fwd.png", height: 33, width: 31, z: 8,
+                            x: 640, y: 460, color: '#888888')
+    @page_fwd.remove
+    @page_end = Image.new("img/ui/end.png", height: 33, width: 43, z: 8,
+                            x: 690, y: 460, color: '#888888')
+    @page_end.remove
   end
 
   def create_menus
