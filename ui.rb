@@ -822,8 +822,34 @@ class UI
         hover_off
         @hover = ''
       end
+
     elsif @menu == 'load'
-      if @hover != '' # not in button icons, nor claim button areas
+      if @files.length > 10 && x > 603 && x < 638 && y > 459 && y < 494 # page back btn
+        if event_type == 'hover'
+          hover_if_off('page_back')
+        else
+          # click event
+        end
+      elsif @files.length > 10 && x > 637 && x < 672 && y > 459 && y < 494 # page fwd btn
+        if event_type == 'hover'
+          hover_if_off('page_fwd')
+        else
+          # click event
+        end
+      elsif @files.length > 20 && x > 542 && x < 587 && y > 459 && y < 494 # page start btn
+        if event_type == 'hover'
+          hover_if_off('page_start')
+        else
+          # click event
+        end
+      elsif @files.length > 20 && x > 689 && x < 734 && y > 459 && y < 494 # page end btn
+        if event_type == 'hover'
+          hover_if_off('page_end')
+        else
+          # click event
+        end
+
+      elsif @hover != '' # not in button icons, nor claim button areas
         hover_off
         @hover = ''
       end
@@ -951,6 +977,18 @@ class UI
       @tooltip17.add
       @end.color = '#ffffff'
       @hover = 'end'
+    elsif element == 'page_back'
+      @page_back.color = '#ffffff'
+      @hover = 'page_back'
+    elsif element == 'page_fwd'
+      @page_fwd.color = '#ffffff'
+      @hover = 'page_fwd'
+    elsif element == 'page_start'
+      @page_start.color = '#ffffff'
+      @hover = 'page_start'
+    elsif element == 'page_end'
+      @page_end.color = '#ffffff'
+      @hover = 'page_end'
     end
   end
 
@@ -1035,6 +1073,14 @@ class UI
     elsif @hover == 'end'
       @tooltip17.remove
       @end.color = '#888888'
+    elsif @hover == 'page_back'
+      @page_back.color = '#888888'
+    elsif @hover == 'page_fwd'
+      @page_fwd.color = '#888888'
+    elsif @hover == 'page_start'
+      @page_start.color = '#888888'
+    elsif @hover == 'page_end'
+      @page_end.color = '#888888'
     end
   end
 
