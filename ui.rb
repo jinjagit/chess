@@ -827,26 +827,30 @@ class UI
       if @files.length > 10 && x > 603 && x < 638 && y > 459 && y < 494 # page back btn
         if event_type == 'hover'
           hover_if_off('page_back')
-        else
-          # click event
+        elsif @page > 0 # click event
+          @page -= 1
+          create_page_txts
         end
       elsif @files.length > 10 && x > 637 && x < 672 && y > 459 && y < 494 # page fwd btn
         if event_type == 'hover'
           hover_if_off('page_fwd')
-        else
-          # click event
+        elsif 10 + (@page * 10) < @files.length # click event
+          @page += 1
+          create_page_txts
         end
       elsif @files.length > 20 && x > 542 && x < 587 && y > 459 && y < 494 # page start btn
         if event_type == 'hover'
           hover_if_off('page_start')
-        else
-          # click event
+        elsif @page > 0 # click event
+          @page = 0
+          create_page_txts
         end
       elsif @files.length > 20 && x > 689 && x < 734 && y > 459 && y < 494 # page end btn
         if event_type == 'hover'
           hover_if_off('page_end')
-        else
-          # click event
+        elsif @page < @files.length / 10.floor # click event
+          @page = @files.length / 10.floor
+          create_page_txts
         end
 
       elsif @hover != '' # not in button icons, nor claim button areas
@@ -1374,12 +1378,14 @@ class UI
   def create_page_txts
     start = @page * 10
     @files.length - start >= 10 ? n = 10 : n = @files.length - start
+    @page_txts.each {|e| e.remove if e != nil}
     @page_txts.map! {|e| e = nil}
+    @page_num_txt.remove if @page_num_txt != nil
     @page_num_txt = nil
 
     n.times do |i|
-      @files_for_page << @files[i]
-      @page_txts << Text.new("#{@files[i][0..-5]}", x: 484, y: 200 + (i * 20),
+      @files_for_page << @files[i + start]
+      @page_txts << Text.new("#{@files[i + start][0..-5]}", x: 484, y: 200 + (i * 20),
                               z: 8, size: 20, color: '#888888',
                               font: 'fonts/UbuntuMono-R.ttf')
     end

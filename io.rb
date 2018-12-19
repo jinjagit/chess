@@ -33,6 +33,7 @@ module Io
   def self.list_files(dir, ext)
     ext == 'yml' ? split = 17 : split = 15
     list = Dir.glob("games/#{dir}/*.{#{ext},#{ext.upcase}}").map {|e| e[split..-1]}
+    list = list.sort
   end
 
   def self.autosave(last_save, game)
