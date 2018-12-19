@@ -756,6 +756,7 @@ class UI
         @menu = 'off'
         hover_off
         @hover = ''
+        info_on
       end
     elsif @menu == 'new'
       if x > 539 && x < 736 && y > 199 && y < 231 # human v human button
