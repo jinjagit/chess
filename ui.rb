@@ -1325,7 +1325,8 @@ class UI
     end
   end
 
-  def create_page_txts(start)
+  def create_page_txts
+    start = @page * 10
     @files.length - start >= 10 ? n = 10 : n = @files.length - start
     @page_txts.map! {|e| e = nil}
     @page_num_txt = nil
@@ -1337,7 +1338,7 @@ class UI
                               font: 'fonts/UbuntuMono-R.ttf')
     end
 
-    text = "page #{(start + 10) / 10.floor} of #{(@files.length + 10) / 10.floor}"
+    text = "page #{@page + 1} of #{(@files.length + 10) / 10.floor}"
     offset = 584 + ((text.length - 11) * -5)
     @page_num_txt = Text.new(text, x: offset, y: 420, z: 8, size: 20,
                               color: '#ffffff', font: 'fonts/UbuntuMono-R.ttf')
@@ -1357,7 +1358,8 @@ class UI
     if @files == []
       @menu_txt8.add
     else
-      create_page_txts(0)
+      @page = 0
+      create_page_txts
     end
 
   end
