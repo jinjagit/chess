@@ -1331,16 +1331,15 @@ class UI
 
     n.times do |i|
       @files_for_page << @files[i]
-      @page_txts << Text.new("#{@files[i][0..-5]}", x:484, y: 200 + (i * 20),
+      @page_txts << Text.new("#{@files[i][0..-5]}", x: 484, y: 200 + (i * 20),
                               z: 8, size: 20, color: '#888888',
                               font: 'fonts/UbuntuMono-R.ttf')
     end
+
     text = "page #{(start + 10) / 10.floor} of #{(@files.length + 10) / 10.floor}"
     offset = 584 + ((text.length - 11) * -5)
     @page_num_txt = Text.new(text, x: offset, y: 420, z: 8, size: 20,
                               color: '#ffffff', font: 'fonts/UbuntuMono-R.ttf')
-    # x needs -5 offset for every extra char (min = 11 chars)
-
   end
 
   def show_menu_load(type = 'complete')
@@ -1354,7 +1353,11 @@ class UI
       @files = Io.list_files(type, 'pgn')
     end
 
-    create_page_txts(0)
+    if @files == []
+      @menu_txt8.add
+    else
+      create_page_txts(0)
+    end
 
   end
 
@@ -1362,8 +1365,10 @@ class UI
     hide_menu_basics
     @menu_txt6.remove
     @menu_txt7.remove
+    @menu_txt8.remove
     @page_txts.each {|e| e.remove if e != nil}
-    @page_num_txt.remove
+    @page_num_txt.remove if @page_num_txt != nil
+    @files = []
     @files_for_page = []
   end
 
@@ -1528,6 +1533,9 @@ class UI
     @menu_txt7 = Text.new("Select Complete Game to Load", x:500, y: 150, z: 7, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @menu_txt7.remove
+    @menu_txt8 = Text.new("NO FILES FOUND", x:540, y: 260, z: 7, size: 28,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ff7b00')
+    @menu_txt8.remove
     @btn1_txt = Text.new("human v human", x:574, y: 205, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn1_txt.remove
