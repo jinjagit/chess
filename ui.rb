@@ -813,6 +813,11 @@ class UI
           @hover = ''
           @menu = 'load'
           show_menu_load('incomplete')
+          if @page_txts.length > 3
+            @file_now, @file_last = 3, 3
+            hover_off if @hover != ''
+            hover_on('file')
+          end
         end
       elsif x > 539 && x < 736 && y > 374 && y < 406 # save button
         if event_type == 'hover'
@@ -873,6 +878,7 @@ class UI
       elsif @hover != '' # not in button icons, nor claim button areas
         hover_off
         @hover = ''
+        @file_last = -1
       end
     end
 
@@ -1414,12 +1420,6 @@ class UI
                               font: 'fonts/UbuntuMono-R.ttf')
     end
 
-    if @page_txts.length > 3
-      @file_now, @file_last = 3, 3
-      hover_off if @hover != ''
-      hover_on('file')
-    end
-
     text = "page #{@page + 1} of #{(@files.length + 10) / 10.floor}"
     offset = 584 + ((text.length - 11) * -5)
     @page_num_txt = Text.new(text, x: offset, y: 420, z: 8, size: 20,
@@ -1450,9 +1450,7 @@ class UI
         @page_start.add
         @page_end.add
       end
-
     end
-
   end
 
   def hide_menu_load
