@@ -56,6 +56,8 @@ class UI
     @files_for_page = []
     @page_txts = []
     @page_num_txt = nil
+    @file_last = -1
+    @file_now = -1
     create_texts
     create_icons
     create_menus
@@ -91,6 +93,8 @@ class UI
     @files_for_page = []
     @page_txts = []
     @page_num_txt = nil
+    @file_last = -1
+    @file_now = -1
     place_defaults
     refresh_info
   end
@@ -852,6 +856,20 @@ class UI
           @page = @files.length / 10.floor
           create_page_txts
         end
+      elsif @files.length > 0 && x > 483 && x < 800 && y > 199 && y < 399 # file list area
+        if event_type == 'hover'
+          @file_now = (y - 200) / 20.floor
+          #hover_if_off('page_end')
+          if @file_now != @file_last && @file_now < @page_txts.length
+            hover_off if @hover != ''
+            hover_on('file')
+            @file_last = @file_now
+
+          end
+
+        else
+          @file_last = -1
+        end
 
       elsif @hover != '' # not in button icons, nor claim button areas
         hover_off
@@ -993,6 +1011,9 @@ class UI
     elsif element == 'page_end'
       @page_end.color = '#ffffff'
       @hover = 'page_end'
+    elsif element == 'file'
+      @page_txts[@file_now].color = '#ffffff'
+      @hover = 'file'
     end
   end
 
@@ -1085,6 +1106,8 @@ class UI
       @page_start.color = '#888888'
     elsif @hover == 'page_end'
       @page_end.color = '#888888'
+    elsif @hover == 'file'
+      @page_txts[@file_last].color = '#888888'
     end
   end
 
@@ -1378,14 +1401,16 @@ class UI
   def create_page_txts
     start = @page * 10
     @files.length - start >= 10 ? n = 10 : n = @files.length - start
+    @files_for_page.map! {|e| e = nil}
     @page_txts.each {|e| e.remove if e != nil}
-    @page_txts.map! {|e| e = nil}
+    @page_txts = []
     @page_num_txt.remove if @page_num_txt != nil
     @page_num_txt = nil
+    @file_last = -1
 
     n.times do |i|
-      @files_for_page << @files[i + start]
-      @page_txts << Text.new("#{@files[i + start][0..-5]}", x: 484, y: 200 + (i * 20),
+      @files_for_page[i] = @files[i + start]
+      @page_txts[i] = Text.new("#{@files[i + start][0..-5]}", x: 484, y: 200 + (i * 20),
                               z: 8, size: 20, color: '#888888',
                               font: 'fonts/UbuntuMono-R.ttf')
     end
@@ -1431,6 +1456,7 @@ class UI
     @menu_txt7.remove
     @menu_txt8.remove
     @page_txts.each {|e| e.remove if e != nil}
+    @page_txts = []
     @page_num_txt.remove if @page_num_txt != nil
     @page_start.remove
     @page_end.remove
