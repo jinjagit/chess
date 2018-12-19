@@ -864,11 +864,10 @@ class UI
             hover_off if @hover != ''
             hover_on('file')
             @file_last = @file_now
-
           end
-
-        else
+        elsif @file_now < @page_txts.length # click event
           @file_last = -1
+          puts "file selected: #{@files_for_page[@file_now]}"
         end
 
       elsif @hover != '' # not in button icons, nor claim button areas
