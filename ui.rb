@@ -1522,10 +1522,10 @@ class UI
     @menu_txt3 = Text.new("Save Game", x:595, y: 330, z: 7, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @menu_txt3.remove
-    @menu_txt4 = Text.new("Autosave is ON", x:580, y: 442, z: 7, size: 20,
+    @menu_txt4 = Text.new("Auto-save is ON", x:580, y: 442, z: 7, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @menu_txt4.remove
-    @menu_txt5 = Text.new("Autosave is OFF", x:580, y: 442, z: 7, size: 20,
+    @menu_txt5 = Text.new("Auto-save is OFF", x:580, y: 442, z: 7, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @menu_txt5.remove
     @menu_txt6 = Text.new("Select Incomplete Game to Load", x:488, y: 150, z: 7, size: 20,
