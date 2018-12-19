@@ -1414,6 +1414,12 @@ class UI
                               font: 'fonts/UbuntuMono-R.ttf')
     end
 
+    if @page_txts.length > 3
+      @file_now, @file_last = 3, 3
+      hover_off if @hover != ''
+      hover_on('file')
+    end
+
     text = "page #{@page + 1} of #{(@files.length + 10) / 10.floor}"
     offset = 584 + ((text.length - 11) * -5)
     @page_num_txt = Text.new(text, x: offset, y: 420, z: 8, size: 20,
