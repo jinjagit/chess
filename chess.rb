@@ -61,6 +61,11 @@ on :mouse_down do |event|
       board.new_game
       game_pieces = board.game_pieces
       game.reinitialize(game_pieces)
+    elsif ui.load_game == true
+      ui.load_game = false
+      data = Io.load_file(ui.file_selected)
+      p data
+
     end
   else
     location = board.mouse_square(event.x, event.y)

@@ -8,6 +8,8 @@ class UI
   attr_accessor :ply
   attr_accessor :rev_ply
   attr_accessor :move
+  attr_accessor :load_game
+  attr_accessor :file_selected
 
   def initialize
     @hover = ''
@@ -58,6 +60,8 @@ class UI
     @page_num_txt = nil
     @file_last = -1
     @file_now = -1
+    @load_game = false
+    @file_selected = ''
     create_texts
     create_icons
     create_menus
@@ -871,8 +875,12 @@ class UI
             @file_last = @file_now
           end
         elsif @file_now < @page_txts.length # click event
+          @file_selected = "#{@files_for_page[@file_now]}"
+          @load_game = true
+          @menu = 'off'
+          hide_menu_load
           @file_last = -1
-          puts "file selected: #{@files_for_page[@file_now]}"
+          reset_ui
         end
 
       elsif @hover != '' # not in button icons, nor claim button areas
@@ -1112,7 +1120,7 @@ class UI
     elsif @hover == 'page_end'
       @page_end.color = '#888888'
     elsif @hover == 'file'
-      @page_txts[@file_last].color = '#888888'
+      @page_txts[@file_last].color = '#888888' if @file_last >= 0
     end
   end
 

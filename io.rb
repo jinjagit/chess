@@ -53,4 +53,13 @@ module Io
 
     filename
   end
+
+  def self.load_file(filename)
+    if filename.include?('incomplete')
+      data = YAML::load_file("games/incomplete/#{filename}")
+    else
+      # however read a pgn file (probably line by line, as for text file)
+    end
+  end
+
 end
