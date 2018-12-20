@@ -108,7 +108,7 @@ class UI
 
     (pgn.length / 2.floor). times do |i|
       spaces_str = " " * (7 - pgn[i + 1].length)
-      moves << "#{i + 1}. #{pgn[i + 1]}#{spaces_str} #{pgn[i + 2]}"
+      moves << "#{i + 1}. #{pgn[i]}#{spaces_str} #{pgn[i + 1]}"
     end
 
     if pgn.length % 2 == 1
@@ -138,7 +138,7 @@ class UI
   def update_ui(data, game, board)
     reset_ui
     moves = recreate_move_list(data[:game][:pgn_list])
-    @ply = data[:game][:pgn_list].length
+    @ply = data[:game][:ply]
     @rev_ply = @ply
     highlight_move(game)
     update_material(game)
@@ -407,7 +407,7 @@ class UI
   end
 
   def step_back(game, board)
-    if @ply > 0 && @rev_ply >= 1
+    if @ply > 0 && @rev_ply > 0
       if @review == false
         @rev_ply = @ply
         @review = true
@@ -426,7 +426,10 @@ class UI
 
       swap_posns(board, prev_posn, rev_posn)
       board.start_end_squares(move[1], move[2]) if @rev_ply != 0
-      board.hide_start_end if @rev_ply == 0
+      if @rev_ply == 0
+        board.hide_start_end
+        move = ['no_piece', 0, 0, 'no_check']
+      end
       replay_king_check(move, game)
 
       if @rev_ply > 0

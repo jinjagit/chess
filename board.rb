@@ -94,7 +94,7 @@ class Board
   end
 
   def update_board(data)
-
+    @star_end = data[:board][:start_end]
   end
 
   def create_legal_move_sqs
