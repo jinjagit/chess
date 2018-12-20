@@ -139,6 +139,7 @@ class UI
     @ply = data[:game][:pgn_list].length
     @rev_ply = @ply
     highlight_move(game)
+    update_material(game)
 
     p moves
   end
