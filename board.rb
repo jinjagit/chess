@@ -124,6 +124,10 @@ class Board
     @end_square.image.add
   end
 
+  def flip_squares(list)
+    flipped_list = list.map {|e| 63 - e}
+  end
+
   def flip_start_end
     start_end = flip_squares(@start_end)
     @start_square.set_origin(start_end[0])
@@ -133,12 +137,6 @@ class Board
   def hide_start_end
     @start_square.image.remove
     @end_square.image.remove
-  end
-
-  def flip_squares(list)
-    flipped_list = []
-    list.each {|e| flipped_list << (63 - e)}
-    list = flipped_list
   end
 
   def highlight_squares(list)
