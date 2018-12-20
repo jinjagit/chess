@@ -64,7 +64,11 @@ on :mouse_down do |event|
     elsif ui.load_game == true
       ui.load_game = false
       data = Io.load_file(ui.file_selected)
-      p data
+      posn = data[:game][:posn_list][-64..-1]
+      board.posn = posn
+      board.new_game
+      game_pieces = board.game_pieces
+      game.reinitialize(game_pieces)
 
     end
   else
