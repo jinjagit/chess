@@ -18,6 +18,7 @@ class Game
   attr_accessor :claim
   attr_accessor :pgn
   attr_accessor :pgn_list
+  attr_accessor :posn_list
 
   def initialize(game_pieces)
     @ply = 0

@@ -43,7 +43,8 @@ module Io
     save_data = YAML.dump ({
       :game => {:moves => game.moves,
                 :pgn_list => game.pgn_list,
-                :game_pieces => game.game_pieces}
+                :game_pieces => game.game_pieces,
+                :posn_list => game.posn_list}
     })
 
     filename = create_filename(incomplete = true)

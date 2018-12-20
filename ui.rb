@@ -209,22 +209,26 @@ class UI
     highlight_move(game)
   end
 
+  def update_material(game)
+    @w_material, @b_material = game.w_material, game.b_material
+    material_diff
+    @w_material_text.remove
+    @b_material_text.remove
+    @w_material_text = nil
+    @b_material_text = nil
+    @w_material_text = Text.new("#{@w_material} (#{@w_diff})", x:1160, y: 628,
+    font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
+    @b_material_text = Text.new("#{@b_material} (#{@b_diff})", x:1160, y: 71,
+    font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
+  end
+
   def move_update(posn, board, game)
     @posn_list = @posn_list + posn
     @ply = game.ply
     @checks = game.checks
     update_move_ind
     if game.w_material != @w_material || game.b_material != @b_material
-      @w_material, @b_material = game.w_material, game.b_material
-      material_diff
-      @w_material_text.remove
-      @b_material_text.remove
-      @w_material_text = nil
-      @b_material_text = nil
-      @w_material_text = Text.new("#{@w_material} (#{@w_diff})", x:1160, y: 628,
-      font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
-      @b_material_text = Text.new("#{@b_material} (#{@b_diff})", x:1160, y: 71,
-      font: 'fonts/UbuntuMono-R.ttf', size: 24, color: '#ffffff', z: 2)
+      update_material(game)
     end
     flip_if_needed(posn, board, game) if @autoflip == true
     update_move_list(game)
