@@ -1,6 +1,6 @@
 class Piece
-  attr_reader :color
-  attr_reader :name
+  attr_accessor :color
+  attr_accessor :name
   attr_accessor :icon
   attr_accessor :square
   attr_accessor :legal_moves

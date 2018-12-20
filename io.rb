@@ -49,11 +49,18 @@ module Io
                 :w_material => game.w_material,
                 :b_material => game.b_material,
                 :ply => game.ply,
-                :to_move => game.to_move},
+                :to_move => game.to_move,
+                :checks => game.checks,
+                :check_blocks => game.check_blocks,
+                :pinned => game.pinned,
+                :game_over => game.game_over,
+                :checksums => game.checksums,
+                :checksum_dbls => game.checksum_dbls,
+                :threefold => game.threefold},
       :board => {:start_end => board.start_end}
     })
 
-    filename = create_filename(incomplete = true)
+    filename = create_filename(incomplete = true) # conditional needed for complete case
     File.open("games/incomplete/#{filename}.yml", 'w'){|f| f.write(save_data)}
 
     #test_read(filename)

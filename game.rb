@@ -7,6 +7,10 @@ class Game
   attr_accessor :moves
   attr_accessor :checks
   attr_reader :check_blocks
+  attr_accessor :pinned
+  attr_accessor :checksums
+  attr_accessor :checksum_dbls
+  attr_accessor :threefold
   attr_reader :pins
   attr_accessor :game_over
   attr_accessor :game_pieces
@@ -53,6 +57,13 @@ class Game
     @b_material = data[:game][:b_material]
     @ply = data[:game][:ply]
     @to_move = data[:game][:to_move]
+    @checks = data[:game][:checks]
+    @check_blocks = data[:game][:check_blocks]
+    @pinned = data[:game][:pinned]
+    @game_over = data[:game][:game_over]
+    @checksums = data[:game][:checksums]
+    @checksum_dbls = data[:game][:checksum_dbls]
+    @threefold = data[:game][:threefold]
   end
 
   def remove_red_sq

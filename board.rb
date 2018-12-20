@@ -98,9 +98,10 @@ class Board
       piece.square = old_piece.square
       piece.legal_moves = old_piece.legal_moves
       piece.moved = old_piece.moved
-      piece.checks = old_piece.moved
+      piece.checks = old_piece.checks
       piece.check_blocks = old_piece.check_blocks
       piece.pinned = old_piece.pinned
+      piece.color = old_piece.color
       piece.icon.z = old_piece.icon.z
       if piece.name[1] == 'k'
         piece.short = old_piece.short
@@ -112,42 +113,26 @@ class Board
         piece.disambiguate = old_piece.disambiguate
       end
       piece.move_to_square(piece.square)
-      #old_piece.icon.remove
-      #old_piece.icon = nil
     end
 
     @start_end = data[:board][:start_end]
 
-    game.game_pieces.each do |e|
+    data[:game][:game_pieces].each do |e|
       if @game_pieces.any? {|el| el.name == e.name}
         piece = @game_pieces.detect {|el| el.name == e.name}
         update_piece(piece, e)
       else
-        add_piece(e.square)
+        add_piece(e.square, e.name)
         @game_pieces[-1].name = e.name
         update_piece(@game_pieces[-1], e)
       end
     end
 
     @game_pieces.each do |e|
-      e.icon.z = -1 if game.game_pieces.none? {|el| el.name == e.name}
+      e.icon.z = -1 if data[:game][:game_pieces].none? {|el| el.name == e.name}
     end
 
-    #game.game_pieces.map! {|e| e = nil}
-
     game.game_pieces = @game_pieces
-
-    puts
-    @game_pieces.each {|e| print "#{e.name} "}
-    puts
-    p @posn
-
-    # if @game_pieces includes piece in data/game/game_pieces, then reset its vars to match
-      # + move piece to correct square
-    # if does not exist, then add it to @game_pieces (requires @posn set (DONE) and square of piece)
-      # reset name after adding new piece, if not correct + move piece
-    # when done, return game_pieces to chess.rb & set game_game_pieces to @game_pieces
-      # above ? needs set all to nil first, then game.game_pieces = [], before reset
 
     return @game_pieces
 
@@ -337,22 +322,23 @@ class Board
     end
   end
 
-  def add_piece(square)
+  def add_piece(square, old_name = nil)
     posn_pc = @posn[square]
 
     n = game_pieces.count do |piece|
       piece.class == @piece_codes[posn_pc[1]] && piece.color[0] == posn_pc[0]
     end
 
-    name = "#{posn_pc[0..1]}#{n}"
+    old_name == nil ? name = "#{posn_pc[0..1]}#{n}" : name = old_name
+
     if name[0] == "w"
       color = "white"
     else
       color = "black"
     end
 
-    @game_pieces << @piece_codes[posn_pc[1]].new(name, color, square)
-    @posn[square] = name
+    @game_pieces << @piece_codes[name[1]].new(name, color, square)
+    @posn[square] = name if old_name != nil
     x_pos, y_pos = Utilities.square_origin(square)
     @game_pieces[-1].set_posn(x_pos, y_pos)
     @game_pieces[-1].icon.z = 5

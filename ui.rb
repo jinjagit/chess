@@ -120,9 +120,9 @@ class UI
     moves.each_with_index do |e, i|
       y = 48 + (20 * line)
 
-      if i * 2 < 19
+      if i * 2 < 17
         x = 72
-      elsif i * 2 > 198
+      elsif i * 2 > 198 # need to check this by testing
         x = 52
       else
         x = 62
@@ -147,10 +147,6 @@ class UI
     @posn_list = data[:game][:posn_list]
     @rev_posn = @posn_list[-64..-1]
     replay_king_check(game.moves[-1], game)
-
-    puts
-    puts
-    p moves
   end
 
   def place_defaults

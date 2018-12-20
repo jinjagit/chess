@@ -1,62 +1,22 @@
 ---
 :game:
   :moves:
-  - - wp3
-    - 51
-    - 35
-    - ''
-  - - bn1
-    - 6
-    - 21
-    - ''
-  - - wb0
-    - 58
-    - 37
-    - ''
-  - - bp4
-    - 12
-    - 20
-    - ''
   - - wp4
     - 52
-    - 44
+    - 36
     - ''
   - - bp3
     - 11
     - 27
     - ''
-  - - wn1
-    - 62
-    - 45
-    - ''
-  - - bb1
-    - 5
-    - 19
-    - ''
-  - - wb0
-    - 37
-    - 46
-    - ''
-  - - bb1
-    - 19
-    - 46
-    - x
-  - - wp7
-    - 55
-    - 46
-    - x
+  - - wb1
+    - 61
+    - 25
+    - "+"
   :pgn_list:
-  - d4
-  - Nf6
-  - Bf4
-  - e6
-  - e3
+  - e4
   - d5
-  - Nf3
-  - Bd6
-  - Bg3
-  - Bxg3
-  - hxg3
+  - Bb5+
   :game_pieces:
   - !ruby/object:Rook
     name: br0
@@ -64,8 +24,11 @@
     square: 0
     legal_moves: []
     moved: false
-    checks: 0
-    check_blocks: []
+    checks: 1
+    check_blocks: &1
+    - 11
+    - 18
+    - 25
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_rook.png
@@ -87,15 +50,11 @@
     color: black
     square: 1
     legal_moves:
-    - 36
-    - 34
-    - 45
-    - 61
-    - 41
-    - 57
+    - 11
+    - 18
     moved: false
-    checks: 0
-    check_blocks: []
+    checks: 1
+    check_blocks: *1
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_knight.png
@@ -118,8 +77,8 @@
     square: 2
     legal_moves: []
     moved: false
-    checks: 0
-    check_blocks: []
+    checks: 1
+    check_blocks: *1
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_bishop.png
@@ -142,8 +101,8 @@
     square: 3
     legal_moves: []
     moved: false
-    checks: 0
-    check_blocks: []
+    checks: 1
+    check_blocks: *1
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_queen.png
@@ -164,14 +123,10 @@
     name: bk0
     color: black
     square: 4
-    legal_moves:
-    - 12
-    - 5
-    - 11
-    - 6
+    legal_moves: []
     moved: false
-    checks: 0
-    check_blocks: []
+    checks: 1
+    check_blocks: *1
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_king.png
@@ -192,23 +147,17 @@
   - !ruby/object:Bishop
     name: bb1
     color: black
-    square: 46
-    legal_moves:
-    - 39
-    - 55
-    - 53
-    - 37
-    - 28
-    - 19
-    moved: true
-    checks: 0
-    check_blocks: []
+    square: 5
+    legal_moves: []
+    moved: false
+    checks: 1
+    check_blocks: *1
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_bishop.png
-      x: 805
-      y: 445
-      z: -1
+      x: 725
+      y: 45
+      z: 5
       width: 70
       height: 70
       rotate: 0
@@ -222,21 +171,16 @@
   - !ruby/object:Knight
     name: bn1
     color: black
-    square: 21
-    legal_moves:
-    - 6
-    - 31
-    - 38
-    - 36
-    - 27
-    moved: true
-    checks: 0
-    check_blocks: []
+    square: 6
+    legal_moves: []
+    moved: false
+    checks: 1
+    check_blocks: *1
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_knight.png
-      x: 725
-      y: 205
+      x: 805
+      y: 45
       z: 5
       width: 70
       height: 70
@@ -254,8 +198,8 @@
     square: 7
     legal_moves: []
     moved: false
-    checks: 0
-    check_blocks: []
+    checks: 1
+    check_blocks: *1
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_rook.png
@@ -278,8 +222,8 @@
     square: 8
     legal_moves: []
     moved: false
-    checks: 0
-    check_blocks: []
+    checks: 1
+    check_blocks: *1
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_pawn.png
@@ -303,8 +247,8 @@
     square: 9
     legal_moves: []
     moved: false
-    checks: 0
-    check_blocks: []
+    checks: 1
+    check_blocks: *1
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_pawn.png
@@ -328,8 +272,8 @@
     square: 10
     legal_moves: []
     moved: false
-    checks: 0
-    check_blocks: []
+    checks: 1
+    check_blocks: *1
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_pawn.png
@@ -355,8 +299,8 @@
     - 19
     - 27
     moved: true
-    checks: 0
-    check_blocks: []
+    checks: 1
+    check_blocks: *1
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_pawn.png
@@ -377,18 +321,16 @@
   - !ruby/object:Pawn
     name: bp4
     color: black
-    square: 20
-    legal_moves:
-    - 20
-    - 28
-    moved: true
-    checks: 0
-    check_blocks: []
+    square: 12
+    legal_moves: []
+    moved: false
+    checks: 1
+    check_blocks: *1
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_pawn.png
       x: 645
-      y: 205
+      y: 125
       z: 5
       width: 70
       height: 70
@@ -407,8 +349,8 @@
     square: 13
     legal_moves: []
     moved: false
-    checks: 0
-    check_blocks: []
+    checks: 1
+    check_blocks: *1
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_pawn.png
@@ -432,8 +374,8 @@
     square: 14
     legal_moves: []
     moved: false
-    checks: 0
-    check_blocks: []
+    checks: 1
+    check_blocks: *1
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_pawn.png
@@ -457,8 +399,8 @@
     square: 15
     legal_moves: []
     moved: false
-    checks: 0
-    check_blocks: []
+    checks: 1
+    check_blocks: *1
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_pawn.png
@@ -554,18 +496,18 @@
   - !ruby/object:Pawn
     name: wp3
     color: white
-    square: 35
+    square: 51
     legal_moves:
     - 43
     - 35
-    moved: true
+    moved: false
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/w_pawn.png
       x: 565
-      y: 365
+      y: 525
       z: 5
       width: 70
       height: 70
@@ -581,7 +523,7 @@
   - !ruby/object:Pawn
     name: wp4
     color: white
-    square: 44
+    square: 36
     legal_moves:
     - 44
     - 36
@@ -592,7 +534,7 @@
     icon: !ruby/object:Ruby2D::Image
       path: img/w_pawn.png
       x: 645
-      y: 445
+      y: 365
       z: 5
       width: 70
       height: 70
@@ -658,19 +600,16 @@
   - !ruby/object:Pawn
     name: wp7
     color: white
-    square: 46
-    legal_moves:
-    - 47
-    - 39
-    - 46
-    moved: true
+    square: 55
+    legal_moves: []
+    moved: false
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/w_pawn.png
-      x: 805
-      y: 445
+      x: 885
+      y: 525
       z: 5
       width: 70
       height: 70
@@ -712,9 +651,12 @@
     color: white
     square: 57
     legal_moves:
-    - 23
+    - 5
     - 21
-    - 12
+    - 28
+    - 26
+    - 1
+    - 17
     moved: false
     checks: 0
     check_blocks: []
@@ -737,21 +679,17 @@
   - !ruby/object:Bishop
     name: wb0
     color: white
-    square: 46
-    legal_moves:
-    - 39
-    - 37
-    - 28
-    - 19
-    moved: true
+    square: 58
+    legal_moves: []
+    moved: false
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/w_bishop.png
-      x: 805
-      y: 445
-      z: -1
+      x: 485
+      y: 605
+      z: 5
       width: 70
       height: 70
       rotate: 0
@@ -792,7 +730,6 @@
     square: 60
     legal_moves:
     - 52
-    - 51
     moved: false
     checks: 0
     check_blocks: []
@@ -816,16 +753,24 @@
   - !ruby/object:Bishop
     name: wb1
     color: white
-    square: 61
-    legal_moves: []
-    moved: false
+    square: 25
+    legal_moves:
+    - 18
+    - 11
+    - 34
+    - 43
+    - 52
+    - 61
+    - 32
+    - 16
+    moved: true
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/w_bishop.png
-      x: 725
-      y: 605
+      x: 405
+      y: 285
       z: 5
       width: 70
       height: 70
@@ -840,21 +785,16 @@
   - !ruby/object:Knight
     name: wn1
     color: white
-    square: 45
-    legal_moves:
-    - 30
-    - 28
-    - 39
-    - 62
-    - 51
-    moved: true
+    square: 62
+    legal_moves: []
+    moved: false
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/w_knight.png
-      x: 725
-      y: 445
+      x: 805
+      y: 605
       z: 5
       width: 70
       height: 70
@@ -926,8 +866,8 @@
   - "---"
   - "---"
   - "---"
-  - wp3
   - "---"
+  - wp4
   - "---"
   - "---"
   - "---"
@@ -942,8 +882,8 @@
   - wp0
   - wp1
   - wp2
+  - wp3
   - "---"
-  - wp4
   - wp5
   - wp6
   - wp7
@@ -961,12 +901,12 @@
   - bq0
   - bk0
   - bb1
-  - "---"
+  - bn1
   - br1
   - bp0
   - bp1
   - bp2
-  - bp3
+  - "---"
   - bp4
   - bp5
   - bp6
@@ -976,7 +916,13 @@
   - "---"
   - "---"
   - "---"
-  - bn1
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - bp3
   - "---"
   - "---"
   - "---"
@@ -985,13 +931,7 @@
   - "---"
   - "---"
   - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp3
-  - "---"
+  - wp4
   - "---"
   - "---"
   - "---"
@@ -1006,8 +946,8 @@
   - wp0
   - wp1
   - wp2
+  - wp3
   - "---"
-  - wp4
   - wp5
   - wp6
   - wp7
@@ -1025,12 +965,12 @@
   - bq0
   - bk0
   - bb1
-  - "---"
+  - bn1
   - br1
   - bp0
   - bp1
   - bp2
-  - bp3
+  - "---"
   - bp4
   - bp5
   - bp6
@@ -1040,7 +980,22 @@
   - "---"
   - "---"
   - "---"
-  - bn1
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - wb1
+  - "---"
+  - bp3
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - wp4
   - "---"
   - "---"
   - "---"
@@ -1052,555 +1007,36 @@
   - "---"
   - "---"
   - "---"
-  - "---"
-  - "---"
+  - wp0
+  - wp1
+  - wp2
   - wp3
   - "---"
+  - wp5
+  - wp6
+  - wp7
+  - wr0
+  - wn0
   - wb0
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp0
-  - wp1
-  - wp2
-  - "---"
-  - wp4
-  - wp5
-  - wp6
-  - wp7
-  - wr0
-  - wn0
-  - "---"
   - wq0
   - wk0
-  - wb1
+  - "---"
   - wn1
   - wr1
-  - br0
-  - bn0
-  - bb0
-  - bq0
-  - bk0
-  - bb1
-  - "---"
-  - br1
-  - bp0
-  - bp1
-  - bp2
-  - bp3
-  - "---"
-  - bp5
-  - bp6
-  - bp7
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - bp4
-  - bn1
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp3
-  - "---"
-  - wb0
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp0
-  - wp1
-  - wp2
-  - "---"
-  - wp4
-  - wp5
-  - wp6
-  - wp7
-  - wr0
-  - wn0
-  - "---"
-  - wq0
-  - wk0
-  - wb1
-  - wn1
-  - wr1
-  - br0
-  - bn0
-  - bb0
-  - bq0
-  - bk0
-  - bb1
-  - "---"
-  - br1
-  - bp0
-  - bp1
-  - bp2
-  - bp3
-  - "---"
-  - bp5
-  - bp6
-  - bp7
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - bp4
-  - bn1
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp3
-  - "---"
-  - wb0
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp4
-  - "---"
-  - "---"
-  - "---"
-  - wp0
-  - wp1
-  - wp2
-  - "---"
-  - "---"
-  - wp5
-  - wp6
-  - wp7
-  - wr0
-  - wn0
-  - "---"
-  - wq0
-  - wk0
-  - wb1
-  - wn1
-  - wr1
-  - br0
-  - bn0
-  - bb0
-  - bq0
-  - bk0
-  - bb1
-  - "---"
-  - br1
-  - bp0
-  - bp1
-  - bp2
-  - "---"
-  - "---"
-  - bp5
-  - bp6
-  - bp7
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - bp4
-  - bn1
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - bp3
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp3
-  - "---"
-  - wb0
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp4
-  - "---"
-  - "---"
-  - "---"
-  - wp0
-  - wp1
-  - wp2
-  - "---"
-  - "---"
-  - wp5
-  - wp6
-  - wp7
-  - wr0
-  - wn0
-  - "---"
-  - wq0
-  - wk0
-  - wb1
-  - wn1
-  - wr1
-  - br0
-  - bn0
-  - bb0
-  - bq0
-  - bk0
-  - bb1
-  - "---"
-  - br1
-  - bp0
-  - bp1
-  - bp2
-  - "---"
-  - "---"
-  - bp5
-  - bp6
-  - bp7
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - bp4
-  - bn1
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - bp3
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp3
-  - "---"
-  - wb0
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp4
-  - wn1
-  - "---"
-  - "---"
-  - wp0
-  - wp1
-  - wp2
-  - "---"
-  - "---"
-  - wp5
-  - wp6
-  - wp7
-  - wr0
-  - wn0
-  - "---"
-  - wq0
-  - wk0
-  - wb1
-  - "---"
-  - wr1
-  - br0
-  - bn0
-  - bb0
-  - bq0
-  - bk0
-  - "---"
-  - "---"
-  - br1
-  - bp0
-  - bp1
-  - bp2
-  - "---"
-  - "---"
-  - bp5
-  - bp6
-  - bp7
-  - "---"
-  - "---"
-  - "---"
-  - bb1
-  - bp4
-  - bn1
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - bp3
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp3
-  - "---"
-  - wb0
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp4
-  - wn1
-  - "---"
-  - "---"
-  - wp0
-  - wp1
-  - wp2
-  - "---"
-  - "---"
-  - wp5
-  - wp6
-  - wp7
-  - wr0
-  - wn0
-  - "---"
-  - wq0
-  - wk0
-  - wb1
-  - "---"
-  - wr1
-  - br0
-  - bn0
-  - bb0
-  - bq0
-  - bk0
-  - "---"
-  - "---"
-  - br1
-  - bp0
-  - bp1
-  - bp2
-  - "---"
-  - "---"
-  - bp5
-  - bp6
-  - bp7
-  - "---"
-  - "---"
-  - "---"
-  - bb1
-  - bp4
-  - bn1
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - bp3
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp3
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp4
-  - wn1
-  - wb0
-  - "---"
-  - wp0
-  - wp1
-  - wp2
-  - "---"
-  - "---"
-  - wp5
-  - wp6
-  - wp7
-  - wr0
-  - wn0
-  - "---"
-  - wq0
-  - wk0
-  - wb1
-  - "---"
-  - wr1
-  - br0
-  - bn0
-  - bb0
-  - bq0
-  - bk0
-  - "---"
-  - "---"
-  - br1
-  - bp0
-  - bp1
-  - bp2
-  - "---"
-  - "---"
-  - bp5
-  - bp6
-  - bp7
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - bp4
-  - bn1
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - bp3
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp3
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp4
-  - wn1
-  - bb1
-  - "---"
-  - wp0
-  - wp1
-  - wp2
-  - "---"
-  - "---"
-  - wp5
-  - wp6
-  - wp7
-  - wr0
-  - wn0
-  - "---"
-  - wq0
-  - wk0
-  - wb1
-  - "---"
-  - wr1
-  - br0
-  - bn0
-  - bb0
-  - bq0
-  - bk0
-  - "---"
-  - "---"
-  - br1
-  - bp0
-  - bp1
-  - bp2
-  - "---"
-  - "---"
-  - bp5
-  - bp6
-  - bp7
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - bp4
-  - bn1
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - bp3
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp3
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - wp4
-  - wn1
-  - wp7
-  - "---"
-  - wp0
-  - wp1
-  - wp2
-  - "---"
-  - "---"
-  - wp5
-  - wp6
-  - "---"
-  - wr0
-  - wn0
-  - "---"
-  - wq0
-  - wk0
-  - wb1
-  - "---"
-  - wr1
-  :pgn: '1. d4 Nf6 2. Bf4 e6 3. e3 d5 4. Nf3 Bd6 5. Bg3 Bxg3 6. hxg3 '
-  :w_material: 36
-  :b_material: 36
-  :ply: 11
+  :pgn: '1. e4 d5 2. Bb5+ '
+  :w_material: 39
+  :b_material: 39
+  :ply: 3
   :to_move: black
+  :checks: 1
+  :check_blocks: *1
+  :pinned: {}
+  :game_over: ''
+  :checksums:
+  - 211c4ef45af9c5f4350df5e977d66f21254ed152f362924ba9c94c0d72da3486
+  :checksum_dbls: {}
+  :threefold: []
 :board:
   :start_end:
-  - 55
-  - 46
+  - 61
+  - 25

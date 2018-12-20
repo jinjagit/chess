@@ -70,17 +70,9 @@ on :mouse_down do |event|
       data = Io.load_file(ui.file_selected)
       game.update_game(data)
       posn = game.posn_list[-64..-1]
-      puts
-      p posn
       change_posn(board, posn)
-      #game.reinitialize(game_pieces)
-
       game_pieces = board.update_board(data, game)
       ui.update_ui(data, game, board)
-
-
-
-
     end
   else
     location = board.mouse_square(event.x, event.y)
