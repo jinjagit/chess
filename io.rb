@@ -45,8 +45,11 @@ module Io
                 :pgn_list => game.pgn_list,
                 :game_pieces => game.game_pieces,
                 :posn_list => game.posn_list,
+                :pgn => game.pgn,
                 :w_material => game.w_material,
-                :b_material => game.b_material},
+                :b_material => game.b_material,
+                :ply => game.ply,
+                :to_move => game.to_move},
       :board => {:start_end => board.start_end}
     })
 

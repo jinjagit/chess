@@ -47,8 +47,12 @@ class Game
   def update_game(data)
     @moves = data[:game][:moves]
     @pgn_list = data[:game][:pgn_list]
+    @posn_list = data[:game][:posn_list]
+    @pgn = data[:game][:pgn]
     @w_material = data[:game][:w_material]
     @b_material = data[:game][:b_material]
+    @ply = data[:game][:ply]
+    @to_move = data[:game][:to_move]
   end
 
   def remove_red_sq
