@@ -72,7 +72,8 @@ on :mouse_down do |event|
       game_pieces = change_posn(board, posn)
       game.reinitialize(game_pieces)
       game.update_game(data)
-      ui.update_ui(data, game)
+      board.update_board(data)
+      ui.update_ui(data, game, board)
 
 
 

@@ -105,10 +105,12 @@ class UI
 
   def recreate_move_list(pgn)
     moves = []
+
     (pgn.length / 2.floor). times do |i|
       spaces_str = " " * (7 - pgn[i + 1].length)
       moves << "#{i + 1}. #{pgn[i + 1]}#{spaces_str} #{pgn[i + 2]}"
     end
+
     if pgn.length % 2 == 1
       moves << "#{(pgn.length / 2.floor) + 1}. #{pgn[-1]}"
     end
@@ -133,13 +135,15 @@ class UI
     end
   end
 
-  def update_ui(data, game)
+  def update_ui(data, game, board)
     reset_ui
     moves = recreate_move_list(data[:game][:pgn_list])
     @ply = data[:game][:pgn_list].length
     @rev_ply = @ply
     highlight_move(game)
     update_material(game)
+    update_move_ind
+    board.start_end_squares(game.moves[-1][1], game.moves[-1][2])
 
     p moves
   end
@@ -298,7 +302,7 @@ class UI
     update_move_list(game) if @game_over != ''
     #startTime = Time.now # debug: monitor responsiveness
     last_save = @last_save
-    @last_save = Io.autosave(last_save, game) if @autosave == true
+    @last_save = Io.autosave(last_save, game, board) if @autosave == true
     #puts "time to delete/create autosave: #{(duration = Time.now - startTime).to_s} s"
   end
 

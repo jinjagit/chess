@@ -36,7 +36,7 @@ module Io
     list = list.sort.reverse
   end
 
-  def self.autosave(last_save, game)
+  def self.autosave(last_save, game, board)
     last_save = "games/incomplete/#{last_save}.yml"
     File.delete(last_save) if File.exists? last_save
 
@@ -46,7 +46,8 @@ module Io
                 :game_pieces => game.game_pieces,
                 :posn_list => game.posn_list,
                 :w_material => game.w_material,
-                :b_material => game.b_material}
+                :b_material => game.b_material},
+      :board => {:start_end => board.start_end}
     })
 
     filename = create_filename(incomplete = true)

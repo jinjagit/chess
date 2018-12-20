@@ -45,6 +45,7 @@ class Game
   end
 
   def update_game(data)
+    @moves = data[:game][:moves]
     @pgn_list = data[:game][:pgn_list]
     @w_material = data[:game][:w_material]
     @b_material = data[:game][:b_material]

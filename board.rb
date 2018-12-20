@@ -93,6 +93,10 @@ class Board
     set_up_posn(first_run = false)
   end
 
+  def update_board(data)
+
+  end
+
   def create_legal_move_sqs
     64.times do |i|
       x_pos, y_pos = Utilities.square_origin(i)
