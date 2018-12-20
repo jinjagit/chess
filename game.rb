@@ -44,6 +44,10 @@ class Game
     @posn_list = []
   end
 
+  def update_game(data)
+    @pgn_list = data[:game][:pgn_list]
+  end
+
   def remove_red_sq
     @red_square.image.remove
   end

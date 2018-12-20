@@ -103,6 +103,46 @@ class UI
     refresh_info
   end
 
+  def recreate_move_list(pgn)
+    moves = []
+    (pgn.length / 2.floor). times do |i|
+      spaces_str = " " * (7 - pgn[i + 1].length)
+      moves << "#{i + 1}. #{pgn[i + 1]}#{spaces_str} #{pgn[i + 2]}"
+    end
+    if pgn.length % 2 == 1
+      moves << "#{(pgn.length / 2.floor) + 1}. #{pgn[-1]}"
+    end
+
+    29 - moves.length < 0 ? line = 29 - moves.length : line = 0
+
+    moves.each_with_index do |e, i|
+      y = 48 + (20 * line)
+
+      if i * 2 < 19
+        x = 72
+      elsif i * 2 > 198
+        x = 52
+      else
+        x = 62
+      end
+
+      @moves_txts << Text.new("#{e}", x: x, y: y, z: 2, size: 20, color: '#888888',
+                              font: 'fonts/UbuntuMono-R.ttf')
+      @moves_txts[-1].remove if line < 0
+      line += 1
+    end
+  end
+
+  def update_ui(data, game)
+    reset_ui
+    moves = recreate_move_list(data[:game][:pgn_list])
+    @ply = data[:game][:pgn_list].length
+    @rev_ply = @ply
+    highlight_move(game)
+
+    p moves
+  end
+
   def place_defaults
     if @flipped == false
       @title_w.x, @title_w.y = @title_bot[0], @title_bot[1]

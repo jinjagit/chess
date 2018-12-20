@@ -25,6 +25,12 @@ def print_game_pieces(game_pieces)
 end
 # ------------------------------------------------------------------
 
+def change_posn(board, posn)
+  board.posn = posn
+  board.new_game
+  game_pieces = board.game_pieces
+end
+
 set title: "Chess - by Simon Tharby"
 set width: 1280
 set height: 720
@@ -57,18 +63,18 @@ on :mouse_down do |event|
       ui.new_game = false
       ui.reset_ui
       posn = Utilities.start_posn
-      board.posn = posn
-      board.new_game
-      game_pieces = board.game_pieces
+      game_pieces = change_posn(board, posn)
       game.reinitialize(game_pieces)
     elsif ui.load_game == true
       ui.load_game = false
       data = Io.load_file(ui.file_selected)
       posn = data[:game][:posn_list][-64..-1]
-      board.posn = posn
-      board.new_game
-      game_pieces = board.game_pieces
+      game_pieces = change_posn(board, posn)
       game.reinitialize(game_pieces)
+      game.update_game(data)
+      ui.update_ui(data, game)
+
+
 
     end
   else
