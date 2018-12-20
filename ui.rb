@@ -144,6 +144,9 @@ class UI
     update_material(game)
     update_move_ind
     board.start_end_squares(game.moves[-1][1], game.moves[-1][2])
+    @posn_list = data[:game][:posn_list]
+    @rev_posn = @posn_list[-64..-1]
+    replay_king_check(game.moves[-1], game)
 
     p moves
   end
