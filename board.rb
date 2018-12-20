@@ -338,7 +338,7 @@ class Board
     end
 
     @game_pieces << @piece_codes[name[1]].new(name, color, square)
-    @posn[square] = name if old_name != nil
+    @posn[square] = name if old_name == nil
     x_pos, y_pos = Utilities.square_origin(square)
     @game_pieces[-1].set_posn(x_pos, y_pos)
     @game_pieces[-1].icon.z = 5
