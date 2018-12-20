@@ -107,8 +107,8 @@ class UI
     moves = []
 
     (pgn.length / 2.floor). times do |i|
-      spaces_str = " " * (7 - pgn[i + 1].length)
-      moves << "#{i + 1}. #{pgn[i]}#{spaces_str} #{pgn[i + 1]}"
+      spaces_str = " " * (7 - pgn[i * 2].length)
+      moves << "#{i + 1}. #{pgn[i * 2]}#{spaces_str} #{pgn[(i * 2) + 1]}"
     end
 
     if pgn.length % 2 == 1
@@ -148,6 +148,8 @@ class UI
     @rev_posn = @posn_list[-64..-1]
     replay_king_check(game.moves[-1], game)
 
+    puts
+    puts
     p moves
   end
 

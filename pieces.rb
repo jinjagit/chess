@@ -246,7 +246,7 @@ end
 
 
 class Rook < Sliding_Piece
-  attr_reader :disambiguate
+  attr_accessor :disambiguate
 
   def initialize(name, color, square)
     super
@@ -267,7 +267,7 @@ end
 
 
 class Knight < Piece
-  attr_reader :disambiguate
+  attr_accessor :disambiguate
 
   def initialize(name, color, square)
     super
@@ -308,7 +308,7 @@ class Knight < Piece
 end
 
 class Bishop < Sliding_Piece
-  attr_reader :disambiguate
+  attr_accessor :disambiguate
 
   def initialize(name, color, square)
     super
@@ -328,7 +328,7 @@ class Bishop < Sliding_Piece
 end
 
 class Queen < Sliding_Piece
-  attr_reader :disambiguate
+  attr_accessor :disambiguate
 
   def initialize(name, color, square)
     super

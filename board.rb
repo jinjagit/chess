@@ -93,8 +93,64 @@ class Board
     set_up_posn(first_run = false)
   end
 
-  def update_board(data)
-    @star_end = data[:board][:start_end]
+  def update_board(data, game)
+    def update_piece(piece, old_piece)
+      piece.square = old_piece.square
+      piece.legal_moves = old_piece.legal_moves
+      piece.moved = old_piece.moved
+      piece.checks = old_piece.moved
+      piece.check_blocks = old_piece.check_blocks
+      piece.pinned = old_piece.pinned
+      piece.icon.z = old_piece.icon.z
+      if piece.name[1] == 'k'
+        piece.short = old_piece.short
+        piece.long = old_piece.long
+      elsif piece.name[1] == 'p'
+        piece.ep_square = old_piece.ep_square
+        piece.ep_take_sq = old_piece.ep_take_sq
+      else
+        piece.disambiguate = old_piece.disambiguate
+      end
+      piece.move_to_square(piece.square)
+      #old_piece.icon.remove
+      #old_piece.icon = nil
+    end
+
+    @start_end = data[:board][:start_end]
+
+    game.game_pieces.each do |e|
+      if @game_pieces.any? {|el| el.name == e.name}
+        piece = @game_pieces.detect {|el| el.name == e.name}
+        update_piece(piece, e)
+      else
+        add_piece(e.square)
+        @game_pieces[-1].name = e.name
+        update_piece(@game_pieces[-1], e)
+      end
+    end
+
+    @game_pieces.each do |e|
+      e.icon.z = -1 if game.game_pieces.none? {|el| el.name == e.name}
+    end
+
+    #game.game_pieces.map! {|e| e = nil}
+
+    game.game_pieces = @game_pieces
+
+    puts
+    @game_pieces.each {|e| print "#{e.name} "}
+    puts
+    p @posn
+
+    # if @game_pieces includes piece in data/game/game_pieces, then reset its vars to match
+      # + move piece to correct square
+    # if does not exist, then add it to @game_pieces (requires @posn set (DONE) and square of piece)
+      # reset name after adding new piece, if not correct + move piece
+    # when done, return game_pieces to chess.rb & set game_game_pieces to @game_pieces
+      # above ? needs set all to nil first, then game.game_pieces = [], before reset
+
+    return @game_pieces
+
   end
 
   def create_legal_move_sqs
@@ -288,7 +344,7 @@ class Board
       piece.class == @piece_codes[posn_pc[1]] && piece.color[0] == posn_pc[0]
     end
 
-    name = "#{posn_pc}#{n}"
+    name = "#{posn_pc[0..1]}#{n}"
     if name[0] == "w"
       color = "white"
     else
