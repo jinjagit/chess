@@ -778,7 +778,7 @@ class UI
     end
   end
 
-  def menu_event(x, y, event_type)
+  def menu_event(x, y, event_type, game, board)
     def autosave_checkbox(event_type) # autosave button
       if event_type == 'hover'
         hover_if_off('autosave')
@@ -883,8 +883,20 @@ class UI
       elsif x > 539 && x < 736 && y > 374 && y < 406 # save button
         if event_type == 'hover'
           hover_if_off('save')
-        else
-          # click event
+        else # click event
+          filename = Io.save(game, board)
+          if @game_over == ''
+            filename += '.yml'
+            x = 446
+          else
+            filename += '.pgn'
+            x = 456
+          end
+          @save_txt.remove
+          @save_text = nil
+          @save_txt = Text.new("saved file: '#{filename}'", x: x, y: 494, z: 8, size: 16,
+                                font: 'fonts/UbuntuMono-R.ttf', color: '#04ff00')
+
         end
       elsif x > 539 && x < 567 && y > 439 && y < 467 # autosave checkbox
         autosave_checkbox(event_type)
@@ -1460,6 +1472,7 @@ class UI
     @btn7_txt.remove
     @btn8_txt.remove
     @checkbox.remove
+    @save_txt.remove
     if @autosave == true
       @menu_txt4.remove
       @tick.remove
@@ -1725,6 +1738,9 @@ class UI
     @rev_txt = Text.new("   Review mode ", x:1042, y: 348, z: 4, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @rev_txt.remove
+    @save_txt = Text.new("save message", x:545, y: 260, z: 8, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#04ff00')
+    @save_txt.remove
   end
 
   def create_icons

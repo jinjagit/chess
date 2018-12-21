@@ -58,7 +58,7 @@ ui_update = false
 
 on :mouse_down do |event|
   if ui.menu != 'off'
-    ui.menu_event(event.x, event.y, 'click')
+    ui.menu_event(event.x, event.y, 'click', game, board)
     if ui.new_game == true
       ui.new_game = false
       ui.reset_ui
@@ -118,7 +118,7 @@ end
 
 on :mouse_move do |event|
   if ui.menu != 'off'
-    ui.menu_event(event.x, event.y, 'hover')
+    ui.menu_event(event.x, event.y, 'hover', game, board)
   else
     location = board.mouse_square(event.x, event.y)
     if piece_lift == true && promote == []
