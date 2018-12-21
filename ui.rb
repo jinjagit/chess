@@ -554,9 +554,11 @@ class UI
 
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
     def add_draw_to_moves(game)
-      game.pgn = game.pgn + ' 1/2-1/2'
+      game.pgn = game.pgn + '1/2-1/2'
       game.moves << ['', nil, nil, '1/2-1/2']
       update_move_list(game)
+      last_save = @last_save
+      Io.autosave(last_save, game) if @autosave == true
     end
 
     if x > 1020 && x < 1240 && y > 245 && y < 275 # button icons
@@ -720,10 +722,10 @@ class UI
       elsif @resign == true
         game.game_over = 'resignation'
         if @ply % 2 == 0
-          game.pgn = game.pgn + ' 0-1'
+          game.pgn = game.pgn + '0-1'
           game.moves << ['', nil, nil, '0-1']
         else
-          game.pgn = game.pgn + ' 1-0'
+          game.pgn = game.pgn + '1-0'
           game.moves << ['', nil, nil, '1-0']
         end
         info_off
@@ -731,6 +733,8 @@ class UI
         @resign = false
         info_on
         update_move_list(game)
+        last_save = @last_save
+        Io.autosave(last_save, game) if @autosave == true
       end
 
     elsif x > 59 && x < 247 && y > 637 && y < 675 # move list navigation btns
