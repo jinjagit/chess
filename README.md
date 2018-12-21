@@ -15,7 +15,7 @@ Draw conditions due to 50-move-rule (no captures or pawn moves) or 3-fold repeti
 
 A move list (both native and PGN format) is created as a game progresses. The piece that moved is disambiguated in algebraic notation, when needed (e.g. 'Nbd7', rather than simply 'Nd7'). Check, checkmate, piece capture, win, draw, en-passant and pawn promotion are also correctly formatted (in algebraic notation) in the PGN record.
 
-### UI features implemented:
+### Features implemented:
   * highlight legal move squares, if any, (green squares) when piece is lifted
   * highlight king in check / checkmate (red square)
   * highlight last move (yellow squares: start-square & end-square)
