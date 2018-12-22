@@ -34,9 +34,9 @@ A move list (both native and PGN format) is created as a game progresses. The pi
   * algebraic notation display
   * review of game moves (step fwd/back, go to start/end)
   * move / capture sound effects (sound can be disabled / enabled)
-  * autosave of game in progress (can be disabled)
+  * auto-save of game in progress (can be disabled)
   * manual save of game (incomplete or complete game)
-  * completed games saved as pgn files (Portable Game Notation)
+  * completed games saved as PGN files (Portable Game Notation)
   * load of saved incomplete game (can be continued)
 
 ### To do next:

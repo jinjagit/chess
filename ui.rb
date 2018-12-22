@@ -861,8 +861,18 @@ class UI
       if x > 495 && x < 789 && y > 189 && y < 221 # load complete button
         if event_type == 'hover'
           hover_if_off('load_complete')
-        else
-          # click event
+        else # click event
+          hide_menu_load_save
+          @menu = 'off'
+          hover_off
+          @hover = ''
+          @menu = 'load'
+          show_menu_load('complete')
+          if @page_txts.length > 3
+            @file_now, @file_last = 3, 3
+            hover_off if @hover != ''
+            hover_on('file')
+          end
         end
       elsif x > 495 && x < 789 && y > 249 && y < 281 # load INcomplete button
         if event_type == 'hover'
