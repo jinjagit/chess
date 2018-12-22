@@ -807,6 +807,20 @@ class UI
       end
     end
 
+    def open_menu_load(type)
+      hide_menu_load_save
+      @menu = 'off'
+      hover_off
+      @hover = ''
+      @menu = 'load'
+      show_menu_load(type)
+      if @page_txts.length > 3
+        @file_now, @file_last = 3, 3
+        hover_off if @hover != ''
+        hover_on('file')
+      end
+    end
+
     if x > 539 && x < 736 && y > 539 && y < 571 # close button
       if event_type == 'hover'
         hover_if_off('close')
@@ -862,33 +876,13 @@ class UI
         if event_type == 'hover'
           hover_if_off('load_complete')
         else # click event
-          hide_menu_load_save
-          @menu = 'off'
-          hover_off
-          @hover = ''
-          @menu = 'load'
-          show_menu_load('complete')
-          if @page_txts.length > 3
-            @file_now, @file_last = 3, 3
-            hover_off if @hover != ''
-            hover_on('file')
-          end
+          open_menu_load('complete')
         end
       elsif x > 495 && x < 789 && y > 249 && y < 281 # load INcomplete button
         if event_type == 'hover'
           hover_if_off('load_incomplete')
         else # click event
-          hide_menu_load_save
-          @menu = 'off'
-          hover_off
-          @hover = ''
-          @menu = 'load'
-          show_menu_load('incomplete')
-          if @page_txts.length > 3
-            @file_now, @file_last = 3, 3
-            hover_off if @hover != ''
-            hover_on('file')
-          end
+          open_menu_load('incomplete')
         end
       elsif x > 539 && x < 736 && y > 374 && y < 406 # save button
         if event_type == 'hover'
