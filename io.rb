@@ -77,10 +77,10 @@ module Io
   end
 
   def self.load_file(filename)
-    if filename.include?('incomplete')
+    if filename.include?('incomplete') # ? change to .yml? (allow for renaming)
       data = YAML::load_file("games/incomplete/#{filename}")
     else
-      # however read a pgn file (probably line by line, as for text file)
+      data = File.read("games/complete/#{filename}")
     end
   end
 
