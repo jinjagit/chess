@@ -77,9 +77,9 @@ module Io
   end
 
   def self.load_file(filename)
-    if filename[-4..-1] == '.yml' # ? change to .yml? (allow for renaming)
+    if filename[-4..-1] == '.yml' || filename[-4..-1] == '.YML'
       data = YAML::load_file("games/incomplete/#{filename}")
-    else
+    elsif filename[-4..-1] == '.pgn' || filename[-4..-1] == '.PGN'
       data = File.read("games/complete/#{filename}")
     end
   end
