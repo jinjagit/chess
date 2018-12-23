@@ -1497,7 +1497,12 @@ class UI
 
     n.times do |i|
       @files_for_page[i] = @files[i + start]
-      @page_txts[i] = Text.new("#{@files[i + start][0..-5]}", x: 484, y: 200 + (i * 20),
+      if @files[i + start].include?('incomplete') == false && @files[i + start].length > 33
+        name = @files[i + start][0..28] + '...'
+      else
+        name = @files[i + start][0..-5]
+      end
+      @page_txts[i] = Text.new("#{name}", x: 484, y: 200 + (i * 20),
                               z: 8, size: 20, color: '#888888',
                               font: 'fonts/UbuntuMono-R.ttf')
     end
