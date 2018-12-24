@@ -9,7 +9,7 @@ class UI
   attr_accessor :rev_ply
   attr_accessor :move
   attr_accessor :load_game
-  attr_accessor :file_selected
+  attr_accessor :data
 
   def initialize
     @hover = ''
@@ -61,7 +61,7 @@ class UI
     @file_last = -1
     @file_now = -1
     @load_game = false
-    @file_selected = ''
+    @data = nil
     create_texts
     create_icons
     create_menus
@@ -948,12 +948,18 @@ class UI
             @file_last = @file_now
           end
         elsif @file_now < @page_txts.length # click event
-          @file_selected = "#{@files_for_page[@file_now]}"
-          @load_game = true
-          @menu = 'off'
-          hide_menu_load
-          @file_last = -1
-          reset_ui
+          file_selected = "#{@files_for_page[@file_now]}"
+          #file_selected = 'no_file.yml' # debug: cause error on open file
+          @data, error = Io.load_file(file_selected)
+          if error == 'none'
+            @load_game = true
+            @menu = 'off'
+            hide_menu_load
+            @file_last = -1
+            reset_ui
+          else
+            puts "ERROR! #{error}"
+          end
         end
 
       elsif @hover != '' # not in button icons, nor claim button areas

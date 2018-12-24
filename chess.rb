@@ -67,7 +67,7 @@ on :mouse_down do |event|
       game.reinitialize(game_pieces)
     elsif ui.load_game == true
       ui.load_game = false
-      data = Io.load_file(ui.file_selected)
+      data = ui.data
       game.update_game(data)
       posn = game.posn_list[-64..-1]
       change_posn(board, posn)

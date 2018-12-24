@@ -76,12 +76,18 @@ module Io
     save(game, board)
   end
 
-  def self.load_file(filename)
-    if filename[-4..-1] == '.yml' || filename[-4..-1] == '.YML'
-      data = YAML::load_file("games/incomplete/#{filename}")
-    elsif filename[-4..-1] == '.pgn' || filename[-4..-1] == '.PGN'
-      data = File.read("games/complete/#{filename}")
+  def self.load_file(filename, error = 'none')
+    data = nil
+    begin
+      if filename[-4..-1] == '.yml' || filename[-4..-1] == '.YML'
+        data = YAML::load_file("games/incomplete/#{filename}")
+      elsif filename[-4..-1] == '.pgn' || filename[-4..-1] == '.PGN'
+        data = File.read("games/complete/#{filename}")
+      end
+    rescue StandardError => error
+      error = 'cannot open file'
     end
+    return data, error
   end
 
 end

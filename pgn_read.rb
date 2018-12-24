@@ -6,7 +6,7 @@ def print_parsed(filename, list, info, pgn_list)
   else
     title = "#{list['[white ']} v #{list['[black ']} (#{list['[event ']}, #{list['[date ']})"
   end
-  # shorten overly long title(s)
+  # to do: shorten overly long title(s)...
   puts "Title: #{title}"
   puts "Moves: #{pgn_list}"
   puts "---------------------------------------------------------------------------------------------------------"
@@ -35,17 +35,17 @@ def parse_pgn(data, filename)
       pgn_list = data.strip.split("\n").join
     end
 
-    pgn_list = pgn_list.split('}')
-    pgn_list.map! {|e| e.split(' {')[0]}
+    pgn_list = pgn_list.split('}').map! {|e| e.split(' {')[0]}
     pgn_list = pgn_list.join.strip.split(" ").delete_if {|e| e.include?('.')}
   rescue StandardError => error
-    error = 'Cannot parse file contents'
+    error = 'cannot parse file contents'
   end
 
   unless error == 'none'
-    puts "ERROR! #{error}" unless error == 'none' # open error window & print
-  else # parse data components and then test moves for legality
+    puts "ERROR! #{error}" # print error to load_save menu && do not load game
+  else # parse data components
     print_parsed(filename, list, info, pgn_list)
+    # to do: test moves for legality...
   end
 end
 
