@@ -949,7 +949,7 @@ class UI
           end
         elsif @file_now < @page_txts.length # click event
           file_selected = "#{@files_for_page[@file_now]}"
-          #file_selected = 'no_file.yml' # debug: cause error on open file
+          file_selected = 'no_file.yml' # debug: cause error on open file
           @data, error = Io.load_file(file_selected)
           if error == 'none'
             @load_game = true
@@ -958,7 +958,11 @@ class UI
             @file_last = -1
             reset_ui
           else
-            puts "ERROR! #{error}"
+            @error_txt.remove
+            @error_text = nil
+            x = 446 + ((43 - error.length) * 2.5)
+            @error_txt = Text.new("ERROR! #{error}", x: x, y: 506, z: 8, size: 16,
+                                  font: 'fonts/UbuntuMono-R.ttf', color: '#ff0000')
           end
         end
 
@@ -1558,6 +1562,7 @@ class UI
     @page_end.remove
     @page_fwd.remove
     @page_back.remove
+    @error_txt.remove
     @files = []
     @files_for_page = []
   end
@@ -1756,6 +1761,9 @@ class UI
     @save_txt = Text.new("save message", x:545, y: 260, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#04ff00')
     @save_txt.remove
+    @error_txt = Text.new("error message", x:545, y: 260, z: 8, size: 20,
+                          font: 'fonts/UbuntuMono-R.ttf', color: '#ff0000')
+    @error_txt.remove
   end
 
   def create_icons

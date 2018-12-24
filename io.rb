@@ -85,7 +85,7 @@ module Io
         data = File.read("games/complete/#{filename}")
       end
     rescue StandardError => error
-      error = 'cannot open file'
+      error = 'cannot open file (check permissions)' #+7+7 = 50
     end
     return data, error
   end
