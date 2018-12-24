@@ -960,7 +960,7 @@ class UI
           else
             @error_txt.remove
             @error_text = nil
-            x = 446 + ((43 - error.length) * 2.5)
+            x = 640 - ((7 + error.length) * 4.1)
             @error_txt = Text.new("ERROR! #{error}", x: x, y: 506, z: 8, size: 16,
                                   font: 'fonts/UbuntuMono-R.ttf', color: '#ff0000')
           end
