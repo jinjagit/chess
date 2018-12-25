@@ -37,6 +37,7 @@ def parse_pgn(data, filename)
 
     pgn_list = pgn_list.split('}').map! {|e| e.split(' {')[0]}
     pgn_list = pgn_list.join.strip.split(" ").delete_if {|e| e.include?('.')}
+    pgn_list[-1] = '1/2-1/2' if pgn_list[-1] == '½-½'
     error = "bad / missing result format" unless pgn_list[-1] =~ /^1-0$|^0-1$|^1\/2-1\/2$/
     pgn_list[0..-2].each do |e|
       error = "bad move format found" if e.length < 2 || e.length > 7
@@ -64,7 +65,7 @@ system "clear"
 files = ['test1.pgn', 'uppercase_ext.PGN', 'no_info.pgn',
         'lichess_pgn_2018.12.21_Human_vs_Human.ozTcKlq3.pgn',
         'spassky_fischer_1972.pgn', 'extra_spaces.pgn', 'move_too_short.pgn',
-        'move_too_long.pgn', 'bad_result.pgn']
+        'move_too_long.pgn', 'bad_result.pgn', 'small_halves.pgn']
 
 files.each do |filename|
   puts "loading: #{filename}"
