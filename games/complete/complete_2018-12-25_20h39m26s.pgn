@@ -1,0 +1,7 @@
+[Event "RubyChess"]
+[Date "2018.12.25"]
+[White "Human"]
+[Black "Human"]
+[Result "1-0"]
+
+1. d4 e5 2. dxe5 f6 3. exf6 Nh6 4. fxg7 Nf5 5. gxh8=Q Ne7 6. Qxh7 Nf5 7. Qg8 Nd6 8. h4 Nf5 9. h5 Nd6 10. h6 Nf5 11. h7 Nd6 12. h8=Q Nb5 13. Qxf8# 1-0 

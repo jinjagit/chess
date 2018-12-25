@@ -41,10 +41,14 @@ def parse_pgn(data, filename)
     error = "bad / missing result format" unless pgn_list[-1] =~ /^1-0$|^0-1$|^1\/2-1\/2$/
     pgn_list[0..-2].each do |e|
       error = "bad move format found" if e.length < 2 || e.length > 7
+      e.each_char do |c|
+        legal_char = c =~ /^[a-hxBKNORQ1-8=+#-]+/
+        error = "illegal character found in move" if legal_char == nil
+      end
     end
 
-  #rescue StandardError => error
-    #error = 'cannot parse file contents'
+  rescue StandardError => error
+    error = 'cannot parse file contents'
   end
 
   unless error == 'none'
@@ -53,9 +57,8 @@ def parse_pgn(data, filename)
   else # parse data components
     print_parsed(filename, list, info, pgn_list)
     # to do:
-      # quick check of length of each pgn move
-      # regex moves for illegal chars / formats
-      # test moves for legality...
+      # test moves for legality... (implicitly will do exhaustive move format check, as
+        # final comparison of pgn generated with pgn input will be true or false)
   end
 end
 
@@ -65,7 +68,7 @@ system "clear"
 files = ['test1.pgn', 'uppercase_ext.PGN', 'no_info.pgn',
         'lichess_pgn_2018.12.21_Human_vs_Human.ozTcKlq3.pgn',
         'spassky_fischer_1972.pgn', 'extra_spaces.pgn', 'move_too_short.pgn',
-        'move_too_long.pgn', 'bad_result.pgn', 'small_halves.pgn']
+        'move_too_long.pgn', 'bad_result.pgn', 'small_halves.pgn', 'bad_char.pgn']
 
 files.each do |filename|
   puts "loading: #{filename}"
