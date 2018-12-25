@@ -27,7 +27,7 @@ def parse_pgn(data, filename)
       list.each_key do |key|
         info.each do |e|
           if e.downcase.include?(key)
-            list[key] = e.split("\"")[1]
+            list[key] = e.split("\"")[1].strip
           end
         end
       end
@@ -45,7 +45,10 @@ def parse_pgn(data, filename)
     puts "ERROR! #{error}" # print error to load_save menu && do not load game
   else # parse data components
     print_parsed(filename, list, info, pgn_list)
-    # to do: test moves for legality...
+    # to do:
+      # quick check of length of each pgn move
+      # regex moves for illegal chars / formats
+      # test moves for legality...
   end
 end
 
@@ -54,11 +57,11 @@ end
 system "clear"
 files = ['test1.pgn', 'uppercase_ext.PGN', 'no_info.pgn',
         'lichess_pgn_2018.12.21_Human_vs_Human.ozTcKlq3.pgn',
-        'spassky_fischer_1972.pgn']
+        'spassky_fischer_1972.pgn', 'extra_spaces.pgn']
 
 files.each do |filename|
   puts "loading: #{filename}"
   puts
-  data = Io.load_file(filename)
+  data, error = Io.load_file(filename)
   parse_pgn(data, filename)
 end

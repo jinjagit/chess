@@ -68,6 +68,7 @@ on :mouse_down do |event|
     elsif ui.load_game == true
       ui.load_game = false
       data = ui.data
+      p data
       game.update_game(data)
       posn = game.posn_list[-64..-1]
       change_posn(board, posn)

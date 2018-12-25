@@ -941,7 +941,6 @@ class UI
       elsif @files.length > 0 && x > 483 && x < 800 && y > 199 && y < 399 # file list area
         if event_type == 'hover'
           @file_now = (y - 200) / 20.floor
-          #hover_if_off('page_end')
           if @file_now != @file_last && @file_now < @page_txts.length
             hover_off if @hover != ''
             hover_on('file')
@@ -949,7 +948,7 @@ class UI
           end
         elsif @file_now < @page_txts.length # click event
           file_selected = "#{@files_for_page[@file_now]}"
-          file_selected = 'no_file.yml' # debug: cause error on open file
+          #file_selected = 'no_file.yml' # debug: cause error on open file
           @data, error = Io.load_file(file_selected)
           if error == 'none'
             @load_game = true
