@@ -949,7 +949,7 @@ class UI
         elsif @file_now < @page_txts.length # click event
           file_selected = "#{@files_for_page[@file_now]}"
           #file_selected = 'no_file.yml' # debug: cause error on open file
-          @data, error = Io.load_file(file_selected)
+          @data, error = Io.load_file(file_selected, game, board)
           if error == 'none'
             @load_game = true
             @menu = 'off'

@@ -56,6 +56,8 @@ legal_list = []
 promote = []
 ui_update = false
 
+Io.load_file('spassky_fischer_1972.pgn', game, board) # dev only
+
 on :mouse_down do |event|
   if ui.menu != 'off'
     ui.menu_event(event.x, event.y, 'click', game, board)
