@@ -957,7 +957,6 @@ class UI
             data = YAML::load(backup_data)
             game.update_game(data)
           end
-
           if error == 'none'
             @load_game = true
             @menu = 'off'

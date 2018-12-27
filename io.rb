@@ -146,16 +146,49 @@ module Io
 
   def self.process_pgn(filename, list, info, pgn_list, game, board)
     error = 'none'
-    backup_data = create_yaml(game, board)
     # to do:
       # test moves for legality... (implicitly will do exhaustive move format check, as
         # final comparison of pgn generated with pgn input will be true or false)
 
-    error = 'test error'
+    #pseudocode (to classify moves types, by iterating through pgn_list):
+
+    # promote = ''
+    # take = ''
+    # move = ''
+
+    # if move.include?('=')
+      # move.split!('=')
+      # promote = move[1]
+      # move = move[0]
+    # end
+
+    # if move.include?('x')
+      # move.split!('x')
+      # take = move[1]
+      # move = move[0]
+    # end
+
+    # if 1st char == lower case: pawn move
+      # unless take == '' (== pawn takes something)
+        # if no piece was on square moved to == en-passant
+      # end
+      # unless promote == '' (== promotion)
+      #end
+    # elsif move.include?('-') == false (== non-pawn move)
+      # if includes 'O' == castling
+      # end
+      # ? how to differentiate disambiugated vs. '+', '#', '=Q', etc. ?
+
+    # ...
+    # else
+      # successful load, return data, error
+    #end
+
+    #error = 'test error'
     print_parsed(filename, list, info, pgn_list, error)
 
     # ----- fake return vales for development -------------
-    data = 'bibble'
+    data = 'fake data'
 
     return data, error
 
