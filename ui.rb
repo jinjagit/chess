@@ -1,3 +1,5 @@
+require 'yaml'
+
 class UI
   attr_accessor :coords
   attr_accessor :flipped
@@ -949,7 +951,13 @@ class UI
         elsif @file_now < @page_txts.length # click event
           file_selected = "#{@files_for_page[@file_now]}"
           #file_selected = 'no_file.yml' # debug: cause error on open file
+          backup_data = Io.create_yaml(game, board) unless file_selected.include?('.yml')
           @data, error = Io.load_file(file_selected, game, board)
+          if error != 'none' && file_selected.include?('.yml') == false
+            data = YAML::load(backup_data)
+            game.update_game(data)
+          end
+
           if error == 'none'
             @load_game = true
             @menu = 'off'

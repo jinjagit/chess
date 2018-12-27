@@ -27,27 +27,31 @@ module Io
     list = list.sort.reverse
   end
 
+  def self.create_yaml(game, board)
+    save_data = YAML.dump ({
+      :game => {:moves => game.moves,
+                :pgn_list => game.pgn_list,
+                :game_pieces => game.game_pieces,
+                :posn_list => game.posn_list,
+                :pgn => game.pgn,
+                :w_material => game.w_material,
+                :b_material => game.b_material,
+                :ply => game.ply,
+                :to_move => game.to_move,
+                :checks => game.checks,
+                :check_blocks => game.check_blocks,
+                :pinned => game.pinned,
+                :game_over => game.game_over,
+                :checksums => game.checksums,
+                :checksum_dbls => game.checksum_dbls,
+                :threefold => game.threefold},
+      :board => {:start_end => board.start_end}
+    })
+  end
+
   def self.save(game, board = nil)
     if game.game_over == ''
-      save_data = YAML.dump ({
-        :game => {:moves => game.moves,
-                  :pgn_list => game.pgn_list,
-                  :game_pieces => game.game_pieces,
-                  :posn_list => game.posn_list,
-                  :pgn => game.pgn,
-                  :w_material => game.w_material,
-                  :b_material => game.b_material,
-                  :ply => game.ply,
-                  :to_move => game.to_move,
-                  :checks => game.checks,
-                  :check_blocks => game.check_blocks,
-                  :pinned => game.pinned,
-                  :game_over => game.game_over,
-                  :checksums => game.checksums,
-                  :checksum_dbls => game.checksum_dbls,
-                  :threefold => game.threefold},
-        :board => {:start_end => board.start_end}
-      })
+      save_data = create_yaml(game, board)
       filename = create_filename(incomplete = true)
       File.open("games/incomplete/#{filename}.yml", 'w'){|f| f.write(save_data)}
     else
@@ -82,13 +86,11 @@ module Io
       if filename[-4..-1] == '.yml' || filename[-4..-1] == '.YML'
         data = YAML::load_file("games/incomplete/#{filename}")
       elsif filename[-4..-1] == '.pgn' || filename[-4..-1] == '.PGN'
-        puts filename
         data = File.read("games/complete/#{filename}")
-        puts data
         data, error = read_info_and_pgn(data, filename, game, board)
       end
-    #rescue StandardError => error
-      #error = 'cannot open file (check permissions)'
+    rescue StandardError => error
+      error = 'cannot open file (check permissions)'
     end
     return data, error
   end
@@ -132,29 +134,48 @@ module Io
       error = 'cannot parse file contents'
     end
 
-    unless error == 'none'
-      puts "ERROR! #{error}" # print error to load_save menu && do not load game
+    if error == 'none'
+      data, error = process_pgn(filename, list, info, pgn_list, game, board)
+    else
+      puts "ERROR! (before process_pgn) #{error}" # print error to load_save menu && do not load game
       puts "---------------------------------------------------------------------------------------------------------"
-    else # parse data components
-      print_parsed(filename, list, info, pgn_list)
-      # to do:
-        # test moves for legality... (implicitly will do exhaustive move format check, as
-          # final comparison of pgn generated with pgn input will be true or false)
     end
 
-    #return data, error
+    #return data, error # return when developed
   end
 
-  def self.print_parsed(filename, list, info, pgn_list)
-    if info == nil || list.all? {|k, v| v == nil}
-      title = "File: #{filename} (no details)"
+  def self.process_pgn(filename, list, info, pgn_list, game, board)
+    error = 'none'
+    backup_data = create_yaml(game, board)
+    # to do:
+      # test moves for legality... (implicitly will do exhaustive move format check, as
+        # final comparison of pgn generated with pgn input will be true or false)
+
+    error = 'test error'
+    print_parsed(filename, list, info, pgn_list, error)
+
+    # ----- fake return vales for development -------------
+    data = 'bibble'
+
+    return data, error
+
+  end
+
+  def self.print_parsed(filename, list, info, pgn_list, error)
+    if error == 'none'
+      if info == nil || list.all? {|k, v| v == nil}
+        title = "File: #{filename} (no details)"
+      else
+        title = "#{list['[white ']} v #{list['[black ']} (#{list['[event ']}, #{list['[date ']})"
+      end
+      # to do: shorten overly long title(s)... # ? do in ui.rb ? (return info in data?)
+      puts "Title: #{title}"
+      puts "Moves: #{pgn_list}"
+      puts "---------------------------------------------------------------------------------------------------------"
     else
-      title = "#{list['[white ']} v #{list['[black ']} (#{list['[event ']}, #{list['[date ']})"
+      puts "ERROR! (IN process_pgn) #{error}" # print error to load_save menu && do not load game
+      puts "---------------------------------------------------------------------------------------------------------"
     end
-    # to do: shorten overly long title(s)...
-    puts "Title: #{title}"
-    puts "Moves: #{pgn_list}"
-    puts "---------------------------------------------------------------------------------------------------------"
   end
 
 end

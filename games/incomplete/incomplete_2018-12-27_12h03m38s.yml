@@ -9,9 +9,14 @@
     - 12
     - 28
     - ''
+  - - wp4
+    - 52
+    - 44
+    - ''
   :pgn_list:
   - d4
   - e5
+  - e3
   :game_pieces:
   - !ruby/object:Rook
     name: br0
@@ -119,7 +124,8 @@
     name: bk0
     color: black
     square: 4
-    legal_moves: []
+    legal_moves:
+    - 12
     moved: false
     checks: 0
     check_blocks: []
@@ -519,16 +525,18 @@
   - !ruby/object:Pawn
     name: wp4
     color: white
-    square: 52
-    legal_moves: []
-    moved: false
+    square: 44
+    legal_moves:
+    - 44
+    - 36
+    moved: true
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/w_pawn.png
       x: 645
-      y: 525
+      y: 445
       z: 5
       width: 70
       height: 70
@@ -645,10 +653,12 @@
     color: white
     square: 57
     legal_moves:
-    - 14
-    - 21
-    - 19
-    - 10
+    - 6
+    - 22
+    - 29
+    - 27
+    - 2
+    - 18
     moved: false
     checks: 0
     check_blocks: []
@@ -943,11 +953,75 @@
   - wb1
   - wn1
   - wr1
-  :pgn: '1. d4 e5 '
+  - br0
+  - bn0
+  - bb0
+  - bq0
+  - bk0
+  - bb1
+  - bn1
+  - br1
+  - bp0
+  - bp1
+  - bp2
+  - bp3
+  - "---"
+  - bp5
+  - bp6
+  - bp7
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - bp4
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - wp3
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - wp4
+  - "---"
+  - "---"
+  - "---"
+  - wp0
+  - wp1
+  - wp2
+  - "---"
+  - "---"
+  - wp5
+  - wp6
+  - wp7
+  - wr0
+  - wn0
+  - wb0
+  - wq0
+  - wk0
+  - wb1
+  - wn1
+  - wr1
+  :pgn: '1. d4 e5 2. e3 '
   :w_material: 39
   :b_material: 39
-  :ply: 2
-  :to_move: white
+  :ply: 3
+  :to_move: black
   :checks: 0
   :check_blocks: []
   :pinned: {}
@@ -957,5 +1031,5 @@
   :threefold: []
 :board:
   :start_end:
-  - 12
-  - 28
+  - 52
+  - 44
