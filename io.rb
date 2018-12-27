@@ -217,7 +217,9 @@ module Io
     print_parsed(filename, list, info, pgn_list, error)
 
     # ----- fake return vales for development -------------
-    data = 'fake data'
+    data = 'fake data' # remember don't need to use game data when loading complete game
+                       # (as game.rb will already be updated if load succesful, & reset if not)
+                       # = need conditional somwhere in chess.rb &/or ui.rb to avoid this
 
     return data, error
 
