@@ -151,10 +151,25 @@ module Io
         # final comparison of pgn generated with pgn input will be true or false)
 
     #pseudocode (to classify moves types, by iterating through pgn_list):
+      # while error == '' and move.include?('-') == false ...
 
     # promote = ''
     # take = ''
     # move = ''
+    # check = ''
+    # mate = ''
+
+    # if move.include?('+')
+      # move.split!('+')
+      # check = move[1]
+      # move = move[0]
+    # end
+
+    # if move.include?('#')
+      # move.split!('#')
+      # mate = move[1]
+      # move = move[0]
+    # end
 
     # if move.include?('=')
       # move.split!('=')
@@ -181,8 +196,22 @@ module Io
 
     # ...
     # else
-      # successful load, return data, error
+      # successful load, flag to return data, error
     #end
+
+    # compare move with legal moves of piece (after game.checks_n_pins)
+      # throw error if not legal
+    # end
+
+    # unless check == ''
+      # confirm assess posn == check or return error
+    # elsif mate == ''
+      # confirm assess posn == mate (and is penultimate pgn_list e) or return error
+    # end
+
+    # update posn, and other game vars, etc.
+
+    # --- end of while loop
 
     #error = 'test error'
     print_parsed(filename, list, info, pgn_list, error)
