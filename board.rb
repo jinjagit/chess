@@ -3,17 +3,6 @@ module Utilities
             ['1', '2', '3', '4', '5', '6', '7', '8']]
 
   def self.start_posn
-    posn = ['br', 'bn', 'bb', 'bq', 'bk', 'bb', 'bn', 'br',
-            'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp',
-            '--', '--', '--', '--', '--', '--', '--', '--',
-            '--', '--', '--', '--', '--', '--', '--', '--',
-            '--', '--', '--', '--', '--', '--', '--', '--',
-            '--', '--', '--', '--', '--', '--', '--', '--',
-            'wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp',
-            'wr', 'wn', 'wb', 'wq', 'wk', 'wb', 'wn', 'wr']
-  end
-
-  def self.start_posn_w_pcs
     posn = ['br0', 'bn0', 'bb0', 'bq0', 'bk0', 'bb1', 'bn1', 'br1',
             'bp0', 'bp1', 'bp2', 'bp3', 'bp4', 'bp5', 'bp6', 'bp7',
             '---', '---', '---', '---', '---', '---', '---', '---',
@@ -347,7 +336,7 @@ class Board
 
   def set_up_posn(first_run = true)
     @posn.each_with_index do |posn_pc, square|
-      if posn_pc != "--" && posn_pc != '---'
+      if posn_pc != '---'
         if first_run == true
           piece = add_piece(square)
         else # == not first run; basic set of piece instances already exists
@@ -368,8 +357,6 @@ class Board
             piece.square = 63 - square
           end
         end
-      else
-        @posn[square] = "---" # just to make array look neater ;-)
       end
     end
 

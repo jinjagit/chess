@@ -1,7 +1,0 @@
-[Event "RubyChess"]
-[Date "2018.12.26"]
-[White "Human"]
-[Black "Human"]
-[Result "1-0"]
-
-1. d4 e5 2. dxe5 Nf6 3. exf6 Be7 4. fxg7 Bd6 5. gxh8Q++ Bf8 6. h4 Qxh4 7. Rxh4 Nc6 8. Qg8 d6 9. Rxh7 Be6 10. Rh8 Kd7 11. Nf3 Rb8 12. Qh7 Be7 13. Rxb8 Nxb8 14. Ne5+ Ke8 15. Qg8+ Bf8 16. Ng6 fxg6 17. Qxe6+ Kd8 18. c4 Nd7 19. c5 Nxc5 20. e4 Be7 21. e5 Ne4 22. exd6 Bxd6 23. Qxe4 Kd7 24. Qxg6 c6 25. Qf7+ Kc8 26. Qxd6 b5 27. Qxc6+ Kb8 28. Qcb7# 1-0 

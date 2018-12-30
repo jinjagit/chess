@@ -418,7 +418,7 @@ class UI
       if @rev_ply != 0
         @rev_posn = @posn_list[((@rev_ply - 1) * 64)..((@rev_ply * 64) - 1)]
       else
-        @rev_posn = Utilities.start_posn_w_pcs
+        @rev_posn = Utilities.start_posn
       end
 
       rev_posn = @rev_posn
@@ -460,7 +460,7 @@ class UI
       if @rev_ply != 1
         prev_posn = @posn_list[((@rev_ply - 2) * 64)..(((@rev_ply - 1) * 64) - 1)]
       else
-        prev_posn = Utilities.start_posn_w_pcs
+        prev_posn = Utilities.start_posn
       end
 
       @rev_posn = @posn_list[((@rev_ply -1) * 64)..((@rev_ply * 64) - 1)]
@@ -523,7 +523,7 @@ class UI
     if @review == false
       @review = true
     end
-    rev_posn = Utilities.start_posn_w_pcs
+    rev_posn = Utilities.start_posn
     prev_posn = @posn_list[((@rev_ply - 1) * 64)..((@rev_ply * 64) - 1)]
     @rev_posn = rev_posn
     swap_posns(board, prev_posn, rev_posn)
