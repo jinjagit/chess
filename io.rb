@@ -160,6 +160,7 @@ module Io
     end_sq = -1
     color = ''
     i = 0
+    # ply = i + 1
 
     while pgn_move.include?('1') == false do
 
@@ -167,17 +168,13 @@ module Io
 
       if pgn_move.include?('O') == false
         if pgn_move.include?('x')
-          split_move = pgn_move.split('x')
-          end_sq = split_move[1][0..1]
+          end_sq = pgn_move.split('x')[1][0..1]
         elsif pgn_move.include?('=')
-          split_move = pgn_move.split('=')
-          end_sq = split_move[0][-2..-1]
+          end_sq = pgn_move.split('=')[0][-2..-1]
         elsif pgn_move.include?('+')
-          split_move = pgn_move.split('+')
-          end_sq = split_move[0][-2..-1]
+          end_sq = pgn_move.split('+')[0][-2..-1]
         elsif pgn_move.include?('#')
-          split_move = pgn_move.split('#')
-          end_sq = split_move[0][-2..-1]
+          end_sq = pgn_move.split('#')[0][-2..-1]
         else
           end_sq = pgn_move[-2..-1]
         end
@@ -197,69 +194,6 @@ module Io
     # to do:
       # test moves for legality... (implicitly will do exhaustive move format check, as
         # final comparison of pgn generated with pgn input will be true or false)
-
-    #pseudocode (to classify moves types, by iterating through pgn_list):
-      # while error == '' and move.include?('-') == false ...
-
-    # promote = ''
-    # take = ''
-    # move = ''
-    # check = ''
-    # mate = ''
-
-    # if move.include?('+')
-      # move.split!('+')
-      # check = move[1]
-      # move = move[0]
-    # end
-
-    # if move.include?('#')
-      # move.split!('#')
-      # mate = move[1]
-      # move = move[0]
-    # end
-
-    # if move.include?('=')
-      # move.split!('=')
-      # promote = move[1]
-      # move = move[0]
-    # end
-
-    # if move.include?('x')
-      # move.split!('x')
-      # take = move[1]
-      # move = move[0]
-    # end
-
-    # if 1st char == lower case: pawn move
-      # unless take == '' (== pawn takes something)
-        # if no piece was on square moved to == en-passant
-      # end
-      # unless promote == '' (== promotion)
-      #end
-    # elsif move.include?('-') == false (== non-pawn move)
-      # if includes 'O' == castling
-      # end
-      # ? how to differentiate disambiugated vs. '+', '#', '=Q', etc. ?
-
-    # ...
-    # else
-      # successful load, flag to return data, error
-    #end
-
-    # compare move with legal moves of piece (after game.checks_n_pins)
-      # throw error if not legal
-    # end
-
-    # unless check == ''
-      # confirm assess posn == check or return error
-    # elsif mate == ''
-      # confirm assess posn == mate (and is penultimate pgn_list e) or return error
-    # end
-
-    # update posn, and other game vars, etc.
-
-    # --- end of while loop
 
     #error = 'test error'
     print_parsed(filename, list, info, pgn_list, error)
