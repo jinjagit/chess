@@ -145,7 +145,55 @@ module Io
   end
 
   def self.process_pgn(filename, list, info, pgn_list, game, board)
+    def self.sq_from_coords(coords)
+      index = Utilities::Coords[0].find_index(coords[0])
+      square = (index + ((coords[1].to_i - 8) * -8))
+    end
+
+    correct = [["wp3", 51, 35, ""], ["bp4", 12, 28, ""], ["wp3", 35, 28, "x"], ["bp5", 13, 21, ""], ["wp3", 28, 21, "x"], ["bn1", 6, 23, ""], ["wp3", 21, 14, "x"], ["bn1", 23, 13, ""], ["wq2", 14, 7, "x=Q"], ["bn1", 13, 19, ""], ["wq2", 7, 15, "x"], ["bn1", 19, 13, ""], ["wp7", 55, 39, ""], ["bn1", 13, 19, ""], ["wp7", 39, 31, ""], ["bn1", 19, 13, ""], ["wp7", 31, 23, ""], ["bn1", 13, 19, ""], ["wq2", 15, 6, ""], ["bn1", 19, 13, ""], ["wp7", 23, 15, ""], ["bn1", 13, 19, ""], ["wq3", 15, 7, "=Q"], ["bn1", 19, 13, ""], ["wn0", 57, 42, ""], ["bp3", 11, 19, ""], ["wb0", 58, 37, ""], ["bb0", 2, 11, ""], ["wp6", 54, 46, ""], ["bp1", 9, 17, ""], ["wb1", 61, 54, ""], ["bn0", 1, 18, ""], ["wn1", 62, 45, ""], ["bq0", 3, 12, ""], ["wk0", 60, 62, "O-O"], ["bk0", 4, 2, "O-O-O"], ["wp0", 48, 40, ""], ["bn0", 18, 28, ""], ["wn1", 45, 28, "x"], ["bn1", 13, 28, "x"], ["wb0", 37, 28, "x"], ["bq0", 12, 28, "x"], ["wq3", 7, 28, "x"], ["bp3", 19, 28, "x"], ["wp1", 49, 33, ""], ["bk0", 2, 1, ""], ["wp1", 33, 25, ""], ["bp0", 8, 24, ""], ["wp1", 25, 16, "xep"], ["bb1", 5, 19, ""], ["wp1", 16, 8, "+"], ["bk0", 1, 8, "x"], ["wq2", 6, 3, "x"], ["bb0", 11, 18, ""], ["wb1", 54, 18, "x"], ["bb1", 19, 26, ""], ["wq2", 3, 0, "#1-0"]]
+
     error = 'none'
+
+    pgn_move = pgn_list[0]
+    split_move = []
+    start_sq = -1
+    end_sq = -1
+    color = ''
+    i = 0
+
+    while pgn_move.include?('1') == false do
+
+      i % 2 == 0 ? color = 'w' : color = 'b'
+
+      if pgn_move.include?('O') == false
+        if pgn_move.include?('x')
+          split_move = pgn_move.split('x')
+          end_sq = split_move[1][0..1]
+        elsif pgn_move.include?('=')
+          split_move = pgn_move.split('=')
+          end_sq = split_move[0][-2..-1]
+        elsif pgn_move.include?('+')
+          split_move = pgn_move.split('+')
+          end_sq = split_move[0][-2..-1]
+        elsif pgn_move.include?('#')
+          split_move = pgn_move.split('#')
+          end_sq = split_move[0][-2..-1]
+        else
+          end_sq = pgn_move[-2..-1]
+        end
+      elsif pgn_move.include?('O-O-O')
+        color == 'w' ? end_sq = 58 : end_sq = 2
+      elsif pgn_move.include?('O-O')
+        color == 'w' ? end_sq = 62 : end_sq = 6
+      end
+
+      end_sq = sq_from_coords(end_sq) if pgn_move.include?('O') == false
+      puts "i: #{i} #{pgn_move} #{color} #{end_sq} #{correct[i][2] == end_sq}"
+
+      i += 1
+      pgn_move = pgn_list[i]
+    end
+
     # to do:
       # test moves for legality... (implicitly will do exhaustive move format check, as
         # final comparison of pgn generated with pgn input will be true or false)
