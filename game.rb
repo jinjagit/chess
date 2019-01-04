@@ -160,7 +160,7 @@ class Game
     @pgn_list << "#{pc}#{sq}#{promote}#{suffix}"
   end
 
-  def move(posn, piece, start_square, end_square, details = '', promo_pawn = nil)
+  def move(posn, piece, start_square, end_square, details = '')
     def castle_move(start_square, end_square, name, posn)
       posn[start_square] = '---'
       posn[end_square] = name

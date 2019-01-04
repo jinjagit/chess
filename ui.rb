@@ -307,8 +307,6 @@ class UI
     last_save = @last_save
     @last_save = Io.autosave(last_save, game, board) if @autosave == true
     #puts "time to delete/create autosave: #{(duration = Time.now - startTime).to_s} s"
-    puts "game.pgn_list: #{game.pgn_list}"
-    puts "game.moves: #{game.moves}"
   end
 
   def play_sound(details)
