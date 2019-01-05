@@ -149,6 +149,9 @@ class UI
       board.start_end_squares(game.moves[-1][1], game.moves[-1][2])
     else
       board.start_end_squares(game.moves[-2][1], game.moves[-2][2])
+      info_off
+      @game_over = game.game_over
+      info_on
     end
     @posn_list = data[:game][:posn_list]
     @rev_posn = @posn_list[-64..-1]
@@ -889,7 +892,6 @@ class UI
           @save_text = nil
           @save_txt = Text.new("saved file: '#{filename}'", x: x, y: 494, z: 8, size: 16,
                                 font: 'fonts/UbuntuMono-R.ttf', color: '#04ff00')
-
         end
       elsif x > 539 && x < 567 && y > 439 && y < 467 # autosave checkbox
         autosave_checkbox(event_type)
