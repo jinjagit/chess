@@ -1,4 +1,4 @@
-# chess:
+# RubyChess:
 My solution to the [final exercise of the Ruby Programming Unit](https://www.theodinproject.com/courses/ruby-programming/lessons/ruby-final-project), from the Odin Project.
 
 ![screenshot](img/2screens.png)

@@ -31,7 +31,7 @@ def change_posn(board, posn)
   game_pieces = board.game_pieces
 end
 
-set title: "Chess - by Simon Tharby"
+set title: "RubyChess - by Simon Tharby"
 set width: 1280
 set height: 720
 set resizable: true
