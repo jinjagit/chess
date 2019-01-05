@@ -310,11 +310,8 @@ class UI
     end
     play_sound(game.moves[-1][3]) if @sound == true
     update_move_list(game) if @game_over != ''
-    #startTime = Time.now # debug: monitor responsiveness
     last_save = @last_save
-    puts "board.start_end #{board.start_end}"
     @last_save = Io.autosave(last_save, game, board) if @autosave == true
-    #puts "time to delete/create autosave: #{(duration = Time.now - startTime).to_s} s"
   end
 
   def play_sound(details)
@@ -383,7 +380,7 @@ class UI
   end
 
   def replay_king_check(move, game)
-    if move[3].include?('+')
+    if move[3].include?('+') || move[3].include?('#')
       @rev_check = true
       if move[0][0] == 'w'
         square = @rev_posn.find_index('bk0')
