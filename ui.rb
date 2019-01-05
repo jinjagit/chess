@@ -847,16 +847,16 @@ class UI
         info_on
       end
     elsif @menu == 'new'
-      if x > 539 && x < 736 && y > 199 && y < 231 # human v human button
+      if x > 539 && x < 736 && y > 239 && y < 271 # start new game button
         if event_type == 'hover'
-          hover_if_off('human_v_human')
+          hover_if_off('start_new_game')
         else
           @new_game = true
           @menu = 'off'
           hide_menu_new
           reset_ui
         end
-      elsif x > 539 && x < 567 && y > 473 && y < 501 # autosave checkbox
+      elsif x > 539 && x < 567 && y > 439 && y < 467 # autosave checkbox
         autosave_checkbox(event_type)
       elsif @hover != '' # not in button icons, nor claim button areas
         hover_off
@@ -1047,9 +1047,9 @@ class UI
     elsif element == 'close'
       @menu_btn2.color = '#ff0000'
       @hover = 'close'
-    elsif element == 'human_v_human'
+    elsif element == 'start_new_game'
       @menu_btn1.color = '#018dc1'
-      @hover = 'human_v_human'
+      @hover = 'start_new_game'
     elsif element == 'load_complete'
       @menu_btn3.color = '#01a500'
       @hover = 'load_complete'
@@ -1149,7 +1149,7 @@ class UI
       @claim_btn.color = '#7c0000'
     elsif @hover == 'close'
       @menu_btn2.color = '#7c0000'
-    elsif @hover == 'human_v_human'
+    elsif @hover == 'start_new_game'
       @menu_btn1.color = '#006991'
     elsif @hover == 'load_complete'
       @menu_btn3.color = '#018700'
@@ -1389,16 +1389,11 @@ class UI
     @menu_txt1.add
     @menu_btn1.add
     @btn1_txt.add
-    @checkbox.y = 474
-    @checkbox_hover.y = 474
     @checkbox.add
     if @autosave == true
-      @menu_txt4.y = 476
       @menu_txt4.add
-      @tick.y = 477
       @tick.add
     else
-      @menu_txt5.y = 476
       @menu_txt5.add
     end
   end
@@ -1427,16 +1422,11 @@ class UI
     @btn3_txt.add
     @btn4_txt.add
     @btn5_txt.add
-    @checkbox.y = 440
-    @checkbox_hover.y = 440
     @checkbox.add
     if @autosave == true
-      @menu_txt4.y = 442
       @menu_txt4.add
-      @tick.y = 443
       @tick.add
     else
-      @menu_txt5.y = 442
       @menu_txt5.add
     end
   end
@@ -1673,7 +1663,7 @@ class UI
     @play_on_txt = Text.new("     play on", x:1042, y: 340, z: 2, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @play_on_txt.remove
-    @menu_txt1 = Text.new("New Game", x:600, y: 150, z: 7, size: 20,
+    @menu_txt1 = Text.new("New Game", x:600, y: 180, z: 7, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @menu_txt1.remove
     @menu_txt2 = Text.new("Load Game", x:600, y: 150, z: 7, size: 20,
@@ -1697,7 +1687,7 @@ class UI
     @menu_txt8 = Text.new("NO FILES FOUND", x:540, y: 260, z: 7, size: 28,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ff7b00')
     @menu_txt8.remove
-    @btn1_txt = Text.new("start new game", x:568, y: 205, z: 8, size: 20,
+    @btn1_txt = Text.new("start new game", x:568, y: 255, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn1_txt.remove
     @btn2_txt = Text.new("close", x:614, y: 545, z: 8, size: 20,
@@ -1759,7 +1749,7 @@ class UI
     @res_icon = Image.new("img/ui/flag.png", height: 36, width: 36,
                             z: 2, x: 1154, y: 452, color: '#888888')
     @menu_btn1 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
-                            x: 540, y: 200, color: '#006991') # #018dc1
+                            x: 540, y: 250, color: '#006991') # #018dc1
     @menu_btn1.remove
     @menu_btn2 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
                             x: 540, y: 540, color: '#7c0000') # #ff0000
