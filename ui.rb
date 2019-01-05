@@ -151,6 +151,7 @@ class UI
       board.start_end_squares(game.moves[-2][1], game.moves[-2][2])
       info_off
       @game_over = game.game_over
+      update_move_list(game)
       info_on
     end
     @posn_list = data[:game][:posn_list]
@@ -560,12 +561,12 @@ class UI
   end
 
   def event(x, y, event_type, posn = nil, board = nil, game = nil)
-    def add_draw_to_moves(game)
+    def add_draw_to_moves(game, board)
       game.pgn = game.pgn + '1/2-1/2'
       game.moves << ['', nil, nil, '1/2-1/2']
       update_move_list(game)
       last_save = @last_save
-      Io.autosave(last_save, game) if @autosave == true
+      Io.autosave(last_save, game, board) if @autosave == true
     end
 
     if x > 1020 && x < 1240 && y > 245 && y < 275 # button icons
@@ -716,14 +717,14 @@ class UI
         game.game_over = @claim
         info_off
         @game_over = @claim
-        add_draw_to_moves(game)
+        add_draw_to_moves(game, board)
         @claim = ''
         info_on
       elsif @draw_offer == true
         game.game_over = 'draw_agreed'
         info_off
         @game_over = 'draw_agreed'
-        add_draw_to_moves(game)
+        add_draw_to_moves(game, board)
         @draw_offer = false
         info_on
       elsif @resign == true
