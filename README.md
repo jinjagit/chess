@@ -1,5 +1,5 @@
 # chess:
-My (UNFINISHED) solution to the [final exercise of the Ruby Programming Unit](https://www.theodinproject.com/courses/ruby-programming/lessons/ruby-final-project), from the Odin Project.
+My solution to the [final exercise of the Ruby Programming Unit](https://www.theodinproject.com/courses/ruby-programming/lessons/ruby-final-project), from the Odin Project.
 
 ![screenshot](img/2screens.png)
 
@@ -7,15 +7,17 @@ The instructions, in a nutshell, were to build a "... command line [pure Ruby] c
 
 I chose not to produce a command line app, but instead went for a more graphical approach, using the Ruby2D gem. While this gem is still a little rough around the edges (at only v 0.7), it is way more pleasant to look at than anything I could produce in a terminal, and enables a much more user-friendly interface (with a little more work). So far, I have been very impressed with the ease-of-use of this gem.
 
-### Current state (24/12/18):
+### Overview:
 
-Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling, pawn promotion and en-passant. Checkmate, stalemate, and draw due to insufficient material, are correctly detected (and the game halted when found).
+Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling, pawn promotion and en-passant. Illegal moves cannot be played. Checkmate, stalemate, and draw due to insufficient material, are correctly detected (and the game halted when found).
 
 Draw conditions due to 50-move-rule (no captures or pawn moves) or 3-fold repetition of position are detected and an option to claim the draw is presented. A draw can also be agreed manually, or declined by playing a move after a draw offer is made. The side to move can choose to resign.
 
-A move list (both native and PGN format) is created as a game progresses. The piece that moved is disambiguated in algebraic notation, when needed (e.g. 'Nbd7', rather than simply 'Nd7'). Check, checkmate, piece capture, win, draw, en-passant and pawn promotion are also correctly formatted (in algebraic notation) in the PGN record.
+A move list (in algebraic notation) is displayed as a game progresses. The piece that moved is disambiguated in algebraic notation, when needed (e.g. 'Nbd7', rather than simply 'Nd7'). Check, checkmate, piece capture, win, draw, en-passant and pawn promotion are also correctly formatted (in algebraic notation).
 
-### Features implemented:
+Games can be saved, loaded, and continued (if incomplete). The gui is intuitive, and uses various visual effects and textual feedback to aid the player(s). Move sound effects and many other features are also included (see below, for full features list)
+
+### Features:
   * highlight legal move squares, if any, (green squares) when piece is lifted
   * highlight king in check / checkmate (red square)
   * highlight last move (yellow squares: start-square & end-square)
@@ -36,20 +38,9 @@ A move list (both native and PGN format) is created as a game progresses. The pi
   * move / capture sound effects (sound can be disabled / enabled)
   * auto-save of game in progress (can be disabled)
   * manual save of game (incomplete or complete game)
-  * completed games saved as PGN files (Portable Game Notation)
-  * load of saved incomplete game (can be continued)
-  * error handling (with error messages) of load / parse game data
-
-### To do next:
-  * load completed game from pgn file (in progress)
-  * engine (very simple, probably with poor play) v human
+  * load of saved complete and incomplete games (incomplete can be continued)
 
 Note: At the moment, to run this (after downloading this repository), you'll need Ruby and the Ruby2D gem installed. Then, open a terminal, navigate to the root folder of the downloaded repository, and enter; <code>ruby chess.rb</code>
-
-### Features I want to add:
-  * file ui, for saving / loading of both unfinished and finished games, in both app native and PGN formats.
-  * Try doing more than just an 'AI' that plays a random move (as suggested in the 'Optional Extension'), but instead use a brute force look-ahead of a few ply (will still be an awful opponent!).
-  * distributable executable (at least for Linux and OSX)
 
 ### Ruby2D issues & workarounds:
   Ruby2D seems to make great use of CPU to display elements:
