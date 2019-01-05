@@ -3,7 +3,7 @@ My solution to the [final exercise of the Ruby Programming Unit](https://www.the
 
 ![screenshot](img/2screens.png)
 
-The instructions, in a nutshell, were to build a "... command line [pure Ruby] chess game where two players can play against each other. The game should be properly constrained." A secondary objective was to enable save, load, and continuation of an unfinished game, with an optional extra objective of creating a basic engine to play against a human.
+The instructions, in a nutshell, were to build a "... command line [pure Ruby] chess game where two players can play against each other. The game should be properly constrained." A secondary objective was to enable save, load, and continuation of an unfinished game.
 
 I chose not to produce a command line app, but instead went for a more graphical approach, using the Ruby2D gem. While this gem is still a little rough around the edges (at only v 0.7), it is way more pleasant to look at than anything I could produce in a terminal, and enables a much more user-friendly interface (with a little more work). So far, I have been very impressed with the ease-of-use of this gem.
 
