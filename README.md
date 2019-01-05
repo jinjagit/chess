@@ -9,13 +9,13 @@ I chose not to produce a command line app, but instead went for a more graphical
 
 ### Overview:
 
-Pieces constrained to legal moves, including the effects of pins and check (both single and double-check). All legal moves are possible, including castling, pawn promotion and en-passant. Illegal moves cannot be played. Checkmate, stalemate, and draw due to insufficient material, are correctly detected (and the game halted when found).
+Pieces are always constrained to legal moves, including the restrictions of pins and check (both single and double-check). All legal moves are possible, including castling, pawn promotion and en-passant. Checkmate, stalemate, and draw due to insufficient material, are correctly detected (and the appropriate game result is enforced).
 
-Draw conditions due to 50-move-rule (no captures or pawn moves) or 3-fold repetition of position are detected and an option to claim the draw is presented. A draw can also be agreed manually, or declined by playing a move after a draw offer is made. The side to move can choose to resign.
+Draw conditions due to 50-move-rule (no captures or pawn moves) or 3-fold repetition of position are also detected and an option to claim the draw is presented. A draw can also be agreed manually, or declined by playing a move after a draw offer is made. The side to move can choose to resign.
 
 A move list (in algebraic notation) is displayed as a game progresses. The piece that moved is disambiguated in algebraic notation, when needed (e.g. 'Nbd7', rather than simply 'Nd7'). Check, checkmate, piece capture, win, draw, en-passant and pawn promotion are also correctly formatted (in algebraic notation).
 
-Games can be saved, loaded, and continued (if incomplete). The gui is intuitive, and uses various visual effects and textual feedback to aid the player(s). Move sound effects and many other features are also included (see below, for full features list)
+Games can be saved, loaded, and continued (if incomplete). The GUI is intuitive, and uses various visual effects and textual feedback to aid the player(s). Move sound effects and many other features are also included (see below, for detailed features list).
 
 ### Features:
   * highlight legal move squares, if any, (green squares) when piece is lifted
@@ -23,7 +23,7 @@ Games can be saved, loaded, and continued (if incomplete). The gui is intuitive,
   * highlight last move (yellow squares: start-square & end-square)
   * pawn promotion menu: click-able choice of Q, R, N, or B.
   * side to move indicator
-  * total pieces value (and difference) for each side - updates when piece taken / pawn promoted
+  * display of total pieces value (and difference) for each side - updates when piece taken / pawn promoted
   * information box: 'game in progress'; checkmate, stalemate and draw advice, etc.
   * advice + 'claim draw' option  when 3-fold-repetition / 50-move-rule conditions satisfied
   * draw by agreement - click to 'agree' or play on to decline
@@ -36,7 +36,7 @@ Games can be saved, loaded, and continued (if incomplete). The gui is intuitive,
   * algebraic notation display
   * review of game moves (step fwd/back, go to start/end)
   * move / capture sound effects (sound can be disabled / enabled)
-  * auto-save of game in progress (can be disabled)
+  * auto-save of game in progress (can be disabled / enabled)
   * manual save of game (incomplete or complete game)
   * load of saved complete and incomplete games (incomplete can be continued)
 
