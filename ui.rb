@@ -145,7 +145,11 @@ class UI
     highlight_move(game)
     update_material(game)
     update_move_ind
-    board.start_end_squares(game.moves[-1][1], game.moves[-1][2])
+    if game.game_over == ''
+      board.start_end_squares(game.moves[-1][1], game.moves[-1][2])
+    else
+      board.start_end_squares(game.moves[-2][1], game.moves[-2][2])
+    end
     @posn_list = data[:game][:posn_list]
     @rev_posn = @posn_list[-64..-1]
     replay_king_check(game.moves[-1], game)
@@ -305,6 +309,7 @@ class UI
     update_move_list(game) if @game_over != ''
     #startTime = Time.now # debug: monitor responsiveness
     last_save = @last_save
+    puts "board.start_end #{board.start_end}"
     @last_save = Io.autosave(last_save, game, board) if @autosave == true
     #puts "time to delete/create autosave: #{(duration = Time.now - startTime).to_s} s"
   end
@@ -732,11 +737,12 @@ class UI
         end
         info_off
         @game_over = 'resignation'
+        board.start_end = [game.moves[-1][1], game.moves[-1][2]]
         @resign = false
         info_on
         update_move_list(game)
         last_save = @last_save
-        Io.autosave(last_save, game) if @autosave == true
+        Io.autosave(last_save, game, board) if @autosave == true
       end
 
     elsif x > 59 && x < 247 && y > 637 && y < 675 # move list navigation btns
@@ -849,24 +855,6 @@ class UI
           hide_menu_new
           reset_ui
         end
-      elsif x > 539 && x < 736 && y > 259 && y < 291 # human v engine button
-        if event_type == 'hover'
-          hover_if_off('human_v_engine')
-        else
-          # click event
-        end
-      elsif x > 539 && x < 736 && y > 319 && y < 351 # engine v engine button
-        if event_type == 'hover'
-          hover_if_off('engine_v_engine')
-        else
-          # click event
-        end
-      elsif x > 539 && x < 736 && y > 399 && y < 431 # engine settings button
-        if event_type == 'hover'
-          hover_if_off('engine_settings')
-        else
-          # click event
-        end
       elsif x > 539 && x < 567 && y > 473 && y < 501 # autosave checkbox
         autosave_checkbox(event_type)
       elsif @hover != '' # not in button icons, nor claim button areas
@@ -892,12 +880,11 @@ class UI
         else # click event
           filename = Io.save(game, board)
           if @game_over == ''
-            filename += '.yml'
             x = 446
           else
-            filename += '.pgn'
             x = 456
           end
+          filename += '.yml'
           @save_txt.remove
           @save_text = nil
           @save_txt = Text.new("saved file: '#{filename}'", x: x, y: 494, z: 8, size: 16,
@@ -1058,25 +1045,16 @@ class UI
       @claim_btn.color = '#ff0000'
       @hover = 'claim'
     elsif element == 'close'
-      @menu_btn5.color = '#ff0000'
+      @menu_btn2.color = '#ff0000'
       @hover = 'close'
     elsif element == 'human_v_human'
       @menu_btn1.color = '#018dc1'
       @hover = 'human_v_human'
-    elsif element == 'human_v_engine'
-      @menu_btn2.color = '#007bff'
-      @hover = 'human_v_engine'
-    elsif element == 'engine_v_engine'
-      @menu_btn3.color = '#5500f4'
-      @hover = 'engine_v_engine'
-    elsif element == 'engine_settings'
-      @menu_btn4.color = '#666666'
-      @hover = 'engine_settings'
     elsif element == 'load_complete'
-      @menu_btn6.color = '#01a500'
+      @menu_btn3.color = '#01a500'
       @hover = 'load_complete'
     elsif element == 'load_incomplete'
-      @menu_btn7.color = '#00a05a'
+      @menu_btn4.color = '#00a05a'
       @hover = 'load_incomplete'
     elsif element == 'save'
       @menu_btn8.color = '#018dc1'
@@ -1170,19 +1148,13 @@ class UI
     elsif @hover == 'claim'
       @claim_btn.color = '#7c0000'
     elsif @hover == 'close'
-      @menu_btn5.color = '#7c0000'
+      @menu_btn2.color = '#7c0000'
     elsif @hover == 'human_v_human'
       @menu_btn1.color = '#006991'
-    elsif @hover == 'human_v_engine'
-      @menu_btn2.color = '#0058b7'
-    elsif @hover == 'engine_v_engine'
-      @menu_btn3.color = '#4000b7'
-    elsif @hover == 'engine_settings'
-      @menu_btn4.color = '#444444'
     elsif @hover == 'load_complete'
-      @menu_btn6.color = '#018700'
+      @menu_btn3.color = '#018700'
     elsif @hover == 'load_incomplete'
-      @menu_btn7.color = '#008249'
+      @menu_btn4.color = '#008249'
     elsif @hover == 'save'
       @menu_btn8.color = '#006991'
     elsif @hover == 'autosave'
@@ -1401,28 +1373,22 @@ class UI
   def show_menu_basics
     @menu_screen.add
     @menu_box.add
-    @menu_btn5.add
-    @btn5_txt.add
+    @menu_btn2.add
+    @btn2_txt.add
   end
 
   def hide_menu_basics
     @menu_screen.remove
     @menu_box.remove
-    @menu_btn5.remove
-    @btn5_txt.remove
+    @menu_btn2.remove
+    @btn2_txt.remove
   end
 
   def show_menu_new
     show_menu_basics
     @menu_txt1.add
     @menu_btn1.add
-    @menu_btn2.add
-    @menu_btn3.add
-    @menu_btn4.add
     @btn1_txt.add
-    @btn2_txt.add
-    @btn3_txt.add
-    @btn4_txt.add
     @checkbox.y = 474
     @checkbox_hover.y = 474
     @checkbox.add
@@ -1441,13 +1407,7 @@ class UI
     hide_menu_basics
     @menu_txt1.remove
     @menu_btn1.remove
-    @menu_btn2.remove
-    @menu_btn3.remove
-    @menu_btn4.remove
     @btn1_txt.remove
-    @btn2_txt.remove
-    @btn3_txt.remove
-    @btn4_txt.remove
     @checkbox.remove
     if @autosave == true
       @menu_txt4.remove
@@ -1461,12 +1421,12 @@ class UI
     show_menu_basics
     @menu_txt2.add
     @menu_txt3.add
-    @menu_btn6.add
-    @menu_btn7.add
+    @menu_btn3.add
+    @menu_btn4.add
     @menu_btn8.add
-    @btn6_txt.add
-    @btn7_txt.add
-    @btn8_txt.add
+    @btn3_txt.add
+    @btn4_txt.add
+    @btn5_txt.add
     @checkbox.y = 440
     @checkbox_hover.y = 440
     @checkbox.add
@@ -1485,12 +1445,12 @@ class UI
     hide_menu_basics
     @menu_txt2.remove
     @menu_txt3.remove
-    @menu_btn6.remove
-    @menu_btn7.remove
+    @menu_btn3.remove
+    @menu_btn4.remove
     @menu_btn8.remove
-    @btn6_txt.remove
-    @btn7_txt.remove
-    @btn8_txt.remove
+    @btn3_txt.remove
+    @btn4_txt.remove
+    @btn5_txt.remove
     @checkbox.remove
     @save_txt.remove
     if @autosave == true
@@ -1534,10 +1494,10 @@ class UI
 
     if type == 'incomplete'
       @menu_txt6.add
-      @files = Io.list_files(type, 'yml')
+      @files = Io.list_files(type, incomplete = true)
     else
       @menu_txt7.add
-      @files = Io.list_files(type, 'pgn')
+      @files = Io.list_files(type, incomplete = false)
     end
 
     if @files == []
@@ -1737,30 +1697,21 @@ class UI
     @menu_txt8 = Text.new("NO FILES FOUND", x:540, y: 260, z: 7, size: 28,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ff7b00')
     @menu_txt8.remove
-    @btn1_txt = Text.new("human v human", x:574, y: 205, z: 8, size: 20,
+    @btn1_txt = Text.new("start new game", x:568, y: 205, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn1_txt.remove
-    @btn2_txt = Text.new("human v engine", x:574, y: 265, z: 8, size: 20,
+    @btn2_txt = Text.new("close", x:614, y: 545, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn2_txt.remove
-    @btn3_txt = Text.new("engine v engine", x:566, y: 325, z: 8, size: 20,
+    @btn3_txt = Text.new("load COMPLETE game", x:554, y: 200, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn3_txt.remove
-    @btn4_txt = Text.new("engine settings", x:566, y: 405, z: 8, size: 20,
+    @btn4_txt = Text.new("load INCOMPLETE game", x:545, y: 260, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn4_txt.remove
-    @btn5_txt = Text.new("close", x:614, y: 545, z: 8, size: 20,
+    @btn5_txt = Text.new("save game", x:595, y: 379, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn5_txt.remove
-    @btn6_txt = Text.new("load COMPLETE game", x:554, y: 200, z: 8, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @btn6_txt.remove
-    @btn7_txt = Text.new("load INCOMPLETE game", x:545, y: 260, z: 8, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @btn7_txt.remove
-    @btn8_txt = Text.new("save game", x:595, y: 379, z: 8, size: 20,
-                          font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
-    @btn8_txt.remove
     @rev_txt = Text.new("   Review mode ", x:1042, y: 348, z: 4, size: 20,
                             font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @rev_txt.remove
@@ -1811,23 +1762,14 @@ class UI
                             x: 540, y: 200, color: '#006991') # #018dc1
     @menu_btn1.remove
     @menu_btn2 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
-                            x: 540, y: 260, color: '#0058b7') # #007bff
-    @menu_btn2.remove
-    @menu_btn3 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
-                            x: 540, y: 320, color: '#4000b7') # #5500f4
-    @menu_btn3.remove
-    @menu_btn4 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
-                            x: 540, y: 400, color: '#444444') # #666666
-    @menu_btn4.remove
-    @menu_btn5 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
                             x: 540, y: 540, color: '#7c0000') # #ff0000
-    @menu_btn5.remove
-    @menu_btn6 = Image.new("img/ui/btn2.png", height: 30, width: 293, z: 7,
+    @menu_btn2.remove
+    @menu_btn3 = Image.new("img/ui/btn2.png", height: 30, width: 293, z: 7,
                             x: 496, y: 195, color: '#018700') # #01a500
-    @menu_btn6.remove
-    @menu_btn7 = Image.new("img/ui/btn2.png", height: 30, width: 293, z: 7,
+    @menu_btn3.remove
+    @menu_btn4 = Image.new("img/ui/btn2.png", height: 30, width: 293, z: 7,
                             x: 496, y: 255, color: '#008249') # #00a05a
-    @menu_btn7.remove
+    @menu_btn4.remove
     @menu_btn8 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
                             x: 540, y: 375, color: '#006991') # #018dc1
     @menu_btn8.remove
