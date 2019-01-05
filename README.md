@@ -1,7 +1,9 @@
 # RubyChess:
-My solution to the [final exercise of the Ruby Programming Unit](https://www.theodinproject.com/courses/ruby-programming/lessons/ruby-final-project), from the Odin Project.
+Simon Tharby's solution to the [final exercise of the Ruby Programming Unit](https://www.theodinproject.com/courses/ruby-programming/lessons/ruby-final-project), from the Odin Project.
 
 ![screenshot](img/2screens.png)
+
+### The exercise:
 
 The instructions, in a nutshell, were to build a "... command line [pure Ruby] chess game where two players can play against each other. The game should be properly constrained." A secondary objective was to enable save, load, and continuation of an unfinished game.
 
