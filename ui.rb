@@ -847,7 +847,7 @@ class UI
         info_on
       end
     elsif @menu == 'new'
-      if x > 539 && x < 736 && y > 239 && y < 271 # start new game button
+      if x > 539 && x < 736 && y > 339 && y < 371 # start new game button
         if event_type == 'hover'
           hover_if_off('start_new_game')
         else
@@ -1666,7 +1666,7 @@ class UI
     @play_on_txt = Text.new("     play on", x:1042, y: 340, z: 2, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @play_on_txt.remove
-    @menu_txt1 = Text.new("New Game", x:600, y: 180, z: 7, size: 20,
+    @menu_txt1 = Text.new("New Game", x:600, y: 270, z: 7, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @menu_txt1.remove
     @menu_txt2 = Text.new("Load Game", x:600, y: 150, z: 7, size: 20,
@@ -1690,7 +1690,7 @@ class UI
     @menu_txt8 = Text.new("NO FILES FOUND", x:540, y: 260, z: 7, size: 28,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ff7b00')
     @menu_txt8.remove
-    @btn1_txt = Text.new("start new game", x:568, y: 255, z: 8, size: 20,
+    @btn1_txt = Text.new("start new game", x:568, y: 355, z: 8, size: 20,
                           font: 'fonts/UbuntuMono-R.ttf', color: '#ffffff')
     @btn1_txt.remove
     @btn2_txt = Text.new("close", x:614, y: 545, z: 8, size: 20,
@@ -1752,7 +1752,7 @@ class UI
     @res_icon = Image.new("img/ui/flag.png", height: 36, width: 36,
                             z: 2, x: 1154, y: 452, color: '#888888')
     @menu_btn1 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
-                            x: 540, y: 250, color: '#006991') # #018dc1
+                            x: 540, y: 350, color: '#006991') # #018dc1
     @menu_btn1.remove
     @menu_btn2 = Image.new("img/ui/btn1.png", height: 30, width: 195, z: 7,
                             x: 540, y: 540, color: '#7c0000') # #ff0000
