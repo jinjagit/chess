@@ -551,7 +551,7 @@ class UI
         @moves_txts[i + 29].remove
       end
     end
-
+    
     @list_offset = 0
   end
 
@@ -571,7 +571,6 @@ class UI
 
     if x > 1020 && x < 1240 && y > 245 && y < 275 # button icons
       info_off if @hover == ''
-
       if x > 1020 && x < 1055 # flip button
         if event_type == 'hover'
           hover_if_off('flip')
@@ -644,7 +643,6 @@ class UI
           hover_on('sound')
         end
       end
-
     elsif x > 1060 && x < 1192 && y > 450 && y < 488 # new game, draw, resign btns
       info_off if @hover == ''
       if x > 1060 && x < 1102 # new game button
@@ -655,7 +653,6 @@ class UI
           hover_off
           show_menu_new
         end
-
       elsif x >= 1102 && x < 1152 # draw offer button
         if @draw_offer == false && event_type == 'hover'
           hover_off if @hover != '' && @hover != 'draw'
@@ -681,7 +678,6 @@ class UI
         elsif @ply > 0
           info_on
         end
-
       elsif x >= 1152 && x < 1192 # resign button
         if event_type == 'hover'
           hover_off if @hover != '' && @hover != 'resign'
@@ -708,7 +704,6 @@ class UI
           info_on
         end
       end
-
     elsif (@claim != '' || @draw_offer == true || @resign == true) &&
             x > 1029 && x < 1226 && y > 401 && y < 433 # claim button
       if event_type == 'hover'
@@ -745,7 +740,6 @@ class UI
         last_save = @last_save
         Io.autosave(last_save, game, board) if @autosave == true
       end
-
     elsif x > 59 && x < 247 && y > 637 && y < 675 # move list navigation btns
       if x < 104 # go to start button
         if event_type == 'hover'
@@ -779,7 +773,6 @@ class UI
         hover_off
         @hover = ''
       end
-
     elsif @hover != '' # not in button icons, nor claim button areas
       hover_off
       info_on
@@ -815,7 +808,6 @@ class UI
         end
       end
     end
-
     def open_menu_load(type)
       hide_menu_load_save
       @menu = 'off'
@@ -829,7 +821,6 @@ class UI
         hover_on('file')
       end
     end
-
     if x > 539 && x < 736 && y > 539 && y < 571 # close button
       if event_type == 'hover'
         hover_if_off('close')
@@ -897,7 +888,6 @@ class UI
         hover_off
         @hover = ''
       end
-
     elsif @menu == 'load'
       if @files.length > 10 && x > 603 && x < 638 && y > 459 && y < 494 # page back btn
         if event_type == 'hover'
@@ -958,14 +948,12 @@ class UI
                                   font: 'fonts/UbuntuMono-R.ttf', color: '#ff0000')
           end
         end
-
       elsif @hover != '' # not in button icons, nor claim button areas
         hover_off
         @hover = ''
         @file_last = -1
       end
     end
-
   end
 
   def hover_on(element)

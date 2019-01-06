@@ -78,6 +78,7 @@ module Io
     rescue StandardError => error
       error = 'cannot open file (check permissions)'
     end
+    
     return data, error
   end
 
