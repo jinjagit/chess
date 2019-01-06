@@ -124,7 +124,7 @@ class UI
 
       if i * 2 < 17
         x = 72
-      elsif i * 2 > 198 # need to check this by testing
+      elsif i * 2 > 198
         x = 52
       else
         x = 62
@@ -208,7 +208,6 @@ class UI
         @moves_txts[-1].x = 62
       end
     end
-
 
     def create_half_move(game, y)
       @moves_txts << Text.new("#{(@ply + 1) / 2}. #{game.pgn_list[-1]}",
@@ -551,7 +550,7 @@ class UI
         @moves_txts[i + 29].remove
       end
     end
-    
+
     @list_offset = 0
   end
 
