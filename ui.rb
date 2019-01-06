@@ -1372,20 +1372,22 @@ class UI
 
   def show_menu_basics
     @menu_screen.add
-    @menu_box.add
+    @menu_box1.add
     @menu_btn2.add
     @btn2_txt.add
   end
 
   def hide_menu_basics
     @menu_screen.remove
-    @menu_box.remove
+    @menu_box1.remove
     @menu_btn2.remove
     @btn2_txt.remove
   end
 
   def show_menu_new
     show_menu_basics
+    @menu_box1.remove
+    @menu_box2.add
     @menu_txt1.add
     @menu_btn1.add
     @btn1_txt.add
@@ -1400,6 +1402,7 @@ class UI
 
   def hide_menu_new
     hide_menu_basics
+    @menu_box2.remove
     @menu_txt1.remove
     @menu_btn1.remove
     @btn1_txt.remove
@@ -1798,8 +1801,11 @@ class UI
     @menu_screen = Rectangle.new(x: 0, y: 0, z: 5, width: 1280, height: 720,
                             color: [0.5, 0.5, 0.5, 0.5])
     @menu_screen.remove
-    @menu_box = Image.new("img/ui/menu1.png", height: 480, width: 480,
+    @menu_box1 = Image.new("img/ui/menu1.png", height: 480, width: 480,
                         z: 6, x: 400, y: 120)
-    @menu_box.remove
+    @menu_box1.remove
+    @menu_box2 = Image.new("img/ui/menu2.png", height: 360, width: 480,
+                        z: 6, x: 400, y: 240)
+    @menu_box2.remove
   end
 end
