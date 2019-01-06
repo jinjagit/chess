@@ -19,7 +19,7 @@ A move list (in algebraic notation) is displayed as a game progresses. The piece
 
 Games can be saved, loaded, and continued (if incomplete). The GUI is intuitive, and uses various visual effects and textual feedback to aid the player(s). Move sound effects and many other features are also included (see below, for detailed features list).
 
-**Note:** Although this works well as an interface for two human players, it is primarily the solution to an exercise and was created solely to improve my Ruby programming and general coding / logic problem solving skills. If you actually want to play chess, import game files, &/or play against an engine, then you should probably choose a more capable app or on-line service (lichess.org is an excellent free to use resource, for example).
+**Note:** Although this works well as an interface for two human players, it is primarily the solution to an exercise and was created solely to improve my Ruby programming and general coding / logic problem solving skills. If you actually want to play chess, import game files, &/or play against an engine, then you should probably choose a more capable app or on-line service ([lichess.org](lichess.org) is an excellent free to use resource, for example).
 
 ### Features:
   * highlight legal move squares, if any, (green squares) when piece is lifted
