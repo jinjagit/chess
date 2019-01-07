@@ -3,14 +3,10 @@
   :moves:
   - - wp3
     - 51
-    - 35
+    - 43
     - ''
-  - - ''
-    - 
-    - 
-    - 1-0
   :pgn_list:
-  - d4
+  - d3
   :game_pieces:
   - !ruby/object:Rook
     name: br0
@@ -485,7 +481,7 @@
   - !ruby/object:Pawn
     name: wp3
     color: white
-    square: 35
+    square: 43
     legal_moves:
     - 43
     - 35
@@ -496,7 +492,7 @@
     icon: !ruby/object:Ruby2D::Image
       path: img/w_pawn.png
       x: 565
-      y: 365
+      y: 445
       z: 5
       width: 70
       height: 70
@@ -842,15 +838,15 @@
   - "---"
   - "---"
   - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
   - wp3
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
-  - "---"
   - "---"
   - "---"
   - "---"
@@ -871,7 +867,7 @@
   - wb1
   - wn1
   - wr1
-  :pgn: 1. d4 1-0
+  :pgn: '1. d3 '
   :w_material: 39
   :b_material: 39
   :ply: 1
@@ -879,11 +875,11 @@
   :checks: 0
   :check_blocks: []
   :pinned: {}
-  :game_over: resignation
+  :game_over: ''
   :checksums: []
   :checksum_dbls: {}
   :threefold: []
 :board:
   :start_end:
-  - 
-  - 
+  - 51
+  - 43

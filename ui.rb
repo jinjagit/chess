@@ -783,7 +783,7 @@ class UI
     def autosave_checkbox(event_type) # autosave button
       if event_type == 'hover'
         hover_if_off('autosave')
-      else
+      else # click event
         if @autosave == true
           if @menu == 'new'
             hide_menu_new
@@ -807,6 +807,7 @@ class UI
         end
       end
     end
+
     def open_menu_load(type)
       hide_menu_load_save
       @menu = 'off'
@@ -820,6 +821,7 @@ class UI
         hover_on('file')
       end
     end
+
     if x > 539 && x < 736 && y > 539 && y < 571 # close button
       if event_type == 'hover'
         hover_if_off('close')
@@ -840,7 +842,7 @@ class UI
       if x > 539 && x < 736 && y > 339 && y < 371 # start new game button
         if event_type == 'hover'
           hover_if_off('start_new_game')
-        else
+        else # click event
           @new_game = true
           @menu = 'off'
           hide_menu_new

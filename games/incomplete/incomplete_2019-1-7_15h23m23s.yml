@@ -5,12 +5,18 @@
     - 51
     - 35
     - ''
-  - - ''
-    - 
-    - 
-    - 1/2-1/2
+  - - bp4
+    - 12
+    - 28
+    - ''
+  - - wp3
+    - 35
+    - 28
+    - x
   :pgn_list:
   - d4
+  - e5
+  - dxe5
   :game_pieces:
   - !ruby/object:Rook
     name: br0
@@ -41,8 +47,12 @@
     color: black
     square: 1
     legal_moves:
-    - 18
-    - 16
+    - 36
+    - 34
+    - 45
+    - 61
+    - 41
+    - 57
     moved: false
     checks: 0
     check_blocks: []
@@ -114,7 +124,8 @@
     name: bk0
     color: black
     square: 4
-    legal_moves: []
+    legal_moves:
+    - 12
     moved: false
     checks: 0
     check_blocks: []
@@ -310,17 +321,19 @@
   - !ruby/object:Pawn
     name: bp4
     color: black
-    square: 12
-    legal_moves: []
-    moved: false
+    square: 28
+    legal_moves:
+    - 20
+    - 28
+    moved: true
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/b_pawn.png
       x: 645
-      y: 125
-      z: 5
+      y: 285
+      z: -1
       width: 70
       height: 70
       rotate: 0
@@ -485,18 +498,18 @@
   - !ruby/object:Pawn
     name: wp3
     color: white
-    square: 35
+    square: 28
     legal_moves:
-    - 43
-    - 35
+    - 27
+    - 28
     moved: true
     checks: 0
     check_blocks: []
     pinned: {}
     icon: !ruby/object:Ruby2D::Image
       path: img/w_pawn.png
-      x: 565
-      y: 365
+      x: 645
+      y: 285
       z: 5
       width: 70
       height: 70
@@ -638,10 +651,12 @@
     color: white
     square: 57
     legal_moves:
-    - 14
-    - 21
-    - 19
-    - 10
+    - 6
+    - 22
+    - 29
+    - 27
+    - 2
+    - 18
     moved: false
     checks: 0
     check_blocks: []
@@ -713,7 +728,8 @@
     name: wk0
     color: white
     square: 60
-    legal_moves: []
+    legal_moves:
+    - 51
     moved: false
     checks: 0
     check_blocks: []
@@ -871,19 +887,147 @@
   - wb1
   - wn1
   - wr1
-  :pgn: 1. d4 1/2-1/2
+  - br0
+  - bn0
+  - bb0
+  - bq0
+  - bk0
+  - bb1
+  - bn1
+  - br1
+  - bp0
+  - bp1
+  - bp2
+  - bp3
+  - "---"
+  - bp5
+  - bp6
+  - bp7
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - bp4
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - wp3
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - wp0
+  - wp1
+  - wp2
+  - "---"
+  - wp4
+  - wp5
+  - wp6
+  - wp7
+  - wr0
+  - wn0
+  - wb0
+  - wq0
+  - wk0
+  - wb1
+  - wn1
+  - wr1
+  - br0
+  - bn0
+  - bb0
+  - bq0
+  - bk0
+  - bb1
+  - bn1
+  - br1
+  - bp0
+  - bp1
+  - bp2
+  - bp3
+  - "---"
+  - bp5
+  - bp6
+  - bp7
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - wp3
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - "---"
+  - wp0
+  - wp1
+  - wp2
+  - "---"
+  - wp4
+  - wp5
+  - wp6
+  - wp7
+  - wr0
+  - wn0
+  - wb0
+  - wq0
+  - wk0
+  - wb1
+  - wn1
+  - wr1
+  :pgn: '1. d4 e5 2. dxe5 '
   :w_material: 39
-  :b_material: 39
-  :ply: 1
+  :b_material: 38
+  :ply: 3
   :to_move: black
   :checks: 0
   :check_blocks: []
   :pinned: {}
-  :game_over: draw_agreed
+  :game_over: ''
   :checksums: []
   :checksum_dbls: {}
   :threefold: []
 :board:
   :start_end:
-  - 51
   - 35
+  - 28
