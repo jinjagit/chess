@@ -1,7 +1,7 @@
 # RubyChess:
 Simon Tharby's solution to the [final exercise of the Ruby Programming Unit](https://www.theodinproject.com/courses/ruby-programming/lessons/ruby-final-project), from the Odin Project.
 
-### [Video Overview](https://youtu.be/9CCH4cYogmI)
+### (click for) [Video Overview](https://youtu.be/9CCH4cYogmI)
 
 ![screenshot](img/2screens.png)
 
