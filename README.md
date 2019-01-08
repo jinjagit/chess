@@ -41,12 +41,13 @@ Games can be saved, loaded, and continued (if incomplete). The GUI is intuitive,
   * button hover effects and tool-tips
   * algebraic notation display
   * review of game moves (step fwd/back, go to start/end)
+  * keyboard support for game move review (A, S, D, W)
   * move / capture sound effects (sound can be disabled / enabled)
   * auto-save of game in progress (can be disabled / enabled)
   * manual save of game (incomplete or complete game)
-  * load of saved complete and incomplete games (incomplete can be continued)
+  * load of saved complete and incomplete games (incomplete games can be continued)
 
-**Note:** At the moment, to run this (after downloading this repository), you'll need Ruby and the Ruby2D gem installed. Then, open a terminal, navigate to the root folder of the downloaded repository, and enter; <code>ruby chess.rb</code> (executables may be coming soon!)
+**Note:** To run this (after downloading this repository), you'll need Ruby and the Ruby2D gem installed. Then, open a terminal, navigate to the root folder of the downloaded repository, and enter; <code>ruby chess.rb</code>
 
 ### Ruby2D issues & workarounds:
   Ruby2D seems to make great use of CPU to display elements:
