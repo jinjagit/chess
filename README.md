@@ -27,7 +27,7 @@ Games can be saved, loaded, and continued (if incomplete). The GUI is intuitive,
   * highlight legal move squares, if any, (green squares) when piece is lifted
   * highlight king in check / checkmate (red square)
   * highlight last move (yellow squares: start-square & end-square)
-  * pawn promotion menu: click-able choice of Q, R, N, or B.
+  * pawn promotion menu: click-able choice of Q, R, N, or B icons.
   * side to move indicator
   * display of total pieces value (and difference) for each side - updates when piece taken / pawn promoted
   * information box: 'game in progress'; checkmate, stalemate and draw advice, etc.
