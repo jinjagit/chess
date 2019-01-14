@@ -362,9 +362,6 @@ class Game
       end
     end
 
-    # puts # DEBUG output -----------
-    # puts "checks: #{@checks}  block_sqs: #{@check_blocks}  pinned: #{@pinned}"
-
     king.find_moves(@game_pieces, posn)
     king_moves = king.legal_moves
 
@@ -434,14 +431,6 @@ class Game
     @moves[-1][3] = details # add move details to move list(s)
     pgn_move(posn, piece, start_square, end_square, details)
     posn.each {|e| @posn_list << e }
-
-     #puts @pgn # debug (and later, for display)
-     #p @pgn_list
-     #p @moves
-
-    # puts "#{@game_over}"
-    # @claim = "3-fold repetition!" # dev of draw claims only
-
     return end_square, @moves, posn
   end
 

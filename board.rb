@@ -359,8 +359,6 @@ class Board
         end
       end
     end
-
-    # list_piece_instance_vars # debug list
   end
 
   def clear_pieces # clears all board pieces (incl. hidden)

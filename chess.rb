@@ -10,21 +10,6 @@ require './board'
 require './game'
 require './io'
 
-# ---------------- print routines for debugging --------------------
-def print_posn(posn)
-  8.times do |i|
-    8.times {|j| print "#{posn[8 * i + j]} "}
-    print "\n"
-  end
-  puts
-end
-
-def print_game_pieces(game_pieces)
-  game_pieces.each {|e| puts e.inspect}
-  puts
-end
-# ------------------------------------------------------------------
-
 def change_posn(board, posn)
   board.posn = posn
   board.new_game
@@ -56,8 +41,6 @@ legal_list = []
 promote = []
 ui_update = false
 
-#Io.load_file('all_move_types.pgn', game, board) # dev only
-
 on :mouse_down do |event|
   if ui.menu != 'off'
     ui.menu_event(event.x, event.y, 'click', game, board)
@@ -80,7 +63,6 @@ on :mouse_down do |event|
     location = board.mouse_square(event.x, event.y)
     if location != "off_board" && game.game_over == '' && promote == [] && ui.review == false
       location = 63 - location if board.flipped == true
-      #startTime = Time.now # debug: monitor responsiveness
       posn_pc = posn[location]
       if posn_pc != "---"
         game_pieces = board.game_pieces
@@ -99,8 +81,6 @@ on :mouse_down do |event|
           board.highlight_squares(legal_list) if ui.legal_sqs == true
         end
       end
-      #puts "time to find legal squares: #{(duration = Time.now - startTime).to_s} s"
-      #puts
     elsif promote != [] && board.promote.include?(location)
       piece.icon.z = -1
       new_piece, details, location = board.select_promo_pc(location, posn, start_square)
@@ -143,7 +123,6 @@ on :mouse_up do |event|
 
     board.unhighlight_squares(legal_list) if ui.legal_sqs == true
     if location != "off_board" && legal_list.include?(location) == true
-      # startTime = Time.now # debug: monitor responsiveness
       if piece.name[1] == 'p' && (location < 8 || location > 55)
         promote = [piece.name, location]
         end_sq = location
@@ -154,7 +133,6 @@ on :mouse_up do |event|
         ui_update = true
       end
       board.start_end_squares(start_square, location)
-      # puts "time to assess position: #{(duration = Time.now - startTime).to_s} s"
     else # == illegal move (reject)
       end_sq = start_square
     end
@@ -169,8 +147,6 @@ on :mouse_up do |event|
       ui_update = false
     end
   end
-
-  # print_posn(posn) # debug output
 end
 
 on :key_down do |event|
@@ -197,7 +173,6 @@ on :key_down do |event|
       ui.go_to_start(game, board)
       ui.refresh_info
     end
-
   end
 end
 
@@ -234,8 +209,5 @@ on :key_up do |event|
     ui.refresh_info
   end
 end
-
-# puts
-# print_posn(posn) # debug output
 
 show
